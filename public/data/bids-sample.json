@@ -1,0 +1,72 @@
+[
+  {
+    "id": "20260821-001",
+    "title": "2026년 공공청사 부서 재배치에 따른 호실 표찰 및 아크릴 층별안내판 제작·설치",
+    "category": "실내표찰·현판",
+    "client": "세종특별자치시 총무과",
+    "budget": 18000000,
+    "budgetText": "1,800만 원",
+    "location": "세종시",
+    "startDate": "2026-08-15",
+    "endDate": "2026-08-23 15:00",
+    "dDay": 2,
+    "bidType": "수의(총액) 소액수의계약",
+    "linkUrl": "https://www.g2b.go.kr"
+  },
+  {
+    "id": "20260821-002",
+    "title": "2026 보건소 방역차량 및 관용 전기버스 풀 랩핑 시공 용역",
+    "category": "차량랩핑·특수",
+    "client": "부산광역시 보건행정과",
+    "budget": 35000000,
+    "budgetText": "3,500만 원",
+    "location": "부산시",
+    "startDate": "2026-08-16",
+    "endDate": "2026-08-25 14:00",
+    "dDay": 4,
+    "bidType": "제한경쟁 (지역제한, 옥외광고업)",
+    "linkUrl": "https://www.g2b.go.kr"
+  },
+  {
+    "id": "20260821-003",
+    "title": "노후 공공도서관 LED 채널간판 및 부식 스텐 현판 교체 공사",
+    "category": "간판·조형물",
+    "client": "서울특별시 교육청 교육시설관리본부",
+    "budget": 48000000,
+    "budgetText": "4,800만 원",
+    "location": "서울시",
+    "startDate": "2026-08-14",
+    "endDate": "2026-08-24 10:00",
+    "dDay": 3,
+    "bidType": "일반경쟁 (전자입찰)",
+    "linkUrl": "https://www.g2b.go.kr"
+  },
+  {
+    "id": "20260821-004",
+    "title": "2026 시민체육대회 가로등 배너 및 행사장 실사출력물 제작·게첨",
+    "category": "현수막·배너",
+    "client": "경기도 체육진흥과",
+    "budget": 62000000,
+    "budgetText": "6,200만 원",
+    "location": "경기도",
+    "startDate": "2026-08-18",
+    "endDate": "2026-08-26 17:00",
+    "dDay": 5,
+    "bidType": "제한경쟁 (적격심사)",
+    "linkUrl": "https://www.g2b.go.kr"
+  },
+  {
+    "id": "20260821-005",
+    "title": "신축 복합커뮤니티센터 내외관 종합 안내 사인시스템(지주간판, 층별안내, 실내사인 일체)",
+    "category": "간판·조형물",
+    "client": "경상남도 공공건축추진단",
+    "budget": 150000000,
+    "budgetText": "1억 5,000만 원",
+    "location": "경남",
+    "startDate": "2026-08-10",
+    "endDate": "2026-08-30 18:00",
+    "dDay": 9,
+    "bidType": "일반경쟁 (협상에의한계약)",
+    "linkUrl": "https://www.g2b.go.kr"
+  }
+]
