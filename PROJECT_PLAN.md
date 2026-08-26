@@ -32,5 +32,6 @@
 
 ## 5. 보안 및 환경변수 (.env.local)
 - PUBLIC_DATA_API_KEY (공공데이터포털 API 인증키)
+- GEMINI_API_KEY (구글 제미나이 AI API 키)
 - NEXT_PUBLIC_ADSENSE_ID (구글 애드센스 광고)
 - NEXT_PUBLIC_GA_ID (구글 애널리틱스)
