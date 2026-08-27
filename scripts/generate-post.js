@@ -30,14 +30,13 @@ const mm = String(now.getMonth() + 1).padStart(2, '0');
 const dd = String(now.getDate()).padStart(2, '0');
 const todayStr = `${yyyy}-${mm}-${dd}`;
 
-// 고품질 옥외광고/디지털사이니지 Unsplash 이미지 프리셋
+// 고품질 옥외광고/디지털사이니지/미디어월 Unsplash 이미지 프리셋
 const COVER_IMAGES = [
-  'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1508873696983-2df5293cb32f?auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?auto=format&fit=crop&w=800&q=80'
+  'https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1200&q=80',
+  'https://images.unsplash.com/photo-1508873696983-2df5293cb32f?auto=format&fit=crop&w=1200&q=80',
+  'https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=1200&q=80',
+  'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=1200&q=80',
+  'https://images.unsplash.com/photo-1577495508048-b635879837f1?auto=format&fit=crop&w=1200&q=80'
 ];
 
 const randomCoverImage = COVER_IMAGES[Math.floor(Math.random() * COVER_IMAGES.length)];
@@ -81,7 +80,7 @@ function getFallbackPost() {
 
 ---
 
-*출처: 행정안전부 옥외광고 정책자료 및 조달청 나라장터 공공입찰 분석 종합*`
+*출처: 행정안전부 옥외광고 정책자료 및 조달청 나라장터 공공데이터포털 입찰공고 분석 종합*`
     },
     {
       title: `${todayStr} 친환경 저전력 LED 채널간판 및 고내구성 차량 랩핑 시공 트렌드`,
@@ -128,9 +127,8 @@ category: "${selected.category}"
 tags: ${JSON.stringify(selected.tags)}
 coverImage: "${randomCoverImage}"
 source: "공공데이터포털 및 옥외광고 정책 보도자료 종합"
+sourceUrl: "https://www.g2b.go.kr"
 ---
-
-![관련 이미지](${randomCoverImage})
 
 ${selected.content}
 `;
@@ -152,7 +150,8 @@ async function generateAdTrendPost() {
 2. 본문 길이: 1,000자 내외의 전문적이고 실용적인 내용
 3. 소제목(##), 글머리기호, 인용구(>)를 적절히 활용하여 뛰어난 가독성 확보
 4. 옥외광고 사업자 관점에서 실제 도움이 되는 실무 팁 및 입찰 포인트 3가지 포함
-5. 하단에 출처 표기 포함
+5. 하단에 출처 표기 포함 (예: 출처: 행정안전부 및 조달청 나라장터 공공데이터 분석 종합)
+6. 주의: 본문 내에 ![이미지](...) 마크다운 태그를 직접 삽입하지 마세요. (상단 coverImage로 자동 표시됩니다)
 
 반드시 아래 마크다운 Frontmatter를 포함한 완전한 마크다운 문서로만 출력해주세요.
 ---
@@ -163,11 +162,10 @@ category: "디지털사이니지 / 옥외광고 트렌드"
 tags: ["옥외광고", "디지털전광판", "전자게시대", "입찰트렌드", "신기술"]
 coverImage: "${randomCoverImage}"
 source: "공공데이터포털 및 옥외광고 정책 보도자료 종합"
+sourceUrl: "https://www.g2b.go.kr"
 ---
 
-![관련 이미지](${randomCoverImage})
-
-(본문...)`;
+(본문 소제목 및 내용...)`;
 
       const response = await ai.models.generateContent({
         model: 'gemini-3.6-flash',

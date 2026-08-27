@@ -4,11 +4,10 @@ date: "2026-08-27"
 summary: "기존 아날로그 현수막·간판에서 스마트 LED 전자게시대 및 미디어월로 공공 입찰 패러다임 전환. 옥외광고 사업자가 반드시 선점해야 할 기술 규격과 입찰 전략을 분석합니다."
 category: "디지털사이니지 / 옥외광고 트렌드"
 tags: ["옥외광고", "디지털전광판", "전자게시대", "입찰트렌드", "스마트시티", "미디어월"]
-coverImage: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=80"
-source: "행정안전부 옥외광고 정책 자료 및 조달청 나라장터 공공입찰 분석 종합"
+coverImage: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1200&q=80"
+source: "행정안전부 옥외광고 정책자료 및 조달청 나라장터 공공데이터포털 입찰공고 분석 종합"
+sourceUrl: "https://www.g2b.go.kr"
 ---
-
-![관련 이미지](https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=80)
 
 ## 1. 아날로그 사인물에서 '스마트 디지털 사이니지'로의 공공 발주 대전환
 
