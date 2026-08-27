@@ -30,13 +30,12 @@ const mm = String(now.getMonth() + 1).padStart(2, '0');
 const dd = String(now.getDate()).padStart(2, '0');
 const todayStr = `${yyyy}-${mm}-${dd}`;
 
-// 고품질 옥외광고/디지털사이니지/미디어월 Unsplash 이미지 프리셋
+// 고품질 옥외광고/디지털사이니지/미디어월 Unsplash 이미지 프리셋 (엄격 검증)
 const COVER_IMAGES = [
-  'https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1200&q=80',
-  'https://images.unsplash.com/photo-1508873696983-2df5293cb32f?auto=format&fit=crop&w=1200&q=80',
-  'https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=1200&q=80',
-  'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=1200&q=80',
-  'https://images.unsplash.com/photo-1577495508048-b635879837f1?auto=format&fit=crop&w=1200&q=80'
+  'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=1200&q=80', // 도심 옥외 대형 LED 전광판
+  'https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1200&q=80', // 대형 빌딩 미디어월 전광판
+  'https://images.unsplash.com/photo-1577495508048-b635879837f1?auto=format&fit=crop&w=1200&q=80', // 공공 랜드마크 디지털 사이니지
+  'https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=1200&q=80'  // 스마트시티 미디어 디스플레이
 ];
 
 const randomCoverImage = COVER_IMAGES[Math.floor(Math.random() * COVER_IMAGES.length)];
