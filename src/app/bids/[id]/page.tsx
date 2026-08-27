@@ -94,13 +94,30 @@ export default async function BidDetailPage({ params }: PageProps) {
               </span>
             </Link>
 
-            <Link
-              href="/"
-              className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 px-3 py-1.5 rounded-xl border border-slate-700 transition-colors"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              <span>목록으로</span>
-            </Link>
+            <div className="flex items-center gap-2 sm:gap-3">
+              <nav className="flex items-center gap-1 sm:gap-2">
+                <Link
+                  href="/"
+                  className="px-3 py-1.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800 transition-colors"
+                >
+                  입찰공고 목록
+                </Link>
+                <Link
+                  href="/blog"
+                  className="px-3 py-1.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                >
+                  옥외광고 트렌드
+                </Link>
+              </nav>
+
+              <Link
+                href="/"
+                className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 px-3 py-1.5 rounded-xl border border-slate-700 transition-colors ml-1"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>목록으로</span>
+              </Link>
+            </div>
           </div>
         </div>
       </header>

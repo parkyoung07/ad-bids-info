@@ -70,6 +70,34 @@
     "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01661955&bidPbancOrd=000"
   },
   {
+    "id": "R26BK01663011-000",
+    "title": "[디지털사이니지] 2026 스마트 관광안내용 옥외형 대형 LED 전자게시대 및 미디어월 제작·설치",
+    "category": "디지털사이니지·전광판",
+    "client": "부산광역시 부산관광공사",
+    "budget": 240000000,
+    "budgetText": "2억 4,000만 원",
+    "location": "부산시",
+    "startDate": "2026-08-26",
+    "endDate": "2026-09-02 17:00",
+    "dDay": 6,
+    "bidType": "일반경쟁 (협상에의한계약)",
+    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01663011&bidPbancOrd=000"
+  },
+  {
+    "id": "R26BK01663022-000",
+    "title": "[전광판/키오스크] 시청사 로비 및 옥외 터치형 스마트 인포메이션 디지털 사이니지 구매 설치",
+    "category": "디지털사이니지·전광판",
+    "client": "서울특별시",
+    "budget": 85000000,
+    "budgetText": "8,500만 원",
+    "location": "서울시",
+    "startDate": "2026-08-25",
+    "endDate": "2026-08-30 15:00",
+    "dDay": 3,
+    "bidType": "제한경쟁 (중소기업자간 경쟁)",
+    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01663022&bidPbancOrd=000"
+  },
+  {
     "id": "R26BK01648754-000",
     "title": "2027년도 공공병원 종합 안내 사인물(LED 채널간판 및 지주안내탑) 제작·설치",
     "category": "간판·조형물",

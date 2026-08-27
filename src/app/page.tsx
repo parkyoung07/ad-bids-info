@@ -47,6 +47,7 @@ export interface BidItem {
 const CATEGORIES = [
   "전체",
   "간판·조형물",
+  "디지털사이니지·전광판",
   "실내표찰·현판",
   "차량랩핑·특수",
   "현수막·배너",
@@ -102,7 +103,17 @@ export default function HomePage() {
     const counts: Record<string, number> = { 전체: bids.length };
     CATEGORIES.forEach((cat) => {
       if (cat !== "전체") {
-        counts[cat] = bids.filter((b) => b.category.includes(cat) || cat.includes(b.category)).length;
+        counts[cat] = bids.filter((b) => {
+          if (cat === "디지털사이니지·전광판") {
+            return (
+              b.category.includes("디지털사이니지") ||
+              b.category.includes("전광판") ||
+              b.category.includes("사이니지") ||
+              /디지털|사이니지|전광판|전자게시대|미디어월|키오스크/.test(b.title)
+            );
+          }
+          return b.category.includes(cat) || cat.includes(b.category);
+        }).length;
       }
     });
     return counts;
@@ -128,10 +139,18 @@ export default function HomePage() {
   const filteredBids = useMemo(() => {
     const list = bids.filter((bid) => {
       // 카테고리 필터
-      const matchCategory =
-        selectedCategory === "전체" ||
-        bid.category.includes(selectedCategory) ||
-        selectedCategory.includes(bid.category);
+      let matchCategory = selectedCategory === "전체";
+      if (selectedCategory === "디지털사이니지·전광판") {
+        matchCategory =
+          bid.category.includes("디지털사이니지") ||
+          bid.category.includes("전광판") ||
+          bid.category.includes("사이니지") ||
+          /디지털|사이니지|전광판|전자게시대|미디어월|키오스크/.test(bid.title);
+      } else if (selectedCategory !== "전체") {
+        matchCategory =
+          bid.category.includes(selectedCategory) ||
+          selectedCategory.includes(bid.category);
+      }
 
       // 지역 필터 (17개 광역 시도 전체 지원)
       const matchLocation =
@@ -143,15 +162,17 @@ export default function HomePage() {
       // 마감 임박 필터
       const matchUrgent = !onlyUrgent || (bid.dDay <= 3 && bid.dDay >= 0);
 
-      // 검색어 필터
+      // 검색어 필터 ('전광판', '사이니지', 'LED', '전자게시대', '미디어월' 등 공고명/카테고리/내용 즉시 매칭)
       const query = searchQuery.trim().toLowerCase();
       const matchQuery =
         query === "" ||
         bid.title.toLowerCase().includes(query) ||
+        bid.category.toLowerCase().includes(query) ||
         bid.client.toLowerCase().includes(query) ||
         bid.location.toLowerCase().includes(query) ||
         bid.bidType.toLowerCase().includes(query) ||
-        (bid.aiSummary && bid.aiSummary.toLowerCase().includes(query));
+        (bid.aiSummary && bid.aiSummary.toLowerCase().includes(query)) ||
+        (bid.aiTips && bid.aiTips.toLowerCase().includes(query));
 
       return matchCategory && matchLocation && matchUrgent && matchQuery;
     });
@@ -207,11 +228,26 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* 실시간 연동 상태 뱃지 */}
-            <div className="flex items-center gap-2.5">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-300 border border-emerald-500/25 shadow-sm shadow-emerald-500/10">
+            {/* 네비게이션 메뉴 및 실시간 연동 상태 뱃지 */}
+            <div className="flex items-center gap-3 sm:gap-4">
+              <nav className="flex items-center gap-1.5 sm:gap-2">
+                <Link
+                  href="/"
+                  className="px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold bg-blue-600 text-white shadow-md shadow-blue-600/30 ring-1 ring-blue-400"
+                >
+                  입찰공고 목록
+                </Link>
+                <Link
+                  href="/blog"
+                  className="px-3 py-1.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-400 hover:text-white hover:bg-slate-800 transition-all"
+                >
+                  옥외광고 트렌드
+                </Link>
+              </nav>
+
+              <div className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-300 border border-emerald-500/25 shadow-sm shadow-emerald-500/10">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                <span className="font-semibold">{metaData?.activeDate || "오늘"} 실시간 공고</span>
+                <span className="font-semibold">{metaData?.activeDate || "오늘"} 실시간</span>
               </div>
             </div>
           </div>
@@ -230,7 +266,7 @@ export default function HomePage() {
           </div>
 
           <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
-            놓치면 안 될 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-indigo-300">간판·사인물·현수막</span> 입찰정보
+            놓치면 안 될 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-indigo-300">간판·전광판·사인물</span> 입찰정보
           </h1>
 
           <p className="text-xs sm:text-sm text-slate-300 max-w-2xl mx-auto">
@@ -245,7 +281,7 @@ export default function HomePage() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="공고명, 발주처, 지역(예: 서울, 세종, 강원)으로 검색..."
+                placeholder="공고명, 발주처, 품목(전광판, 사이니지, LED, 전자게시대 등) 검색..."
                 className="w-full pl-12 pr-16 py-4 bg-slate-900/90 border border-slate-700/80 rounded-2xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base shadow-2xl transition-all"
               />
               {searchQuery && (

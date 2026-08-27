@@ -12,14 +12,14 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    name: Build and Deploy
+    name: Generate Posts, Build and Deploy
     permissions:
       contents: write
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node.js 20
         uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -28,18 +28,23 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: Fetch Live Bids & Build Static Site
+      - name: Generate Daily AI Blog Post
+        run: node scripts/generate-post.js
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+
+      - name: Build Static Site with Latest Bids Data
         run: npm run build
         env:
           PUBLIC_DATA_API_KEY: ${{ secrets.PUBLIC_DATA_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
 
-      - name: Commit updated bids data to repository
+      - name: Commit and Push New Posts & Updated Bids Data
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add public/data/bids.json public/data/meta.json || true
-          git commit -m "chore(data): auto-update daily bids and AI analysis [skip ci]" || echo "No changes to commit"
+          git add src/content/posts/ public/data/bids.json public/data/meta.json || true
+          git commit -m "chore: auto-generate daily blog post and update bids data [skip ci]" || echo "No changes to commit"
           git push origin main || echo "Git push skipped"
 
       - name: Deploy to Cloudflare Pages
