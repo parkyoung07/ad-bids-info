@@ -42,9 +42,45 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
+  const keywordsList =
+    post.tags && post.tags.length > 0
+      ? [...post.tags, "옥외광고", "조달청나라장터", "입찰공고", "공공입찰"]
+      : ["옥외광고", "조달청나라장터", "입찰공고", "공공입찰", "LED간판", "디지털사이니지"];
+
+  const postUrl = `https://ad-bids-info.pages.dev/blog/${slug}/`;
+  const coverImg =
+    post.coverImage ||
+    "https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=1200&q=80";
+
   return {
-    title: `${post.title} | 옥외광고 트렌드 분석`,
-    description: post.summary || `${post.title}에 관한 심층 분석 리포트입니다.`,
+    title: `${post.title} | 옥외광고 입찰정보 알리미`,
+    description: post.summary || `${post.title}에 관한 옥외광고·사인물 공공입찰 심층 분석 리포트입니다.`,
+    keywords: keywordsList,
+    authors: [{ name: "옥외광고 입찰정보 알리미" }],
+    openGraph: {
+      title: post.title,
+      description: post.summary || `${post.title} 분석 리포트`,
+      url: postUrl,
+      siteName: "옥외광고 입찰정보 알리미",
+      locale: "ko_KR",
+      type: "article",
+      publishedTime: post.date,
+      tags: post.tags,
+      images: [
+        {
+          url: coverImg,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.summary || `${post.title} 분석 리포트`,
+      images: [coverImg],
+    },
   };
 }
 
