@@ -295,33 +295,34 @@ export default function HomePage() {
       </header>
 
       {/* 3일 주기 자동 교체되는 도시 옥외광고 배경 히어로 섹션 */}
-      <section className="relative overflow-hidden pt-7 pb-10 px-4 sm:px-6 lg:px-8 border-b border-slate-800">
-        {/* 5가지 테마 배경 이미지 레이어 (3일 주기 자동 전환) */}
+      <section className="relative isolate overflow-hidden pt-8 pb-12 px-4 sm:px-6 lg:px-8 border-b border-slate-800 shadow-2xl">
+        {/* 5가지 테마 배경 이미지 레이어 (3일 주기 자동 전환, z-index 0에서 확실히 렌더링) */}
         {HERO_BACKGROUNDS.map((bg, idx) => (
           <div
             key={bg.id}
-            className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out -z-30 transform scale-105 ${
+            className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out z-0 transform scale-100 ${
               idx === currentBgIndex ? "opacity-100" : "opacity-0 pointer-events-none"
             }`}
             style={{
               backgroundImage: `url(${bg.url})`,
+              backgroundPosition: "center 35%",
             }}
           />
         ))}
 
-        {/* 고급스러운 딥 다크 그라데이션 오버레이 (글자 및 검색창 가독성 확보) */}
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/88 via-slate-950/80 to-slate-950 -z-20 backdrop-blur-[0.5px]"></div>
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-36 bg-gradient-to-r from-blue-600/20 via-cyan-500/15 to-indigo-600/20 blur-3xl -z-10 pointer-events-none"></div>
+        {/* 세련된 다크 비네팅 오버레이 (사진의 도시 불빛과 사이니지는 살리고 글자 가독성은 확보) */}
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/65 via-slate-950/55 to-slate-950 z-0 backdrop-blur-[0.5px]"></div>
+        <div className="absolute inset-0 bg-radial from-transparent via-slate-950/40 to-slate-950/90 z-0"></div>
 
-        <div className="max-w-4xl mx-auto text-center space-y-3 relative z-10">
+        <div className="max-w-4xl mx-auto text-center space-y-3.5 relative z-10">
           {/* 상단 뱃지 (서체 20% 축소: text-[11px]) */}
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/15 border border-blue-500/30 text-blue-300 text-[11px] font-semibold backdrop-blur-md shadow-sm">
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-slate-900/90 border border-blue-400/40 text-blue-300 text-[11px] font-semibold backdrop-blur-md shadow-lg">
             <Bot className="w-3.5 h-3.5 text-cyan-400" />
             <span>제미나이 AI가 옥외광고 공고를 요약하고 핵심 자격을 안내합니다</span>
           </div>
 
           {/* 메인 타이틀 (서체 약 20~25% 축소: text-xl sm:text-2xl lg:text-3xl) */}
-          <h1 className="text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight text-white leading-snug">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight text-white leading-snug drop-shadow-md">
             놓치면 안 될{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-indigo-300">
               간판·전광판·사인물
@@ -330,20 +331,20 @@ export default function HomePage() {
           </h1>
 
           {/* 서브 설명 (서체 20% 축소: text-[11px] sm:text-xs) */}
-          <p className="text-[11px] sm:text-xs text-slate-300 max-w-xl mx-auto leading-relaxed">
+          <p className="text-[11px] sm:text-xs text-slate-200 max-w-xl mx-auto leading-relaxed drop-shadow">
             공공데이터포털 조달청 나라장터에서 수집된 용역·물품·공사 공고 중 옥외광고 사업자에게 꼭 필요한 정보만 선별하여 제공합니다.
           </p>
 
           {/* 통합 검색창 (서체 20% 축소: text-xs sm:text-sm) */}
           <div className="pt-1.5 max-w-xl mx-auto">
-            <div className="relative flex items-center">
+            <div className="relative flex items-center shadow-2xl">
               <Search className="absolute left-3.5 w-4 h-4 text-slate-400" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="공고명, 발주처, 품목(전광판, 사이니지, LED, 전자게시대 등) 검색..."
-                className="w-full pl-10 pr-14 py-3 bg-slate-900/85 backdrop-blur-md border border-slate-700/80 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm shadow-xl transition-all"
+                className="w-full pl-10 pr-14 py-3 bg-slate-900/95 backdrop-blur-lg border border-slate-600/80 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm shadow-2xl transition-all"
               />
               {searchQuery && (
                 <button
@@ -357,24 +358,24 @@ export default function HomePage() {
           </div>
 
           {/* 통계 요약 바 (서체 20% 축소: text-[11px]) */}
-          <div className="pt-2 flex flex-wrap items-center justify-center gap-2 sm:gap-4 text-[11px] text-slate-300">
-            <div className="flex items-center gap-1.5 bg-slate-900/80 backdrop-blur-sm px-2.5 py-1 rounded-lg border border-slate-700/60 shadow-sm">
-              <FileText className="w-3 h-3 text-blue-400" />
+          <div className="pt-2 flex flex-wrap items-center justify-center gap-2 sm:gap-4 text-[11px] text-slate-200">
+            <div className="flex items-center gap-1.5 bg-slate-900/90 backdrop-blur-md px-3 py-1.5 rounded-lg border border-slate-700/80 shadow-md">
+              <FileText className="w-3.5 h-3.5 text-blue-400" />
               <span>수집 공고: <strong className="text-white font-bold">{bids.length}건</strong></span>
             </div>
-            <div className="flex items-center gap-1.5 bg-slate-900/80 backdrop-blur-sm px-2.5 py-1 rounded-lg border border-slate-700/60 shadow-sm">
-              <Flame className="w-3 h-3 text-rose-400" />
+            <div className="flex items-center gap-1.5 bg-slate-900/90 backdrop-blur-md px-3 py-1.5 rounded-lg border border-slate-700/80 shadow-md">
+              <Flame className="w-3.5 h-3.5 text-rose-400" />
               <span>마감임박 (D-3 이내): <strong className="text-rose-400 font-bold">{urgentCount}건</strong></span>
             </div>
-            <div className="flex items-center gap-1.5 bg-slate-900/80 backdrop-blur-sm px-2.5 py-1 rounded-lg border border-slate-700/60 shadow-sm">
-              <Sparkles className="w-3 h-3 text-cyan-400" />
+            <div className="flex items-center gap-1.5 bg-slate-900/90 backdrop-blur-md px-3 py-1.5 rounded-lg border border-slate-700/80 shadow-md">
+              <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
               <span>AI 분석 적용: <strong className="text-cyan-300 font-bold">100%</strong></span>
             </div>
           </div>
 
           {/* 3일 주기 순차 교체 테마 안내 및 수동 선택 인디케이터 (서체 20% 축소) */}
           <div className="pt-2 flex flex-wrap items-center justify-center gap-1.5 sm:gap-2">
-            <span className="text-[10px] text-slate-400 flex items-center gap-1 mr-1">
+            <span className="text-[10px] text-slate-300 font-medium flex items-center gap-1 mr-1 bg-slate-900/80 px-2 py-0.5 rounded-full border border-slate-800">
               <ImageIcon className="w-3 h-3 text-blue-400" />
               <span>3일 주기 자동 변경 테마:</span>
             </span>
@@ -383,10 +384,10 @@ export default function HomePage() {
                 key={bg.id}
                 onClick={() => setCurrentBgIndex(index)}
                 title={`${bg.name} - ${bg.desc}`}
-                className={`text-[10px] px-2 py-0.5 rounded-full transition-all flex items-center gap-1 cursor-pointer ${
+                className={`text-[10px] px-2.5 py-0.5 rounded-full transition-all flex items-center gap-1 cursor-pointer backdrop-blur-sm ${
                   currentBgIndex === index
-                    ? "bg-blue-600/90 text-white font-bold border border-blue-400 shadow-sm"
-                    : "bg-slate-900/70 text-slate-400 hover:text-slate-200 border border-slate-800"
+                    ? "bg-blue-600 text-white font-bold border border-blue-400 shadow-md scale-105"
+                    : "bg-slate-900/85 text-slate-300 hover:text-white hover:bg-slate-800 border border-slate-700/80"
                 }`}
               >
                 <span>{index + 1}. {bg.name.split(" ")[0]}</span>
