@@ -25,18 +25,23 @@ const GEMINI_API_KEY = env.GEMINI_API_KEY || '';
 
 console.log('🚀 [시작] 전국 조달청 나라장터 옥외광고·사인·인쇄 심층 검색 및 AI 분석 파이프라인');
 
-// 2. 날짜 계산 (오늘 기준 최근 30일)
-const now = new Date();
+// 2. 한국 표준시(KST, UTC+9) 기준 날짜 계산 (오늘 기준 최근 30일)
+function getKSTDate() {
+  const nowUtc = new Date();
+  const kstOffset = 9 * 60 * 60 * 1000;
+  return new Date(nowUtc.getTime() + kstOffset);
+}
+
 function formatDateString(d) {
-  const yyyy = d.getFullYear();
-  const mm = String(d.getMonth() + 1).padStart(2, '0');
-  const dd = String(d.getDate()).padStart(2, '0');
+  const yyyy = d.getUTCFullYear();
+  const mm = String(d.getUTCMonth() + 1).padStart(2, '0');
+  const dd = String(d.getUTCDate()).padStart(2, '0');
   return `${yyyy}${mm}${dd}`;
 }
 
-const todayStr = formatDateString(now);
-const pastDate = new Date();
-pastDate.setDate(now.getDate() - 30);
+const kstNow = getKSTDate();
+const todayStr = formatDateString(kstNow);
+const pastDate = new Date(kstNow.getTime() - (30 * 24 * 60 * 60 * 1000));
 const pastStr = formatDateString(pastDate);
 
 console.log(`📅 검색 기간: ${pastStr} ~ ${todayStr}`);
@@ -320,7 +325,7 @@ async function fetchLiveBids() {
   fs.writeFileSync(metaPath, JSON.stringify({
     lastUpdated: new Date().toISOString(),
     totalCount: finalBids.length,
-    activeDate: `${now.getFullYear()}년 ${now.getMonth() + 1}월 ${now.getDate()}일`,
+    activeDate: `${kstNow.getUTCFullYear()}년 ${kstNow.getUTCMonth() + 1}월 ${kstNow.getUTCDate()}일`,
     liveBidsCount: uniqueLiveBids.length
   }, null, 2), 'utf-8');
 }

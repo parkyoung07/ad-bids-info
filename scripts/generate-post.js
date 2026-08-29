@@ -24,11 +24,17 @@ const env = loadEnv();
 const GEMINI_API_KEY = env.GEMINI_API_KEY || process.env.GEMINI_API_KEY;
 const PEXELS_API_KEY = env.PEXELS_API_KEY || process.env.PEXELS_API_KEY;
 
-// 2. 날짜 포맷 (YYYY-MM-DD)
-const now = new Date();
-const yyyy = now.getFullYear();
-const mm = String(now.getMonth() + 1).padStart(2, '0');
-const dd = String(now.getDate()).padStart(2, '0');
+// 2. 한국 표준시(KST, UTC+9) 기준 날짜 포맷 (YYYY-MM-DD)
+function getKSTDate() {
+  const nowUtc = new Date();
+  const kstOffset = 9 * 60 * 60 * 1000;
+  return new Date(nowUtc.getTime() + kstOffset);
+}
+
+const kstNow = getKSTDate();
+const yyyy = kstNow.getUTCFullYear();
+const mm = String(kstNow.getUTCMonth() + 1).padStart(2, '0');
+const dd = String(kstNow.getUTCDate()).padStart(2, '0');
 const todayStr = `${yyyy}-${mm}-${dd}`;
 
 // 고품질 옥외광고/디지털사이니지/미디어월 기본 이미지 프리셋
