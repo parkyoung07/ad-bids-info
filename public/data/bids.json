@@ -1,21 +1,5 @@
 [
   {
-    "id": "R26BK01662206-000",
-    "title": "2026여수세계섬박람회 홍보관 부스 내외관 종합 사인시스템 제작·설치",
-    "category": "간판·조형물",
-    "client": "국립호남권생물자원관",
-    "budget": 30000000,
-    "budgetText": "3,000만 원",
-    "location": "전남",
-    "startDate": "2026-08-25",
-    "endDate": "2026-08-28 16:00",
-    "dDay": 0,
-    "bidType": "수의(총액) 소액수의계약",
-    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01662206&bidPbancOrd=000",
-    "aiSummary": "국립호남권생물자원관에서 발주한 2026여수세계섬박람회 홍보관 부스 내외관 종합 사인시스템 제작·설치 공고입니다. 나라장터 전자입찰을 통해 참여 가능합니다.",
-    "aiTips": "입찰 참가 전 과업지시서 및 옥외광고사업자 등록 요건을 확인하세요."
-  },
-  {
     "id": "R26BK01662381-000",
     "title": "2027 KITECH 홍보용 다이어리 및 캘린더 디자인·인쇄 발간",
     "category": "인쇄·판촉",
@@ -25,11 +9,11 @@
     "location": "충남",
     "startDate": "2026-08-25",
     "endDate": "2026-08-29 12:00",
-    "dDay": 1,
+    "dDay": 0,
     "bidType": "제한경쟁 (중소기업자간 경쟁)",
     "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01662381&bidPbancOrd=000",
-    "aiSummary": "한국생산기술연구원에서 발주한 2027 KITECH 홍보용 다이어리 및 캘린더 디자인·인쇄 발간 공고입니다. 나라장터 전자입찰을 통해 참여 가능합니다.",
-    "aiTips": "입찰 참가 전 과업지시서 및 옥외광고사업자 등록 요건을 확인하세요."
+    "aiSummary": "2027년도 한국생산기술연구원 홍보용 고급 다이어리 및 탁상 캘린더 디자인·인쇄·제본",
+    "aiTips": "기업/기관 브랜드 이미지를 살린 디자인 시안과 후가공(형압, 박) 기술력, 엄격한 품질검수 공정을 강조하세요."
   },
   {
     "id": "R26BK01657326-000",
@@ -41,11 +25,11 @@
     "location": "전남",
     "startDate": "2026-08-26",
     "endDate": "2026-08-30 11:00",
-    "dDay": 2,
+    "dDay": 1,
     "bidType": "일반경쟁 (적격심사)",
     "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01657326&bidPbancOrd=000",
-    "aiSummary": "국립공원공단 국립공원해양생태보전원에서 발주한 해양특화 탐방인프라 디자인 개발 및 아크릴 표찰·안내판 제작 용역 공고입니다. 나라장터 전자입찰을 통해 참여 가능합니다.",
-    "aiTips": "입찰 참가 전 과업지시서 및 옥외광고사업자 등록 요건을 확인하세요."
+    "aiSummary": "해양특화 탐방인프라 맞춤형 디자인 개발 및 내구성 아크릴 표찰·안내판 제작",
+    "aiTips": "해안 환경에 견디는 내후성·방수 소재 활용안과 픽토그램 중심의 직관적 디자인 개발 역량을 제시하세요."
   },
   {
     "id": "R26BK01650918-000",
@@ -57,11 +41,11 @@
     "location": "서울시",
     "startDate": "2026-08-24",
     "endDate": "2026-09-02 10:00",
-    "dDay": 5,
+    "dDay": 4,
     "bidType": "제한경쟁 (전자입찰)",
     "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01650918&bidPbancOrd=000",
-    "aiSummary": "문화체육관광부 국립현대미술관에서 발주한 MMCA 기획전시 전시장 홍보용 대형 현수막·배너 및 실사출력물 제작·게첨 공고입니다. 나라장터 전자입찰을 통해 참여 가능합니다.",
-    "aiTips": "입찰 참가 전 과업지시서 및 옥외광고사업자 등록 요건을 확인하세요."
+    "aiSummary": "국립현대미술관 기획전시용 대형 외벽 현수막, 실내외 배너 및 실사출력물 제작·시공",
+    "aiTips": "고해상도 미술품 실사출력 색상 구현력과 대형 현수막 고층 게첨 작업 시의 안전관리 대책이 선정 기준입니다."
   },
   {
     "id": "R26BK01650354-000",
@@ -73,59 +57,11 @@
     "location": "경북",
     "startDate": "2026-08-20",
     "endDate": "2026-09-03 10:00",
-    "dDay": 6,
+    "dDay": 5,
     "bidType": "일반경쟁 (적격심사)",
     "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01650354&bidPbancOrd=000",
-    "aiSummary": "경상북도 김천시에서 발주한 농업기술센터 대강당 LED전광판 제작 설치 공고입니다. 나라장터 전자입찰을 통해 참여 가능합니다.",
-    "aiTips": "입찰 참가 전 과업지시서 및 옥외광고사업자 등록 요건을 확인하세요."
-  },
-  {
-    "id": "R26BK01656135-000",
-    "title": "K-거상 통합 관광브랜드개발(BI,캐릭터) 및 굿즈 제작 용역",
-    "client": "재단법인 경상남도 관광재단",
-    "budget": 93000000,
-    "budgetText": "9,300만원",
-    "location": "전국",
-    "startDate": "2026-07-29",
-    "endDate": "2026-08-28 18:00:00",
-    "dDay": 7,
-    "bidType": "제한경쟁",
-    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01656135&bidPbancOrd=000",
-    "category": "인쇄·판촉",
-    "aiSummary": "재단법인 경상남도 관광재단에서 발주한 K-거상 통합 관광브랜드개발(BI,캐릭터) 및 굿즈 제작 용역 공고입니다. 나라장터 전자입찰을 통해 참여 가능합니다.",
-    "aiTips": "입찰 참가 전 과업지시서 및 옥외광고사업자 등록 요건을 확인하세요."
-  },
-  {
-    "id": "R26BK01654867-000",
-    "title": "2027년도 GIST 달력 제작",
-    "client": "광주과학기술원",
-    "budget": 42000000,
-    "budgetText": "4,200만원",
-    "location": "광주시",
-    "startDate": "2026-07-29",
-    "endDate": "2026-08-28 18:00:00",
-    "dDay": 7,
-    "bidType": "제한경쟁",
-    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01654867&bidPbancOrd=000",
-    "category": "인쇄·판촉",
-    "aiSummary": "광주과학기술원에서 발주한 2027년도 GIST 달력 제작 공고입니다. 나라장터 전자입찰을 통해 참여 가능합니다.",
-    "aiTips": "입찰 참가 전 과업지시서 및 옥외광고사업자 등록 요건을 확인하세요."
-  },
-  {
-    "id": "R26BK01654867-001",
-    "title": "2027년도 GIST 달력 제작",
-    "client": "광주과학기술원",
-    "budget": 42000000,
-    "budgetText": "4,200만원",
-    "location": "광주시",
-    "startDate": "2026-07-29",
-    "endDate": "2026-08-28 18:00:00",
-    "dDay": 7,
-    "bidType": "제한경쟁",
-    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01654867&bidPbancOrd=001",
-    "category": "인쇄·판촉",
-    "aiSummary": "광주과학기술원에서 발주한 2027년도 GIST 달력 제작 공고입니다. 나라장터 전자입찰을 통해 참여 가능합니다.",
-    "aiTips": "입찰 참가 전 과업지시서 및 옥외광고사업자 등록 요건을 확인하세요."
+    "aiSummary": "김천시 농업기술센터 대강당 내부 고해상도 LED 전광판 제작 및 설치",
+    "aiTips": "실내 강당 환경에 최적화된 픽셀 피치 사양 제시와 시스템 컨트롤러 연동 및 유지보수 보증을 어필하세요."
   },
   {
     "id": "R26BK01654853-000",
@@ -137,11 +73,27 @@
     "location": "대구",
     "startDate": "2026-08-22",
     "endDate": "2026-09-05 10:00",
-    "dDay": 8,
+    "dDay": 7,
     "bidType": "제한경쟁 (중소기업자간 경쟁)",
     "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01654853&bidPbancOrd=000",
-    "aiSummary": "(주)엑스코에서 발주한 엑스코 LED 전광판 구매 설치 공고입니다. 나라장터 전자입찰을 통해 참여 가능합니다.",
-    "aiTips": "입찰 참가 전 과업지시서 및 옥외광고사업자 등록 요건을 확인하세요."
+    "aiSummary": "엑스코 전시관 내 행사용 고화질 LED 전광판 납품 및 시스템 설치",
+    "aiTips": "전시장 특성을 고려한 명암비 및 시야각 확보, 신속한 긴급 A/S 대응 체계를 명시하는 것이 좋습니다."
+  },
+  {
+    "id": "R26BK01660421-000",
+    "title": "2026 지역경제 혁신 박람회 경상북도 통합 홍보관 조성 및 운영 용역",
+    "client": "재단법인 경상북도경제진흥원",
+    "budget": 107000000,
+    "budgetText": "1억 700만원",
+    "location": "전국",
+    "startDate": "2026-07-31",
+    "endDate": "2026-08-29 18:00:00",
+    "dDay": 7,
+    "bidType": "일반경쟁",
+    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01660421&bidPbancOrd=000",
+    "category": "간판·조형물",
+    "aiSummary": "2026 지역경제 혁신 박람회 내 경상북도 통합 홍보관 그래픽 및 전시대·부스 제작·운영 용역",
+    "aiTips": "박람회 부스 연출 실적과 구조물 및 대형 출력물의 신속한 설치·철거 역량을 강조하는 것이 유리합니다."
   },
   {
     "id": "R26BK01661955-000",
@@ -153,11 +105,27 @@
     "location": "서울시",
     "startDate": "2026-08-26",
     "endDate": "2026-09-05 10:00",
-    "dDay": 8,
+    "dDay": 7,
     "bidType": "일반경쟁 (전자입찰)",
     "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01661955&bidPbancOrd=000",
-    "aiSummary": "국회 국회사무처에서 발주한 2026년 공공기관 홍보용 관용 차량 및 이동형 홍보버스 풀 랩핑 시공 용역 공고입니다. 나라장터 전자입찰을 통해 참여 가능합니다.",
-    "aiTips": "입찰 참가 전 과업지시서 및 옥외광고사업자 등록 요건을 확인하세요."
+    "aiSummary": "국회사무처 공공기관 홍보용 관용 차량 및 이동형 홍보버스 차량 풀 랩핑 시공",
+    "aiTips": "굴곡진 버스 차량 면의 들뜸 없는 특수 랩핑 기술력과 차량 전용 고급 필름 사용 계획을 제출하세요."
+  },
+  {
+    "id": "R26BK01660058-000",
+    "title": "AX스페이스센터 상담부스 구입 및 설치",
+    "client": "백석문화대학교 산학협력단",
+    "budget": 29920000,
+    "budgetText": "2,992만원",
+    "location": "전국",
+    "startDate": "2026-07-31",
+    "endDate": "2026-08-29 18:00:00",
+    "dDay": 7,
+    "bidType": "일반경쟁",
+    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01660058&bidPbancOrd=000",
+    "category": "간판·조형물",
+    "aiSummary": "AX스페이스센터 내부 상담부스 제작, 구매 및 맞춤 설치 작업",
+    "aiTips": "실내 조립형 부스의 마감 품질과 공간 활용성, 정해진 납품 기한 준수 계획이 핵심 평가 요소입니다."
   },
   {
     "id": "R26BK01648754-000",
@@ -169,10 +137,10 @@
     "location": "전북",
     "startDate": "2026-08-22",
     "endDate": "2026-09-12 18:00",
-    "dDay": 15,
+    "dDay": 14,
     "bidType": "일반경쟁 (협상에의한계약)",
     "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01648754&bidPbancOrd=000",
-    "aiSummary": "전북대학교병원에서 발주한 2027년도 공공병원 종합 안내 사인물(LED 채널간판 및 지주안내탑) 제작·설치 공고입니다. 나라장터 전자입찰을 통해 참여 가능합니다.",
-    "aiTips": "입찰 참가 전 과업지시서 및 옥외광고사업자 등록 요건을 확인하세요."
+    "aiSummary": "전북대학교병원 외부 LED 채널간판 및 대형 지주안내탑 제작·시공",
+    "aiTips": "야간 시인성이 뛰어난 LED 채널 제작과 강풍 등 외부 환경에 견디는 지주 구조물 안전검토서가 중요합니다."
   }
 ]
