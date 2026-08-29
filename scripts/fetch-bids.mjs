@@ -276,6 +276,18 @@ async function fetchLiveBids() {
     }
   }
 
+  // 만약 API 키 부재 등으로 수집된 신규 데이터가 없으면 기존 저장된 bids.json 데이터를 보존
+  if (combined.length === 0) {
+    const existingPath = path.resolve(process.cwd(), 'public/data/bids.json');
+    if (fs.existsSync(existingPath)) {
+      try {
+        const existingData = JSON.parse(fs.readFileSync(existingPath, 'utf-8'));
+        combined.push(...existingData);
+        console.log(`📦 기존 저장된 bids.json 데이터(${existingData.length}건)를 안전하게 유지합니다.`);
+      } catch (e) {}
+    }
+  }
+
   // 최종 활성 공고만 필터링
   const activeOnly = combined.filter(b => b.dDay >= 0);
 
