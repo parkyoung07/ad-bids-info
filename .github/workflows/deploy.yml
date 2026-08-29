@@ -52,7 +52,7 @@ jobs:
           git push origin main || echo "Git push skipped"
 
       - name: Deploy to Cloudflare Pages (Direct Wrangler Upload)
-        run: npx wrangler pages deploy out --project-name=ad-bids-info --commit-dirty=true
+        run: npx wrangler pages deploy out --project-name=ad-bids-info --branch=main --commit-dirty=true
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
