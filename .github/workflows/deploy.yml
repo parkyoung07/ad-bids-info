@@ -22,10 +22,10 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js 20
+      - name: Setup Node.js 22
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
 
       - name: Install Dependencies
@@ -52,7 +52,6 @@ jobs:
           git push origin main || echo "Git push skipped"
 
       - name: Deploy to Cloudflare Pages (Direct Wrangler Upload)
-        continue-on-error: true
         run: npx wrangler pages deploy out --project-name=ad-bids-info --commit-dirty=true
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
