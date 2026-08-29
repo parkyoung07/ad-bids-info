@@ -185,14 +185,33 @@ export default async function BlogPostDetailPage({ params }: PageProps) {
           )}
         </header>
 
-        {/* 대표 이미지 (coverImage) */}
+        {/* 대표 이미지 (coverImage) 및 이미지 활용 지침 준수 크레딧 표기 */}
         {post.coverImage && (
-          <div className="mb-8 rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 shadow-xl aspect-video max-h-[440px] w-full">
-            <img
-              src={post.coverImage}
-              alt={post.title}
-              className="w-full h-full object-cover"
-            />
+          <div className="mb-8">
+            <div className="rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 shadow-xl aspect-video max-h-[440px] w-full">
+              <img
+                src={post.coverImage}
+                alt={post.title}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            {post.coverImageCredit && (
+              <p className="mt-2 text-right text-[11px] text-slate-500">
+                사진 출처:{" "}
+                {post.coverImageCreditUrl ? (
+                  <a
+                    href={post.coverImageCreditUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-slate-400 hover:text-blue-400 underline underline-offset-2 transition-colors"
+                  >
+                    {post.coverImageCredit}
+                  </a>
+                ) : (
+                  <span>{post.coverImageCredit}</span>
+                )}
+              </p>
+            )}
           </div>
         )}
 

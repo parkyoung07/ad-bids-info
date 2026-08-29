@@ -22,6 +22,7 @@ function loadEnv() {
 
 const env = loadEnv();
 const GEMINI_API_KEY = env.GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+const PEXELS_API_KEY = env.PEXELS_API_KEY || process.env.PEXELS_API_KEY;
 
 // 2. 날짜 포맷 (YYYY-MM-DD)
 const now = new Date();
@@ -30,7 +31,7 @@ const mm = String(now.getMonth() + 1).padStart(2, '0');
 const dd = String(now.getDate()).padStart(2, '0');
 const todayStr = `${yyyy}-${mm}-${dd}`;
 
-// 고품질 옥외광고/디지털사이니지/미디어월 Unsplash 이미지 프리셋 (엄격 검증)
+// 고품질 옥외광고/디지털사이니지/미디어월 기본 이미지 프리셋
 const COVER_IMAGES = [
   'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=1200&q=80', // 도심 옥외 대형 LED 전광판
   'https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1200&q=80', // 대형 빌딩 미디어월 전광판
@@ -39,10 +40,61 @@ const COVER_IMAGES = [
   'https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?auto=format&fit=crop&w=1200&q=80'  // 화려한 현대적 상업·공공 LED 사인
 ];
 
-const randomCoverImage = COVER_IMAGES[Math.floor(Math.random() * COVER_IMAGES.length)];
+// Pexels API를 활용한 실시간 고화질 옥외광고 이미지 검색 및 활용 지침 준수 함수
+async function getCoverImage(query = '') {
+  if (PEXELS_API_KEY && !PEXELS_API_KEY.includes('여기에_PEXELS_API키')) {
+    try {
+      const keywords = [
+        'billboard advertising',
+        'digital signage display',
+        'city neon billboard night',
+        'times square billboard screen',
+        'outdoor led display',
+        'commercial billboard urban',
+        'electronic billboard building'
+      ];
+      const searchTerm = query || keywords[Math.floor(Math.random() * keywords.length)];
+      const page = Math.floor(Math.random() * 4) + 1;
+      const apiUrl = `https://api.pexels.com/v1/search?query=${encodeURIComponent(searchTerm)}&per_page=15&page=${page}&orientation=landscape`;
+
+      const res = await fetch(apiUrl, {
+        headers: { Authorization: PEXELS_API_KEY }
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data.photos && data.photos.length > 0) {
+          const photo = data.photos[Math.floor(Math.random() * data.photos.length)];
+          const pexelsUrl = photo.src.large2x || photo.src.large || photo.src.original;
+          const photographer = photo.photographer || 'Pexels Creator';
+          const photoPageUrl = photo.url || `https://www.pexels.com/photo/${photo.id}/`;
+
+          console.log(`📸 [Pexels 이미지 연동 성공] 검색어: "${searchTerm}" | 작가: ${photographer}`);
+          return {
+            url: pexelsUrl,
+            credit: `Photo by ${photographer} on Pexels`,
+            creditUrl: photoPageUrl
+          };
+        }
+      } else {
+        console.warn(`⚠️ [Pexels API 응답 코드 ${res.status}] 기본 프리셋 이미지를 사용합니다.`);
+      }
+    } catch (err) {
+      console.warn(`⚠️ [Pexels API 호출 오류: ${err.message}] 기본 프리셋 이미지를 사용합니다.`);
+    }
+  }
+
+  // Pexels 키가 없거나 실패 시 기본 프리셋 선택
+  const fallbackUrl = COVER_IMAGES[Math.floor(Math.random() * COVER_IMAGES.length)];
+  return {
+    url: fallbackUrl,
+    credit: 'Photo via Unsplash',
+    creditUrl: 'https://unsplash.com'
+  };
+}
 
 // API 쿼터 초과 시 활용할 고품질 SEO 최적화 기본 포스트 생성 함수 (무중단 보장)
-function getFallbackPost() {
+function getFallbackPost(coverData) {
   const topics = [
     {
       title: `[2026 옥외광고 입찰] 지자체 노후 간판 교체 및 실내표찰·스텐현판 발주 총정리 (예산·자격조건 분석)`,
@@ -119,7 +171,7 @@ function getFallbackPost() {
 ---
 
 ## 1. 옥외광고 시장의 대세, 스마트 전자게시대 공공 발주 확대
-
+ 
 전국 시·군·구에서 불법 현수막을 줄이고 도시 미관을 개선하기 위해 기존 천 현수막 지정게시대를 **초고화질 LED 전자게시대**로 전면 전환하고 있습니다.
 
 억대 단위의 예산이 책정되는 대형 전광판 입찰 시장을 공략하기 위해 옥외광고 및 사인물 제작업체가 반드시 숙지해야 할 핵심 포인트를 정리해 드립니다.
@@ -171,7 +223,9 @@ date: "${todayStr}"
 summary: "${selected.summary}"
 category: "${selected.category}"
 tags: ${JSON.stringify(selected.tags)}
-coverImage: "${randomCoverImage}"
+coverImage: "${coverData.url}"
+coverImageCredit: "${coverData.credit}"
+coverImageCreditUrl: "${coverData.creditUrl}"
 source: "공공데이터포털(data.go.kr) 및 조달청 나라장터(G2B) 옥외광고 입찰 분석 종합"
 sourceUrl: "https://www.g2b.go.kr"
 ---
@@ -182,6 +236,9 @@ ${selected.content}
 
 async function generateAdTrendPost() {
   console.log(`🤖 [시작] ${todayStr} 옥외광고 SEO 최적화 트렌드 분석 블로그 글 생성`);
+
+  // 커버 이미지 준비 (Pexels API 검색 또는 기본 프리셋 및 가이드라인 준수)
+  const coverData = await getCoverImage();
 
   let generatedText = '';
 
@@ -221,7 +278,9 @@ date: "${todayStr}"
 summary: (업계 종사자를 위한 핵심 요약 1~2줄)
 category: "간판·조형물 / 디지털사이니지"
 tags: ["옥외광고입찰", "나라장터공고", "LED간판제작", "실내표찰", "스텐현판", "차량랩핑시공", "디지털사이니지", "공공디자인"]
-coverImage: "${randomCoverImage}"
+coverImage: "${coverData.url}"
+coverImageCredit: "${coverData.credit}"
+coverImageCreditUrl: "${coverData.creditUrl}"
 source: "공공데이터포털(data.go.kr) 및 조달청 나라장터(G2B) 옥외광고 입찰 분석 종합"
 sourceUrl: "https://www.g2b.go.kr"
 ---
@@ -241,6 +300,14 @@ sourceUrl: "https://www.g2b.go.kr"
           generatedText = generatedText.replace(/^```\s*/, '').replace(/\s*```$/, '');
         }
         generatedText = generatedText.trim();
+
+        // Frontmatter에 정확한 이미지 정보 및 크레딧 주입 보장
+        if (!generatedText.includes('coverImageCredit:')) {
+          generatedText = generatedText.replace(
+            /coverImage:\s*"?[^"\n]+"?/,
+            `coverImage: "${coverData.url}"\ncoverImageCredit: "${coverData.credit}"\ncoverImageCreditUrl: "${coverData.creditUrl}"`
+          );
+        }
       }
     } catch (apiError) {
       console.warn(`⚠️ [Gemini API 경고] ${apiError.message} -> SEO 최적화 템플릿 기반으로 자동 생성 전환`);
@@ -250,7 +317,7 @@ sourceUrl: "https://www.g2b.go.kr"
   // API 미응답 또는 실패 시 fallback 템플릿 적용 (배포 무중단 보장)
   if (!generatedText) {
     console.log(`📝 [대체 모드] SEO 최적화 옥외광고 트렌드 분석 리포트를 기반으로 포스트 생성 중...`);
-    generatedText = getFallbackPost();
+    generatedText = getFallbackPost(coverData);
   }
 
   // 저장 디렉토리 확인

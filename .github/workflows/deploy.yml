@@ -32,6 +32,7 @@ jobs:
         run: node scripts/generate-post.js
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
 
       - name: Build Static Site with Latest Bids Data
         run: npm run build

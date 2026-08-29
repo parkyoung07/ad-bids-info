@@ -12,6 +12,8 @@ export interface PostMeta {
   category: string;
   tags?: string[];
   coverImage?: string;
+  coverImageCredit?: string;
+  coverImageCreditUrl?: string;
   source?: string;
   sourceUrl?: string;
 }
@@ -57,6 +59,8 @@ export function getAllPosts(): PostMeta[] {
           ? data.tags.split(",").map((t: string) => t.trim())
           : [],
         coverImage: data.coverImage || "",
+        coverImageCredit: data.coverImageCredit || "",
+        coverImageCreditUrl: data.coverImageCreditUrl || "",
         source: data.source || "",
         sourceUrl: data.sourceUrl || "",
       } as PostMeta;
@@ -94,6 +98,8 @@ export function getPostBySlug(slug: string): PostItem | null {
       ? data.tags.split(",").map((t: string) => t.trim())
       : [],
     coverImage: data.coverImage || "",
+    coverImageCredit: data.coverImageCredit || "",
+    coverImageCreditUrl: data.coverImageCreditUrl || "",
     source: data.source || "",
     sourceUrl: data.sourceUrl || "",
     content,
