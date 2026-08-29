@@ -1,2 +1,5 @@
 name = "ad-bids-info"
 pages_build_output_dir = "out"
+
+[ai]
+binding = "AI"

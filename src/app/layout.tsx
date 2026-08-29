@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Chatbot from "@/components/Chatbot";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -46,7 +47,9 @@ export default function RootLayout({
     <html lang="ko">
       <body className="min-h-screen bg-slate-950 text-slate-100 antialiased flex flex-col selection:bg-blue-500 selection:text-white">
         {children}
+        <Chatbot />
       </body>
     </html>
   );
 }
+
