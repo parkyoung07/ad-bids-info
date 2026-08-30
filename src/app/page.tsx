@@ -26,6 +26,7 @@ import {
   Image as ImageIcon,
   Bell,
   MessageCircle,
+  GraduationCap,
 } from "lucide-react";
 import bidsData from "../../public/data/bids.json";
 import metaData from "../../public/data/meta.json";
@@ -381,9 +382,30 @@ export default function HomePage() {
             입찰정보
           </h1>
 
+          {/* 아파트 단지 & 학교 입찰정보 통합 게재 안내 하이라이트 배너 */}
+          <div className="inline-flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 px-3.5 py-1.5 rounded-xl bg-slate-900/90 border border-indigo-500/30 backdrop-blur-md shadow-lg text-[11px] sm:text-xs">
+            <span className="flex items-center gap-1 text-emerald-300 font-bold">
+              <Building2 className="w-3.5 h-3.5 text-emerald-400" />
+              <span>아파트 게시판·승강기 광고</span>
+            </span>
+            <span className="text-slate-500 font-light hidden sm:inline">•</span>
+            <span className="flex items-center gap-1 text-violet-300 font-bold">
+              <GraduationCap className="w-3.5 h-3.5 text-violet-400" />
+              <span>초·중·고·대학교 간판·사인물</span>
+            </span>
+            <span className="text-slate-500 font-light hidden sm:inline">•</span>
+            <span className="flex items-center gap-1 text-cyan-300 font-bold">
+              <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+              <span>나라장터·온비드 공공입찰</span>
+            </span>
+            <span className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-[10px] px-2 py-0.5 rounded-full font-extrabold shadow-sm">
+              통합 게재 중
+            </span>
+          </div>
+
           {/* 서브 설명 (서체 20% 축소: text-[11px] sm:text-xs) */}
           <p className="text-[11px] sm:text-xs text-slate-200 max-w-xl mx-auto leading-relaxed drop-shadow">
-            공공데이터포털 조달청 나라장터에서 수집된 용역·물품·공사 공고 중 옥외광고 사업자에게 꼭 필요한 정보만 선별하여 제공합니다.
+            공공데이터포털 조달청 나라장터 공공입찰은 물론, 전국 <strong>아파트 단지(게시판·승강기 광고)</strong>와 <strong>초·중·고·대학교(간판·현판·사인물)</strong> 발주 정보까지 옥외광고 사업자에게 꼭 필요한 모든 정보를 선별하여 실시간으로 제공합니다.
           </p>
 
           {/* 통합 검색창 (서체 20% 축소: text-xs sm:text-sm) */}
@@ -394,7 +416,7 @@ export default function HomePage() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="공고명, 발주처, 품목(전광판, 사이니지, LED, 전자게시대 등) 검색..."
+                placeholder="공고명, 발주처(아파트·학교·관공서), 품목(전광판, 사이니지, LED, 승강기광고 등) 검색..."
                 className="w-full pl-10 pr-14 py-3 bg-slate-900/95 backdrop-blur-lg border border-slate-600/80 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm shadow-2xl transition-all"
               />
               {searchQuery && (
