@@ -1,5 +1,7 @@
 name = "ad-bids-info"
 pages_build_output_dir = "out"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
 
 [ai]
 binding = "AI"
