@@ -5,3 +5,7 @@ compatibility_flags = ["nodejs_compat"]
 
 [ai]
 binding = "AI"
+
+[[kv_namespaces]]
+binding = "CHAT_KV"
+id = "8ccb25c69e944f55bc432a211ae60614"
