@@ -12,8 +12,8 @@
     "dDay": 0,
     "bidType": "일반경쟁 (적격심사)",
     "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01657326&bidPbancOrd=000",
-    "aiSummary": "해양 탐방 인프라 안내 디자인 개발 및 아크릴 표찰, 안내판 제작·설치 용역입니다.",
-    "aiTips": "해풍과 염분에 강한 고품질 아크릴 소재 채택 및 직관적인 가독성의 디자인 제안서 작성이 중요합니다."
+    "aiSummary": "국립공원해양생태보전원의 탐방인프라 디자인 개발과 아크릴 표찰 및 안내판을 제작·납품하는 용역입니다.",
+    "aiTips": "디자인 개발 과업이 포함되어 있으므로 시각디자인 전문인력 및 아크릴 내구성/방수 시공 실적을 강조하세요."
   },
   {
     "id": "R26BK01650918-000",
@@ -28,8 +28,8 @@
     "dDay": 3,
     "bidType": "제한경쟁 (전자입찰)",
     "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01650918&bidPbancOrd=000",
-    "aiSummary": "국립현대미술관 기획전시 홍보를 위한 대형 현수막, 배너 및 실사출력물 제작·게첨 용역입니다.",
-    "aiTips": "대형 실사출력 고화질 구현 장비 보유 여부와 고소 작업 게첨 시의 안전관리 대책을 상세히 작성하세요."
+    "aiSummary": "국립현대미술관 기획전시 홍보를 위한 대형 현수막, 배너, 실사출력물 제작 및 게첨 용역입니다.",
+    "aiTips": "고화질 실사출력 장비 보유 여부와 함께 미술관 건물 외벽 및 실내 고소 게첨 시 안전관리 계획을 철저히 준비하세요."
   },
   {
     "id": "R26BK01650354-000",
@@ -44,8 +44,8 @@
     "dDay": 4,
     "bidType": "일반경쟁 (적격심사)",
     "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01650354&bidPbancOrd=000",
-    "aiSummary": "김천시 농업기술센터 대강당 내부 고화질 LED 전광판 제작 및 시공·설치 사업입니다.",
-    "aiTips": "강당 특성에 맞는 적절한 피치(Pixel Pitch) 사양 준수 및 A/S 신속 대응 방안을 명확히 제출하세요."
+    "aiSummary": "김천시 농업기술센터 대강당에 실내용 LED 전광판을 제작 및 설치하는 사업입니다.",
+    "aiTips": "실내 LED 모듈 사양과 관급자재 등록 여부, 시야각 및 해상도 요구조건을 사전에 철저히 검토하세요."
   },
   {
     "id": "R26BK01654853-000",
@@ -60,8 +60,8 @@
     "dDay": 6,
     "bidType": "제한경쟁 (중소기업자간 경쟁)",
     "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01654853&bidPbancOrd=000",
-    "aiSummary": "엑스코 전시장 내/외부 홍보용 LED 전광판 시스템 납품 및 설치 공사입니다.",
-    "aiTips": "전시장 환경을 고려한 높은 휘도 및 시야각을 갖춘 제품 제안과 유지보수 보증기간 어필이 핵심입니다."
+    "aiSummary": "대구 엑스코 내 주요 안내용 LED 전광판을 구매 및 설치하는 사업입니다.",
+    "aiTips": "전시시설 특성상 야간 또는 구역별 작업 가능 시간을 사전 확인하고 표출 컨트롤러 호환성을 점검하세요."
   },
   {
     "id": "R26BK01661955-000",
@@ -76,72 +76,8 @@
     "dDay": 6,
     "bidType": "일반경쟁 (전자입찰)",
     "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01661955&bidPbancOrd=000",
-    "aiSummary": "국회 관용 차량 및 이동형 홍보버스 전체에 대한 2026년도 홍보용 풀 랩핑 시공 용역입니다.",
-    "aiTips": "대형 버스 곡면 랩핑 시공 경험이 풍부한 전담 기술자 보유 현황과 원단 내후성 증빙을 준비하세요."
-  },
-  {
-    "id": "R26BK01663023-000",
-    "title": "김천 관광 팝업 홍보관 행사 대행 용역(협상에 의한 계약)",
-    "client": "경상북도 김천시",
-    "budget": 250000000,
-    "budgetText": "2억 5,000만원",
-    "location": "전국",
-    "startDate": "2026-08-03",
-    "endDate": "2026-08-30 18:00:00",
-    "dDay": 7,
-    "bidType": "일반경쟁",
-    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01663023&bidPbancOrd=000",
-    "category": "간판·조형물",
-    "aiSummary": "김천 관광 홍보를 위한 팝업 홍보관 공간 연출, 조형물 및 홍보 사인물 제작·설치 대행 사업입니다.",
-    "aiTips": "관람객 참여를 유도하는 독창적인 공간 연출 디자인 기안과 야외 구조물 안전성 확보 계획이 필요합니다."
-  },
-  {
-    "id": "R26BK01660421-000",
-    "title": "2026 지역경제 혁신 박람회 경상북도 통합 홍보관 조성 및 운영 용역",
-    "client": "재단법인 경상북도경제진흥원",
-    "budget": 107000000,
-    "budgetText": "1억 700만원",
-    "location": "전국",
-    "startDate": "2026-07-31",
-    "endDate": "2026-08-30 18:00:00",
-    "dDay": 7,
-    "bidType": "일반경쟁",
-    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01660421&bidPbancOrd=000",
-    "category": "간판·조형물",
-    "aiSummary": "2026 지역경제 혁신 박람회 내 경상북도 통합 홍보관 부스 연출, 조형물 설치 및 운영 대행 용역입니다.",
-    "aiTips": "전시 부스 디자인 및 조형물 시공 능력을 입증할 수 있는 유사 박람회 수행 실적 제출이 핵심입니다."
-  },
-  {
-    "id": "R26BK01661750-000",
-    "title": "2026 AI·BIO Lab-Startup Tech-Matching 고객검증 프로그램 운영업체 선정 입찰",
-    "client": "아주대학교 산학협력단",
-    "budget": 50000000,
-    "budgetText": "5,000만원",
-    "location": "전국",
-    "startDate": "2026-08-03",
-    "endDate": "2026-08-30 18:00:00",
-    "dDay": 7,
-    "bidType": "일반경쟁",
-    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01661750&bidPbancOrd=000",
-    "category": "인쇄·판촉",
-    "aiSummary": "AI·BIO 스타트업 검증 프로그램 진행을 위한 행사 홍보물, 책자 및 인쇄·판촉물 제작과 운영 용역입니다.",
-    "aiTips": "행사 관련 인쇄물 편집 디자인 품질과 납기 준수를 위한 자체 인쇄/출력 인프라를 강조하세요."
-  },
-  {
-    "id": "R26BK01660058-000",
-    "title": "AX스페이스센터 상담부스 구입 및 설치",
-    "client": "백석문화대학교 산학협력단",
-    "budget": 29920000,
-    "budgetText": "2,992만원",
-    "location": "전국",
-    "startDate": "2026-07-31",
-    "endDate": "2026-08-30 18:00:00",
-    "dDay": 7,
-    "bidType": "일반경쟁",
-    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01660058&bidPbancOrd=000",
-    "category": "간판·조형물",
-    "aiSummary": "백석문화대학교 AX스페이스센터 내 상담부스 구조물 및 안내 사인물 구매·설치 입찰입니다.",
-    "aiTips": "실내 공간에 맞춘 맞춤형 부스 제작 능력과 깔끔한 마감 시공 능력을 내세우는 것이 유리합니다."
+    "aiSummary": "국회사무처 관용 차량 및 이동형 홍보버스 대상 풀 랩핑 시공 용역입니다.",
+    "aiTips": "차량 전용 최고급 랩핑 원단 정품 사용 증명 및 버스 특수 곡면 랩핑 숙련 기사 인력 보유를 어필하세요."
   },
   {
     "id": "R26BK01648754-000",
@@ -156,7 +92,7 @@
     "dDay": 13,
     "bidType": "일반경쟁 (협상에의한계약)",
     "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01648754&bidPbancOrd=000",
-    "aiSummary": "전북대학교병원 종합 안내용 LED 채널간판 및 지주안내탑 등 종합 사인물 제작·설치 공사입니다.",
-    "aiTips": "옥외광고업 및 금속구조물 면허 확인이 필수이며, 야간 시인성이 뛰어난 LED 채널 시공 실적을 어필하세요."
+    "aiSummary": "전북대학교병원 종합 안내를 위한 LED 채널간판 및 지주안내탑을 제작·설치하는 사업입니다.",
+    "aiTips": "옥외광고업 등록 필수이며, 옥외 지주안내탑 시공을 위한 기초 콘크리트 내풍압 계산 및 구조 안전성을 검토하세요."
   }
 ]
