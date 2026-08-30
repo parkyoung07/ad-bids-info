@@ -293,27 +293,32 @@ export default function Chatbot() {
       {/* 1. 플로팅 챗봇 버튼 */}
       <div className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-50 flex items-center gap-3">
         {!isOpen && (
-          <div className="hidden sm:flex items-center gap-1.5 bg-slate-900/90 backdrop-blur text-white text-xs font-medium px-3.5 py-2 rounded-full shadow-lg border border-slate-700 animate-bounce">
-            <Sparkles className="w-3.5 h-3.5 text-yellow-400" />
-            <span>AI 입찰 상담 챗봇</span>
+          <div className="hidden sm:flex items-center gap-1.5 bg-slate-900/95 backdrop-blur-md text-white text-xs font-medium px-3.5 py-2 rounded-full shadow-xl border border-indigo-500/30 animate-bounce">
+            <span className="text-sm">🤖</span>
+            <span className="bg-gradient-to-r from-blue-400 to-indigo-300 bg-clip-text text-transparent font-semibold">
+              AI 입찰 도우미
+            </span>
           </div>
         )}
 
         <button
           onClick={() => setIsOpen(!isOpen)}
-          aria-label={isOpen ? "채팅창 닫기" : "입찰 도우미 챗봇 열기"}
-          className={`w-14 h-14 rounded-full flex items-center justify-center text-white shadow-2xl transition-all duration-300 transform active:scale-95 ${
+          aria-label={isOpen ? "채팅창 닫기" : "AI 입찰 도우미 챗봇 열기"}
+          className={`w-14 h-14 rounded-full flex items-center justify-center text-white shadow-2xl transition-all duration-300 transform active:scale-95 cursor-pointer ${
             isOpen
               ? "bg-slate-800 hover:bg-slate-700 rotate-90"
-              : "bg-slate-950 hover:bg-slate-900 ring-4 ring-blue-600/30 hover:ring-blue-600/50 hover:scale-105"
+              : "bg-gradient-to-tr from-blue-600 via-indigo-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 shadow-indigo-500/30 hover:shadow-indigo-500/50 hover:scale-110 ring-4 ring-indigo-500/20"
           }`}
         >
           {isOpen ? (
             <X className="w-6 h-6 text-slate-300" />
           ) : (
-            <div className="relative">
-              <FileText className="w-6 h-6 text-blue-400" />
-              <span className="absolute -top-1 -right-1.5 w-3 h-3 bg-blue-500 rounded-full ring-2 ring-slate-950 animate-pulse" />
+            <div className="relative flex items-center justify-center">
+              <Bot className="w-7 h-7 text-white drop-shadow-md" />
+              <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500 ring-2 ring-slate-950" />
+              </span>
             </div>
           )}
         </button>
@@ -335,13 +340,15 @@ export default function Chatbot() {
           <div className="flex items-center gap-3">
             <div
               className={`relative w-9 h-9 rounded-full flex items-center justify-center text-white shadow-inner ${
-                isHumanMode ? "bg-indigo-600" : "bg-blue-600"
+                isHumanMode
+                  ? "bg-indigo-600"
+                  : "bg-gradient-to-tr from-blue-600 to-indigo-600 ring-1 ring-blue-400/30"
               }`}
             >
               {isHumanMode ? (
                 <UserCheck className="w-5 h-5" />
               ) : (
-                <FileText className="w-5 h-5" />
+                <Bot className="w-5 h-5 text-white" />
               )}
               <span
                 className={`absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full ring-2 ring-slate-950 ${

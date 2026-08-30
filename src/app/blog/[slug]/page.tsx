@@ -113,19 +113,36 @@ export default async function BlogPostDetailPage({ params }: PageProps) {
               </span>
             </Link>
 
-            <nav className="flex items-center gap-2 sm:gap-3">
+            <nav className="flex items-center gap-1 sm:gap-1.5">
               <Link
                 href="/"
-                className="px-3 py-1.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                className="px-2 py-1.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
               >
                 입찰공고 목록
               </Link>
               <Link
-                href="/blog"
-                className="inline-flex items-center gap-1 text-xs sm:text-sm font-bold bg-blue-600 text-white px-3 py-1.5 rounded-xl shadow-md shadow-blue-600/25"
+                href="/calendar"
+                className="px-2 py-1.5 rounded-xl text-xs sm:text-sm font-semibold text-indigo-300 hover:text-indigo-200 hover:bg-slate-800 transition-all border border-indigo-500/30 bg-indigo-500/10"
               >
-                <span>트렌드 목록</span>
-                <ChevronRight className="w-3.5 h-3.5" />
+                📅 캘린더
+              </Link>
+              <Link
+                href="/prespec"
+                className="px-2 py-1.5 rounded-xl text-xs sm:text-sm font-semibold text-cyan-300 hover:text-cyan-200 hover:bg-slate-800 transition-all border border-cyan-500/30 bg-cyan-500/10"
+              >
+                🔔 발주 예고
+              </Link>
+              <Link
+                href="/results"
+                className="px-2 py-1.5 rounded-xl text-xs sm:text-sm font-semibold text-amber-400 hover:text-amber-300 hover:bg-slate-800 transition-all border border-amber-500/30 bg-amber-500/10"
+              >
+                🏆 낙찰 통계
+              </Link>
+              <Link
+                href="/blog"
+                className="inline-flex items-center gap-1 text-xs sm:text-sm font-bold bg-blue-600 text-white px-2 py-1.5 rounded-xl shadow-md shadow-blue-600/25"
+              >
+                옥외광고 트렌드
               </Link>
             </nav>
           </div>

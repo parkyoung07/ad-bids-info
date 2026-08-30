@@ -46,7 +46,7 @@ const pastStr = formatDateString(pastDate);
 
 console.log(`📅 검색 기간: ${pastStr} ~ ${todayStr}`);
 
-// 3. 확장 필터링 키워드 (옥외광고, 사인물, 전광판, 사이니지, 인쇄, 랩핑, 조형물 전 분야 포괄)
+// 3. 확장 필터링 키워드 (옥외광고, 사인물, 전광판, 사이니지, 인쇄, 랩핑, 조형물, 학교/교육, 온비드 매체권 전 분야 포괄)
 const TARGET_KEYWORDS = [
   '간판', '사인', '표찰', '현판', '현수막', '배너', '랩핑', '래핑',
   '안내판', '조형물', '실사출력', '인포메이션', '게시대', '가로등배너',
@@ -56,7 +56,15 @@ const TARGET_KEYWORDS = [
   '안내도', '도색', '차량도색', '차량스티커', '안내시설', '경관조명',
   '옥외', '안내시스템', '채널간판', '지주간판', '돌출간판', '아트월',
   '조명탑', '홍보탑', '홍보판', '전광판', '사이니지', '전자게시대',
-  '미디어월', '키오스크', 'LED전광판'
+  '미디어월', '키오스크', 'LED전광판',
+  // 학교 및 교육기관 특화 키워드
+  '교표', '교훈판', '학교간판', '교실표찰', '전자현수막', '졸업앨범',
+  '학교요람', '학교신문', '학습안내판', '강당전광판', '체육관전광판',
+  '교내안내판', '교문명판', '교실안내도', '학사안내도', '학교홍보',
+  // 옥외광고 매체권·임대·사용수익허가 특화 키워드
+  '매체권', '사용수익허가', '광고사업자', '광고대행', '매체운영',
+  '지하철광고', '쉘터광고', '가로등현수기', '게시대위탁', '야립간판',
+  '전광판임대', '광고물관리'
 ];
 
 // 무관한 공고 제외 블랙리스트 키워드
@@ -123,7 +131,14 @@ function calculateDDay(endDateStr) {
 }
 
 // 기본 카테고리 매핑 규칙
-function fallbackCategory(title) {
+function fallbackCategory(title, client = '') {
+  const fullText = `${title} ${client}`;
+  if (/매체권|사용수익허가|광고사업자|광고대행|매체운영|지하철광고|쉘터광고|가로등현수기|게시대위탁|야립간판|전광판임대|광고물관리/.test(fullText)) {
+    return '매체권·임대';
+  }
+  if (/학교|초등|중학|고등|대학|교육청|교육지원청|유치원|교표|교훈|졸업앨범|학교요람|학습안내/.test(fullText)) {
+    return '학교·교육';
+  }
   if (/사이니지|전광판|전자게시대|미디어월|키오스크/.test(title)) return '디지털사이니지·전광판';
   if (/간판|조형물|채널|지주|돌출|LED|조명|아트월|경관/.test(title)) return '간판·조형물';
   if (/표찰|현판|호실|안내판|안내도|인포메이션|아크릴|안내시설|게시판|사인시스템/.test(title)) return '실내표찰·현판';
@@ -144,7 +159,7 @@ async function batchAnalyzeChunk(bidsChunk) {
     budget: b.budgetText
   }));
 
-  const prompt = `당신은 옥외광고·사인물·전광판·인쇄 입찰 전문 수석 분석가입니다. 아래 공고 목록을 보고 각 공고의 카테고리(간판·조형물, 디지털사이니지·전광판, 실내표찰·현판, 차량랩핑·특수, 현수막·배너, 인쇄·판촉 중 택1), 사업자용 1줄 요약(aiSummary), 참가 팁(aiTips)을 JSON 배열로 작성해주세요.
+  const prompt = `당신은 옥외광고·사인물·전광판·인쇄·매체권입찰 전문 수석 분석가입니다. 아래 공고 목록을 보고 각 공고의 카테고리(간판·조형물, 디지털사이니지·전광판, 실내표찰·현판, 매체권·임대, 학교·교육, 차량랩핑·특수, 현수막·배너, 인쇄·판촉 중 택1), 사업자용 1줄 요약(aiSummary), 참가 팁(aiTips)을 JSON 배열로 작성해주세요.
 공고 목록:
 ${JSON.stringify(promptInput)}
 
@@ -196,7 +211,67 @@ async function batchAnalyzeWithGemini(bids) {
   return allResults;
 }
 
-// 5. 메인 데이터 수집 실행 함수
+// 5. 캠코 온비드(OnBid) 옥외광고 매체권 입찰 공고 수집 함수
+async function fetchOnbidBids() {
+  if (!PUBLIC_DATA_API_KEY) return [];
+  const encKey = encodeURIComponent(PUBLIC_DATA_API_KEY);
+  const onbidBids = [];
+
+  const onbidEndpoints = [
+    `http://apis.data.go.kr/B552584/Onbid/UsfInsttPblsalInfoServc/getUsfInsttPblsalInfoList?serviceKey=${encKey}&numOfRows=100&pageNo=1&_type=json`,
+    `http://apis.data.go.kr/1160100/service/KamcoPblsalThingInfoServc/getKamcoPblsalThingInfoList?serviceKey=${encKey}&numOfRows=100&pageNo=1&_type=json`
+  ];
+
+  for (const url of onbidEndpoints) {
+    try {
+      const res = await fetch(url, { signal: AbortSignal.timeout(5000) });
+      if (!res.ok) continue;
+      const data = await res.json();
+      const items = data.response?.body?.items?.item || data.response?.body?.items || [];
+      const itemArr = Array.isArray(items) ? items : [items];
+
+      for (const item of itemArr) {
+        if (!item) continue;
+        const title = item.CLTR_NM || item.PBCT_CLTR_NM || item.bidNtceNm || '';
+        const client = item.ORG_NM || item.DPSL_INST_NM || '온비드(한국자산관리공사)';
+        if (
+          TARGET_KEYWORDS.some(kw => title.includes(kw)) &&
+          !EXCLUDE_KEYWORDS.some(ex => title.includes(ex))
+        ) {
+          const endDate = item.PBCT_CLSE_DTM || item.PBCT_TO_DTM || `${todayStr.substring(0,4)}-${todayStr.substring(4,6)}-${todayStr.substring(6,8)} 18:00:00`;
+          const dDay = calculateDDay(endDate);
+          if (dDay < 0) continue;
+
+          const budgetNum = Number(item.MIN_BID_PRC || item.APPRSL_AMT || 0);
+          const cleanId = `ONBID-${item.PLNM_NO || item.CLTR_NO || item.PBCT_NO || Math.floor(Math.random() * 1000000)}`;
+
+          onbidBids.push({
+            id: cleanId,
+            title: title,
+            client: client,
+            budget: budgetNum,
+            budgetText: formatKoreanCurrency(budgetNum),
+            location: extractLocation(client, title),
+            startDate: item.PBCT_BEGN_DTM ? item.PBCT_BEGN_DTM.substring(0, 10) : todayStr,
+            endDate: endDate,
+            dDay: dDay,
+            bidType: '온비드 공매/임대 입찰',
+            linkUrl: 'https://www.onbid.co.kr'
+          });
+        }
+      }
+    } catch (e) {
+      // 시스템 연동 대기 중이거나 예외 발생 시 안전하게 건너뜀
+    }
+  }
+
+  if (onbidBids.length > 0) {
+    console.log(`📡 온비드(OnBid) 광고 매체권 공고 ${onbidBids.length}건 수집 완료!`);
+  }
+  return onbidBids;
+}
+
+// 6. 메인 데이터 수집 실행 함수
 async function fetchLiveBids() {
   const encKey = encodeURIComponent(PUBLIC_DATA_API_KEY);
   const ops = [
@@ -255,6 +330,11 @@ async function fetchLiveBids() {
         }
       }
     }
+
+    // 온비드 공고 추가 수집
+    console.log(`📡 온비드(OnBid) 공공 매체권 공고 수집 중...`);
+    const onbidItems = await fetchOnbidBids();
+    rawMatchedBids.push(...onbidItems);
   }
 
   // 중복 제거 및 마감 지난 공고 엄격 필터링
@@ -303,7 +383,7 @@ async function fetchLiveBids() {
     const ai = aiResults[b.id];
     return {
       ...b,
-      category: ai?.category || b.category || fallbackCategory(b.title),
+      category: ai?.category || b.category || fallbackCategory(b.title, b.client),
       aiSummary: ai?.aiSummary || b.aiSummary || `${b.client}에서 발주한 ${b.title} 공고입니다. 나라장터 전자입찰을 통해 참여 가능합니다.`,
       aiTips: ai?.aiTips || b.aiTips || '입찰 참가 전 과업지시서 및 옥외광고사업자 등록 요건을 확인하세요.'
     };

@@ -46,16 +46,34 @@ export default function BlogListPage() {
             </Link>
 
             {/* 네비게이션 메뉴 탭 */}
-            <nav className="flex items-center gap-2 sm:gap-3">
+            <nav className="flex items-center gap-1 sm:gap-1.5">
               <Link
                 href="/"
-                className="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-400 hover:text-white hover:bg-slate-800 transition-all"
+                className="px-2.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-400 hover:text-white hover:bg-slate-800 transition-all"
               >
                 입찰공고 목록
               </Link>
               <Link
+                href="/calendar"
+                className="px-2.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold text-indigo-300 hover:text-indigo-200 hover:bg-slate-800 transition-all border border-indigo-500/30 bg-indigo-500/10"
+              >
+                📅 캘린더
+              </Link>
+              <Link
+                href="/prespec"
+                className="px-2.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold text-cyan-300 hover:text-cyan-200 hover:bg-slate-800 transition-all border border-cyan-500/30 bg-cyan-500/10"
+              >
+                🔔 발주 예고
+              </Link>
+              <Link
+                href="/results"
+                className="px-2.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold text-amber-400 hover:text-amber-300 hover:bg-slate-800 transition-all border border-amber-500/30 bg-amber-500/10"
+              >
+                🏆 낙찰 통계
+              </Link>
+              <Link
                 href="/blog"
-                className="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-blue-600 text-white shadow-md shadow-blue-600/30 ring-1 ring-blue-400"
+                className="px-2.5 py-1.5 rounded-xl text-xs sm:text-sm font-bold bg-blue-600 text-white shadow-md shadow-blue-600/30 ring-1 ring-blue-400"
               >
                 옥외광고 트렌드
               </Link>

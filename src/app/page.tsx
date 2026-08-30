@@ -83,7 +83,9 @@ const CATEGORIES = [
   "전체",
   "간판·조형물",
   "디지털사이니지·전광판",
+  "매체권·임대",
   "실내표찰·현판",
+  "학교·교육",
   "차량랩핑·특수",
   "현수막·배너",
   "인쇄·판촉",
@@ -111,10 +113,13 @@ const LOCATIONS = [
 ];
 
 function getG2BLink(linkUrl?: string, id?: string) {
-  if (linkUrl && linkUrl.startsWith("https://www.g2b.go.kr/link/PNPE027_01/single")) {
+  if (linkUrl && (linkUrl.startsWith("https://www.g2b.go.kr") || linkUrl.startsWith("https://www.onbid.co.kr"))) {
     return linkUrl;
   }
   if (id) {
+    if (id.startsWith("ONBID")) {
+      return "https://www.onbid.co.kr";
+    }
     const cleanId = id.split("-")[0];
     const cleanOrd = id.split("-")[1] || "000";
     return `https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=${cleanId}&bidPbancOrd=${cleanOrd}`;
@@ -157,6 +162,20 @@ export default function HomePage() {
               /디지털|사이니지|전광판|전자게시대|미디어월|키오스크/.test(b.title)
             );
           }
+          if (cat === "매체권·임대") {
+            return (
+              b.category.includes("매체") ||
+              b.category.includes("임대") ||
+              /매체권|사용수익허가|광고사업자|광고대행|매체운영|지하철광고|쉘터광고|가로등현수기|게시대위탁|야립간판|전광판임대|광고물관리/.test(`${b.title} ${b.client}`)
+            );
+          }
+          if (cat === "학교·교육") {
+            return (
+              b.category.includes("학교") ||
+              b.category.includes("교육") ||
+              /학교|초등|중학|고등|대학|교육청|교육지원청|유치원|교표|교훈|졸업앨범|학교요람|학습안내/.test(`${b.title} ${b.client}`)
+            );
+          }
           return b.category.includes(cat) || cat.includes(b.category);
         }).length;
       }
@@ -191,6 +210,16 @@ export default function HomePage() {
           bid.category.includes("전광판") ||
           bid.category.includes("사이니지") ||
           /디지털|사이니지|전광판|전자게시대|미디어월|키오스크/.test(bid.title);
+      } else if (selectedCategory === "매체권·임대") {
+        matchCategory =
+          bid.category.includes("매체") ||
+          bid.category.includes("임대") ||
+          /매체권|사용수익허가|광고사업자|광고대행|매체운영|지하철광고|쉘터광고|가로등현수기|게시대위탁|야립간판|전광판임대|광고물관리/.test(`${bid.title} ${bid.client}`);
+      } else if (selectedCategory === "학교·교육") {
+        matchCategory =
+          bid.category.includes("학교") ||
+          bid.category.includes("교육") ||
+          /학교|초등|중학|고등|대학|교육청|교육지원청|유치원|교표|교훈|졸업앨범|학교요람|학습안내/.test(`${bid.title} ${bid.client}`);
       } else if (selectedCategory !== "전체") {
         matchCategory =
           bid.category.includes(selectedCategory) ||
@@ -276,6 +305,24 @@ export default function HomePage() {
                   className="px-2.5 py-1 rounded-lg text-xs font-bold bg-blue-600 text-white shadow-md shadow-blue-600/30 ring-1 ring-blue-400"
                 >
                   입찰공고 목록
+                </Link>
+                <Link
+                  href="/calendar"
+                  className="px-2.5 py-1 rounded-lg text-xs font-semibold text-indigo-300 hover:text-indigo-200 hover:bg-slate-800 transition-all border border-indigo-500/30 bg-indigo-500/10"
+                >
+                  📅 캘린더
+                </Link>
+                <Link
+                  href="/prespec"
+                  className="px-2.5 py-1 rounded-lg text-xs font-semibold text-cyan-300 hover:text-cyan-200 hover:bg-slate-800 transition-all border border-cyan-500/30 bg-cyan-500/10"
+                >
+                  🔔 발주 예고
+                </Link>
+                <Link
+                  href="/results"
+                  className="px-2.5 py-1 rounded-lg text-xs font-semibold text-amber-400 hover:text-amber-300 hover:bg-slate-800 transition-all border border-amber-500/30 bg-amber-500/10"
+                >
+                  🏆 낙찰 통계
                 </Link>
                 <Link
                   href="/blog"
@@ -556,7 +603,19 @@ export default function HomePage() {
                     <div className="flex flex-wrap items-center justify-between gap-1.5 mb-2.5">
                       <div className="flex flex-wrap items-center gap-1.5">
                         {/* 카테고리 뱃지 */}
-                        <span className="text-[11px] font-bold px-2 py-0.5 rounded-md bg-blue-500/15 text-blue-300 border border-blue-400/20">
+                        <span
+                          className={`text-[11px] font-bold px-2 py-0.5 rounded-md border ${
+                            bid.category.includes("매체") || bid.category.includes("임대")
+                              ? "bg-amber-500/15 text-amber-300 border-amber-400/20"
+                              : bid.category.includes("학교") || bid.category.includes("교육")
+                              ? "bg-emerald-500/15 text-emerald-300 border-emerald-400/20"
+                              : bid.category.includes("디지털") || bid.category.includes("전광판")
+                              ? "bg-purple-500/15 text-purple-300 border-purple-400/20"
+                              : bid.category.includes("차량") || bid.category.includes("랩핑")
+                              ? "bg-cyan-500/15 text-cyan-300 border-cyan-400/20"
+                              : "bg-blue-500/15 text-blue-300 border-blue-400/20"
+                          }`}
+                        >
                           {bid.category}
                         </span>
 
