@@ -24,9 +24,12 @@ import {
   ShieldAlert,
   Info,
   Image as ImageIcon,
+  Bell,
+  MessageCircle,
 } from "lucide-react";
 import bidsData from "../../public/data/bids.json";
 import metaData from "../../public/data/meta.json";
+import SubscribeModal from "@/components/SubscribeModal";
 
 export interface BidItem {
   id: string;
@@ -133,6 +136,7 @@ export default function HomePage() {
   const [onlyUrgent, setOnlyUrgent] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<"dDay" | "budgetDesc" | "budgetAsc" | "newest">("dDay");
+  const [isSubscribeModalOpen, setIsSubscribeModalOpen] = useState(false);
 
   // 3일마다 순차적으로 자동 변경되는 배경 인덱스 (기본값: 0)
   const [currentBgIndex, setCurrentBgIndex] = useState(0);
@@ -402,6 +406,17 @@ export default function HomePage() {
                 </button>
               )}
             </div>
+          </div>
+
+          {/* 카카오톡 맞춤 알림 무료 신청 퀵 버튼 */}
+          <div className="pt-1 flex justify-center">
+            <button
+              onClick={() => setIsSubscribeModalOpen(true)}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 via-orange-500 to-yellow-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-black text-xs sm:text-sm shadow-lg shadow-amber-500/25 border border-amber-300/40 transition-all cursor-pointer transform hover:scale-105 active:scale-95"
+            >
+              <MessageCircle className="w-4 h-4 fill-slate-950" />
+              <span>💬 매일 아침 내 지역 맞춤 카톡 알림 무료 신청</span>
+            </button>
           </div>
 
           {/* 통계 요약 바 (서체 20% 축소: text-[11px]) */}
@@ -739,6 +754,12 @@ export default function HomePage() {
           본 서비스는 옥외광고 사업자를 위한 공공입찰 편의 서비스이며, 실제 입찰 전 반드시 나라장터 공식 공고문 및 과업지시서를 확인하시기 바랍니다.
         </p>
       </footer>
+
+      {/* 카카오톡 맞춤 알림 신청 모달 */}
+      <SubscribeModal
+        isOpen={isSubscribeModalOpen}
+        onClose={() => setIsSubscribeModalOpen(false)}
+      />
     </div>
   );
 }

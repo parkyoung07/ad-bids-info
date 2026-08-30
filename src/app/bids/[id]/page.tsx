@@ -20,6 +20,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import bidsData from "../../../../public/data/bids.json";
+import BidDetailActions from "@/components/BidDetailActions";
 
 export interface BidItem {
   id: string;
@@ -359,15 +360,11 @@ export default async function BidDetailPage({ params }: PageProps) {
             <span>← 목록으로 돌아가기</span>
           </Link>
 
-          <a
-            href={directG2BUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-sm font-bold bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/30 transition-all cursor-pointer"
-          >
-            <span>나라장터 공고 원문 바로가기</span>
-            <ExternalLink className="w-4 h-4" />
-          </a>
+          <BidDetailActions
+            bidTitle={bid.title}
+            bidCategory={bid.category}
+            linkUrl={directG2BUrl}
+          />
         </div>
       </main>
 
