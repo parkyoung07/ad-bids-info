@@ -81,6 +81,7 @@ export default function Chatbot() {
           headers: {
             "Content-Type": "application/json",
           },
+          cache: "no-store",
         });
 
         if (!response.ok) return;
@@ -90,9 +91,7 @@ export default function Chatbot() {
           ? data
           : Array.isArray(data?.messages)
             ? data.messages
-            : data?.message
-              ? [data.message]
-              : [];
+            : [];
 
         if (incomingMessages.length > 0) {
           setMessages((prev) => {
@@ -102,13 +101,19 @@ export default function Chatbot() {
                 (m: any) =>
                   m &&
                   m.sender === "admin" &&
-                  !existingIds.has(m.id || `admin-${m.text}-${m.time}`)
+                  !existingIds.has(m.id || `admin-${m.text}-${m.timestamp}`)
               )
               .map((m: any) => ({
                 id: m.id || `admin-${Date.now()}-${Math.random()}`,
                 sender: "admin" as const,
                 text: m.text || m.message || "",
-                time: m.time || getCurrentTime(),
+                time: m.timestamp
+                  ? new Date(m.timestamp).toLocaleTimeString("ko-KR", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      hour12: true,
+                    })
+                  : getCurrentTime(),
               }));
 
             if (newAdminMsgs.length === 0) return prev;

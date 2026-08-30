@@ -16,38 +16,29 @@ export async function onRequestGet(context) {
     }
 
     const url = new URL(request.url);
-    const senderFilter = url.searchParams.get("sender"); // e.g. "admin" or "user"
+    const senderFilter = url.searchParams.get("sender");
 
-    // 1. KV에서 msg_ 로 시작하는 모든 키 목록 조회 (최대 1000개)
-    const listResult = await env.CHAT_KV.list({ prefix: "msg_", limit: 100 });
-    const keys = listResult.keys || [];
-
-    // 2. 각 키의 값을 비동기로 읽기
-    const messagePromises = keys.map(async (k) => {
-      const raw = await env.CHAT_KV.get(k.name);
-      if (!raw) return null;
-      try {
-        const parsed = JSON.parse(raw);
-        return {
-          id: parsed.id || k.name,
-          message: parsed.message || "",
-          text: parsed.message || "",
-          sender: parsed.sender || "user",
-          timestamp: parsed.timestamp || 0,
-        };
-      } catch {
-        return null;
+    // 1. chat_history 키에서 즉시 읽기 (지연 없음)
+    let messages = [];
+    try {
+      const raw = await env.CHAT_KV.get("chat_history");
+      if (raw) {
+        messages = JSON.parse(raw);
       }
-    });
+    } catch {
+      messages = [];
+    }
 
-    const results = await Promise.all(messagePromises);
+    // 2. text 필드 정규화 및 정렬
+    messages = (Array.isArray(messages) ? messages : []).map((m) => ({
+      id: m.id || `msg_${m.timestamp}`,
+      message: m.message || m.text || "",
+      text: m.message || m.text || "",
+      sender: m.sender || "user",
+      timestamp: m.timestamp || 0,
+    }));
 
-    // 3. 유효한 메시지만 필터링하고 타임스탬프 기준 오름차순(과거->최신) 정렬
-    let messages = results
-      .filter((m) => m !== null)
-      .sort((a, b) => a.timestamp - b.timestamp);
-
-    // 4. sender 파라미터가 있으면 필터링
+    // 3. 발신자 필터링 (있을 경우)
     if (senderFilter) {
       messages = messages.filter((m) => m.sender === senderFilter);
     }
