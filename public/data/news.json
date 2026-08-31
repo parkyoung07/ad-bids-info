@@ -1,0 +1,75 @@
+{
+  "updatedAt": "2026-08-31T11:15:43.106Z",
+  "totalCount": 6,
+  "isLiveApi": false,
+  "categories": [
+    "전체",
+    "옥외광고·간판",
+    "디지털사이니지",
+    "LED전광판",
+    "지자체·공공디자인",
+    "입찰·정책"
+  ],
+  "articles": [
+    {
+      "id": "news-1",
+      "title": "행안부, 2026 옥외광고물 자유표시구역 추가 지정… 디지털 미디어아트 산업 급성장",
+      "link": "https://search.naver.com/search.naver?where=news&query=옥외광고+자유표시구역",
+      "originallink": "https://www.yna.co.kr",
+      "press": "연합뉴스",
+      "pubDate": "2026-08-31 09:30",
+      "category": "지자체·공공디자인",
+      "description": "행정안전부가 전국 주요 광역시 3곳을 제3차 옥외광고물 자유표시구역으로 신규 지정하고 초대형 3D 아나몰픽 LED 미디어월 구축에 총 1,200억 원 규모의 민관 투자를 유치한다고 밝혔다."
+    },
+    {
+      "id": "news-2",
+      "title": "전국 지자체, 노후 현수막 게시대 100% '스마트 LED 전자게시대'로 전면 교체 발주 확산",
+      "link": "https://search.naver.com/search.naver?where=news&query=스마트+전자게시대+입찰",
+      "originallink": "https://www.etnews.com",
+      "press": "전자신문",
+      "pubDate": "2026-08-31 08:45",
+      "category": "LED전광판",
+      "description": "불법 현수막 난립을 막고 도시 미관을 개선하기 위해 전국 시·군·구가 하반기 조달청 나라장터를 통해 스마트 전자게시대 및 초고화질 옥외 LED 전광판 제작·설치 입찰을 대거 공고하고 있다."
+    },
+    {
+      "id": "news-3",
+      "title": "2026 공공 사인물 가이드라인 개정… 시각장애인용 점자 및 배리어프리(BF) 호실표찰 의무화",
+      "link": "https://search.naver.com/search.naver?where=news&query=배리어프리+사인물+공공디자인",
+      "originallink": "https://www.sedaily.com",
+      "press": "서울경제",
+      "pubDate": "2026-08-30 16:20",
+      "category": "옥외광고·간판",
+      "description": "국가 공공기관 및 신축 관공서의 실내외 안내 표찰에 유니버설 디자인 및 점자 규격 적용이 의무화됨에 따라 아크릴·스텐레스 현판 및 호실표찰 직접생산 인증 기업들의 수주 기회가 확대된다."
+    },
+    {
+      "id": "news-4",
+      "title": "서울시·수도권 주요 랜드마크, 투명 LED 디스플레이 및 미디어 파사드 시공 잇따라",
+      "link": "https://search.naver.com/search.naver?where=news&query=투명LED+미디어파사드",
+      "originallink": "https://www.edaily.co.kr",
+      "press": "이데일리",
+      "pubDate": "2026-08-30 14:10",
+      "category": "디지털사이니지",
+      "description": "건물 외벽의 개방감을 유지하면서도 야간에 화려한 영상 콘텐츠를 송출할 수 있는 투명 LED 필름 및 글래스 사이니지 기술이 대형 빌딩 리모델링 현장에서 각광받고 있다."
+    },
+    {
+      "id": "news-5",
+      "title": "조달청, 옥외광고·간판 분야 '중소기업자간 경쟁제품' 직접생산 실태조사 강화 발표",
+      "link": "https://search.naver.com/search.naver?where=news&query=조달청+옥외광고+직접생산확인",
+      "originallink": "https://www.hankyung.com",
+      "press": "한국경제",
+      "pubDate": "2026-08-29 11:30",
+      "category": "입찰·정책",
+      "description": "공공입찰 불법 하도급을 근절하고 건전한 옥외광고 산업 생태계를 구축하기 위해 금속제 간판 및 안내판 직접생산확인증명서 보유 업체를 대상으로 제조 시설 및 인력 실사를 집중 실시한다."
+    },
+    {
+      "id": "news-6",
+      "title": "관공서 친환경 버스·특수차량 광고 랩핑 시공 발주 증가… 고내구성 필름 수요 급증",
+      "link": "https://search.naver.com/search.naver?where=news&query=차량광고+랩핑+시공",
+      "originallink": "https://www.newsis.com",
+      "press": "뉴시스",
+      "pubDate": "2026-08-28 15:50",
+      "category": "옥외광고·간판",
+      "description": "지자체 홍보용 전기버스 랩핑 및 관용 특수차량 실사출력 시공 공고가 잇따르면서 자외선 차단 및 친환경 수성 잉크 기반의 차량 전용 랩핑 필름 시공 기술 경쟁이 치열해지고 있다."
+    }
+  ]
+}

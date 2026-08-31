@@ -5,9 +5,10 @@
   "scripts": {
     "dev": "next dev",
     "fetch-data": "node scripts/fetch-bids.mjs",
+    "fetch-news": "node scripts/fetch-news.mjs",
     "generate-post": "node scripts/generate-post.js",
-    "prebuild": "node scripts/build-search-index.js",
-    "build": "node scripts/fetch-bids.mjs && next build",
+    "prebuild": "node scripts/fetch-news.mjs && node scripts/build-search-index.js",
+    "build": "node scripts/fetch-news.mjs && node scripts/fetch-bids.mjs && next build",
     "start": "next start",
     "lint": "eslint"
   },
