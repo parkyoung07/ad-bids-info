@@ -8,8 +8,11 @@ on:
       - 'src/content/posts/**'
       - 'public/data/**'
   schedule:
-    # 매일 아침 7시 KST (UTC 22:00)
-    - cron: '0 22 * * *'
+    # 매일 3회 자동 업데이트 (한국 시간 기준):
+    # - 오전 07:00 KST (UTC 22:00)
+    # - 낮 12:00 KST (UTC 03:00)
+    # - 오후 06:00 KST (UTC 09:00)
+    - cron: '0 22,3,9 * * *'
   workflow_dispatch:
 
 jobs:
