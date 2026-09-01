@@ -350,6 +350,12 @@ export default function HomePage() {
                   💰 투찰계산기
                 </Link>
                 <Link
+                  href="/spec-xray"
+                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-semibold text-cyan-300 hover:text-cyan-200 hover:bg-slate-800 transition-all border border-cyan-500/30 bg-cyan-500/10"
+                >
+                  🔍 시방서 엑스레이
+                </Link>
+                <Link
                   href="/partners"
                   className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-semibold text-cyan-300 hover:text-cyan-200 hover:bg-slate-800 transition-all border border-cyan-500/30 bg-cyan-500/10"
                 >
