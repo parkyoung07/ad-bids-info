@@ -19,10 +19,12 @@ import {
   Image as ImageIcon,
   MessageCircle,
   GraduationCap,
+  Cpu,
 } from "lucide-react";
 import bidsData from "../../public/data/bids.json";
 import metaData from "../../public/data/meta.json";
 import SubscribeModal from "@/components/SubscribeModal";
+import AiSpecXrayModal from "@/components/AiSpecXrayModal";
 
 export interface BidCheckList {
   licenseRequired?: string;
@@ -141,6 +143,7 @@ export default function HomePage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<"dDay" | "budgetDesc" | "budgetAsc" | "newest">("dDay");
   const [isSubscribeModalOpen, setIsSubscribeModalOpen] = useState(false);
+  const [selectedBidForXray, setSelectedBidForXray] = useState<BidItem | null>(null);
 
   // 3일마다 순차적으로 자동 변경되는 배경 인덱스
   const [currentBgIndex, setCurrentBgIndex] = useState(() => {
@@ -799,13 +802,21 @@ export default function HomePage() {
                     </span>
 
                     <div className="flex items-center gap-1.5">
+                      <button
+                        onClick={() => setSelectedBidForXray(bid)}
+                        className="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-md bg-cyan-600/20 hover:bg-cyan-600/30 text-cyan-300 border border-cyan-500/40 transition-all cursor-pointer"
+                      >
+                        <Cpu className="w-3 h-3 text-cyan-300" />
+                        <span>시방서 엑스레이</span>
+                      </button>
+
                       <a
                         href={getG2BLink(bid.linkUrl, bid.id)}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 transition-colors"
                       >
-                        <span>나라장터 원문</span>
+                        <span>원문 공고</span>
                         <ExternalLink className="w-2.5 h-2.5" />
                       </a>
 
@@ -841,6 +852,15 @@ export default function HomePage() {
         isOpen={isSubscribeModalOpen}
         onClose={() => setIsSubscribeModalOpen(false)}
       />
+
+      {/* AI 시방서 엑스레이 모달 */}
+      {selectedBidForXray && (
+        <AiSpecXrayModal
+          isOpen={!!selectedBidForXray}
+          onClose={() => setSelectedBidForXray(null)}
+          bid={selectedBidForXray}
+        />
+      )}
     </div>
   );
 }
