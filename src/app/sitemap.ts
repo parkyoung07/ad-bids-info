@@ -5,7 +5,7 @@ import bidsData from "../../public/data/bids.json";
 export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://ad-bids-info.pages.dev";
+  const baseUrl = "https://signbidai.com";
   const now = new Date();
 
   // 1. 기본 고정 페이지

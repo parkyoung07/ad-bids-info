@@ -3,9 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import {
   X,
-  FileText,
   RotateCcw,
-  Sparkles,
   ChevronDown,
   Send,
   Loader2,
@@ -22,9 +20,27 @@ interface Message {
   time: string;
 }
 
+interface AdminRawMessage {
+  id?: string;
+  sender?: string;
+  text?: string;
+  message?: string;
+  timestamp?: string;
+}
+
+const createMsgId = (prefix: string) =>
+  `${prefix}-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
+
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>(() => [
+    {
+      id: "welcome-msg",
+      sender: "bot",
+      text: chatData.welcomeMessage,
+      time: "오전 09:00",
+    },
+  ]);
   const [inputValue, setInputValue] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [isHumanMode, setIsHumanMode] = useState(false); // 상담원 대기 모드 여부
@@ -39,20 +55,6 @@ export default function Chatbot() {
       hour12: true,
     });
   };
-
-  // 초기 웰컴 메시지 설정
-  useEffect(() => {
-    if (messages.length === 0) {
-      setMessages([
-        {
-          id: "welcome-msg",
-          sender: "bot",
-          text: chatData.welcomeMessage,
-          time: getCurrentTime(),
-        },
-      ]);
-    }
-  }, [messages.length]);
 
   // 메시지 추가 시 스크롤 자동 이동
   useEffect(() => {
@@ -96,15 +98,15 @@ export default function Chatbot() {
         if (incomingMessages.length > 0) {
           setMessages((prev) => {
             const existingIds = new Set(prev.map((m) => m.id));
-            const newAdminMsgs = incomingMessages
+            const newAdminMsgs = (incomingMessages as AdminRawMessage[])
               .filter(
-                (m: any) =>
+                (m) =>
                   m &&
                   m.sender === "admin" &&
                   !existingIds.has(m.id || `admin-${m.text}-${m.timestamp}`)
               )
-              .map((m: any) => ({
-                id: m.id || `admin-${Date.now()}-${Math.random()}`,
+              .map((m, idx) => ({
+                id: m.id || `admin-${m.timestamp || idx}-${idx}`,
                 sender: "admin" as const,
                 text: m.text || m.message || "",
                 time: m.timestamp
@@ -135,7 +137,7 @@ export default function Chatbot() {
     setIsHumanMode(false);
     setMessages([
       {
-        id: `welcome-${Date.now()}`,
+        id: createMsgId("welcome"),
         sender: "bot",
         text: chatData.welcomeMessage,
         time: getCurrentTime(),
@@ -149,7 +151,7 @@ export default function Chatbot() {
     setMessages((prev) => [
       ...prev,
       {
-        id: `human-mode-notice-${Date.now()}`,
+        id: createMsgId("human-mode"),
         sender: "bot",
         text: "👨‍💼 **입찰 담당자(상담원) 문의 모드**로 전환되었습니다.\n궁금하신 입찰 건이나 요구사항을 입력해 주시면 담당자가 실시간으로 확인 후 답변해 드립니다.",
         time: getCurrentTime(),
@@ -166,7 +168,7 @@ export default function Chatbot() {
     setMessages((prev) => [
       ...prev,
       {
-        id: `ai-mode-notice-${Date.now()}`,
+        id: createMsgId("ai-mode"),
         sender: "bot",
         text: "🤖 **AI 입찰 도우미 모드**로 전환되었습니다. 무엇이든 질문해 주세요!",
         time: getCurrentTime(),
@@ -182,7 +184,7 @@ export default function Chatbot() {
     const newMessages: Message[] = [
       ...messages,
       {
-        id: `user-${Date.now()}`,
+        id: createMsgId("user"),
         sender: "user",
         text: question,
         time: userTime,
@@ -196,7 +198,7 @@ export default function Chatbot() {
       setMessages((prev) => [
         ...prev,
         {
-          id: `bot-${Date.now()}`,
+          id: createMsgId("bot"),
           sender: "bot",
           text: answer,
           time: getCurrentTime(),
@@ -214,7 +216,7 @@ export default function Chatbot() {
 
     const userTime = getCurrentTime();
     const userMsg: Message = {
-      id: `user-${Date.now()}`,
+      id: createMsgId("user"),
       sender: "user",
       text: trimmed,
       time: userTime,

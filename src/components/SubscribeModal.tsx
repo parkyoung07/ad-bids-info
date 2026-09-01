@@ -9,9 +9,7 @@ import {
   Sparkles,
   Phone,
   Mail,
-  ShieldCheck,
   MessageCircle,
-  Clock,
   Building2,
 } from "lucide-react";
 

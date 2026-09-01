@@ -101,69 +101,89 @@ export default function NewsPage() {
     <div className="flex flex-col min-h-screen bg-slate-950 text-slate-100 selection:bg-emerald-500 selection:text-white">
       {/* 상단 네비게이션 헤더 */}
       <header className="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 shadow-lg shadow-black/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 sm:h-20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-14 sm:h-16">
             {/* 로고 */}
-            <Link href="/" className="flex items-center space-x-3.5 group">
-              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center shadow-lg shadow-blue-500/25 ring-1 ring-white/20 group-hover:scale-105 transition-transform">
-                <Layers className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+            <Link href="/" className="flex items-center space-x-2.5 sm:space-x-3 group shrink-0">
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center shadow-md shadow-blue-500/25 ring-1 ring-white/20 group-hover:scale-105 transition-transform shrink-0">
+                <Layers className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
               </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="text-lg sm:text-xl font-black tracking-tight text-white group-hover:text-blue-400 transition-colors">
+              <div className="whitespace-nowrap">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-base sm:text-lg font-bold tracking-tight text-white group-hover:text-blue-400 transition-colors">
                     옥외광고 입찰 알리미
                   </span>
-                  <span className="hidden md:inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                    <Radio className="w-3 h-3 animate-pulse text-emerald-400" />
+                  <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                    <Radio className="w-2.5 h-2.5 animate-pulse text-emerald-400" />
                     LIVE 뉴스
                   </span>
                 </div>
-                <p className="text-xs text-slate-400 hidden sm:block">
+                <p className="text-[11px] text-slate-400 hidden sm:block">
                   조달청 나라장터 공고 & 네이버 실시간 업계 소식
                 </p>
               </div>
             </Link>
 
             {/* 네비게이션 메뉴 탭 */}
-            <nav className="flex items-center gap-1 sm:gap-1.5 overflow-x-auto">
-              <Link
-                href="/"
-                className="px-2.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-400 hover:text-white hover:bg-slate-800 transition-all"
-              >
-                입찰공고
-              </Link>
-              <Link
-                href="/prespec"
-                className="px-2.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-400 hover:text-white hover:bg-slate-800 transition-all"
-              >
-                사전규격
-              </Link>
-              <Link
-                href="/results"
-                className="px-2.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-400 hover:text-white hover:bg-slate-800 transition-all"
-              >
-                개찰결과
-              </Link>
-              <Link
-                href="/calendar"
-                className="px-2.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-400 hover:text-white hover:bg-slate-800 transition-all"
-              >
-                📅 캘린더
-              </Link>
-              <Link
-                href="/blog"
-                className="px-2.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-400 hover:text-white hover:bg-slate-800 transition-all"
-              >
-                트렌드 분석
-              </Link>
-              <Link
-                href="/news"
-                className="px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold text-emerald-300 bg-emerald-500/15 border border-emerald-500/30 hover:bg-emerald-500/25 transition-all flex items-center gap-1.5"
-              >
-                <Newspaper className="w-3.5 h-3.5 text-emerald-400" />
-                실시간 뉴스
-              </Link>
-            </nav>
+            <div className="flex items-center gap-2 sm:gap-3 overflow-x-auto scrollbar-none py-1">
+              <nav className="flex items-center gap-1 sm:gap-1.5 shrink-0">
+                <Link
+                  href="/"
+                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800 transition-all"
+                >
+                  입찰공고
+                </Link>
+                <Link
+                  href="/calendar"
+                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-semibold text-indigo-300 hover:text-indigo-200 hover:bg-slate-800 transition-all border border-indigo-500/30 bg-indigo-500/10"
+                >
+                  📅 캘린더
+                </Link>
+                <Link
+                  href="/prespec"
+                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-semibold text-cyan-300 hover:text-cyan-200 hover:bg-slate-800 transition-all border border-cyan-500/30 bg-cyan-500/10"
+                >
+                  🔔 발주예고
+                </Link>
+                <Link
+                  href="/results"
+                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-semibold text-amber-300 hover:text-amber-200 hover:bg-slate-800 transition-all border border-amber-500/30 bg-amber-500/10"
+                >
+                  🏆 낙찰통계
+                </Link>
+                <Link
+                  href="/calculator"
+                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-semibold text-amber-300 hover:text-amber-200 hover:bg-slate-800 transition-all border border-amber-500/30 bg-amber-500/10"
+                >
+                  💰 투찰계산기
+                </Link>
+                <Link
+                  href="/partners"
+                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-semibold text-cyan-300 hover:text-cyan-200 hover:bg-slate-800 transition-all border border-cyan-500/30 bg-cyan-500/10"
+                >
+                  🤝 협력사·DB
+                </Link>
+                <Link
+                  href="/proposal"
+                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-semibold text-purple-300 hover:text-purple-200 hover:bg-slate-800 transition-all border border-purple-500/30 bg-purple-500/10"
+                >
+                  ✨ AI제안서
+                </Link>
+                <Link
+                  href="/blog"
+                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800 transition-all"
+                >
+                  트렌드
+                </Link>
+                <Link
+                  href="/news"
+                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-bold text-emerald-300 hover:text-emerald-200 hover:bg-slate-800 transition-all border border-emerald-500/30 bg-emerald-500/10 flex items-center gap-1"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                  뉴스
+                </Link>
+              </nav>
+            </div>
           </div>
         </div>
       </header>

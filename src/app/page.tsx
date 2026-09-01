@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
 import {
   Search,
@@ -13,24 +13,26 @@ import {
   FileText,
   Sparkles,
   Layers,
-  ArrowRight,
-  HelpCircle,
   Tag,
   ExternalLink,
   Bot,
-  CheckCircle2,
-  RefreshCw,
-  TrendingUp,
-  ShieldAlert,
-  Info,
   Image as ImageIcon,
-  Bell,
   MessageCircle,
   GraduationCap,
 } from "lucide-react";
 import bidsData from "../../public/data/bids.json";
 import metaData from "../../public/data/meta.json";
 import SubscribeModal from "@/components/SubscribeModal";
+
+export interface BidCheckList {
+  licenseRequired?: string;
+  directProduction?: string;
+  workPeriod?: string;
+  warrantyPeriod?: string;
+  jointVenture?: string;
+  siteBriefing?: string;
+  eligibilityStatus?: string;
+}
 
 export interface BidItem {
   id: string;
@@ -45,8 +47,10 @@ export interface BidItem {
   dDay: number;
   bidType: string;
   linkUrl: string;
+  tags?: string[];
   aiSummary?: string;
   aiTips?: string;
+  checkList?: BidCheckList;
 }
 
 // 5가지 도시 옥외광고 테마 배경 이미지 (3일 주기 자동 순차 교체)
@@ -87,12 +91,11 @@ const CATEGORIES = [
   "전체",
   "간판·조형물",
   "디지털사이니지·전광판",
-  "매체권·임대",
-  "실내표찰·현판",
-  "학교·교육",
-  "차량랩핑·특수",
+  "초·중·고·대학교",
+  "아파트·승강기광고",
+  "온비드 공공매체권",
   "현수막·배너",
-  "인쇄·판촉",
+  "차량랩핑·특수",
 ];
 
 const LOCATIONS = [
@@ -139,15 +142,11 @@ export default function HomePage() {
   const [sortBy, setSortBy] = useState<"dDay" | "budgetDesc" | "budgetAsc" | "newest">("dDay");
   const [isSubscribeModalOpen, setIsSubscribeModalOpen] = useState(false);
 
-  // 3일마다 순차적으로 자동 변경되는 배경 인덱스 (기본값: 0)
-  const [currentBgIndex, setCurrentBgIndex] = useState(0);
-
-  useEffect(() => {
-    // 1970년 1월 1일 이후 경과된 일수를 3일 단위로 나누어 5개 이미지를 순차 순환
+  // 3일마다 순차적으로 자동 변경되는 배경 인덱스
+  const [currentBgIndex, setCurrentBgIndex] = useState(() => {
     const daysSinceEpoch = Math.floor(Date.now() / (1000 * 60 * 60 * 24));
-    const autoIndex = Math.floor(daysSinceEpoch / 3) % HERO_BACKGROUNDS.length;
-    setCurrentBgIndex(autoIndex);
-  }, []);
+    return Math.floor(daysSinceEpoch / 3) % HERO_BACKGROUNDS.length;
+  });
 
   const bids: BidItem[] = useMemo(() => {
     return ((bidsData as unknown as BidItem[]) || []).filter((b) => b.dDay >= 0);
@@ -164,21 +163,28 @@ export default function HomePage() {
               b.category.includes("디지털사이니지") ||
               b.category.includes("전광판") ||
               b.category.includes("사이니지") ||
-              /디지털|사이니지|전광판|전자게시대|미디어월|키오스크/.test(b.title)
+              /디지털|사이니지|전광판|전자게시대|미디어월|키오스크|미디어파사드/.test(b.title)
             );
           }
-          if (cat === "매체권·임대") {
+          if (cat === "온비드 공공매체권") {
             return (
+              b.category.includes("온비드") ||
               b.category.includes("매체") ||
-              b.category.includes("임대") ||
-              /매체권|사용수익허가|광고사업자|광고대행|매체운영|지하철광고|쉘터광고|가로등현수기|게시대위탁|야립간판|전광판임대|광고물관리/.test(`${b.title} ${b.client}`)
+              /매체권|사용수익허가|광고사업자|광고대행|매체운영|지하철광고|쉘터광고|가로등현수기|게시대위탁|야립간판|전광판임대/.test(`${b.title} ${b.client}`)
             );
           }
-          if (cat === "학교·교육") {
+          if (cat === "초·중·고·대학교") {
             return (
               b.category.includes("학교") ||
-              b.category.includes("교육") ||
-              /학교|초등|중학|고등|대학|교육청|교육지원청|유치원|교표|교훈|졸업앨범|학교요람|학습안내/.test(`${b.title} ${b.client}`)
+              b.category.includes("대학") ||
+              /학교|초등|중학|고등|대학|교육청|교육지원청|유치원|교표|교훈|캠퍼스/.test(`${b.title} ${b.client}`)
+            );
+          }
+          if (cat === "아파트·승강기광고") {
+            return (
+              b.category.includes("아파트") ||
+              b.category.includes("승강기") ||
+              /아파트|승강기|엘리베이터|입주자대표|더샵|제니스|입체간판/.test(`${b.title} ${b.client}`)
             );
           }
           return b.category.includes(cat) || cat.includes(b.category);
@@ -214,17 +220,22 @@ export default function HomePage() {
           bid.category.includes("디지털사이니지") ||
           bid.category.includes("전광판") ||
           bid.category.includes("사이니지") ||
-          /디지털|사이니지|전광판|전자게시대|미디어월|키오스크/.test(bid.title);
-      } else if (selectedCategory === "매체권·임대") {
+          /디지털|사이니지|전광판|전자게시대|미디어월|키오스크|미디어파사드/.test(bid.title);
+      } else if (selectedCategory === "온비드 공공매체권") {
         matchCategory =
+          bid.category.includes("온비드") ||
           bid.category.includes("매체") ||
-          bid.category.includes("임대") ||
-          /매체권|사용수익허가|광고사업자|광고대행|매체운영|지하철광고|쉘터광고|가로등현수기|게시대위탁|야립간판|전광판임대|광고물관리/.test(`${bid.title} ${bid.client}`);
-      } else if (selectedCategory === "학교·교육") {
+          /매체권|사용수익허가|광고사업자|광고대행|매체운영|지하철광고|쉘터광고|가로등현수기|게시대위탁|야립간판|전광판임대/.test(`${bid.title} ${bid.client}`);
+      } else if (selectedCategory === "초·중·고·대학교") {
         matchCategory =
           bid.category.includes("학교") ||
-          bid.category.includes("교육") ||
-          /학교|초등|중학|고등|대학|교육청|교육지원청|유치원|교표|교훈|졸업앨범|학교요람|학습안내/.test(`${bid.title} ${bid.client}`);
+          bid.category.includes("대학") ||
+          /학교|초등|중학|고등|대학|교육청|교육지원청|유치원|교표|교훈|캠퍼스/.test(`${bid.title} ${bid.client}`);
+      } else if (selectedCategory === "아파트·승강기광고") {
+        matchCategory =
+          bid.category.includes("아파트") ||
+          bid.category.includes("승강기") ||
+          /아파트|승강기|엘리베이터|입주자대표|더샵|제니스|입체간판/.test(`${bid.title} ${bid.client}`);
       } else if (selectedCategory !== "전체") {
         matchCategory =
           bid.category.includes(selectedCategory) ||
@@ -281,12 +292,12 @@ export default function HomePage() {
       <header className="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 shadow-lg shadow-black/20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-14 sm:h-16">
-            {/* 로고 및 서비스명 (서체 20% 축소) */}
-            <div className="flex items-center space-x-2.5 sm:space-x-3">
-              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center shadow-md shadow-blue-500/25 ring-1 ring-white/20">
+            {/* 로고 및 서비스명 (줄바꿈 방지 및 정렬) */}
+            <div className="flex items-center space-x-2.5 sm:space-x-3 shrink-0">
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center shadow-md shadow-blue-500/25 ring-1 ring-white/20 shrink-0">
                 <Layers className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
               </div>
-              <div>
+              <div className="whitespace-nowrap">
                 <div className="flex items-center gap-1.5">
                   <span className="text-base sm:text-lg font-bold tracking-tight text-white">
                     옥외광고 입찰 알리미
@@ -302,45 +313,63 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* 네비게이션 메뉴 및 실시간 연동 상태 뱃지 (서체 20% 축소) */}
-            <div className="flex items-center gap-2.5 sm:gap-3">
-              <nav className="flex items-center gap-1 sm:gap-1.5">
+            {/* 네비게이션 메뉴 (한 줄 고정 및 줄바꿈 방지) */}
+            <div className="flex items-center gap-2 sm:gap-3 overflow-x-auto scrollbar-none py-1">
+              <nav className="flex items-center gap-1 sm:gap-1.5 shrink-0">
                 <Link
                   href="/"
-                  className="px-2.5 py-1 rounded-lg text-xs font-bold bg-blue-600 text-white shadow-md shadow-blue-600/30 ring-1 ring-blue-400"
+                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-bold bg-blue-600 text-white shadow-md shadow-blue-600/30 ring-1 ring-blue-400"
                 >
-                  입찰공고 목록
+                  입찰공고
                 </Link>
                 <Link
                   href="/calendar"
-                  className="px-2.5 py-1 rounded-lg text-xs font-semibold text-indigo-300 hover:text-indigo-200 hover:bg-slate-800 transition-all border border-indigo-500/30 bg-indigo-500/10"
+                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-semibold text-indigo-300 hover:text-indigo-200 hover:bg-slate-800 transition-all border border-indigo-500/30 bg-indigo-500/10"
                 >
                   📅 캘린더
                 </Link>
                 <Link
                   href="/prespec"
-                  className="px-2.5 py-1 rounded-lg text-xs font-semibold text-cyan-300 hover:text-cyan-200 hover:bg-slate-800 transition-all border border-cyan-500/30 bg-cyan-500/10"
+                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-semibold text-cyan-300 hover:text-cyan-200 hover:bg-slate-800 transition-all border border-cyan-500/30 bg-cyan-500/10"
                 >
-                  🔔 발주 예고
+                  🔔 발주예고
                 </Link>
                 <Link
                   href="/results"
-                  className="px-2.5 py-1 rounded-lg text-xs font-semibold text-amber-400 hover:text-amber-300 hover:bg-slate-800 transition-all border border-amber-500/30 bg-amber-500/10"
+                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-semibold text-amber-300 hover:text-amber-200 hover:bg-slate-800 transition-all border border-amber-500/30 bg-amber-500/10"
                 >
-                  🏆 낙찰 통계
+                  🏆 낙찰통계
+                </Link>
+                <Link
+                  href="/calculator"
+                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-semibold text-amber-300 hover:text-amber-200 hover:bg-slate-800 transition-all border border-amber-500/30 bg-amber-500/10"
+                >
+                  💰 투찰계산기
+                </Link>
+                <Link
+                  href="/partners"
+                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-semibold text-cyan-300 hover:text-cyan-200 hover:bg-slate-800 transition-all border border-cyan-500/30 bg-cyan-500/10"
+                >
+                  🤝 협력사·DB
+                </Link>
+                <Link
+                  href="/proposal"
+                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-semibold text-purple-300 hover:text-purple-200 hover:bg-slate-800 transition-all border border-purple-500/30 bg-purple-500/10"
+                >
+                  ✨ AI제안서
                 </Link>
                 <Link
                   href="/blog"
-                  className="px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800 transition-all"
+                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800 transition-all"
                 >
-                  옥외광고 트렌드
+                  트렌드
                 </Link>
                 <Link
                   href="/news"
-                  className="px-2.5 py-1 rounded-lg text-xs font-bold text-emerald-300 hover:text-emerald-200 hover:bg-slate-800 transition-all border border-emerald-500/30 bg-emerald-500/10 flex items-center gap-1"
+                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-bold text-emerald-300 hover:text-emerald-200 hover:bg-slate-800 transition-all border border-emerald-500/30 bg-emerald-500/10 flex items-center gap-1"
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                  실시간 뉴스
+                  뉴스
                 </Link>
               </nav>
 
@@ -389,30 +418,31 @@ export default function HomePage() {
             입찰정보
           </h1>
 
-          {/* 아파트 단지 & 학교 입찰정보 통합 게재 안내 하이라이트 배너 */}
-          <div className="inline-flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 px-3.5 py-1.5 rounded-xl bg-slate-900/90 border border-indigo-500/30 backdrop-blur-md shadow-lg text-[11px] sm:text-xs">
-            <span className="flex items-center gap-1 text-emerald-300 font-bold">
-              <Building2 className="w-3.5 h-3.5 text-emerald-400" />
-              <span>아파트 게시판·승강기 광고</span>
+          {/* 나라장터·학교·아파트 통합 게재 안내 하이라이트 배너 */}
+          <div className="inline-flex flex-wrap items-center justify-center gap-2 sm:gap-3 px-4 py-1.5 rounded-xl bg-slate-900/90 border border-indigo-500/30 backdrop-blur-md shadow-lg text-[11px] sm:text-xs">
+            <span className="whitespace-nowrap flex items-center gap-1 text-cyan-300 font-bold">
+              <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+              <span>나라장터·온비드 공공입찰</span>
             </span>
             <span className="text-slate-500 font-light hidden sm:inline">•</span>
-            <span className="flex items-center gap-1 text-violet-300 font-bold">
+            <span className="whitespace-nowrap flex items-center gap-1 text-violet-300 font-bold">
               <GraduationCap className="w-3.5 h-3.5 text-violet-400" />
               <span>초·중·고·대학교 간판·사인물</span>
             </span>
             <span className="text-slate-500 font-light hidden sm:inline">•</span>
-            <span className="flex items-center gap-1 text-cyan-300 font-bold">
-              <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-              <span>나라장터·온비드 공공입찰</span>
+            <span className="whitespace-nowrap flex items-center gap-1 text-emerald-300 font-bold">
+              <Building2 className="w-3.5 h-3.5 text-emerald-400" />
+              <span>아파트 게시판·승강기 광고</span>
             </span>
-            <span className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-[10px] px-2 py-0.5 rounded-full font-extrabold shadow-sm">
+            <span className="whitespace-nowrap bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-[10px] px-2 py-0.5 rounded-full font-extrabold shadow-sm">
               통합 게재 중
             </span>
           </div>
 
-          {/* 서브 설명 (서체 20% 축소: text-[11px] sm:text-xs) */}
-          <p className="text-[11px] sm:text-xs text-slate-200 max-w-xl mx-auto leading-relaxed drop-shadow">
-            공공데이터포털 조달청 나라장터 공공입찰은 물론, 전국 <strong>아파트 단지(게시판·승강기 광고)</strong>와 <strong>초·중·고·대학교(간판·현판·사인물)</strong> 발주 정보까지 옥외광고 사업자에게 꼭 필요한 모든 정보를 선별하여 실시간으로 제공합니다.
+          {/* 서브 설명 (보기 좋은 행간 & 줄바꿈) */}
+          <p className="text-xs sm:text-sm text-slate-200 max-w-2xl mx-auto leading-relaxed drop-shadow text-center">
+            조달청 나라장터 공공입찰부터 전국 <strong>초·중·고·대학교</strong> 및 <strong>아파트 단지</strong> 발주 정보까지, <br className="hidden sm:inline" />
+            옥외광고 사업자에게 꼭 필요한 핵심 입찰을 선별하여 실시간으로 제공합니다.
           </p>
 
           {/* 통합 검색창 (서체 20% 축소: text-xs sm:text-sm) */}
@@ -566,7 +596,7 @@ export default function HomePage() {
             <div className="flex items-center gap-2">
               <select
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as any)}
+                onChange={(e) => setSortBy(e.target.value as "dDay" | "budgetDesc" | "budgetAsc" | "newest")}
                 className="bg-slate-900 border border-slate-800 rounded-lg px-2 py-1 text-[11px] text-slate-300 focus:outline-none focus:border-blue-500 cursor-pointer"
               >
                 <option value="dDay">⏱️ 마감 임박순</option>
@@ -698,17 +728,32 @@ export default function HomePage() {
                     {/* 공고 제목 (서체 20% 축소: text-sm sm:text-base font-bold) */}
                     <Link
                       href={`/bids/${bid.id}`}
-                      className="block text-sm sm:text-base font-bold text-white group-hover:text-blue-400 transition-colors leading-snug mb-2.5"
+                      className="block text-sm sm:text-base font-bold text-white group-hover:text-blue-400 transition-colors leading-snug mb-2"
                     >
                       {bid.title}
                     </Link>
+
+                    {/* 태그 뱃지 목록 */}
+                    {bid.tags && bid.tags.length > 0 && (
+                      <div className="flex flex-wrap items-center gap-1 mb-2.5">
+                        {bid.tags.map((tag, idx) => (
+                          <span
+                            key={idx}
+                            className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded text-[10px] font-medium bg-slate-950/80 text-cyan-300 border border-cyan-500/20"
+                          >
+                            <Tag className="w-2.5 h-2.5 text-cyan-400" />
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    )}
 
                     {/* AI 요약 하이라이트 박스 (서체 20% 축소: text-[11px]) */}
                     {bid.aiSummary && (
                       <div className="mb-3 bg-slate-950/60 border border-slate-800/80 rounded-lg p-3 text-[11px] text-slate-300 space-y-1">
                         <div className="flex items-center gap-1 text-cyan-400 font-semibold text-[10px]">
                           <Bot className="w-3 h-3" />
-                          <span>Gemini AI 핵심 요약</span>
+                          <span>Gemini AI 3초 핵심 요약</span>
                         </div>
                         <p className="text-slate-300 leading-relaxed pl-4">
                           {bid.aiSummary}
@@ -760,9 +805,10 @@ export default function HomePage() {
 
                       <Link
                         href={`/bids/${bid.id}`}
-                        className="inline-flex items-center gap-0.5 text-[11px] font-bold px-3 py-1 rounded-md bg-blue-600 hover:bg-blue-500 text-white shadow-sm shadow-blue-600/20 transition-colors"
+                        className="inline-flex items-center gap-1 text-[11px] font-bold px-3 py-1 rounded-md bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-sm shadow-blue-600/30 transition-all"
                       >
-                        <span>상세 분석</span>
+                        <Sparkles className="w-3 h-3 text-cyan-300" />
+                        <span>AI 3초 분석</span>
                         <ChevronRight className="w-3 h-3" />
                       </Link>
                     </div>

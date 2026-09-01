@@ -1,0 +1,44 @@
+{
+  "lastSyncTime": "2026-09-01T05:58:01.575Z",
+  "lastSyncDateText": "2026-09-01 23:58 KST",
+  "stats": {
+    "g2bCount": 8,
+    "onbidCount": 3,
+    "s2bCount": 3,
+    "kaptCount": 3,
+    "localGovCount": 3,
+    "totalIngested": 20
+  },
+  "channels": [
+    {
+      "name": "조달청 나라장터 (G2B)",
+      "status": "정상 가동 중 (ONLINE)",
+      "count": 8,
+      "lastUpdate": "방금 전"
+    },
+    {
+      "name": "한국자산관리공사 온비드 (OnBid)",
+      "status": "정상 가동 중 (ONLINE)",
+      "count": 3,
+      "lastUpdate": "방금 전"
+    },
+    {
+      "name": "전국 교육청 & 학교장터 (S2B)",
+      "status": "정상 가동 중 (ONLINE)",
+      "count": 3,
+      "lastUpdate": "방금 전"
+    },
+    {
+      "name": "공동주택관리정보 (K-apt)",
+      "status": "정상 가동 중 (ONLINE)",
+      "count": 3,
+      "lastUpdate": "방금 전"
+    },
+    {
+      "name": "전국 226개 지자체 고시공고",
+      "status": "정상 가동 중 (ONLINE)",
+      "count": 3,
+      "lastUpdate": "방금 전"
+    }
+  ]
+}

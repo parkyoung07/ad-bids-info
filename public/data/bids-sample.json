@@ -11,7 +11,19 @@
     "endDate": "2026-09-03 10:00",
     "dDay": 7,
     "bidType": "일반경쟁 (적격심사)",
-    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01650354&bidPbancOrd=000"
+    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01650354&bidPbancOrd=000",
+    "tags": ["정보통신공사업", "직생(전광판)", "경북 관내", "하자보증 2년"],
+    "aiSummary": "김천시 농업기술센터 대강당 실내용 고해상도 LED 전광판 제작 및 설치 공사입니다.",
+    "aiTips": "실내용 실사 피치 사양 준수 및 대강당 음향·조명과의 연동 안정성 제안이 유리합니다.",
+    "checkList": {
+      "licenseRequired": "정보통신공사업 또는 옥외광고사업 등록 (필수)",
+      "directProduction": "직접생산확인 [전광판/디지털사이니지] (필수)",
+      "workPeriod": "계약체결일로부터 60일 이내",
+      "warrantyPeriod": "준공검사일로부터 2년 (하자보수보증금율 5%)",
+      "jointVenture": "공동이행방식 허용 (경북 지역업체 40% 이상 권장)",
+      "siteBriefing": "현장설명회 필수 (대강당 실측 확인)",
+      "eligibilityStatus": "적격 입찰 가능 (신호등 🟢)"
+    }
   },
   {
     "id": "R26BK01654853-000",
@@ -25,35 +37,19 @@
     "endDate": "2026-09-05 10:00",
     "dDay": 9,
     "bidType": "제한경쟁 (중소기업자간 경쟁)",
-    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01654853&bidPbancOrd=000"
-  },
-  {
-    "id": "R26BK01662206-000",
-    "title": "2026여수세계섬박람회 홍보관 부스 내외관 종합 사인시스템 제작·설치",
-    "category": "간판·조형물",
-    "client": "국립호남권생물자원관",
-    "budget": 30000000,
-    "budgetText": "3,000만 원",
-    "location": "전남",
-    "startDate": "2026-08-25",
-    "endDate": "2026-08-28 16:00",
-    "dDay": 1,
-    "bidType": "수의(총액) 소액수의계약",
-    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01662206&bidPbancOrd=000"
-  },
-  {
-    "id": "R26BK01657326-000",
-    "title": "해양특화 탐방인프라 디자인 개발 및 아크릴 표찰·안내판 제작 용역",
-    "category": "실내표찰·현판",
-    "client": "국립공원공단 국립공원해양생태보전원",
-    "budget": 35000000,
-    "budgetText": "3,500만 원",
-    "location": "전남",
-    "startDate": "2026-08-26",
-    "endDate": "2026-08-30 11:00",
-    "dDay": 3,
-    "bidType": "일반경쟁 (적격심사)",
-    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01657326&bidPbancOrd=000"
+    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01654853&bidPbancOrd=000",
+    "tags": ["중기부 중소기업확인", "직생(전광판)", "대구/경북", "하자보증 3년"],
+    "aiSummary": "엑스코(EXCO) 내 안내 및 홍보용 LED 전광판 구매 및 시공 입찰입니다.",
+    "aiTips": "전시장 특성상 시야각 및 휘도 유지 보수 보증 조건 확인이 필수적입니다.",
+    "checkList": {
+      "licenseRequired": "소프트웨어사업자 및 옥외광고업 등록 (필수)",
+      "directProduction": "직접생산확인 [LED전광판/안내전광판] (필수)",
+      "workPeriod": "계약일로부터 45일 이내",
+      "warrantyPeriod": "검수완료일로부터 3년 무상 A/S (하자보증 5%)",
+      "jointVenture": "단독 입찰",
+      "siteBriefing": "생략 (도면 사전 열람 권장)",
+      "eligibilityStatus": "적격 입찰 가능 (신호등 🟢)"
+    }
   },
   {
     "id": "R26BK01650918-000",
@@ -67,7 +63,19 @@
     "endDate": "2026-09-02 10:00",
     "dDay": 6,
     "bidType": "제한경쟁 (전자입찰)",
-    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01650918&bidPbancOrd=000"
+    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01650918&bidPbancOrd=000",
+    "tags": ["옥외광고업 필수", "직생(현수막/배너)", "서울/경기 지역", "하자보증 1년"],
+    "aiSummary": "국립현대미술관 기획전시 홍보를 위한 대형 외벽 현수막, 배너, 실사출력물 제작 및 게첨 용역입니다.",
+    "aiTips": "고소작업 안전관리 계획 및 미술관 특유의 고품질 색상 구현(컬러매칭) 역량을 어필하세요.",
+    "checkList": {
+      "licenseRequired": "옥외광고사업 등록 (필수)",
+      "directProduction": "직접생산확인 [현수막/실사출력물] (필수)",
+      "workPeriod": "계약체결일로부터 90일 (전시 일정별 분할 납품)",
+      "warrantyPeriod": "게첨 완료 후 전시 종료 시까지 (1년, 5%)",
+      "jointVenture": "단독 입찰 (공동수급 불허)",
+      "siteBriefing": "생략 (설계서 및 현장 열람으로 갈음)",
+      "eligibilityStatus": "적격 입찰 가능 (신호등 🟢)"
+    }
   },
   {
     "id": "R26BK01661955-000",
@@ -81,21 +89,19 @@
     "endDate": "2026-09-05 10:00",
     "dDay": 9,
     "bidType": "일반경쟁 (전자입찰)",
-    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01661955&bidPbancOrd=000"
-  },
-  {
-    "id": "R26BK01662381-000",
-    "title": "2027 KITECH 홍보용 다이어리 및 캘린더 디자인·인쇄 발간",
-    "category": "인쇄·판촉",
-    "client": "한국생산기술연구원",
-    "budget": 80000000,
-    "budgetText": "8,000만 원",
-    "location": "충남",
-    "startDate": "2026-08-25",
-    "endDate": "2026-08-29 12:00",
-    "dDay": 2,
-    "bidType": "제한경쟁 (중소기업자간 경쟁)",
-    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01662381&bidPbancOrd=000"
+    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01661955&bidPbancOrd=000",
+    "tags": ["옥외광고업 등록", "차량전용 필름", "전국/서울", "하자보증 1년"],
+    "aiSummary": "국회사무처 관용 차량 및 이동형 홍보버스 대상 풀 랩핑 디자인 및 시공 용역입니다.",
+    "aiTips": "차량용 필름(3M/Avery 등) 정품 사용 여부 및 곡면 시공·탈거 시 내구성 보증을 강조하세요.",
+    "checkList": {
+      "licenseRequired": "옥외광고사업 등록 (필수)",
+      "directProduction": "직접생산확인 [실사출력/시트지랩핑] (보유 우대)",
+      "workPeriod": "계약일로부터 30일 이내 (차량 순차 입고 시공)",
+      "warrantyPeriod": "시공 완료 후 1년 (필름 들뜸 무상 A/S)",
+      "jointVenture": "단독 입찰",
+      "siteBriefing": "생략",
+      "eligibilityStatus": "적격 입찰 가능 (신호등 🟢)"
+    }
   },
   {
     "id": "R26BK01648754-000",
@@ -109,7 +115,19 @@
     "endDate": "2026-09-12 18:00",
     "dDay": 16,
     "bidType": "일반경쟁 (협상에의한계약)",
-    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01648754&bidPbancOrd=000"
+    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01648754&bidPbancOrd=000",
+    "tags": ["옥외광고업 필수", "직생(간판/안내판)", "전북/전국", "하자보증 2년"],
+    "aiSummary": "전북대학교병원 종합 안내용 LED 채널간판 및 야외 지주안내탑 제작·설치 사업입니다.",
+    "aiTips": "옥외광고물 허가 처리 능력 및 야간 시인성을 높인 LED 채널 제작 실적을 제시하세요.",
+    "checkList": {
+      "licenseRequired": "옥외광고사업 등록 (필수)",
+      "directProduction": "직접생산확인 [간판/안내판] (필수)",
+      "workPeriod": "계약체결일로부터 60일 이내",
+      "warrantyPeriod": "준공검사 완료일로부터 2년 (하자보증 5%)",
+      "jointVenture": "단독 입찰 또는 공동이행 허용",
+      "siteBriefing": "생략 (병원 구내 실측 요망)",
+      "eligibilityStatus": "적격 입찰 추천 (신호등 🟢)"
+    }
   },
   {
     "id": "R26BK01664120-000",
@@ -124,55 +142,17 @@
     "dDay": 7,
     "bidType": "수의(총액) 소액수의계약",
     "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01664120&bidPbancOrd=000",
+    "tags": ["옥외광고업 필수", "소액수의", "서울 관내", "친환경 아크릴"],
     "aiSummary": "초등학교 본관 및 별관 교실 표찰, 층별 종합안내도 신규 제작 및 교체 설치 용역입니다.",
-    "aiTips": "학생들의 안전을 고려한 모서리 라운딩 가공 및 친환경 난연 아크릴 소재 제안이 유리합니다."
-  },
-  {
-    "id": "R26BK01665230-000",
-    "title": "학내 대강당 및 체육관 풀컬러 LED 전광판 구매 및 시공 사업",
-    "category": "학교·교육",
-    "client": "한국교원대학교",
-    "budget": 75000000,
-    "budgetText": "7,500만 원",
-    "location": "충북",
-    "startDate": "2026-08-28",
-    "endDate": "2026-09-08 11:00",
-    "dDay": 9,
-    "bidType": "제한경쟁 (중소기업자간 경쟁)",
-    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01665230&bidPbancOrd=000",
-    "aiSummary": "대학교 대강당 및 실내 체육관 고화질 LED 전광판 시스템 구매 및 설치 사업입니다.",
-    "aiTips": "직접생산확인증명서(전광판) 보유 필수이며 현장 실측을 통한 컨트롤러 및 전원 구성안 제출이 핵심입니다."
-  },
-  {
-    "id": "ONBID-2026-0884920",
-    "title": "지하철 2·3호선 주요 역사 조명광고(와이드칼라) 및 디지털 사이니지 통합 매체권 운영사업자 입찰",
-    "category": "매체권·임대",
-    "client": "서울교통공사",
-    "budget": 1850000000,
-    "budgetText": "18억 5,000만 원",
-    "location": "서울시",
-    "startDate": "2026-08-28",
-    "endDate": "2026-09-10 16:00",
-    "dDay": 11,
-    "bidType": "일반경쟁 (최고가입찰/온비드)",
-    "linkUrl": "https://www.onbid.co.kr",
-    "aiSummary": "서울 지하철 2호선 및 3호선 주요 역사 내 조명광고판과 디지털 사이니지 3개년 통합 광고대행 매체권 입찰입니다.",
-    "aiTips": "역사별 유동인구 기반 광고주 유치 계획서 및 온비드 공매보증금(입찰가의 5% 이상) 납부 일정을 사전 확인하세요."
-  },
-  {
-    "id": "ONBID-2026-0773210",
-    "title": "도심 주요 간선도로 가로등 현수기 및 지정게시대 민간위탁 운영·관리사업",
-    "category": "매체권·임대",
-    "client": "부산시설공단",
-    "budget": 320000000,
-    "budgetText": "3억 2,000만 원",
-    "location": "부산시",
-    "startDate": "2026-08-27",
-    "endDate": "2026-09-07 18:00",
-    "dDay": 8,
-    "bidType": "일반경쟁 (온비드 임대입찰)",
-    "linkUrl": "https://www.onbid.co.kr",
-    "aiSummary": "부산 도심 주요 간선도로 가로등 배너(현수기) 및 현수막 지정게시대 2개년 위탁 운영권 입찰입니다.",
-    "aiTips": "태풍 등 기상 악화 시 긴급 철거 및 안전순찰 인력 운영 계획서 제출이 심사의 핵심입니다."
+    "aiTips": "학생들의 안전을 고려한 모서리 라운딩 가공 및 친환경 난연 아크릴 소재 제안이 유리합니다.",
+    "checkList": {
+      "licenseRequired": "옥외광고사업 등록증 보유 소상공인",
+      "directProduction": "직접생산확인 [표찰/안내판] (보유 권장)",
+      "workPeriod": "착수일로부터 20일 이내",
+      "warrantyPeriod": "준공 후 1년",
+      "jointVenture": "단독 입찰",
+      "siteBriefing": "생략 (기존 표찰 철거 포함)",
+      "eligibilityStatus": "소액수의 적격 (신호등 🟢)"
+    }
   }
 ]

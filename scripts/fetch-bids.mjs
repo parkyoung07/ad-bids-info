@@ -381,11 +381,37 @@ async function fetchLiveBids() {
 
   const finalBids = activeOnly.map(b => {
     const ai = aiResults[b.id];
+    const cat = ai?.category || b.category || fallbackCategory(b.title, b.client);
+    
+    // 옥외광고 세부 맞춤 체크리스트
+    const defaultCheckList = {
+      licenseRequired: cat.includes('전광판') || cat.includes('사이니지')
+        ? '정보통신공사업 또는 옥외광고사업 등록 (필수)'
+        : '옥외광고사업 등록 (필수)',
+      directProduction: cat.includes('매체') || cat.includes('임대')
+        ? '해당 없음 (광고매체 위탁운영)'
+        : `직접생산확인 [${cat.split('·')[0]}] (필수)`,
+      workPeriod: '계약체결일로부터 30~60일 이내',
+      warrantyPeriod: '준공검사 완료일로부터 2년 (하자보수 5%)',
+      jointVenture: b.bidType?.includes('제한') ? '단독 입찰 (공동수급 불허)' : '공동이행방식 허용 가능',
+      siteBriefing: '생략 (설계도서 및 현장 열람 갈음)',
+      eligibilityStatus: '적격 입찰 추천 (신호등 🟢)'
+    };
+
+    const defaultTags = [
+      '옥외광고업 필수',
+      cat.includes('전광판') ? '직생(전광판)' : `직생(${cat.split('·')[0]})`,
+      b.location === '전국' ? '전국 입찰' : `${b.location} 관내`,
+      '하자보증 2년'
+    ];
+
     return {
       ...b,
-      category: ai?.category || b.category || fallbackCategory(b.title, b.client),
+      category: cat,
+      tags: b.tags && b.tags.length > 0 ? b.tags : defaultTags,
       aiSummary: ai?.aiSummary || b.aiSummary || `${b.client}에서 발주한 ${b.title} 공고입니다. 나라장터 전자입찰을 통해 참여 가능합니다.`,
-      aiTips: ai?.aiTips || b.aiTips || '입찰 참가 전 과업지시서 및 옥외광고사업자 등록 요건을 확인하세요.'
+      aiTips: ai?.aiTips || b.aiTips || '입찰 참가 전 과업지시서 및 옥외광고사업자 등록 요건을 확인하세요.',
+      checkList: b.checkList || defaultCheckList
     };
   });
 

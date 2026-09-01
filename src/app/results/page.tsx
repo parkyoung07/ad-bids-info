@@ -5,20 +5,16 @@ import Link from "next/link";
 import {
   Layers,
   Trophy,
-  Building2,
-  Calendar,
   MapPin,
-  TrendingUp,
   Search,
   Bot,
   ExternalLink,
   Users,
   Percent,
   Banknote,
-  Sparkles,
-  ArrowRight,
   ShieldCheck,
   CheckCircle2,
+  Building2,
 } from "lucide-react";
 import awardData from "../../../public/data/award-results.json";
 
@@ -51,11 +47,8 @@ const CATEGORIES = [
   "현수막·배너",
 ];
 
-const LOCATIONS = ["전국", "서울", "경기", "인천", "부산", "대구", "전북", "경북", "충북"];
-
 export default function AwardResultsPage() {
   const [selectedCategory, setSelectedCategory] = useState("전체");
-  const [selectedLocation, setSelectedLocation] = useState("전국");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<"newest" | "rateAsc" | "budgetDesc">("newest");
 
@@ -93,11 +86,6 @@ export default function AwardResultsPage() {
           item.category.includes(selectedCategory) ||
           selectedCategory.includes(item.category);
 
-        const matchLocation =
-          selectedLocation === "전국" ||
-          item.location.includes(selectedLocation) ||
-          item.client.includes(selectedLocation);
-
         const q = searchQuery.trim().toLowerCase();
         const matchQuery =
           q === "" ||
@@ -106,14 +94,14 @@ export default function AwardResultsPage() {
           item.winner.toLowerCase().includes(q) ||
           item.category.toLowerCase().includes(q);
 
-        return matchCategory && matchLocation && matchQuery;
+        return matchCategory && matchQuery;
       })
       .sort((a, b) => {
         if (sortBy === "rateAsc") return a.rate - b.rate;
         if (sortBy === "budgetDesc") return b.winningBid - a.winningBid;
         return b.openedDate.localeCompare(a.openedDate);
       });
-  }, [awards, selectedCategory, selectedLocation, searchQuery, sortBy]);
+  }, [awards, selectedCategory, searchQuery, sortBy]);
 
   return (
     <div className="flex flex-col min-h-screen bg-slate-950 text-slate-100 selection:bg-blue-500 selection:text-white">
@@ -121,18 +109,18 @@ export default function AwardResultsPage() {
       <header className="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 shadow-lg shadow-black/20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-14 sm:h-16">
-            <Link href="/" className="flex items-center space-x-2.5 sm:space-x-3 group">
-              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center shadow-md shadow-blue-500/25 ring-1 ring-white/20 group-hover:scale-105 transition-transform">
+            <Link href="/" className="flex items-center space-x-2.5 sm:space-x-3 group shrink-0">
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center shadow-md shadow-blue-500/25 ring-1 ring-white/20 group-hover:scale-105 transition-transform shrink-0">
                 <Layers className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
               </div>
-              <div>
+              <div className="whitespace-nowrap">
                 <div className="flex items-center gap-1.5">
                   <span className="text-base sm:text-lg font-bold tracking-tight text-white group-hover:text-blue-400 transition-colors">
                     옥외광고 입찰 알리미
                   </span>
                   <span className="inline-flex items-center gap-1 text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-amber-500/15 text-amber-300 border border-amber-400/30">
                     <Trophy className="w-2.5 h-2.5 text-amber-400" />
-                    낙찰 통계
+                    낙찰통계
                   </span>
                 </div>
                 <p className="text-[11px] text-slate-400 hidden sm:block">
@@ -141,45 +129,65 @@ export default function AwardResultsPage() {
               </div>
             </Link>
 
-            <nav className="flex items-center gap-1 sm:gap-1.5">
-              <Link
-                href="/"
-                className="px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800 transition-all"
-              >
-                입찰공고 목록
-              </Link>
-              <Link
-                href="/calendar"
-                className="px-2.5 py-1 rounded-lg text-xs font-semibold text-indigo-300 hover:text-indigo-200 hover:bg-slate-800 transition-all border border-indigo-500/30 bg-indigo-500/10"
-              >
-                📅 캘린더
-              </Link>
-              <Link
-                href="/prespec"
-                className="px-2.5 py-1 rounded-lg text-xs font-semibold text-cyan-300 hover:text-cyan-200 hover:bg-slate-800 transition-all border border-cyan-500/30 bg-cyan-500/10"
-              >
-                🔔 발주 예고
-              </Link>
-              <Link
-                href="/results"
-                className="px-2.5 py-1 rounded-lg text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-400/30 shadow-md shadow-amber-500/10"
-              >
-                🏆 낙찰 통계
-              </Link>
-              <Link
-                href="/blog"
-                className="px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800 transition-all"
-              >
-                옥외광고 트렌드
-              </Link>
-              <Link
-                href="/news"
-                className="px-2.5 py-1 rounded-lg text-xs font-bold text-emerald-300 hover:text-emerald-200 hover:bg-slate-800 transition-all border border-emerald-500/30 bg-emerald-500/10 flex items-center gap-1"
-              >
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                실시간 뉴스
-              </Link>
-            </nav>
+            <div className="flex items-center gap-2 sm:gap-3 overflow-x-auto scrollbar-none py-1">
+              <nav className="flex items-center gap-1 sm:gap-1.5 shrink-0">
+                <Link
+                  href="/"
+                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800 transition-all"
+                >
+                  입찰공고
+                </Link>
+                <Link
+                  href="/calendar"
+                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-semibold text-indigo-300 hover:text-indigo-200 hover:bg-slate-800 transition-all border border-indigo-500/30 bg-indigo-500/10"
+                >
+                  📅 캘린더
+                </Link>
+                <Link
+                  href="/prespec"
+                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-semibold text-cyan-300 hover:text-cyan-200 hover:bg-slate-800 transition-all border border-cyan-500/30 bg-cyan-500/10"
+                >
+                  🔔 발주예고
+                </Link>
+                <Link
+                  href="/results"
+                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-bold text-amber-300 bg-amber-500/20 border border-amber-400/30 shadow-md shadow-amber-500/10"
+                >
+                  🏆 낙찰통계
+                </Link>
+                <Link
+                  href="/calculator"
+                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-semibold text-amber-300 hover:text-amber-200 hover:bg-slate-800 transition-all border border-amber-500/30 bg-amber-500/10"
+                >
+                  💰 투찰계산기
+                </Link>
+                <Link
+                  href="/partners"
+                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-semibold text-cyan-300 hover:text-cyan-200 hover:bg-slate-800 transition-all border border-cyan-500/30 bg-cyan-500/10"
+                >
+                  🤝 협력사·DB
+                </Link>
+                <Link
+                  href="/proposal"
+                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-semibold text-purple-300 hover:text-purple-200 hover:bg-slate-800 transition-all border border-purple-500/30 bg-purple-500/10"
+                >
+                  ✨ AI제안서
+                </Link>
+                <Link
+                  href="/blog"
+                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800 transition-all"
+                >
+                  트렌드
+                </Link>
+                <Link
+                  href="/news"
+                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-bold text-emerald-300 hover:text-emerald-200 hover:bg-slate-800 transition-all border border-emerald-500/30 bg-emerald-500/10 flex items-center gap-1"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                  뉴스
+                </Link>
+              </nav>
+            </div>
           </div>
         </div>
       </header>
@@ -241,7 +249,85 @@ export default function AwardResultsPage() {
       </section>
 
       {/* 메인 목록 영역 */}
-      <main className="flex-1 max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-5">
+      <main className="flex-1 max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6">
+        {/* 🌟 [2단계 신규] 주요 발주처별 낙찰 사정률 & 발주 규모 분석 대시보드 */}
+        <div className="bg-slate-900/90 rounded-2xl border border-amber-500/30 p-5 sm:p-6 shadow-xl space-y-4">
+          <div className="flex items-center justify-between gap-3 pb-3 border-b border-slate-800">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-xl bg-amber-500/20 flex items-center justify-center text-amber-400 border border-amber-500/30">
+                <Building2 className="w-4 h-4" />
+              </div>
+              <div>
+                <h2 className="text-base font-bold text-white flex items-center gap-2">
+                  <span>🏛️ 주요 발주처별 옥외광고 평균 낙찰 사정률 랭킹</span>
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-400/30">
+                    실시간 집계
+                  </span>
+                </h2>
+                <p className="text-xs text-slate-400">
+                  지자체, 공기업, 교육기관별 평균 투찰률과 낙찰 특성을 비교하여 투찰 금액을 결정하세요.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-1">
+            {/* 1. 지자체 / 관공서 */}
+            <div className="bg-slate-950/70 p-4 rounded-xl border border-slate-800 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-slate-200 flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+                  지자체 / 시·군·구청
+                </span>
+                <span className="text-xs font-bold text-emerald-400 font-mono">평균 87.90%</span>
+              </div>
+              <p className="text-[11px] text-slate-400 leading-relaxed">
+                경상북도 김천시, 충북 청주시 등 적격심사(87.745% 하한가) 직상단 0.15%~0.3% 구간에 1위 집중.
+              </p>
+              <div className="pt-1 flex items-center justify-between text-[10px] text-slate-500 border-t border-slate-800/80">
+                <span>추천 구간: 87.85% ~ 88.05%</span>
+                <span>평균 경쟁률: 18.5:1</span>
+              </div>
+            </div>
+
+            {/* 2. 대학교 / 교육청 */}
+            <div className="bg-slate-950/70 p-4 rounded-xl border border-slate-800 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-slate-200 flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-blue-400"></span>
+                  국공립대 / 교육청
+                </span>
+                <span className="text-xs font-bold text-blue-400 font-mono">평균 87.95%</span>
+              </div>
+              <p className="text-[11px] text-slate-400 leading-relaxed">
+                서울마포초, 한국교원대, 전북대병원 등 학생 안전 및 친환경 규격 적합성 심사 비중 높음.
+              </p>
+              <div className="pt-1 flex items-center justify-between text-[10px] text-slate-500 border-t border-slate-800/80">
+                <span>추천 구간: 87.88% ~ 88.10%</span>
+                <span>소액수의 계약 다수</span>
+              </div>
+            </div>
+
+            {/* 3. 공기업 / 교통공사 매체권 */}
+            <div className="bg-slate-950/70 p-4 rounded-xl border border-slate-800 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-slate-200 flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-amber-400"></span>
+                  교통공사 / 시설공단
+                </span>
+                <span className="text-xs font-bold text-amber-400 font-mono">평균 118.5%</span>
+              </div>
+              <p className="text-[11px] text-slate-400 leading-relaxed">
+                서울교통공사 지하철 광고, 부산시설공단 가로등 현수기 등 온비드 최고가 입찰 방식 적용.
+              </p>
+              <div className="pt-1 flex items-center justify-between text-[10px] text-slate-500 border-t border-slate-800/80">
+                <span>최고가 경쟁 (예가 초과)</span>
+                <span>광고영업 수익성 분석 필수</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* 필터 바 */}
         <div className="space-y-3">
           {/* 카테고리 탭 */}
@@ -277,7 +363,7 @@ export default function AwardResultsPage() {
             <div className="flex items-center gap-2">
               <select
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as any)}
+                onChange={(e) => setSortBy(e.target.value as "newest" | "rateAsc" | "budgetDesc")}
                 className="bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-slate-300 focus:outline-none focus:border-amber-400 cursor-pointer"
               >
                 <option value="newest">📅 최신 개찰일순</option>

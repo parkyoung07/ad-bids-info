@@ -20,13 +20,13 @@ export const metadata: Metadata = {
     "LED전광판",
   ],
   authors: [{ name: "옥외광고 입찰정보 알리미" }],
-  metadataBase: new URL("https://ad-bids-info.pages.dev"),
+  metadataBase: new URL("https://signbidai.com"),
   openGraph: {
     title: "옥외광고 입찰정보 알리미 | 나라장터 간판·표찰·현판·랩핑 공고",
     description:
       "조달청 나라장터 옥외광고, 간판, 실내표찰, 현판, 차량랩핑, 디지털사이니지 입찰 공고를 실시간으로 맞춤 안내합니다.",
-    url: "https://ad-bids-info.pages.dev",
-    siteName: "옥외광고 입찰정보 알리미",
+    url: "https://signbidai.com",
+    siteName: "옥외광고 입찰정보 알리미 (SignBid AI)",
     locale: "ko_KR",
     type: "website",
   },
