@@ -355,6 +355,9 @@ export default function FormsClient() {
               <Link href="/calculator" className="px-3 py-2 rounded-xl hover:bg-slate-900 hover:text-white transition-colors whitespace-nowrap">
                 💰 투찰계산기
               </Link>
+              <Link href="/spec-xray" className="px-3 py-2 rounded-xl hover:bg-slate-900 hover:text-white transition-colors whitespace-nowrap">
+                🔍 시방서 엑스레이
+              </Link>
               <Link href="/partners" className="px-3 py-2 rounded-xl hover:bg-slate-900 hover:text-white transition-colors whitespace-nowrap">
                 🤝 협력사·DB
               </Link>
