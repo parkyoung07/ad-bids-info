@@ -359,6 +359,12 @@ export default function HomePage() {
                   ✨ AI제안서
                 </Link>
                 <Link
+                  href="/forms"
+                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-semibold text-cyan-300 hover:text-cyan-200 hover:bg-slate-800 transition-all border border-cyan-500/30 bg-cyan-500/10"
+                >
+                  📄 입찰서식
+                </Link>
+                <Link
                   href="/blog"
                   className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800 transition-all"
                 >
