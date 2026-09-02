@@ -259,82 +259,94 @@ export default function CalendarPage() {
   return (
     <div className="flex flex-col min-h-screen bg-slate-950 text-slate-100 selection:bg-blue-500 selection:text-white">
       {/* 상단 네비게이션 헤더 */}
-      <header className="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 shadow-lg shadow-black/20">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-14 sm:h-16">
-            <Link href="/" className="flex items-center space-x-2.5 sm:space-x-3 group shrink-0">
-              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center shadow-md shadow-blue-500/25 ring-1 ring-white/20 group-hover:scale-105 transition-transform shrink-0">
-                <Layers className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+      <header className="sticky top-0 z-40 bg-slate-900/95 backdrop-blur-md border-b border-slate-800 shadow-lg shadow-black/20">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-14 sm:h-16 gap-2">
+            <Link href="/" className="flex items-center space-x-2 sm:space-x-2.5 group shrink-0">
+              <div className="w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-lg bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center shadow-md shadow-blue-500/25 ring-1 ring-white/20 group-hover:scale-105 transition-transform shrink-0">
+                <Layers className="w-4 h-4 text-white" />
               </div>
               <div className="whitespace-nowrap">
                 <div className="flex items-center gap-1.5">
-                  <span className="text-base sm:text-lg font-bold tracking-tight text-white group-hover:text-blue-400 transition-colors">
+                  <span className="text-sm sm:text-base font-bold tracking-tight text-white group-hover:text-blue-400 transition-colors">
                     옥외광고 입찰 알리미
                   </span>
-                  <span className="inline-flex items-center gap-1 text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-indigo-500/15 text-indigo-300 border border-indigo-400/30">
+                  <span className="inline-flex items-center gap-1 text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-indigo-500/15 text-indigo-300 border border-indigo-400/30">
                     <CalendarIcon className="w-2.5 h-2.5 text-indigo-400" />
                     입찰 캘린더
                   </span>
                 </div>
-                <p className="text-[11px] text-slate-400 hidden sm:block">
+                <p className="text-[10px] text-slate-400 hidden xl:block">
                   마감일·발주예고·개찰일 한눈에 보는 월간 입찰 달력
                 </p>
               </div>
             </Link>
 
-            <div className="flex items-center gap-2 sm:gap-3 overflow-x-auto scrollbar-none py-1">
-              <nav className="flex items-center gap-1 sm:gap-1.5 shrink-0">
+            <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none py-1">
+              <nav className="flex items-center gap-1 shrink-0">
                 <Link
                   href="/"
-                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800 transition-all"
+                  className="whitespace-nowrap px-2 py-1 rounded-lg text-[11px] sm:text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800 transition-all"
                 >
                   입찰공고
                 </Link>
                 <Link
                   href="/calendar"
-                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30 shadow-md shadow-indigo-500/10"
+                  className="whitespace-nowrap px-2 py-1 rounded-lg text-[11px] sm:text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30 shadow-md shadow-indigo-500/10"
                 >
                   📅 캘린더
                 </Link>
                 <Link
                   href="/prespec"
-                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-semibold text-cyan-300 hover:text-cyan-200 hover:bg-slate-800 transition-all border border-cyan-500/30 bg-cyan-500/10"
+                  className="whitespace-nowrap px-2 py-1 rounded-lg text-[11px] sm:text-xs font-semibold text-cyan-300 hover:text-cyan-200 hover:bg-slate-800 transition-all border border-cyan-500/30 bg-cyan-500/10"
                 >
                   🔔 발주예고
                 </Link>
                 <Link
                   href="/results"
-                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-semibold text-amber-300 hover:text-amber-200 hover:bg-slate-800 transition-all border border-amber-500/30 bg-amber-500/10"
+                  className="whitespace-nowrap px-2 py-1 rounded-lg text-[11px] sm:text-xs font-semibold text-amber-300 hover:text-amber-200 hover:bg-slate-800 transition-all border border-amber-500/30 bg-amber-500/10"
                 >
                   🏆 낙찰통계
                 </Link>
                 <Link
                   href="/calculator"
-                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-semibold text-amber-300 hover:text-amber-200 hover:bg-slate-800 transition-all border border-amber-500/30 bg-amber-500/10"
+                  className="whitespace-nowrap px-2 py-1 rounded-lg text-[11px] sm:text-xs font-semibold text-amber-300 hover:text-amber-200 hover:bg-slate-800 transition-all border border-amber-500/30 bg-amber-500/10"
                 >
                   💰 투찰계산기
                 </Link>
                 <Link
+                  href="/spec-xray"
+                  className="whitespace-nowrap px-2 py-1 rounded-lg text-[11px] sm:text-xs font-semibold text-cyan-300 hover:text-cyan-200 hover:bg-slate-800 transition-all border border-cyan-500/30 bg-cyan-500/10"
+                >
+                  🔍 시방서 엑스레이
+                </Link>
+                <Link
                   href="/partners"
-                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-semibold text-cyan-300 hover:text-cyan-200 hover:bg-slate-800 transition-all border border-cyan-500/30 bg-cyan-500/10"
+                  className="whitespace-nowrap px-2 py-1 rounded-lg text-[11px] sm:text-xs font-semibold text-cyan-300 hover:text-cyan-200 hover:bg-slate-800 transition-all border border-cyan-500/30 bg-cyan-500/10"
                 >
                   🤝 협력사·DB
                 </Link>
                 <Link
                   href="/proposal"
-                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-semibold text-purple-300 hover:text-purple-200 hover:bg-slate-800 transition-all border border-purple-500/30 bg-purple-500/10"
+                  className="whitespace-nowrap px-2 py-1 rounded-lg text-[11px] sm:text-xs font-semibold text-purple-300 hover:text-purple-200 hover:bg-slate-800 transition-all border border-purple-500/30 bg-purple-500/10"
                 >
                   ✨ AI제안서
                 </Link>
                 <Link
+                  href="/forms"
+                  className="whitespace-nowrap px-2 py-1 rounded-lg text-[11px] sm:text-xs font-semibold text-cyan-300 hover:text-cyan-200 hover:bg-slate-800 transition-all border border-cyan-500/30 bg-cyan-500/10"
+                >
+                  📄 입찰서식
+                </Link>
+                <Link
                   href="/blog"
-                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800 transition-all"
+                  className="whitespace-nowrap px-2 py-1 rounded-lg text-[11px] sm:text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800 transition-all"
                 >
                   트렌드
                 </Link>
                 <Link
                   href="/news"
-                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-bold text-emerald-300 hover:text-emerald-200 hover:bg-slate-800 transition-all border border-emerald-500/30 bg-emerald-500/10 flex items-center gap-1"
+                  className="whitespace-nowrap px-2 py-1 rounded-lg text-[11px] sm:text-xs font-bold text-emerald-300 hover:text-emerald-200 hover:bg-slate-800 transition-all border border-emerald-500/30 bg-emerald-500/10 flex items-center gap-1"
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
                   뉴스

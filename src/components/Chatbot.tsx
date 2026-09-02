@@ -295,9 +295,9 @@ export default function Chatbot() {
       {/* 1. 플로팅 챗봇 버튼 */}
       <div className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-50 flex items-center gap-3">
         {!isOpen && (
-          <div className="hidden sm:flex items-center gap-1.5 bg-slate-900/95 backdrop-blur-md text-white text-xs font-medium px-3.5 py-2 rounded-full shadow-xl border border-indigo-500/30 animate-bounce">
-            <span className="text-sm">🤖</span>
-            <span className="bg-gradient-to-r from-blue-400 to-indigo-300 bg-clip-text text-transparent font-semibold">
+          <div className="hidden sm:flex items-center gap-1.5 bg-slate-900/95 backdrop-blur-md text-white text-xs font-medium px-3.5 py-2 rounded-full shadow-xl border border-indigo-500/30 animate-bounce whitespace-nowrap shrink-0 select-none">
+            <span className="text-sm shrink-0">🤖</span>
+            <span className="bg-gradient-to-r from-blue-400 to-indigo-300 bg-clip-text text-transparent font-semibold whitespace-nowrap">
               AI 입찰 도우미
             </span>
           </div>
