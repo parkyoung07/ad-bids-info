@@ -12,6 +12,8 @@ import {
   UserCheck,
 } from "lucide-react";
 import chatData from "../../public/data/chat-data.json";
+import bidsData from "../../public/data/bids.json";
+import partnersData from "../../public/data/partners.json";
 
 interface Message {
   id: string;
@@ -208,6 +210,49 @@ export default function Chatbot() {
     }, 400);
   };
 
+  // 클라이언트 측 지능형 RAG 백업 응답 생성기
+  const generateFallbackResponse = (query: string): string => {
+    const lower = query.toLowerCase();
+    const isPartnerQuery = /업체|협력사|파트너|외주|크레인|스카이|가공|공장|시공팀|실사|현수막|인쇄|도매|연락처|전화번호|전화|대표|실장|팀장/.test(lower);
+    const isBidQuery = /입찰|공고|마감|예산|금액|발주|나라장터|온비드|전광판|간판|사이니지|표찰|현판|랩핑|학교|아파트|지자체|청사/.test(lower);
+
+    if (isPartnerQuery) {
+      const keywords = lower.split(/[\s,?.!]+/).filter(k => k.length >= 2);
+      const matched = (partnersData as any[]).filter(p => {
+        const full = `${p.companyName} ${p.category} ${p.location} ${p.description} ${(p.equipment || []).join(" ")}`.toLowerCase();
+        return keywords.some(k => full.includes(k)) || /스카이|크레인|가공|공장|시공|실사/.test(full);
+      }).slice(0, 2);
+
+      if (matched.length > 0) {
+        return `🏢 [추천 협력업체 DB 안내]\n\n` + matched.map(p => 
+          `• ${p.companyName} (${p.category})\n  - 📞 담당: ${p.contactPerson} (${p.phone})\n  - 📍 지역: ${p.location}\n  - 🛠️ 장비/역량: ${(p.equipment || []).join(", ")}\n  - ℹ️ ${p.description}`
+        ).join("\n\n") + `\n\n상단 메뉴의 [🤝 협력사·DB]에서 전국 등록 업체를 검색하실 수 있습니다.`;
+      }
+    }
+
+    if (isBidQuery) {
+      const keywords = lower.split(/[\s,?.!]+/).filter(k => k.length >= 2);
+      let matchedBids = (bidsData as any[]).filter(b => {
+        const full = `${b.title} ${b.client} ${b.category} ${b.location} ${b.bidType}`.toLowerCase();
+        return keywords.some(k => full.includes(k));
+      });
+
+      if (matchedBids.length === 0) {
+        matchedBids = (bidsData as any[]).slice(0, 2);
+      } else {
+        matchedBids = matchedBids.slice(0, 2);
+      }
+
+      if (matchedBids.length > 0) {
+        return `📢 [실시간 매칭 입찰공고 안내]\n\n` + matchedBids.map(b =>
+          `• ${b.title}\n  - 🏛️ 발주처: ${b.client} (${b.location})\n  - 💰 배정예산: ${b.budgetText}\n  - ⏱️ 마감일시: ${b.endDate ? b.endDate.substring(0, 16) : "-"} (D-${b.dDay})\n  - 💡 AI 요약: ${b.aiSummary || b.category}`
+        ).join("\n\n") + `\n\n메인 화면에서 해당 공고를 클릭하시면 시방서 엑스레이 및 적격심사 자가진단을 확인하실 수 있습니다.`;
+      }
+    }
+
+    return `안녕하세요! 옥외광고 입찰 및 우수 협력사 DB 전문 도우미입니다.\n\n현재 사이트에 등록된 20건의 실시간 공고와 크레인·가공공장·시공팀 협력사 정보를 바로 안내해 드릴 수 있습니다.\n\n예: "수도권 스카이 크레인 업체 알려줘", "마감 임박한 전광판 입찰공고 찾아줘" 등으로 질문해 보세요!`;
+  };
+
   // 2. 메시지 전송 핸들러 (AI 모드 또는 상담원 대기 모드)
   const handleSendMessage = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
@@ -245,7 +290,7 @@ export default function Chatbot() {
       return;
     }
 
-    // B. AI 챗봇 모드인 경우 -> /api/chat POST 호출
+    // B. AI 챗봇 모드인 경우 -> /api/chat POST 호출 (실패 시 스마트 RAG 엔진 백업)
     setIsTyping(true);
     try {
       const response = await fetch("/api/chat", {
@@ -263,7 +308,7 @@ export default function Chatbot() {
       }
 
       const data = await response.json();
-      const botReply = data.response || "답변을 불러오지 못했습니다.";
+      const botReply = data.response || generateFallbackResponse(trimmed);
 
       setMessages((prev) => [
         ...prev,
@@ -275,13 +320,14 @@ export default function Chatbot() {
         },
       ]);
     } catch (err) {
-      console.error("AI chat error:", err);
+      console.warn("AI chat API offline, using client fallback:", err);
+      const fallbackReply = generateFallbackResponse(trimmed);
       setMessages((prev) => [
         ...prev,
         {
-          id: `bot-err-${Date.now()}`,
+          id: `bot-fallback-${Date.now()}`,
           sender: "bot",
-          text: "죄송합니다. AI 응답 중 일시적인 오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
+          text: fallbackReply,
           time: getCurrentTime(),
         },
       ]);
