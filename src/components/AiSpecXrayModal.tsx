@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import {
   X,
   Sparkles,
@@ -15,6 +15,11 @@ import {
   FileCheck2,
   Cpu,
   Truck,
+  AlertOctagon,
+  CheckCircle2,
+  Square,
+  CheckSquare,
+  BadgeCheck,
 } from "lucide-react";
 
 interface AiSpecXrayModalProps {
@@ -38,15 +43,80 @@ export default function AiSpecXrayModal({
   bid,
 }: AiSpecXrayModalProps) {
   const [copied, setCopied] = useState(false);
-  const [activeTab, setActiveTab] = useState<"all" | "materials" | "safety" | "certs">("all");
+  const [activeTab, setActiveTab] = useState<"all" | "compliance" | "materials" | "safety" | "certs">("all");
+
+  const [checkedDocs, setCheckedDocs] = useState<Record<string, boolean>>({
+    doc1: true,
+    doc2: true,
+    doc3: true,
+    doc4: false,
+    doc5: true,
+    doc6: false,
+    doc7: true,
+  });
 
   if (!isOpen) return null;
 
   // 공고별 맞춤형 엑스레이 스펙 데이터 자동 생성
-  const isLed = bid.category.includes("전광판") || bid.category.includes("사이니지") || bid.title.includes("전광판") || bid.title.includes("LED");
-  const isBanner = bid.category.includes("현수막") || bid.title.includes("현수막") || bid.title.includes("배너");
-  const isSign = bid.category.includes("간판") || bid.title.includes("간판") || bid.category.includes("조형물");
-  const isMedia = bid.category.includes("매체") || bid.category.includes("온비드") || bid.category.includes("아파트");
+  const isLed =
+    bid.category?.includes("전광판") ||
+    bid.category?.includes("사이니지") ||
+    bid.title?.includes("전광판") ||
+    bid.title?.includes("LED");
+  const isBanner =
+    bid.category?.includes("현수막") ||
+    bid.title?.includes("현수막") ||
+    bid.title?.includes("배너");
+  const isSign =
+    bid.category?.includes("간판") ||
+    bid.title?.includes("간판") ||
+    bid.category?.includes("조형물");
+
+  const directCode = isLed
+    ? "안내전광판(5512240201)"
+    : isBanner
+    ? "현수막·배너(5512150201)"
+    : isSign
+    ? "간판(5512190101) / 안내판(5512171801)"
+    : "광고대행(8210150101)";
+
+  const complianceDocs = [
+    { id: "doc1", title: "옥외광고사업 등록증", desc: "시·군·구청 발행 유효 등록증", required: true, penalty: "실격" },
+    { id: "doc2", title: `직접생산확인증명서 [${directCode}]`, desc: "SMPP 10자리 세부품명 일치 필수", required: true, penalty: "실격" },
+    { id: "doc3", title: "중소기업·소상공인 확인서", desc: "중소벤처기업부 발급 유효기간 확인", required: true, penalty: "실격" },
+    { id: "doc4", title: "공장등록증 또는 제작설비 증빙", desc: "자사 직접생산 공장/설비 등록증", required: true, penalty: "실격" },
+    { id: "doc5", title: "기업신용평가등급 확인서", desc: "조달청 제출용 유효 신용평가서 (B0 이상)", required: true, penalty: "감점" },
+    { id: "doc6", title: "사용인감계 및 인감증명서", desc: "제안서 날인용 최근 3개월분", required: false, penalty: "보완요구" },
+    { id: "doc7", title: "국세·지방세·4대보험 완납증명서", desc: "투찰 마감일 기준 미납 없음 증명", required: true, penalty: "계약취소" },
+  ];
+
+  const riskRules = [
+    {
+      level: "danger",
+      title: "직접생산확인증명서 세부품명 번호 불일치",
+      desc: "공고 세부품목코드와 1자리라도 다르면 즉시 실격(0점) 처리됩니다.",
+      solution: "SMPP 사이트에서 보유 품목 번호를 재확인하세요.",
+    },
+    {
+      level: "danger",
+      title: `지역제한 [${bid.location}] 관내 사업장 요건`,
+      desc: "공고일 전일부터 계약일까지 주된 영업소 소재지를 유지해야 합니다.",
+      solution: "법인등기부등본 및 사업자등록증 주소지를 확인하세요.",
+    },
+    {
+      level: "warning",
+      title: "복합면허 요구 시 단독 투찰 주의",
+      desc: isLed ? "정보통신공사업 면허 추가 요구 가능" : "전기 인입 공사 포함 여부 확인 필요",
+      solution: "필요 시 협력사 DB를 통해 공동수급 협정을 맺으세요.",
+    },
+  ];
+
+  const checkedCount = Object.values(checkedDocs).filter(Boolean).length;
+  const progressPercent = Math.round((checkedCount / complianceDocs.length) * 100);
+
+  const toggleDoc = (id: string) => {
+    setCheckedDocs((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
 
   const specData = {
     materials: isLed
@@ -99,26 +169,20 @@ export default function AiSpecXrayModal({
     },
   };
 
-  const handleCopyAll = () => {
+  const handleCopy = () => {
     const text = `
-[🔍 AI 시방서 엑스레이 핵심 스펙 분석표]
+[🔍 AI 시방서 엑스레이 & 실격방지 매트릭스]
 공고명: ${bid.title}
 발주처: ${bid.client}
 배정예산: ${bid.budgetText}
 
-1. 🏗️ 필수 자재 및 규격:
+■ 필수 서류 체크 현황 (${checkedCount}/${complianceDocs.length}건):
+${complianceDocs.map((d) => `  [${checkedDocs[d.id] ? "완료(O)" : "미비(X)"}] ${d.title}`).join("\n")}
+
+■ 필수 자재 규격:
 ${specData.materials.map((m, i) => `  ${i + 1}) ${m.name}: ${m.spec} (${m.standard})`).join("\n")}
 
-2. ⚠️ 시공 및 안전관리 기준:
-${specData.safeties.map((s, i) => `  ${i + 1}) ${s.item}: ${s.detail}`).join("\n")}
-
-3. 📑 필수 제출 시험성적서:
-${specData.certs.map((c, i) => `  ${i + 1}) ${c.title}: ${c.desc}`).join("\n")}
-
-4. 🛡️ 하자보증 및 유지관리:
-  - 무상 보증기간: ${specData.warranty.period}
-  - 하자보증금율: ${specData.warranty.rate}
-  - 긴급 A/S 기준: ${specData.warranty.response}
+■ 하자보증: ${specData.warranty.period}
     `.trim();
 
     navigator.clipboard.writeText(text);
@@ -126,139 +190,169 @@ ${specData.certs.map((c, i) => `  ${i + 1}) ${c.title}: ${c.desc}`).join("\n")}
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handlePrint = () => {
-    window.print();
-  };
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
-      <div className="bg-slate-900 border border-slate-700/80 rounded-3xl w-full max-w-3xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden text-slate-100">
-        {/* 모달 상단 헤더 */}
-        <div className="px-6 py-4.5 bg-gradient-to-r from-slate-950 via-slate-900 to-indigo-950/40 border-b border-slate-800 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-cyan-600/20 border border-cyan-500/40 flex items-center justify-center text-cyan-300 shadow-md">
-              <Cpu className="w-5 h-5 animate-pulse" />
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-md animate-fadeIn">
+      <div className="bg-slate-900 border border-slate-700 rounded-3xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden animate-scaleUp">
+        {/* 모달 헤더 */}
+        <div className="px-5 py-4 border-b border-slate-800 flex items-center justify-between bg-slate-950/60 shrink-0">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-xl bg-cyan-500/20 border border-cyan-400/30 flex items-center justify-center text-cyan-400">
+              <Cpu className="w-4 h-4 animate-pulse" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
-                  AI 시방서 엑스레이 V2.0
-                </span>
-                <span className="text-xs text-slate-400 font-mono">
-                  {bid.id}
-                </span>
+                <h2 className="text-sm sm:text-base font-bold text-white flex items-center gap-1.5">
+                  <span>AI 시방서 엑스레이 & 컴플라이언스</span>
+                  <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-cyan-500/20 text-cyan-300 font-bold">
+                    3초 추출
+                  </span>
+                </h2>
               </div>
-              <h3 className="text-sm sm:text-base font-bold text-white line-clamp-1 mt-0.5">
+              <p className="text-[11px] text-slate-400 truncate max-w-md sm:max-w-xl">
                 {bid.title}
-              </h3>
+              </p>
             </div>
           </div>
 
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+            className="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
           >
-            <X className="w-4 h-4" />
+            <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* 탭 네비게이션 */}
-        <div className="px-6 py-2.5 bg-slate-950/60 border-b border-slate-800 flex items-center justify-between text-xs">
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setActiveTab("all")}
-              className={`px-3 py-1.5 rounded-xl font-bold transition-all cursor-pointer ${
-                activeTab === "all"
-                  ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/40"
-                  : "text-slate-400 hover:text-slate-200"
-              }`}
-            >
-              전체 요약표
-            </button>
-            <button
-              onClick={() => setActiveTab("materials")}
-              className={`px-3 py-1.5 rounded-xl font-bold transition-all cursor-pointer ${
-                activeTab === "materials"
-                  ? "bg-blue-500/20 text-blue-300 border border-blue-500/40"
-                  : "text-slate-400 hover:text-slate-200"
-              }`}
-            >
-              자재 규격
-            </button>
-            <button
-              onClick={() => setActiveTab("safety")}
-              className={`px-3 py-1.5 rounded-xl font-bold transition-all cursor-pointer ${
-                activeTab === "safety"
-                  ? "bg-amber-500/20 text-amber-300 border border-amber-500/40"
-                  : "text-slate-400 hover:text-slate-200"
-              }`}
-            >
-              시공 안전
-            </button>
-            <button
-              onClick={() => setActiveTab("certs")}
-              className={`px-3 py-1.5 rounded-xl font-bold transition-all cursor-pointer ${
-                activeTab === "certs"
-                  ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40"
-                  : "text-slate-400 hover:text-slate-200"
-              }`}
-            >
-              성적서/인증
-            </button>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <button
-              onClick={handleCopyAll}
-              className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white rounded-xl font-bold transition-all cursor-pointer flex items-center gap-1.5 border border-slate-700"
-            >
-              {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-              <span>{copied ? "복사됨!" : "스펙표 복사"}</span>
-            </button>
-            <button
-              onClick={handlePrint}
-              className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white rounded-xl font-bold transition-all cursor-pointer flex items-center gap-1.5 border border-slate-700 hidden sm:flex"
-            >
-              <Printer className="w-3.5 h-3.5" />
-              <span>인쇄</span>
-            </button>
-          </div>
+        <div className="px-5 py-2.5 bg-slate-950/40 border-b border-slate-800 flex items-center gap-1.5 overflow-x-auto scrollbar-none shrink-0 text-xs">
+          <button
+            onClick={() => setActiveTab("all")}
+            className={`px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
+              activeTab === "all" ? "bg-cyan-600 text-white shadow-sm" : "bg-slate-800/80 text-slate-400 hover:text-white"
+            }`}
+          >
+            전체 요약
+          </button>
+          <button
+            onClick={() => setActiveTab("compliance")}
+            className={`px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer flex items-center gap-1 ${
+              activeTab === "compliance" ? "bg-rose-600 text-white shadow-sm" : "bg-slate-800/80 text-rose-300 hover:text-rose-200 border border-rose-500/20"
+            }`}
+          >
+            <BadgeCheck className="w-3.5 h-3.5" />
+            <span>📋 필수서류 매트릭스</span>
+          </button>
+          <button
+            onClick={() => setActiveTab("materials")}
+            className={`px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
+              activeTab === "materials" ? "bg-blue-600 text-white shadow-sm" : "bg-slate-800/80 text-slate-400 hover:text-white"
+            }`}
+          >
+            자재 규격표
+          </button>
+          <button
+            onClick={() => setActiveTab("safety")}
+            className={`px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
+              activeTab === "safety" ? "bg-amber-600 text-white shadow-sm" : "bg-slate-800/80 text-slate-400 hover:text-white"
+            }`}
+          >
+            안전 요건
+          </button>
+          <button
+            onClick={() => setActiveTab("certs")}
+            className={`px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
+              activeTab === "certs" ? "bg-emerald-600 text-white shadow-sm" : "bg-slate-800/80 text-slate-400 hover:text-white"
+            }`}
+          >
+            필수 성적서
+          </button>
         </div>
 
-        {/* 본문 스크롤 영역 */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-6">
-          {/* 1. 필수 자재 및 규격표 */}
+        {/* 모달 본문 (스크롤) */}
+        <div className="flex-1 overflow-y-auto p-5 space-y-5 text-xs">
+          {/* 🌟 필수서류 & 실격방지 매트릭스 */}
+          {(activeTab === "all" || activeTab === "compliance") && (
+            <div className="space-y-4 p-4 rounded-2xl bg-slate-950/80 border border-slate-800">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1.5 text-rose-300 font-bold">
+                  <ShieldCheck className="w-4 h-4 text-rose-400" />
+                  <span>📋 7대 필수서류 점검 & 실격 방지 (GovDash 방식)</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-[11px] text-slate-300">
+                    준비율: <strong className="text-cyan-400">{progressPercent}%</strong>
+                  </span>
+                  <span
+                    className={`text-[10px] font-black px-2 py-0.5 rounded ${
+                      progressPercent >= 80
+                        ? "bg-emerald-500/20 text-emerald-300"
+                        : progressPercent >= 50
+                        ? "bg-amber-500/20 text-amber-300"
+                        : "bg-rose-500/20 text-rose-300"
+                    }`}
+                  >
+                    {progressPercent >= 80 ? "🟢 투찰가능" : progressPercent >= 50 ? "🟡 보완필요" : "🔴 실격위험"}
+                  </span>
+                </div>
+              </div>
+
+              {/* 체크리스트 */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {complianceDocs.map((doc) => {
+                  const isChecked = !!checkedDocs[doc.id];
+                  return (
+                    <div
+                      key={doc.id}
+                      onClick={() => toggleDoc(doc.id)}
+                      className={`p-2.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-2 ${
+                        isChecked ? "bg-emerald-950/20 border-emerald-500/40 text-slate-200" : "bg-slate-900 border-slate-800 text-slate-400"
+                      }`}
+                    >
+                      <div className="flex items-center gap-2 truncate">
+                        {isChecked ? <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" /> : <Square className="w-4 h-4 text-slate-600 shrink-0" />}
+                        <span className={`text-[11px] font-bold truncate ${isChecked ? "text-white" : "text-slate-300"}`}>{doc.title}</span>
+                      </div>
+                      <span className={`text-[9px] px-1.5 py-0.2 rounded shrink-0 ${isChecked ? "bg-emerald-500/20 text-emerald-300" : "bg-slate-800 text-slate-400"}`}>
+                        {isChecked ? "완료" : doc.penalty}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* 실격위험 안내 */}
+              <div className="pt-2 border-t border-slate-800 grid grid-cols-1 sm:grid-cols-3 gap-2">
+                {riskRules.map((r, i) => (
+                  <div key={i} className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-[11px] space-y-1">
+                    <span className="font-bold text-rose-300 block truncate">🚨 {r.title}</span>
+                    <p className="text-slate-400 text-[10px] leading-relaxed">{r.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* 1. 자재 규격표 */}
           {(activeTab === "all" || activeTab === "materials") && (
             <div className="space-y-3">
-              <div className="flex items-center gap-2">
+              <h3 className="font-bold text-white flex items-center gap-1.5">
                 <Layers className="w-4 h-4 text-cyan-400" />
-                <h4 className="text-sm font-bold text-white">
-                  1. 🏗️ 필수 자재 및 핵심 사양 규격표
-                </h4>
-              </div>
-              <div className="border border-slate-800 rounded-2xl overflow-hidden shadow-inner bg-slate-950/40">
-                <table className="w-full text-left text-xs">
-                  <thead className="bg-slate-900/90 text-slate-400 border-b border-slate-800 font-bold">
+                <span>1. 🏗️ 필수 자재 및 핵심 사양 규격표</span>
+              </h3>
+              <div className="border border-slate-800 rounded-xl overflow-hidden bg-slate-950/40">
+                <table className="w-full text-left">
+                  <thead className="bg-slate-950 text-slate-400 border-b border-slate-800 font-bold text-[11px]">
                     <tr>
-                      <th className="p-3 w-1/4">품목 / 부자재</th>
-                      <th className="p-3 w-1/2">도면 시방서 명기 사양</th>
-                      <th className="p-3 w-1/4 text-right">표준 인증 규격</th>
+                      <th className="p-2.5">품목</th>
+                      <th className="p-2.5">도면 시방서 사양</th>
+                      <th className="p-2.5 text-right">인증 규격</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-800/60">
                     {specData.materials.map((m, idx) => (
-                      <tr key={idx} className="hover:bg-slate-800/30 transition-colors">
-                        <td className="p-3 font-bold text-cyan-300">
-                          {m.name}
-                        </td>
-                        <td className="p-3 text-slate-200">
-                          {m.spec}
-                        </td>
-                        <td className="p-3 text-right font-mono text-[11px] text-slate-400">
-                          <span className="px-2 py-0.5 rounded bg-slate-800 border border-slate-700 text-slate-300">
-                            {m.standard}
-                          </span>
-                        </td>
+                      <tr key={idx} className="hover:bg-slate-800/20">
+                        <td className="p-2.5 font-bold text-cyan-300">{m.name}</td>
+                        <td className="p-2.5 text-slate-300">{m.spec}</td>
+                        <td className="p-2.5 text-right font-mono text-[10px] text-slate-400">{m.standard}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -267,97 +361,76 @@ ${specData.certs.map((c, i) => `  ${i + 1}) ${c.title}: ${c.desc}`).join("\n")}
             </div>
           )}
 
-          {/* 2. 시공 현장 및 안전 요건 */}
+          {/* 2. 안전 요건 */}
           {(activeTab === "all" || activeTab === "safety") && (
             <div className="space-y-3">
-              <div className="flex items-center gap-2">
+              <h3 className="font-bold text-white flex items-center gap-1.5">
                 <Truck className="w-4 h-4 text-amber-400" />
-                <h4 className="text-sm font-bold text-white">
-                  2. ⚠️ 현장 시공 및 고소작업 안전관리 요건
-                </h4>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <span>2. ⚠️ 현장 시공 및 고소작업 안전관리 요건</span>
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 {specData.safeties.map((s, idx) => (
-                  <div
-                    key={idx}
-                    className="p-3.5 rounded-2xl bg-amber-500/5 border border-amber-500/20 space-y-1"
-                  >
-                    <div className="text-xs font-bold text-amber-300 flex items-center gap-1.5">
-                      <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
+                  <div key={idx} className="p-3 rounded-xl bg-amber-500/5 border border-amber-500/20 space-y-1">
+                    <span className="font-bold text-amber-300 flex items-center gap-1">
+                      <AlertTriangle className="w-3.5 h-3.5" />
                       <span>{s.item}</span>
-                    </div>
-                    <p className="text-xs text-slate-300 leading-relaxed">
-                      {s.detail}
-                    </p>
+                    </span>
+                    <p className="text-slate-300 text-[11px] leading-relaxed">{s.detail}</p>
                   </div>
                 ))}
               </div>
             </div>
           )}
 
-          {/* 3. 필수 제출 시험성적서 */}
+          {/* 3. 필수 성적서 */}
           {(activeTab === "all" || activeTab === "certs") && (
             <div className="space-y-3">
-              <div className="flex items-center gap-2">
+              <h3 className="font-bold text-white flex items-center gap-1.5">
                 <FileCheck2 className="w-4 h-4 text-emerald-400" />
-                <h4 className="text-sm font-bold text-white">
-                  3. 📑 착공 및 준공계 필수 첨부 시험성적서
-                </h4>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <span>3. 📑 착공·준공계 필수 첨부 시험성적서</span>
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 {specData.certs.map((c, idx) => (
-                  <div
-                    key={idx}
-                    className="p-3.5 rounded-2xl bg-emerald-500/5 border border-emerald-500/20 space-y-1"
-                  >
-                    <div className="text-xs font-bold text-emerald-300 flex items-center gap-1.5">
-                      <ShieldCheck className="w-3.5 h-3.5 shrink-0" />
+                  <div key={idx} className="p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/20 space-y-1">
+                    <span className="font-bold text-emerald-300 flex items-center gap-1">
+                      <ShieldCheck className="w-3.5 h-3.5" />
                       <span>{c.title}</span>
-                    </div>
-                    <p className="text-xs text-slate-400 leading-relaxed">
-                      {c.desc}
-                    </p>
+                    </span>
+                    <p className="text-slate-400 text-[11px] leading-relaxed">{c.desc}</p>
                   </div>
                 ))}
               </div>
             </div>
           )}
 
-          {/* 4. 하자보증 및 A/S 조건 */}
-          <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2">
-            <h4 className="text-xs font-bold text-slate-300 flex items-center gap-1.5">
-              <Zap className="w-3.5 h-3.5 text-indigo-400" />
-              <span>4. 🛡️ 사후 하자보증 및 유지관리 책임 기준</span>
-            </h4>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs pt-1">
-              <div>
-                <span className="text-slate-500 block text-[11px]">무상 보증기간</span>
-                <strong className="text-white">{specData.warranty.period}</strong>
-              </div>
-              <div>
-                <span className="text-slate-500 block text-[11px]">하자보수보증금율</span>
-                <strong className="text-indigo-300">{specData.warranty.rate}</strong>
-              </div>
-              <div>
-                <span className="text-slate-500 block text-[11px]">긴급 출동 기준</span>
-                <strong className="text-emerald-300">{specData.warranty.response}</strong>
-              </div>
+          {/* 하자보증 */}
+          <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex flex-wrap items-center justify-between gap-2 text-slate-300">
+            <div>
+              <span className="text-slate-500 block text-[10px]">무상 보증기간 및 보증금율</span>
+              <span className="font-bold text-white">{specData.warranty.period} (보증금율 {specData.warranty.rate})</span>
+            </div>
+            <div className="text-right">
+              <span className="text-slate-500 block text-[10px]">긴급 A/S 출동</span>
+              <span className="font-bold text-emerald-400">{specData.warranty.response}</span>
             </div>
           </div>
         </div>
 
-        {/* 모달 하단 푸터 */}
-        <div className="px-6 py-3.5 bg-slate-950 border-t border-slate-800 flex items-center justify-between text-xs">
-          <span className="text-slate-500 flex items-center gap-1">
-            <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-            <span>조달청 시방서 및 특기시방 데이터 기반 실시간 분석</span>
-          </span>
+        {/* 모달 푸터 */}
+        <div className="px-5 py-3.5 border-t border-slate-800 bg-slate-950/80 flex items-center justify-between shrink-0">
+          <button
+            onClick={handleCopy}
+            className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer border border-slate-700"
+          >
+            {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+            <span>{copied ? "클립보드 복사 완료!" : "전체 스펙 & 서류목록 복사"}</span>
+          </button>
 
           <button
             onClick={onClose}
-            className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold transition-colors cursor-pointer"
+            className="px-4 py-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white rounded-xl text-xs font-bold transition-all shadow-md shadow-cyan-600/30 cursor-pointer"
           >
-            닫기
+            확인 완료
           </button>
         </div>
       </div>
