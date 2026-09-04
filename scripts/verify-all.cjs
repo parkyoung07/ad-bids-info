@@ -126,12 +126,51 @@ async function verifyIntegrityRules() {
     }
   }
 
+  // [규칙 8] 동일 공고번호(bidNtceNo) 다중 차수 중복 노출 검출
+  console.log('규칙 8: 동일 공고번호(bidNtceNo) 다중 차수 중복 노출 검출');
+  const bidNoMap = new Map();
+  bids.forEach((b) => {
+    const no = b.announcementNo || b.id.split('-')[0];
+    const list = bidNoMap.get(no) || [];
+    list.push(b.id);
+    bidNoMap.set(no, list);
+  });
+  for (const [no, ids] of bidNoMap.entries()) {
+    if (ids.length > 1) {
+      console.error(`  ❌ [규칙 8 위반] 공고번호 [${no}]에 다중 차수가 동시 공개되었습니다: ${ids.join(', ')}`);
+      failureCount++;
+    }
+  }
+
+  // [규칙 9] 마감일 미기재 공고의 허위 dDay(예: 7) 기재 검출
+  console.log('규칙 9: 마감일 미기재 시 dDay: null 정상 처리 및 허위 D-day 방지 검출');
+  bids.forEach((b) => {
+    if (!b.bidCloseDate && b.dDay !== null) {
+      console.error(`  ❌ [규칙 9 위반] 공고 [${b.id}]는 마감일이 미기재인데 dDay(${b.dDay})가 기재되었습니다.`);
+      failureCount++;
+    }
+  });
+
+  // [규칙 10] 관리자 승인 및 DIRECT 검증 여부 전수 확인
+  console.log('규칙 10: 관리자 승인(isVerified: true) 및 DIRECT 옥외광고 공고 전수 확인');
+  bids.forEach((b) => {
+    if (!b.isVerified || b.relevanceTier !== 'DIRECT') {
+      console.error(`  ❌ [규칙 10 위반] 미승인 또는 DIRECT가 아닌 공고 [${b.id}]가 공개되었습니다.`);
+      failureCount++;
+    }
+  });
+
+  // [규칙 11] 마감 임박 공고 (dDay !== null && dDay <= 3 && dDay >= 0) 정합성 확인
+  console.log('규칙 11: 마감 임박 (D-3 이내) 공고 집계 무결성 확인');
+  const urgentBids = bids.filter((b) => !b.isClosed && b.dDay !== null && b.dDay >= 0 && b.dDay <= 3);
+  console.log(`  ℹ️ 현재 진행 공고 중 마감 임박(D-3 이내) 공고: ${urgentBids.length}건 (${urgentBids.map(b => b.id).join(', ')})`);
+
   console.log('================================================================================');
   if (failureCount > 0) {
     console.error(`❌ [검증 실패] 총 ${failureCount}건의 무결성 규칙 위반이 검출되어 빌드를 즉시 중단합니다.\n`);
     process.exit(1);
   } else {
-    console.log('✅ [검증 통과] 7대 데이터 무결성 규칙 100% 통과 (위반 0건)\n');
+    console.log('✅ [검증 통과] 전체 데이터 무결성 규칙 100% 통과 (위반 0건)\n');
   }
 }
 

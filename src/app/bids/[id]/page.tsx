@@ -44,8 +44,8 @@ export default async function BidDetailPage({ params }: PageProps) {
   }
 
   const isDemo = bid.isDemo || bid.status === "DEMO 예시";
-  const isUrgent = bid.dDay <= 3 && bid.dDay >= 0;
-  const isExpired = bid.dDay < 0 || bid.isClosed || bid.status === "마감";
+  const isExpired = (bid.dDay !== null && bid.dDay < 0) || bid.isClosed || bid.status === "마감";
+  const isUrgent = !isExpired && bid.dDay !== null && bid.dDay <= 3 && bid.dDay >= 0;
 
   const noticeDateStr = bid.noticeDate || bid.startDate?.substring(0, 10) || "미확인";
   const beginDateStr = bid.bidBeginDate || bid.startDate || "미확인";
@@ -98,6 +98,11 @@ export default async function BidDetailPage({ params }: PageProps) {
             ) : isExpired ? (
               <span className="px-2.5 py-0.5 rounded-md text-xs font-bold bg-rose-950/60 text-rose-300 border border-rose-800/60">
                 🔴 입찰 마감
+              </span>
+            ) : bid.dDay === null ? (
+              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-md text-xs font-bold bg-slate-800 text-amber-300 border border-amber-500/40">
+                <Clock className="w-3.5 h-3.5 text-amber-400" />
+                공고문 마감일 확인
               </span>
             ) : isUrgent ? (
               <span className="inline-flex items-center gap-1 px-3 py-1 rounded-md text-xs font-black bg-rose-500 text-white shadow-md animate-pulse">
@@ -214,13 +219,13 @@ export default async function BidDetailPage({ params }: PageProps) {
 
       {/* 🌟 2. 참가자격 자가진단 시뮬레이터 */}
       <section className="space-y-4">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-wrap items-center justify-between gap-2">
           <h2 className="text-base sm:text-lg font-bold text-white flex items-center gap-2">
             <FileCheck2 className="w-5 h-5 text-blue-400" />
-            <span>참가 자격 자가진단 (시뮬레이터)</span>
+            <span>참가 자격 자가진단 (일반적인 점검 예시)</span>
           </h2>
-          <span className="text-xs text-slate-400 font-medium">
-            회사 정보 등록 시 참가 가능성 자동 분석
+          <span className="text-xs text-amber-300/90 font-medium">
+            ※ 일반적인 점검 체크리스트 시뮬레이터 (공식 자격 판정 아님)
           </span>
         </div>
 

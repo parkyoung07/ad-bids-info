@@ -118,13 +118,13 @@ export default function BidSimulator({
           </div>
           <div>
             <h3 className="text-sm sm:text-base font-bold text-white flex items-center gap-2">
-              <span>참가자격 자가진단표</span>
+              <span>참가자격 자가진단 (일반적인 점검 예시)</span>
               <span className={`text-[10px] font-bold px-2 py-0.5 rounded border ${evalResult.badgeColor}`}>
                 {evalResult.statusText}
               </span>
             </h3>
             <p className="text-xs text-slate-400">
-              회사의 보유 면허 및 조건을 입력하여 참가 가능성을 사전에 점검하세요.
+              회사의 면허·조건을 입력하여 일반적인 필수 점검항목을 사전에 시뮬레이션합니다.
             </p>
           </div>
         </div>
@@ -149,6 +149,14 @@ export default function BidSimulator({
             <span>{isSaved ? "저장 완료! ✓" : "내 회사정보 저장"}</span>
           </button>
         </div>
+      </div>
+
+      {/* 법적 고지 및 일반 점검 예시 안내 배너 */}
+      <div className="bg-slate-950/70 p-3 rounded-xl border border-slate-800 text-[11px] text-slate-400 flex items-start gap-2">
+        <AlertCircle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+        <p className="leading-relaxed">
+          <strong className="text-amber-300 font-semibold">일반적인 점검 예시 안내:</strong> 본 자가진단표는 입찰 참가 전 일반적으로 점검해야 할 주요 요건을 사전 체크해보는 <span className="text-slate-200 underline">참고용 예시 시뮬레이터</span>이며 조달청의 공식 자격 심사 결과가 아닙니다. 실제 입찰 참여 전 반드시 조달청 공고문 원문과 과업지시서를 확인하십시오.
+        </p>
       </div>
 
       {/* 판정 결과 배너 (미등록 시 판정 보류 표시) */}

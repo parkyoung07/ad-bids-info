@@ -16,16 +16,17 @@ import fs from 'fs';
 import path from 'path';
 
 function calculateDDay(endDateStr) {
-  if (!endDateStr) return 7;
+  if (!endDateStr) return null; // 마감일 미기재 시 null 반환 (허위 D-7 생성 방지)
   try {
     const end = new Date(endDateStr.replace(/-/g, '/'));
+    if (isNaN(end.getTime())) return null;
     const now = new Date();
     // 분/초 단위까지 정밀 비교
     const diffTime = end.getTime() - now.getTime();
     if (diffTime < 0) return -1;
     return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   } catch (e) {
-    return 7;
+    return null;
   }
 }
 
@@ -58,8 +59,32 @@ async function publishVerifiedDirectBids() {
   const allVerified = JSON.parse(fs.readFileSync(verifiedRawPath, 'utf8'));
   
   // 1. DIRECT 옥외광고 공고만 선별
-  const directBids = allVerified.filter(b => b.relevanceTier === 'DIRECT');
-  console.log(`🔍 DIRECT 옥외광고 공고 선별: 총 ${directBids.length}건`);
+  const directBidsRaw = allVerified.filter(b => b.relevanceTier === 'DIRECT');
+  console.log(`🔍 DIRECT 옥외광고 공고 1차 선별: 총 ${directBidsRaw.length}건`);
+
+  // 2. 동일 공고번호(bidNo) 중복 제거: 최신 유효 차수(bidOrd가 가장 높은 공고)만 유지
+  const bidNoGroup = new Map();
+  for (const item of directBidsRaw) {
+    const bidNo = item.normalized?.bidNo || item.bidKey.split('-')[0];
+    const bidOrd = item.normalized?.bidOrd || item.bidKey.split('-')[1] || '000';
+    
+    if (!bidNoGroup.has(bidNo)) {
+      bidNoGroup.set(bidNo, item);
+    } else {
+      const existing = bidNoGroup.get(bidNo);
+      const existingOrd = existing.normalized?.bidOrd || existing.bidKey.split('-')[1] || '000';
+      // 차수가 더 높은 것을 선택 (예: '001' > '000')
+      if (bidOrd.localeCompare(existingOrd) > 0) {
+        console.log(`  🔄 [차수 갱신] 공고 [${bidNo}]: 구 차수(-${existingOrd}) 배제 -> 최신 차수(-${bidOrd}) 채택`);
+        bidNoGroup.set(bidNo, item);
+      } else {
+        console.log(`  🔄 [구 차수 배제] 공고 [${bidNo}]: 최신(-${existingOrd}) 유지, 구 차수(-${bidOrd}) 배제`);
+      }
+    }
+  }
+
+  const directBids = Array.from(bidNoGroup.values());
+  console.log(`✅ 최신 유효 차수 단일화 완료: 최종 ${directBids.length}건 선별`);
 
   const now = new Date();
 
@@ -75,7 +100,7 @@ async function publishVerifiedDirectBids() {
       locLabel = `${norm.restrictedRegions.join(', ')} 관내`;
     }
 
-    const isClosed = dDay < 0 || norm.isClosed || (norm.bidCloseDate && new Date(norm.bidCloseDate.replace(/-/g, '/')) <= now);
+    const isClosed = Boolean((dDay !== null && dDay < 0) || norm.isClosed || (norm.bidCloseDate && new Date(norm.bidCloseDate.replace(/-/g, '/')) <= now));
 
     const defaultTags = [
       '조달청 수집',
@@ -99,7 +124,7 @@ async function publishVerifiedDirectBids() {
       bidCloseDate: norm.bidCloseDate,
       openingDate: norm.openingDate,
       startDate: norm.bidBeginDate || norm.noticeDate || '2026-09-01',
-      endDate: norm.bidCloseDate || '마감일 미기재',
+      endDate: norm.bidCloseDate || '공고문 확인 필요',
       openDate: norm.openingDate || null,
       dDay: dDay,
       bidType: norm.contractMethod || '제한경쟁',
@@ -123,9 +148,12 @@ async function publishVerifiedDirectBids() {
     };
   });
 
-  // 정렬 (진행중 우선 -> D-Day 마감 임박순 -> 예산순)
+  // 정렬 (진행중 우선 -> D-Day 마감 임박순 (null은 뒤로) -> 예산순)
   publicBids.sort((a, b) => {
     if (a.isClosed !== b.isClosed) return a.isClosed ? 1 : -1;
+    if (a.dDay === null && b.dDay === null) return b.budget - a.budget;
+    if (a.dDay === null) return 1;
+    if (b.dDay === null) return -1;
     if (a.dDay !== b.dDay) return a.dDay - b.dDay;
     return b.budget - a.budget;
   });

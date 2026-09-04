@@ -65,17 +65,17 @@ export default function HomePage() {
     return (bidsData as unknown as BidItem[]) || [];
   }, []);
 
-  // 1. 실시간 진행 공고 (마감일 미도래: dDay >= 0 and !isClosed)
+  // 1. 실시간 진행 공고 (마감일 미도래: (dDay === null || dDay >= 0) and !isClosed and status !== '마감')
   const activeVerifiedBids = useMemo(() => {
     return allBids.filter(
-      (b) => !b.isDemo && b.status !== "DEMO 예시" && b.dDay >= 0 && !b.isClosed && b.status !== "마감"
+      (b) => !b.isDemo && b.status !== "DEMO 예시" && (b.dDay === null || b.dDay >= 0) && !b.isClosed && b.status !== "마감"
     );
   }, [allBids]);
 
   // 2. 마감된 공고 (dDay < 0 or isClosed or status === "마감")
   const closedVerifiedBids = useMemo(() => {
     return allBids.filter(
-      (b) => !b.isDemo && b.status !== "DEMO 예시" && (b.dDay < 0 || b.isClosed || b.status === "마감")
+      (b) => !b.isDemo && b.status !== "DEMO 예시" && ((b.dDay !== null && b.dDay < 0) || b.isClosed || b.status === "마감")
     );
   }, [allBids]);
 
@@ -84,9 +84,9 @@ export default function HomePage() {
     return allBids.filter((b) => b.isDemo || b.status === "DEMO 예시");
   }, [allBids]);
 
-  // 오늘 마감 임박 공고 수 (진행 공고 중 D-0, D-1)
+  // 마감 임박 공고 수 (진행 공고 중 D-3 이내: dDay !== null && dDay >= 0 && dDay <= 3)
   const todayUrgentCount = useMemo(() => {
-    return activeVerifiedBids.filter((b) => b.dDay === 0 || b.dDay === 1).length;
+    return activeVerifiedBids.filter((b) => b.dDay !== null && b.dDay >= 0 && b.dDay <= 3).length;
   }, [activeVerifiedBids]);
 
   // 현재 탭에 따른 기본 대상 리스트
@@ -120,9 +120,9 @@ export default function HomePage() {
         }
 
         // 3. 마감일 필터
-        if (filters.deadline === "d3" && bid.dDay > 3) return false;
-        if (filters.deadline === "d7" && bid.dDay > 7) return false;
-        if (filters.deadline === "d14" && bid.dDay > 14) return false;
+        if (filters.deadline === "d3" && (bid.dDay === null || bid.dDay > 3)) return false;
+        if (filters.deadline === "d7" && (bid.dDay === null || bid.dDay > 7)) return false;
+        if (filters.deadline === "d14" && (bid.dDay === null || bid.dDay > 14)) return false;
 
         // 4. 계약유형 필터
         if (filters.contractType !== "계약유형 전체") {
@@ -155,7 +155,12 @@ export default function HomePage() {
         return true;
       })
       .sort((a, b) => {
-        if (sortBy === "dDay") return a.dDay - b.dDay;
+        if (sortBy === "dDay") {
+          if (a.dDay === null && b.dDay === null) return 0;
+          if (a.dDay === null) return 1;
+          if (b.dDay === null) return -1;
+          return a.dDay - b.dDay;
+        }
         if (sortBy === "budgetDesc") return (b.budget || 0) - (a.budget || 0);
         if (sortBy === "budgetAsc") return (a.budget || 0) - (b.budget || 0);
         if (sortBy === "newest") return (b.startDate || "").localeCompare(a.startDate || "");
@@ -232,7 +237,7 @@ export default function HomePage() {
               className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white font-bold text-xs sm:text-sm border border-slate-700 transition-all cursor-pointer min-h-[44px]"
             >
               <Flame className="w-4 h-4 text-rose-400" />
-              <span>마감 임박 공고 ({todayUrgentCount}건)</span>
+              <span>마감 임박 (D-3 이내) ({todayUrgentCount}건)</span>
             </button>
 
             <button
@@ -252,7 +257,7 @@ export default function HomePage() {
             </div>
             <div className="flex items-center gap-1.5 bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800">
               <Flame className="w-3.5 h-3.5 text-rose-400" />
-              <span>마감 임박: <strong className="text-rose-400 font-bold">{todayUrgentCount}건</strong></span>
+              <span>마감 임박 (D-3 이내): <strong className="text-rose-400 font-bold">{todayUrgentCount}건</strong></span>
             </div>
             <div className="flex items-center gap-1.5 bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800 text-slate-400">
               <Clock className="w-3.5 h-3.5 text-cyan-400" />

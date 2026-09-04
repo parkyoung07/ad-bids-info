@@ -32,7 +32,7 @@ export interface BidItem {
   startDate: string;
   endDate: string;
   openDate?: string;
-  dDay: number;
+  dDay: number | null;
   bidType: string;
   linkUrl?: string;
   source?: string;
@@ -77,8 +77,8 @@ export default function BidCard({
   };
 
   const isDemo = bid.isDemo || bid.status === "DEMO 예시";
-  const isExpired = bid.dDay < 0 || bid.isClosed || bid.status === "마감";
-  const isUrgent = !isExpired && bid.dDay <= 3 && bid.dDay >= 0;
+  const isExpired = (bid.dDay !== null && bid.dDay < 0) || bid.isClosed || bid.status === "마감";
+  const isUrgent = !isExpired && bid.dDay !== null && bid.dDay <= 3 && bid.dDay >= 0;
 
   // 상태 배지 렌더링
   const renderStatusBadge = () => {
@@ -94,6 +94,14 @@ export default function BidCard({
       return (
         <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-bold bg-rose-950/60 text-rose-300 border border-rose-800/60">
           🔴 입찰 마감
+        </span>
+      );
+    }
+    if (bid.dDay === null) {
+      return (
+        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-bold bg-slate-800 text-amber-300 border border-amber-500/40">
+          <Clock className="w-3 h-3 text-amber-400" />
+          공고문 마감일 확인
         </span>
       );
     }
