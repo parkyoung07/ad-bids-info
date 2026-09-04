@@ -17,6 +17,10 @@ export const metadata: Metadata = {
   ],
 };
 
+import bidsData from "../../../public/data/bids.json";
+import { BidItem } from "@/components/BidCard";
+
 export default function SpecXrayPage() {
-  return <SpecXrayStudioClient />;
+  const bids = (bidsData as unknown as BidItem[]) || [];
+  return <SpecXrayStudioClient initialBids={bids} />;
 }

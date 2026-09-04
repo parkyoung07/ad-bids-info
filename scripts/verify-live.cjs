@@ -22,45 +22,38 @@ async function verify() {
   console.log('=== 1. Main Page (https://signbidai.com) ===');
   const main = await get('https://signbidai.com');
   console.log('HTTP Status:', main.statusCode);
-  console.log('5대 상위 메뉴 포함 여부:', 
-    main.data.includes('공고 찾기') && 
-    main.data.includes('입찰 분석') && 
-    main.data.includes('입찰 준비') && 
-    main.data.includes('협력사') && 
-    main.data.includes('입찰 가이드')
-  );
-  console.log('자동 테마(메가시티 등) 노출 여부 (false여야 정상):', main.data.includes('메가시티') || main.data.includes('3일 주기'));
-  console.log('전국 17개 지역버튼 펼침 여부 (false여야 정상):', main.data.includes('지역 선택') && !main.data.includes('id="region-btn-seoul"'));
-  console.log('실제 공고 탭 포함 여부:', main.data.includes('검증된 실제 공고'));
-  console.log('DEMO 탭 포함 여부:', main.data.includes('기능 미리보기 DEMO'));
-  
+  console.log('검증된 실제 공고 0건 표기 여부:', main.data.includes('검증된 실제 공고 (0)') || main.data.includes('검증된 진행 공고: <strong class="text-white font-bold">0건</strong>'));
+  console.log('실제 공고 0건 검증 준비 중 안내 배너 노출 여부:', main.data.includes('조달청 실시간 공식 검증 공고 준비 중 (0건)'));
+  console.log('DEMO 예시 8건 표기 여부:', main.data.includes('기능 미리보기 DEMO (8)'));
+
   console.log('\n=== 2. Calculator Page (https://signbidai.com/calculator) ===');
   const calc = await get('https://signbidai.com/calculator');
   console.log('HTTP Status:', calc.statusCode);
-  console.log('1순위 최적 투찰 문구 잔존 여부 (false여야 정상):', calc.data.includes('1순위 최적 투찰'));
+  console.log('1순위 추천/최적 투찰 문구 잔존 여부 (false여야 정상):', calc.data.includes('1순위 최적') || calc.data.includes('1순위 추천'));
   console.log('참고용 시뮬레이션 표기 여부 (true여야 정상):', calc.data.includes('참고용') || calc.data.includes('시뮬레이션'));
 
-  console.log('\n=== 3. Partners Page (https://signbidai.com/partners) ===');
-  const partners = await get('https://signbidai.com/partners');
-  console.log('HTTP Status:', partners.statusCode);
-  console.log('19,940개사 무단 노출 여부 (false여야 정상):', partners.data.includes('19,940'));
-  console.log('검증/협력사 체계 안내 여부:', partners.data.includes('협력사') || partners.data.includes('네트워크'));
-
-  console.log('\n=== 4. Proposal Page (https://signbidai.com/proposal) ===');
+  console.log('\n=== 3. Proposal Page (https://signbidai.com/proposal) ===');
   const proposal = await get('https://signbidai.com/proposal');
   console.log('HTTP Status:', proposal.statusCode);
-  console.log('홍길동 또는 가짜 1000건 실적 잔존 여부 (false여야 정상):', proposal.data.includes('홍길동') || proposal.data.includes('1,000건 이상 준공실적'));
+  console.log('구형 중복 메뉴 잔존 여부 (false여야 정상):', proposal.data.includes('옥외광고 입찰 알리미'));
+  console.log('과장 문구 (300만원 절감, 심사위원의 마음을 사로잡는 등) 잔존 여부 (false여야 정상):', 
+    proposal.data.includes('300만 원') || 
+    proposal.data.includes('300만원') || 
+    proposal.data.includes('심사위원의 마음') ||
+    proposal.data.includes('완벽 지원')
+  );
 
-  console.log('\n=== 5. Spec X-ray (https://signbidai.com/spec-xray) ===');
+  console.log('\n=== 4. Spec X-ray (https://signbidai.com/spec-xray) ===');
   const xray = await get('https://signbidai.com/spec-xray');
   console.log('HTTP Status:', xray.statusCode);
-  console.log('회사정보 미입력 시 판정 보류/안내 여부:', xray.data.includes('판정 보류') || xray.data.includes('정보를 입력') || xray.data.includes('자격 진단'));
-  console.log('적격 통과 확실 / 100점 / 낙찰 보장 잔존 여부 (false여야 정상):', xray.data.includes('적격 통과 확실') || xray.data.includes('낙찰 보장') || xray.data.includes('탈락 위험 0%'));
+  console.log('필수서류 구비율 기본값 0% (확인 전, 0개) 여부:', xray.data.includes('0%') && xray.data.includes('0 /'));
+  console.log('허위 100% 구비율 잔존 여부 (false여야 정상):', xray.data.includes('100%') && xray.data.includes('5 / 5개'));
 
-  console.log('\n=== 6. Bid Detail & D-Day check (https://signbidai.com/bids/R26BK01661955-000) ===');
-  const bid = await get('https://signbidai.com/bids/R26BK01661955-000');
-  console.log('HTTP Status:', bid.statusCode);
-  console.log('D-Day 정상 표기 여부 (마감일 기준):', bid.data.includes('D-') || bid.data.includes('마감'));
+  console.log('\n=== 5. Results Page (https://signbidai.com/results) ===');
+  const results = await get('https://signbidai.com/results');
+  console.log('HTTP Status:', results.statusCode);
+  console.log('조달청 G2B 개찰 결과 검증 허위 문구 잔존 여부 (false여야 정상):', results.data.includes('조달청 G2B 개찰 결과 검증'));
+  console.log('DEMO 시뮬레이션 표본 명시 여부 (true여야 정상):', results.data.includes('DEMO') && results.data.includes('시뮬레이션 표본'));
 }
 
 verify().catch(console.error);

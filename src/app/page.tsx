@@ -316,8 +316,8 @@ export default function HomePage() {
             <div className="space-y-1">
               <strong className="text-amber-300 font-bold block">DEMO 예시 데이터 안내</strong>
               <p className="leading-relaxed">
-                이 영역의 공고는 서비스 기능 설명을 위한 예시 데이터이며 실제 입찰에 사용할 수 없습니다.
-                공식 원문 링크가 비활성화되어 있으므로 화면 구성 및 AI 분석 기능 체험용으로만 참조하시기 바랍니다.
+                본 공고는 기능 설명을 위한 예시 데이터이며 실제 입찰에 사용할 수 없습니다.
+                표시된 자격·금액·일정·서류는 가상 예시이며, 실제 입찰 전 나라장터 원문을 별도로 확인해야 합니다.
               </p>
             </div>
           </div>
@@ -348,11 +348,11 @@ export default function HomePage() {
             </div>
             <div className="space-y-2 max-w-lg mx-auto">
               <h3 className="text-base sm:text-lg font-bold text-white">
-                조달청 실시간 공식 검증 공고 준비 중 (0건)
+                조달청 실시간 검증 공고 준비 중 (0건)
               </h3>
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                SignBid AI는 <strong>제목·발주기관·마감일·금액·참가자격이 공식 원문과 100% 일치하는 공고만 ‘검증된 실제 공고’로 등록</strong>합니다.<br />
-                현재 조달청 공식 API 실시간 연동 및 원문 검증 파이프라인을 점검 중이며, 검증 완료 즉시 실시간 공고가 등록됩니다.
+                SignBid AI는 <strong>제목·발주기관·마감일·금액·참가자격이 철저히 검증된 실시간 데이터만 ‘검증된 실제 공고’로 등록</strong>합니다.<br />
+                현재 공공데이터 실시간 연동 및 무결성 검증 파이프라인을 점검 중이며, 검증 완료 즉시 실시간 공고가 등록됩니다.
               </p>
             </div>
             <div className="pt-2">

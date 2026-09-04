@@ -245,13 +245,13 @@ export default function BidCard({
         </span>
 
         <div className="flex items-center gap-1.5">
-          {/* DEMO 공고 안내 or 원문 공고 링크 */}
+          {/* DEMO 공고 안내 or 발주시스템 링크 */}
           {isDemo ? (
             <span
-              className="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-1 rounded bg-slate-800/40 text-slate-500 border border-slate-800 cursor-not-allowed"
-              title="이 공고는 서비스 기능 설명을 위한 예시이며 실제 입찰에 사용할 수 없습니다."
+              className="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-1 rounded bg-slate-800/40 text-slate-500 border border-slate-800"
+              title="본 공고는 기능 설명을 위한 예시 데이터이며 실제 공고가 아닙니다."
             >
-              예시 공고 (원문 없음)
+              DEMO 예시
             </span>
           ) : bid.sourceDetailUrl ? (
             <a
@@ -260,7 +260,7 @@ export default function BidCard({
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 transition-colors"
             >
-              <span>원문 공고</span>
+              <span>발주시스템 확인</span>
               <ExternalLink className="w-2.5 h-2.5" />
             </a>
           ) : null}
@@ -270,7 +270,7 @@ export default function BidCard({
             href={`/bids/${bid.id}`}
             className="inline-flex items-center gap-1 text-[11px] font-bold px-3 py-1 rounded-md bg-blue-600 hover:bg-blue-500 text-white shadow-sm shadow-blue-600/20 transition-all"
           >
-            <span>상세 분석</span>
+            <span>{isDemo ? "DEMO 분석" : "상세 분석"}</span>
             <ChevronRight className="w-3 h-3" />
           </Link>
         </div>

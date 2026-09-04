@@ -243,7 +243,7 @@ export default function BidFilter({ filters, onChange, onReset }: BidFilterProps
 
           <div>
             <label className="block text-[11px] font-semibold text-slate-400 mb-1">
-              공식 출처
+              발주 출처 구분
             </label>
             <select
               value={filters.sourceOrigin || "all"}

@@ -72,7 +72,7 @@ export default function BidDetailActions({ bid }: BidDetailActionsProps) {
           <span>카톡 마감 알림</span>
         </button>
 
-        {/* 5. 원문 공고문 바로가기 (DEMO 공고 시 비활성화) */}
+        {/* 5. 발주시스템 바로가기 (DEMO 공고 시 비활성화) */}
         {bid.linkUrl ? (
           <a
             href={bid.linkUrl}
@@ -80,15 +80,15 @@ export default function BidDetailActions({ bid }: BidDetailActionsProps) {
             rel="noopener noreferrer"
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-xs sm:text-sm font-bold bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/30 transition-all transform hover:scale-105 active:scale-95"
           >
-            <span>원문 공고</span>
+            <span>발주시스템 확인</span>
             <ExternalLink className="w-4 h-4" />
           </a>
         ) : (
           <span
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-xs sm:text-sm font-semibold bg-slate-800/40 text-slate-500 border border-slate-800 cursor-not-allowed"
-            title="DEMO 예시 공고는 원문 공고 바로가기가 제공되지 않습니다."
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-xs sm:text-sm font-semibold bg-slate-800/40 text-slate-500 border border-slate-800"
+            title="본 공고는 기능 설명을 위한 가상 예시 데이터입니다."
           >
-            <span>예시 공고 (원문 없음)</span>
+            <span>DEMO 예시 공고</span>
           </span>
         )}
       </div>
