@@ -31,16 +31,8 @@ export default function SpecXrayStudioClient() {
   const [activeTab, setActiveTab] = useState<"all" | "compliance" | "materials" | "safety">("all");
   const [copied, setCopied] = useState(false);
 
-  // 인터랙티브 필수서류 체크리스트 상태
-  const [checkedDocs, setCheckedDocs] = useState<Record<string, boolean>>({
-    doc1: true,
-    doc2: true,
-    doc3: true,
-    doc4: false,
-    doc5: true,
-    doc6: false,
-    doc7: true,
-  });
+  // 인터랙티브 필수서류 체크리스트 상태 (기본값: 확인 전, 0개 체크)
+  const [checkedDocs, setCheckedDocs] = useState<Record<string, boolean>>({});
 
   const currentBid = useMemo(() => {
     return bids.find((b) => b.id === selectedBidId) || bids[0];

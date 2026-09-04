@@ -341,7 +341,31 @@ export default function HomePage() {
         </div>
 
         {/* 공고 카드 그리드 */}
-        {filteredBids.length === 0 ? (
+        {viewTab === "verified" && verifiedBids.length === 0 ? (
+          <div className="bg-slate-900/80 rounded-2xl border border-blue-500/30 p-8 sm:p-12 text-center my-6 shadow-lg space-y-4">
+            <div className="w-14 h-14 bg-blue-500/10 border border-blue-400/30 rounded-2xl flex items-center justify-center mx-auto text-blue-400 shadow-inner">
+              <ShieldCheck className="w-7 h-7 text-cyan-400" />
+            </div>
+            <div className="space-y-2 max-w-lg mx-auto">
+              <h3 className="text-base sm:text-lg font-bold text-white">
+                조달청 실시간 공식 검증 공고 준비 중 (0건)
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                SignBid AI는 <strong>제목·발주기관·마감일·금액·참가자격이 공식 원문과 100% 일치하는 공고만 ‘검증된 실제 공고’로 등록</strong>합니다.<br />
+                현재 조달청 공식 API 실시간 연동 및 원문 검증 파이프라인을 점검 중이며, 검증 완료 즉시 실시간 공고가 등록됩니다.
+              </p>
+            </div>
+            <div className="pt-2">
+              <button
+                onClick={() => setViewTab("demo")}
+                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs sm:text-sm shadow-md transition-all cursor-pointer min-h-[44px]"
+              >
+                <AlertCircle className="w-4 h-4 text-amber-200" />
+                <span>기능 미리보기 DEMO 공고 확인하기 ({demoBids.length}건)</span>
+              </button>
+            </div>
+          </div>
+        ) : filteredBids.length === 0 ? (
           <div className="bg-slate-900/60 rounded-2xl border border-slate-800 p-12 text-center my-6 shadow-sm">
             <div className="w-12 h-12 bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-3 text-slate-400">
               <Search className="w-6 h-6" />
@@ -356,7 +380,7 @@ export default function HomePage() {
               onClick={() => {
                 setFilters(INITIAL_FILTERS);
                 setSearchQuery("");
-                setViewTab("verified");
+                setViewTab("demo");
               }}
               className="inline-flex items-center gap-1 px-4 py-2 bg-blue-600/20 text-blue-300 hover:bg-blue-600/30 rounded-xl text-xs font-semibold border border-blue-500/30 transition-colors"
             >

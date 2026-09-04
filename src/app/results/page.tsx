@@ -5,11 +5,10 @@ import Link from "next/link";
 import {
   BarChart3,
   Search,
-  ExternalLink,
   Users,
   Percent,
   Banknote,
-  ShieldCheck,
+  AlertCircle,
   Building2,
   HelpCircle,
   X,
@@ -34,6 +33,7 @@ export interface AwardItem {
   openedDate: string;
   location: string;
   linkUrl: string;
+  isDemo?: boolean;
   aiAnalysis?: string;
 }
 
@@ -108,16 +108,16 @@ export default function AwardResultsPage() {
       {/* 헤더 섹션 */}
       <div className="space-y-2">
         <div className="flex items-center gap-2">
-          <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded bg-blue-500/15 text-blue-300 border border-blue-400/30">
-            <ShieldCheck className="w-3 h-3 text-cyan-400" />
-            공식 개찰 결과 연동
+          <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 border border-amber-400/30">
+            <AlertCircle className="w-3 h-3 text-amber-400" />
+            DEMO 예시 · 시뮬레이션 표본 데이터
           </span>
         </div>
         <h1 className="text-xl sm:text-2xl font-black text-white tracking-tight">
-          과거 개찰 결과 및 낙찰률 통계
+          과거 낙찰률 통계 시뮬레이션 (DEMO)
         </h1>
-        <p className="text-xs sm:text-sm text-slate-400">
-          조달청 나라장터 및 온비드에서 확인된 옥외광고 발주 사업의 실제 개찰 결과 데이터입니다.
+        <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+          본 데이터는 사정률 및 투찰 통계 모델 검증을 위한 <strong>DEMO 시뮬레이션 표본</strong>이며, 현재 조달청 공식 개찰 결과 API 실시간 연동을 준비 중입니다.
         </p>
       </div>
 
@@ -145,11 +145,11 @@ export default function AwardResultsPage() {
       {/* 3대 핵심 요약 지표 */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <div className="bg-slate-900 p-4 rounded-xl border border-slate-800">
-          <span className="text-[11px] text-slate-400 block mb-1">검증 표본 수</span>
+          <span className="text-[11px] text-slate-400 block mb-1">시뮬레이션 표본 수</span>
           <strong className="text-lg font-bold text-white">{awards.length}건</strong>
         </div>
         <div className="bg-slate-900 p-4 rounded-xl border border-slate-800">
-          <span className="text-[11px] text-slate-400 block mb-1">평균 낙찰률</span>
+          <span className="text-[11px] text-slate-400 block mb-1">평균 시뮬레이션 낙찰률</span>
           <strong className="text-lg font-bold text-blue-400">{stats.avgRate}%</strong>
         </div>
         <div className="bg-slate-900 p-4 rounded-xl border border-slate-800">
@@ -199,6 +199,9 @@ export default function AwardResultsPage() {
           >
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div className="flex items-center gap-2">
+                <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-500/10 text-amber-300 border border-amber-400/20">
+                  DEMO 예시
+                </span>
                 <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-blue-500/10 text-blue-300 border border-blue-400/20">
                   {item.category}
                 </span>
@@ -224,7 +227,7 @@ export default function AwardResultsPage() {
                 <strong className="text-slate-200">{item.budgetText}</strong>
               </div>
               <div>
-                <span className="text-slate-500 block text-[11px]">최종 낙찰금액</span>
+                <span className="text-slate-500 block text-[11px]">낙찰금액 (예시)</span>
                 <strong className="text-blue-400 font-bold">{item.winningBidText}</strong>
               </div>
               <div>
@@ -235,14 +238,14 @@ export default function AwardResultsPage() {
 
             <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 text-xs flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="text-slate-400">1순위 낙찰사:</span>
+                <span className="text-slate-400">낙찰사 (예시):</span>
                 <strong className="text-white font-semibold">{item.winner}</strong>
                 <span className="text-[10px] text-slate-400 px-1.5 py-0.2 rounded bg-slate-800">
                   {item.winnerType}
                 </span>
               </div>
-              <span className="text-[11px] text-slate-500">
-                조달청 G2B 개찰 결과 검증
+              <span className="text-[11px] text-amber-400/80 font-medium">
+                DEMO 시뮬레이션 표본
               </span>
             </div>
           </div>

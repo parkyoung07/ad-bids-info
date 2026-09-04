@@ -42,13 +42,13 @@ export default function RateAnalyticsChart({
           </div>
           <div>
             <h3 className="text-sm sm:text-base font-bold text-white flex items-center gap-2">
-              <span>과거 낙찰 데이터 통계 분석</span>
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
-                표본: {stats.matchedCount}건
+              <span>과거 낙찰 데이터 통계 시뮬레이션</span>
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-400/20">
+                시뮬레이션 표본: {stats.matchedCount}건 (DEMO)
               </span>
             </h3>
             <p className="text-xs text-slate-400">
-              {clientName} 및 유사 업종의 공식 개찰·낙찰 결과를 바탕으로 산출된 통계입니다.
+              {clientName} 및 유사 업종 통계 시뮬레이션 모델을 바탕으로 산출된 참고용 통계입니다.
             </p>
           </div>
         </div>

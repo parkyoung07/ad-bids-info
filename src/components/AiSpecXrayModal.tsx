@@ -33,13 +33,7 @@ export default function AiSpecXrayModal({
   onClose,
   bid,
 }: AiSpecXrayModalProps) {
-  const [checkedDocs, setCheckedDocs] = useState<Record<string, boolean>>({
-    doc1: true,
-    doc2: true,
-    doc3: true,
-    doc4: true,
-    doc5: true,
-  });
+  const [checkedDocs, setCheckedDocs] = useState<Record<string, boolean>>({});
 
   if (!isOpen) return null;
 
