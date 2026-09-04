@@ -1,0 +1,52 @@
+name: 📡 나라장터 공식 입찰공고 자동 정기 수집 파이프라인
+
+on:
+  schedule:
+    # 매일 한국시간(KST) 기준 09:00, 15:00 자동 실행 (UTC 00:00, 06:00)
+    - cron: '0 0,6 * * *'
+  workflow_dispatch: # 관리자 수동 즉시 실행 지원
+
+jobs:
+  sync-g2b-bids:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: 📥 코드 저장소 체크아웃
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Node.js 24 환경 설정
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: 'npm'
+
+      - name: 📦 의존성 패키지 설치
+        run: npm ci
+
+      - name: 📡 나라장터 공식 OpenAPI 수집 및 3계층 데이터 파이프라인 가동
+        env:
+          PUBLIC_DATA_API_KEY: ${{ secrets.PUBLIC_DATA_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          node scripts/fetch-g2b-verified.mjs
+
+      - name: 🛡️ 인메모리 비밀정보 심층 보안 감사
+        run: |
+          node scripts/audit-secrets.mjs
+
+      - name: 🔍 검색 인덱스 갱신
+        run: |
+          node scripts/build-search-index.js
+
+      - name: 🚀 수집 데이터 자동 커밋 및 푸시
+        run: |
+          git config --local user.email "bot@signbidai.com"
+          git config --local user.name "SignBid Auto Sync Bot"
+          if [ -n "$(git status --porcelain public/data/)" ]; then
+            git add public/data/
+            git commit -m "chore(sync): automated G2B outdoor advertising bids synchronization [skip ci]"
+            git push origin main
+          else
+            echo "ℹ️ 변경된 신규 공고 데이터가 없습니다."
+          fi

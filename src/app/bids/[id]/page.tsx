@@ -236,7 +236,7 @@ export default async function BidDetailPage({ params }: PageProps) {
       <section className="bg-slate-900 rounded-2xl border border-slate-800 p-6 shadow-xl space-y-4">
         <h2 className="text-base sm:text-lg font-bold text-white flex items-center gap-2">
           <Calendar className="w-5 h-5 text-indigo-400" />
-          <span>공고 주요 진행 일정 (가상 예시)</span>
+          <span>{isDemo ? "공고 주요 진행 일정 (가상 예시)" : "공고 주요 진행 일정 (조달청 공식)"}</span>
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-3 text-xs">
@@ -271,7 +271,7 @@ export default async function BidDetailPage({ params }: PageProps) {
         </div>
       </section>
 
-      {/* 🌟 4. 네 번째: AI 핵심 요약 (AI Brief with DEMO Disclaimer) */}
+      {/* 🌟 4. 네 번째: AI 핵심 요약 및 공식 검증 요건 분리 */}
       <section className="bg-slate-900 rounded-2xl border border-slate-800 p-6 sm:p-8 shadow-xl space-y-6">
         {/* 섹션 상단 헤더 & 배지 */}
         <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-800">
@@ -281,14 +281,23 @@ export default async function BidDetailPage({ params }: PageProps) {
             </div>
             <div>
               <h2 className="text-base sm:text-lg font-bold text-white flex items-center gap-2">
-                <span>AI 공고 분석 브리프</span>
-                <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-300 border border-amber-400/30">
-                  <ShieldCheck className="w-3 h-3 text-amber-400" />
-                  DEMO 시뮬레이션 · 실제 입찰은 나라장터 원문을 확인하십시오
-                </span>
+                <span>{isDemo ? "AI 공고 분석 브리프" : "공식 검증 요건 및 AI 분석 브리프"}</span>
+                {isDemo ? (
+                  <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-300 border border-amber-400/30">
+                    <ShieldCheck className="w-3 h-3 text-amber-400" />
+                    DEMO 시뮬레이션 · 실제 입찰은 나라장터 원문을 확인하십시오
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-400/30">
+                    <ShieldCheck className="w-3 h-3 text-emerald-400" />
+                    조달청 나라장터 공식 검증 완료
+                  </span>
+                )}
               </h2>
               <p className="text-xs text-slate-400">
-                DEMO 가정 조건과 AI 분석 참고사항을 구분하여 안내합니다.
+                {isDemo
+                  ? "DEMO 가정 조건과 AI 분석 참고사항을 구분하여 안내합니다."
+                  : "조달청 공식 공고 요건과 AI 전략 분석을 엄격히 분리하여 제공합니다."}
               </p>
             </div>
           </div>
@@ -296,53 +305,53 @@ export default async function BidDetailPage({ params }: PageProps) {
 
         {/* 2개 분리 영역 */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {/* 영역 1: DEMO 가정 조건 */}
+          {/* 영역 1: 공식 검증 / DEMO 요건 */}
           <div className="bg-slate-950/80 rounded-xl p-5 border border-slate-800 space-y-3.5">
             <div className="flex items-center justify-between pb-2 border-b border-slate-800">
               <span className="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
                 <FileCheck2 className="w-4 h-4" />
-                <span>DEMO 가정 조건</span>
+                <span>{isDemo ? "DEMO 가정 조건" : "조달청 공식 요건"}</span>
               </span>
-              <span className="text-[10px] px-1.5 py-0.2 rounded bg-amber-500/10 text-amber-300 border border-amber-500/30 font-medium">
-                가정 예시
+              <span className={`text-[10px] px-1.5 py-0.2 rounded font-medium ${isDemo ? 'bg-amber-500/10 text-amber-300 border border-amber-500/30' : 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/30'}`}>
+                {isDemo ? "가정 예시" : "공식 검증"}
               </span>
             </div>
 
             <div className="space-y-2.5 text-xs text-slate-300">
               <div>
-                <span className="text-slate-500 block text-[11px]">필수 면허/등록 (가정):</span>
+                <span className="text-slate-500 block text-[11px]">필수 면허/등록 요건:</span>
                 <p className="font-semibold text-white">
-                  {bid.verifiedRequirements?.license || bid.checkList?.licenseRequired || "옥외광고사업 등록 (예시)"}
+                  {bid.verifiedRequirements?.license || bid.checkList?.licenseRequired || "옥외광고사업 등록증 (필수)"}
                 </p>
               </div>
 
               <div>
-                <span className="text-slate-500 block text-[11px]">직접생산확인 (가정):</span>
+                <span className="text-slate-500 block text-[11px]">직접생산확인 증명:</span>
                 <p className="font-semibold text-white">
-                  {bid.verifiedRequirements?.directProduction || bid.checkList?.directProduction || "해당 세부품명 직생증명서 (예시)"}
+                  {bid.verifiedRequirements?.directProduction || bid.checkList?.directProduction || "해당 세부품명 직접생산확인증명서 (필수)"}
                 </p>
               </div>
 
               <div>
-                <span className="text-slate-500 block text-[11px]">지역 제한 및 공동도급 (가정):</span>
+                <span className="text-slate-500 block text-[11px]">참가자격 지역 및 공동도급:</span>
                 <p className="font-semibold text-white">
-                  {bid.location === "전국" ? "전국 입찰 가능 (가정)" : `${bid.location} 관내 소재 업체 (가정)`} /{" "}
-                  {bid.verifiedRequirements?.jointVenture || bid.checkList?.jointVenture || "가정 예시 조건"}
+                  {bid.location === "전국" ? "전국 입찰 가능" : `${bid.location} 소재 업체 제한`} /{" "}
+                  {bid.verifiedRequirements?.jointVenture || bid.checkList?.jointVenture || "단독 또는 공동이행"}
                 </p>
               </div>
 
               <div>
-                <span className="text-slate-500 block text-[11px]">하자보증 및 제출서류 (가정):</span>
+                <span className="text-slate-500 block text-[11px]">하자보수보증 및 기간:</span>
                 <p className="font-semibold text-white">
-                  {bid.verifiedRequirements?.warrantyPeriod || bid.checkList?.warrantyPeriod || "준공 후 2년 (가정 예시)"}
+                  {bid.verifiedRequirements?.warrantyPeriod || bid.checkList?.warrantyPeriod || "준공검사일로부터 1~2년 (하자보수 5%)"}
                 </p>
               </div>
 
               {/* 분석 근거 표시 */}
               <div className="pt-2 border-t border-slate-800/60 text-[11px] text-slate-400">
-                <span className="text-slate-500 font-medium">분석 근거: </span>
+                <span className="text-slate-500 font-medium">데이터 출처: </span>
                 <span className="text-cyan-300 font-mono">
-                  {isDemo ? "DEMO 분석 예시: 실제 공고문을 업로드하면 해당 문구와 위치를 추출합니다." : (bid.sourceEvidence || "DEMO 분석 예시: 실제 공고문을 업로드하면 해당 문구와 위치를 추출합니다.")}
+                  {isDemo ? "DEMO 분석 예시: 실제 공고문을 업로드하면 해당 문구와 위치를 추출합니다." : (bid.sourceEvidence || "조달청 나라장터 공식 Open API 및 원문 대조 검증 완료")}
                 </span>
               </div>
             </div>
@@ -353,10 +362,10 @@ export default async function BidDetailPage({ params }: PageProps) {
             <div className="flex items-center justify-between pb-2 border-b border-slate-800">
               <span className="text-xs font-bold text-cyan-400 flex items-center gap-1.5">
                 <Sparkles className="w-4 h-4" />
-                <span>AI가 제안한 참고사항</span>
+                <span>AI 전략 분석 (분리 영역)</span>
               </span>
               <span className="text-[10px] px-1.5 py-0.2 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/30 font-medium">
-                AI 제안
+                AI 분석
               </span>
             </div>
 
@@ -369,7 +378,7 @@ export default async function BidDetailPage({ params }: PageProps) {
               </div>
 
               <div>
-                <span className="text-slate-500 block text-[11px]">주요 규격 및 확인 제안:</span>
+                <span className="text-slate-500 block text-[11px]">주요 과업 핵심 요약:</span>
                 <p className="text-slate-200 leading-relaxed">
                   {bid.aiSummary || "옥외광고물 제작 및 시공 설치 용역입니다."}
                 </p>

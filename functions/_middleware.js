@@ -1,13 +1,37 @@
 /**
  * Cloudflare Pages Edge Middleware
  * 
- * 1. 구형 불일치/미검증 공고(/bids/R26BK*, /bids/DEMO-G2B*, /bids/2026* 등)에 대해 
- *    302 리다이렉트 없이 최초 요청에서 직접 HTTP 410 Gone 반환
- * 2. /404 직접 접근 시 HTTP 404 Not Found 상태 코드 반환
- * 3. 미존재 공고 ID 요청 시 HTTP 404 Not Found 반환
+ * 1. 과거 폐기/삭제된 구형 불일치 공고에 대해 302 리다이렉트 없이 직접 HTTP 410 Gone 반환
+ * 2. 검증된 공식 실공고 및 DEMO 공고는 정상 200 OK 서빙
+ * 3. /404 직접 접근 시 HTTP 404 Not Found 반환
  */
 
-const VALID_DEMO_BIDS = new Set([
+const REVOKED_410_BIDS = new Set([
+  'R26BK01661955-000',
+  'R26BK01650918-000',
+  'R26BK01650354-000',
+  'R26BK01683902-000',
+  'DEMO-G2B-001',
+  'DEMO-G2B-002',
+  'DEMO-G2B-003',
+  'DEMO-G2B-004',
+  'DEMO-G2B-005',
+  'DEMO-G2B-006'
+]);
+
+const VALID_BIDS = new Set([
+  // 검증된 공식 실공고 10건
+  'R26BK01706832-000',
+  'R26BK01707809-000',
+  'R26BK01707504-000',
+  'R26BK01707371-000',
+  'R26BK01705844-000',
+  'R26BK01706796-000',
+  'R26BK01706814-000',
+  'R26BK01706813-000',
+  'R26BK01706792-000',
+  'R26BK01706211-000',
+  // 데모 공고 ID
   'DEMO-BID-001',
   'DEMO-BID-002',
   'DEMO-BID-003',
@@ -83,24 +107,13 @@ export async function onRequest(context) {
     const segments = pathname.replace(/^\/bids\/?/, '').split('/');
     const bidId = segments[0];
 
-    // /bids 또는 /bids/ 로 공고 목록 접근한 경우 메인으로 넘김
+    // /bids 또는 /bids/ 로 접근한 경우
     if (!bidId) {
       return context.next();
     }
 
-    // 유효한 DEMO 공고 ID는 정상 정적 HTML 서빙 (200 OK)
-    if (VALID_DEMO_BIDS.has(bidId)) {
-      return context.next();
-    }
-
-    // 구형 불일치/미검증 공고번호 패턴은 직접 410 Gone 반환 (리다이렉트 없이)
-    if (
-      bidId.startsWith('R26BK') ||
-      bidId.startsWith('DEMO-G2B') ||
-      bidId.startsWith('DEMO-KAPT') ||
-      bidId.startsWith('DEMO-ONBID') ||
-      bidId.startsWith('2026')
-    ) {
+    // 폐기된 구형 공고 ID는 최초 요청에서 410 Gone 반환
+    if (REVOKED_410_BIDS.has(bidId)) {
       return new Response(GONE_HTML, {
         status: 410,
         statusText: 'Gone',
@@ -114,21 +127,24 @@ export async function onRequest(context) {
       });
     }
 
-    // 그 외 존재하지 않는 공고 ID는 직접 404 Not Found 반환
+    // 유효한 실공고 및 DEMO 공고는 정상 200 OK 서빙
+    if (VALID_BIDS.has(bidId)) {
+      return context.next();
+    }
+
+    // 그 외 미존재 공고 ID는 404 Not Found 반환
     return new Response(NOT_FOUND_HTML, {
       status: 404,
       statusText: 'Not Found',
       headers: {
         'Content-Type': 'text/html; charset=utf-8',
         'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0',
-        'Pragma': 'no-cache',
-        'Expires': '0',
         'X-Robots-Tag': 'noindex, nofollow',
       },
     });
   }
 
-  // 2. /404 경로 직접 요청 시 404 Not Found 상태 코드 반환
+  // 2. /404 경로 직접 요청 시 404 Not Found 반환
   if (pathname === '/404' || pathname === '/404/' || pathname === '/404.html') {
     return new Response(NOT_FOUND_HTML, {
       status: 404,
@@ -141,6 +157,6 @@ export async function onRequest(context) {
     });
   }
 
-  // 3. 그 외 정상 경로는 다음 핸들러(정적 에셋 등)로 통과
+  // 3. 정상 통과
   return context.next();
 }
