@@ -13,6 +13,10 @@ import {
   Sliders,
   CheckCircle2,
   RefreshCw,
+  AlertCircle,
+  ShieldCheck,
+  Building,
+  Info,
 } from "lucide-react";
 
 interface BidItem {
@@ -29,33 +33,25 @@ interface BidItem {
     licenseRequired?: string;
     directProduction?: string;
   };
-  linkUrl: string;
+  verifiedRequirements?: {
+    license?: string;
+    directProduction?: string;
+    location?: string;
+    jointVenture?: string;
+    workPeriod?: string;
+    warrantyPeriod?: string;
+    siteBriefing?: string;
+  };
+  linkUrl?: string;
 }
 
 interface ProposalStudioClientProps {
   initialBids: BidItem[];
 }
 
-const STRENGTH_OPTIONS = [
-  "직접생산확인(SMPP) 공장 보유",
-  "3년 무상 하자보증 & 24h 긴급AS",
-  "KS 방수 LED 모듈 100% 채택",
-  "스카이/크레인 장비 및 안전자격 완비",
-  "관공서·지자체 1,000건 이상 준공 실적",
-  "친환경 고효율 에너지 절감 설계",
-];
-
-const CONCEPT_OPTIONS = [
-  "도시 경관 조화 & 모던 하이테크",
-  "지자체 상징 브랜드 & 품격 디자인",
-  "주·야간 시인성 및 주목도 극대화",
-  "친환경 탄소중립 & 미니멀 에코",
-];
-
 export default function ProposalStudioClient({
   initialBids,
 }: ProposalStudioClientProps) {
-  // 모드: existing(공고 선택) vs custom(직접 입력)
   const [selectedBidId, setSelectedBidId] = useState<string>(
     initialBids[0]?.id || "custom"
   );
@@ -65,24 +61,18 @@ export default function ProposalStudioClient({
   const [customCategory, setCustomCategory] = useState("간판·조형물");
   const [customLocation, setCustomLocation] = useState("경북 김천시");
 
-  // 제안사 정보
-  const [companyName, setCompanyName] = useState("(주)한국옥외광고미디어");
-  const [repName, setRepName] = useState("홍길동");
-  const [selectedConcept, setSelectedConcept] = useState(CONCEPT_OPTIONS[0]);
-  const [selectedStrengths, setSelectedStrengths] = useState<string[]>([
-    STRENGTH_OPTIONS[0],
-    STRENGTH_OPTIONS[1],
-    STRENGTH_OPTIONS[2],
-    STRENGTH_OPTIONS[3],
-  ]);
+  // 사용자가 직접 입력하는 회사 사실정보
+  const [companyName, setCompanyName] = useState("");
+  const [repName, setRepName] = useState("");
+  const [hasFactory, setHasFactory] = useState(false);
+  const [hasDirectProd, setHasDirectProd] = useState(false);
+  const [confirmedWarranty, setConfirmedWarranty] = useState("");
+  const [confirmedExperience, setConfirmedExperience] = useState("");
 
-  // UI 상태
   const [activeViewTab, setActiveViewTab] = useState<"document" | "slides">("document");
   const [copied, setCopied] = useState(false);
   const [copiedSlideIdx, setCopiedSlideIdx] = useState<number | null>(null);
-  const [isGenerating, setIsGenerating] = useState(false);
 
-  // 현재 활성화된 공고 데이터 계산
   const currentBid = useMemo(() => {
     if (selectedBidId === "custom") {
       return {
@@ -93,573 +83,361 @@ export default function ProposalStudioClient({
         budgetText: `${((Number(customBudget) || 50000000) / 100000000).toFixed(1)}억원`,
         category: customCategory,
         location: customLocation,
-        checkList: {
-          workPeriod: "계약체결일로부터 45일 이내",
-          warrantyPeriod: "준공검사일로부터 3년 (하자보증금율 5%)",
-          licenseRequired: "옥외광고사업 등록증 보유 (필수)",
-          directProduction: `직접생산확인 [${customCategory}] 증명서 보유`,
+        verifiedRequirements: {
+          license: "옥외광고사업 등록증 (필수)",
+          directProduction: `직접생산확인 [${customCategory}]`,
+          workPeriod: "착수일로부터 60일 이내",
+          warrantyPeriod: "준공 후 2년 (5%)",
         },
       };
     }
     const found = initialBids.find((b) => b.id === selectedBidId);
-    return (
-      found || {
-        id: "default",
-        title: customTitle,
-        client: customClient,
-        budget: Number(customBudget) || 50000000,
-        budgetText: `${((Number(customBudget) || 50000000) / 100000000).toFixed(1)}억원`,
-        category: customCategory,
-        location: customLocation,
-      }
-    );
+    return found || initialBids[0];
   }, [selectedBidId, customTitle, customClient, customBudget, customCategory, customLocation, initialBids]);
 
-  const toggleStrength = (s: string) => {
-    if (selectedStrengths.includes(s)) {
-      setSelectedStrengths(selectedStrengths.filter((item) => item !== s));
-    } else {
-      setSelectedStrengths([...selectedStrengths, s]);
-    }
-  };
-
-  const handleGenerate = () => {
-    setIsGenerating(true);
-    setTimeout(() => {
-      setIsGenerating(false);
-    }, 400);
-  };
-
-  // 원가 계산
-  const directMaterial = Math.round(currentBid.budget * 0.44);
-  const directLabor = Math.round(currentBid.budget * 0.26);
-  const equipmentCost = Math.round(currentBid.budget * 0.08);
-  const overhead = Math.round(currentBid.budget * 0.12);
-  const vat = Math.round(currentBid.budget * 0.10);
-
-  // 마크다운 제안서 본문
+  // 마크다운 제안서 본문 생성 (3단계 엄격 분리 및 [회사 확인 필요] 적용)
   const proposalDocumentText = useMemo(() => {
-    const workPeriod = currentBid.checkList?.workPeriod || "계약체결일로부터 30~60일 이내";
-    const warranty = currentBid.checkList?.warrantyPeriod || "준공검사일로부터 3년 (하자보증금율 5%)";
-    const license = currentBid.checkList?.licenseRequired || "옥외광고사업 등록증 보유";
-    const directProd = currentBid.checkList?.directProduction || "해당 세부품명 직접생산확인증명서 보유";
+    const cName = companyName.trim() || "[회사 확인 필요: 회사명 입력]";
+    const rName = repName.trim() || "[회사 확인 필요: 대표자명 입력]";
+    const expText = confirmedExperience.trim() || "[회사 확인 필요: 실적 증명원 대조]";
+    const warText = confirmedWarranty.trim() || "[회사 확인 필요: 공고문 기준 보증기간 확약]";
+    const facText = hasFactory ? "자체 제작 설비 및 공장 보유" : "[회사 확인 필요: 공장등록증 유무 확인]";
+    const dpText = hasDirectProd ? "유효 직접생산확인증명서 보유" : "[회사 확인 필요: SMPP 직생증명서 유효기간 확인]";
 
     return `================================================================================
 과 업 수 행 계 획 서  및  입 찰  제 안 서  초 안
 [ 사업명 : ${currentBid.title} ]
 ================================================================================
 
-제안사: ${companyName} (대표자: ${repName})
-발주처: ${currentBid.client}
-제출일: ${new Date().toLocaleDateString("ko-KR", { year: "numeric", month: "long", day: "numeric" })}
+[ 1. 회사가 입력한 사실정보 (Company Facts) ]
+• 제안 업체명: ${cName}
+• 대 표 자 명: ${rName}
+• 자체 제조설비: ${facText}
+• 직접생산확인: ${dpText}
+• 주요 수행실적: ${expText}
+• 확약 보증기간: ${warText}
 
---------------------------------------------------------------------------------
-제1장. 사업 개요 및 기본 방침
---------------------------------------------------------------------------------
-1.1. 과업 기본 정보
-  • 사 업 명 : ${currentBid.title}
-  • 발주기관 : ${currentBid.client}
-  • 배정예산 : ${currentBid.budgetText} (금 ${currentBid.budget.toLocaleString()}원)
-  • 사업분야 : ${currentBid.category} (설치지역: ${currentBid.location})
-  • 과업기간 : ${workPeriod}
-  • 참가자격 : ${license} / ${directProd}
+[ 2. 공고문에서 확인된 요구사항 (RFP Requirements) ]
+• 발 주 기 관: ${currentBid.client}
+• 주 요 품 목: ${currentBid.category}
+• 필수 참가자격: ${currentBid.verifiedRequirements?.license || currentBid.checkList?.licenseRequired || "공고문 참조"}
+• 직접생산세부: ${currentBid.verifiedRequirements?.directProduction || currentBid.checkList?.directProduction || "공고문 세부품명 일치 필수"}
+• 과 업 기 한: ${currentBid.verifiedRequirements?.workPeriod || currentBid.checkList?.workPeriod || "계약체결일 기준 산정"}
+• 보 증 조 건: ${currentBid.verifiedRequirements?.warrantyPeriod || currentBid.checkList?.warrantyPeriod || "준공 후 하자보증금 납부"}
 
-1.2. 제안사 핵심 강점
-${selectedStrengths.map((s, idx) => `  (${idx + 1}) ${s}`).join("\n")}
+[ 3. AI가 작성한 제안문 초안 (AI Draft Proposal) ]
+■ 제1장. 사업의 목적 및 추진 방향
+ 1. 사업 이해도
+   - 본 사업은 ${currentBid.client}의 옥외 공간 품격을 제고하고 이용자 안전을 확보하기 위한 과업입니다.
+   - 발주기관의 공공디자인 가이드라인과 설치 환경 특성을 반영하여 표준 공정 프로세스를 수립합니다.
 
-1.3. 과업 추진 목적
-  본 과업은 [${currentBid.client}]의 품격과 공공 가치를 극대화하고, 이용객 및 시민에게 최상의 시인성과
-  안전성을 제공할 수 있는 고품질 [${currentBid.category}]를 성공적으로 구축하는 데 목적이 있습니다.
+ 2. 제안의 차별성
+   - 시공 전 정밀 3D 실측 및 구조 안전 진단을 통한 설치 오차 제로화 추진 [회사 확인 필요: 3D 실측 가능 여부]
+   - 내후성 및 안전성이 검증된 정품 규격 자재 우선 채택 [회사 확인 필요: 시험성적서 구비]
 
+■ 제2장. 공정 및 품질 관리 계획
+ 1. 제작 공정 관리
+   - 원자재 입고 검수 -> 정밀 가공/용접 -> 표면 도장 -> 전장 배선 -> 공장 출하 검사
+ 2. 현장 안전 및 시공 관리
+   - 도로변 고소작업 시 보행자 안전통로 및 신호수 배치 [회사 확인 필요: 안전관리계획서 제출]
+   - 작업자 안전보호구 착용 및 장비 안전검사증 구비
 
---------------------------------------------------------------------------------
-제2장. 현장 분석 및 디자인 전략
---------------------------------------------------------------------------------
-2.1. 설치 환경 및 시인성 분석
-  • 설치 대상지 [${currentBid.location}] 주변 보행자 및 차량 이동 동선을 정밀 분석하여 최적의 시야각(160° 이상) 확보
-  • 주·야간 주변 건축물과의 조도 간섭을 최소화하고 빛공해 방지 가이드라인을 엄격히 준수
+■ 제3장. 사후 관리 및 유지보수 계획
+ 1. 비상 대응 체계
+   - 하자 발생 접수 시 전담 AS팀 긴급 현장 출동 및 원인 분석 [회사 확인 필요: 출동 가능 시간대 확약]
+ 2. 정기 점검 계획
+   - 준공 후 태풍 및 집중호우 대비 구조 안전 정기 점검 실시
 
-2.2. 디자인 및 기획 콘셉트
-  • 디자인 방향 : [ ${selectedConcept} ]
-  • 발주처의 기관 아이덴티티와 주변 도시 경관이 완벽히 조화되는 모던 & 품격 디자인 적용
-  • 눈부심 방지 및 균일한 면발광 디퓨저 광학 설계로 시각적 피로도 감소
+================================================================================
+※ 안내: 본 문서는 AI가 작성한 초안입니다. 실제 제출 전 회사의 자격, 장비, 실적과 대조하여 반드시 최종 검토 및 수정하십시오.`;
+  }, [currentBid, companyName, repName, hasFactory, hasDirectProd, confirmedExperience, confirmedWarranty]);
 
-
---------------------------------------------------------------------------------
-제3장. 자재 규격 및 제작 사양서
---------------------------------------------------------------------------------
-3.1. 프레임 및 외장 구조
-  • 프레임 재질 : 고강도 알루미늄 압출 프레임 및 갈바늄(Galvalume) 1.6T 이상
-  • 도장 사양   : 내후성 불소수지 분체도장 (3회 열처리 도장, 염수분무 1,000시간 합격품)
-  • 구조 안전   : 순간최대풍속 45m/s 이상 견디는 풍하중 구조 계산서 준수 앙카 시공
-
-3.2. 광원 및 전기 제어 장치
-  • LED 광원    : KS/CE 인증 국내 대기업 정품 방수 LED 모듈 (IP68 방수등급, 수명 50,000시간)
-  • 전원공급장치: 정전압 방우형 SMPS (효율 90% 이상, KC안전인증, 2중 서지보호 회로 내장)
-  • 안전 제어   : 고감도 누전차단기(30mA, 0.03초 이내) 개별 분기 회로 및 난연 배선관 시공
-
-
---------------------------------------------------------------------------------
-제4장. 시공 프로세스 및 안전관리 계획
---------------------------------------------------------------------------------
-4.1. 단계별 세부 공정표
-  [1단계 : 현장 정밀 실측 및 디자인 최종 승인 (1~7일차)]
-    - 현장 레이저 3D 정밀 실측 및 배선 경로 실사
-    - 발주처 담당관 입회 하 원색 컬러 교정(Color Proof) 및 시안 최종 승인
-
-  [2단계 : 본사 공장 직접생산 및 가공 조립 (8~20일차)]
-    - 레이저 정밀 가공, 용접, 프레임 도장 및 LED 모듈 모듈화 결선
-    - 공장 출하 전 24시간 연속 점등(Burn-in) 및 절연저항 전수 검사 실시
-
-  [3단계 : 현장 반입, 고소작업 및 안착 시공 (21~27일차)]
-    - 도로점용허가 취득 및 안전관리책임자 지정
-    - 안전검사필 스카이/크레인 장비 투입 및 보행자 안전통제선 / 신호수 2인 상시 배치
-    - 화학 앵커볼트 견고 체결 및 수평/수직 오차율 2mm 이내 정밀 부착
-
-  [4단계 : 시운전, 준공검사 및 운영 인계 (28~30일차)]
-    - 주/야간 조도 측정 및 전력 효율 측정 데이터 보고서 제출
-    - 발주처 검수위원 입회 하 최종 준공검사 완료 및 유지관리 인계서 교부
-
-4.2. 현장 무사고 안전대책
-  • 모든 작업자 안전모, 2점식 안전대 착용 및 고소작업차 아웃트리거 지반 보강판 필수 설치
-  • 공사 중 발생하는 철거 폐기물은 친환경 지정 폐기물 업체를 통해 전량 적법 처리
-
-
---------------------------------------------------------------------------------
-제5장. 품질 보증 및 사후관리(A/S) 이행 확약
---------------------------------------------------------------------------------
-5.1. 하자보증 기준
-  • 하자보증기간 : ${warranty}
-  • 보증 범위   : 프레임 부식, LED 모듈 불량, SMPS 전원 불량, 접합부 균열 전액 무상 교체
-
-5.2. 24시간 긴급 A/S 출동 체계
-  • 접수 후 4시간 이내 관할 A/S 전담팀 현장 도착
-  • 접수 후 24시간 이내 부품 교체 및 정상 점등 복구 완료
-  • 비상 예비 부품(모듈, SMPS) 3년분 자체 창고 상시 비축
-
-5.3. 무상 정기점검 서비스
-  • 연 2회(상/하반기) 전문 기술 인력 방문 정기 안전점검
-  • 볼트 조임 상태, 전원 절연저항 측정, 표면 세척 서비스 무상 제공
-
-
---------------------------------------------------------------------------------
-제6장. 예상 원가 산출 내역 총괄
---------------------------------------------------------------------------------
-  1. 직접재료비 (프레임, 방수 LED, SMPS, 배선자재 등)   : ₩${directMaterial.toLocaleString()}원 (44%)
-  2. 직접노무비 (제작 기능공, 시공 기술자, 전기기사)    : ₩${directLabor.toLocaleString()}원 (26%)
-  3. 장비임차료 (스카이 크레인 고소작업차, 운송비)      : ₩${equipmentCost.toLocaleString()}원 (8%)
-  4. 제경비 및 일반관리비/이윤                           : ₩${overhead.toLocaleString()}원 (12%)
-  5. 부가가치세 (10%)                                    : ₩${vat.toLocaleString()}원 (10%)
---------------------------------------------------------------------------------
-  합계 금액 (투찰 예산 기준)                            : ₩${currentBid.budget.toLocaleString()}원
-
-귀 기관([${currentBid.client}])의 무궁한 발전을 기원하며, 위 과업수행계획서의 모든 사항을 성실히 이행할 것을 서약합니다.
-================================================================================`;
-  }, [currentBid, companyName, repName, selectedConcept, selectedStrengths, directMaterial, directLabor, equipmentCost, overhead, vat]);
-
-  // 슬라이드 데이터
-  const slideCards = useMemo(() => {
-    const workPeriod = currentBid.checkList?.workPeriod || "계약체결일로부터 30~60일 이내";
-    const warranty = currentBid.checkList?.warrantyPeriod || "준공검사일로부터 3년 (하자보증금율 5%)";
-
+  // 슬라이드 데이터 (3단계 구분 반영)
+  const presentationSlides = useMemo(() => {
+    const cName = companyName.trim() || "[회사명 미입력]";
     return [
       {
-        slideNum: 1,
-        title: "1. 사업 개요 및 제안사 소개",
-        subtitle: "과업의 배경 및 제안사의 전문 핵심 역량",
-        points: [
-          `사업명: ${currentBid.title}`,
-          `발주기관: ${currentBid.client} / 예산: ${currentBid.budgetText}`,
-          `제안사: ${companyName} (대표: ${repName})`,
-          `과업 기간: ${workPeriod}`,
-          `핵심 역량: ${selectedStrengths.slice(0, 3).join(", ")}`,
+        title: "1. 사업 이해 및 추진 전략",
+        bullets: [
+          `발주기관: ${currentBid.client} | 대상: ${currentBid.title}`,
+          "원문 요구사항 준수 및 공공안전 최우선 설계",
+          "철저한 사전 실측을 통한 공기 지연 리스크 원천 차단",
         ],
+        type: "공고문 요구사항 기반",
       },
       {
-        slideNum: 2,
-        title: "2. 설치 환경 분석 및 특화 전략",
-        subtitle: "현장 입지 특성에 최적화된 전략적 접근",
-        points: [
-          `설치 대상지 [${currentBid.location}] 주변 보행자 및 차량 동선 분석`,
-          `디자인 콘셉트: [${selectedConcept}] 적용으로 기관 정체성 강화`,
-          "주·야간 주변 조도 간섭 방지 및 광시야각(160° 이상) 설계",
-          "풍하중(순간최대풍속 45m/s 이상) 구조 안전 앙카링 공법",
+        title: "2. 제안사 보유 역량 현황",
+        bullets: [
+          `제안사: ${cName}`,
+          `공장/설비: ${hasFactory ? "자체 제작설비 보유" : "[회사 확인 필요]"}`,
+          `직접생산: ${hasDirectProd ? "유효 증명서 보유" : "[회사 확인 필요]"}`,
+          `수행실적: ${confirmedExperience || "[회사 확인 필요: 실적 증빙]"}`,
         ],
+        type: "회사 입력 사실정보",
       },
       {
-        slideNum: 3,
-        title: "3. 디자인 & 자재 상세 제작 사양",
-        subtitle: "KS 표준 규격 및 고품질 방수·방우 사양",
-        points: [
-          "프레임: 부식 방지 알루미늄 압출바 및 불소수지 3회 열처리 도장",
-          "광원: KS/CE 인증 국내 대기업 정품 방수 LED 모듈(IP68)",
-          "전원부: 정전압 방우형 SMPS(효율 90% 이상) + 2중 서지보호기",
-          "전기 안전: 개별 누전차단기(30mA, 0.03초) 및 난연 배선관",
+        title: "3. 품질 및 공정 관리 계획",
+        bullets: [
+          "원자재 공인 시험성적서 검증 후 공정 투입 [회사 확인 필요]",
+          "고소작업 크레인 안전검사증 및 신호수 의무 배치",
+          "준공 전 전수 조명 및 결선 절연저항 테스트 완료",
         ],
+        type: "AI 제안 초안",
       },
       {
-        slideNum: 4,
-        title: "4. 시공 프로세스 및 안전관리 계획",
-        subtitle: "철저한 무사고 안전 시공 및 공정 단계",
-        points: [
-          "1단계: 정밀 3D 레이저 실측 및 지자체 인허가(도로점용 등) 완료",
-          "2단계: 본사 직영 공장 CNC 정밀 가공 및 24시간 연속 에이징 테스트",
-          "3단계: 고소작업 안전검사필 스카이 크레인 투입 및 신호수 2인 상시 배치",
-          "4단계: ${currentBid.client} 담당관 입회 하 조도시운전 및 준공검사 완료",
+        title: "4. 사후 유지보수 및 비상대응",
+        bullets: [
+          `하자보증: ${confirmedWarranty || currentBid.verifiedRequirements?.warrantyPeriod || "[회사 확인 필요]"}`,
+          "비상 연락망 24시간 가동 체계 [회사 확인 필요]",
+          "정기 안전점검 및 유지보수 이력 관리",
         ],
-      },
-      {
-        slideNum: 5,
-        title: "5. 품질 보증 & 24h 긴급 유지관리 체계",
-        subtitle: "준공 후에도 안심할 수 있는 사후 보증 확약",
-        points: [
-          `무상 하자보증: ${warranty} 동안 100% 무상 수리 및 부품 교체`,
-          "24시간 원스톱 긴급출동 A/S 센터 운영 (접수 후 4시간 이내 현장 출동)",
-          "분기별 1회 전원부 절연저항 및 구조물 볼트 조임 무상 정기점검",
-          "주요 부품(모듈, SMPS) 3년분 예비 비축으로 당일 긴급 조치 완비",
-        ],
-      },
-      {
-        slideNum: 6,
-        title: "6. 예상 원가 산출 견적서",
-        subtitle: "공공조달 적정 원가 배분 가이드",
-        points: [
-          `1. 직접재료비 (프레임, LED모듈, SMPS 등): ₩${directMaterial.toLocaleString()}원 (44%)`,
-          `2. 직접노무비 (제작·시공기술공, 전기공): ₩${directLabor.toLocaleString()}원 (26%)`,
-          `3. 고소장비대 (스카이 크레인 등): ₩${equipmentCost.toLocaleString()}원 (8%)`,
-          `4. 제경비 및 일반관리비/이윤: ₩${overhead.toLocaleString()}원 (12%)`,
-          `5. 부가가치세 (10%): ₩${vat.toLocaleString()}원 (10%)`,
-          `합계: ₩${currentBid.budget.toLocaleString()}원`,
-        ],
+        type: "AI 제안 초안",
       },
     ];
-  }, [currentBid, companyName, repName, selectedConcept, selectedStrengths, directMaterial, directLabor, equipmentCost, overhead, vat]);
+  }, [currentBid, companyName, hasFactory, hasDirectProd, confirmedExperience, confirmedWarranty]);
 
-  const handleCopyDocument = () => {
+  const copyDoc = () => {
     navigator.clipboard.writeText(proposalDocumentText);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleCopySingleSlide = (slideText: string, idx: number) => {
+  const copySlide = (idx: number, slideText: string) => {
     navigator.clipboard.writeText(slideText);
     setCopiedSlideIdx(idx);
     setTimeout(() => setCopiedSlideIdx(null), 2000);
   };
 
-  const handleDownload = () => {
-    const element = document.createElement("a");
-    const file = new Blob([proposalDocumentText], { type: "text/plain;charset=utf-8" });
-    element.href = URL.createObjectURL(file);
-    element.download = `[AI제안서]_${currentBid.client}_${currentBid.title.slice(0, 12)}.txt`;
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
-  };
-
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-      {/* 좌측: 제안서 설정 컨트롤 패널 (4열) */}
-      <div className="lg:col-span-5 space-y-5">
-        <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-5 sm:p-6 shadow-xl space-y-5">
-          <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-            <h2 className="text-base font-bold text-white flex items-center gap-2">
-              <Sliders className="w-4 h-4 text-indigo-400" />
-              <span>제안서 프로젝트 설정</span>
-            </h2>
-            <span className="text-[11px] text-indigo-300 font-mono">STEP 1 / 2</span>
+    <div className="space-y-6">
+      {/* ⚠️ 상단 고정 안전 경고 안내문 (요구사항 1-9) */}
+      <div className="bg-slate-900 border border-slate-700 rounded-2xl p-4 sm:p-5 shadow-sm space-y-2">
+        <div className="flex items-center gap-2 text-amber-400 font-bold text-xs sm:text-sm">
+          <AlertCircle className="w-4 h-4 shrink-0" />
+          <span>AI 제안서 안전 대조 안내</span>
+        </div>
+        <p className="text-xs text-slate-300 leading-relaxed">
+          AI 제안서에는 <strong>확인되지 않은 내용이 포함될 수 있습니다.</strong> 제출 전 회사의 실제 보유 자격, 실적, 인력, 장비 및 공고 요구사항과 반드시 대조하십시오.
+          검증되지 않은 항목은 <strong className="text-amber-300 font-mono">[회사 확인 필요]</strong>로 표시됩니다.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {/* 좌측: 회사 사실정보 및 공고 설정 패널 */}
+        <div className="lg:col-span-4 bg-slate-900 rounded-2xl border border-slate-800 p-5 space-y-4">
+          <div className="flex items-center gap-2 pb-3 border-b border-slate-800 text-xs sm:text-sm font-bold text-white">
+            <Building className="w-4 h-4 text-blue-400" />
+            <span>1. 회사 사실정보 직접 입력</span>
           </div>
 
-          {/* 공고 선택 또는 직접 입력 드롭다운 */}
-          <div className="space-y-2">
-            <label className="block text-xs font-bold text-slate-300">
-              📌 대상 입찰 공고 선택
+          {/* 공고 선택 */}
+          <div>
+            <label className="block text-[11px] font-semibold text-slate-400 mb-1">
+              대상 공고
             </label>
             <select
               value={selectedBidId}
               onChange={(e) => setSelectedBidId(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-400 cursor-pointer"
+              className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white"
             >
-              <option value="custom">✏️ 직접 입력하기 (새로운 공고 / 민간 수의계약)</option>
+              <option value="custom">직접 과업명 입력</option>
               {initialBids.map((b) => (
                 <option key={b.id} value={b.id}>
-                  [{b.client}] {b.title.slice(0, 30)}... ({b.budgetText})
+                  {b.title.substring(0, 24)}...
                 </option>
               ))}
             </select>
           </div>
 
-          {/* 직접 입력 시 폼 */}
-          {selectedBidId === "custom" && (
-            <div className="space-y-3 bg-slate-950/60 p-3.5 rounded-2xl border border-slate-800 text-xs animate-in fade-in duration-200">
-              <div>
-                <label className="block text-slate-400 font-semibold mb-1">사업명 (공고명)</label>
-                <input
-                  type="text"
-                  value={customTitle}
-                  onChange={(e) => setCustomTitle(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-white focus:outline-none focus:border-indigo-400"
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-2">
-                <div>
-                  <label className="block text-slate-400 font-semibold mb-1">발주기관</label>
-                  <input
-                    type="text"
-                    value={customClient}
-                    onChange={(e) => setCustomClient(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-white focus:outline-none focus:border-indigo-400"
-                  />
-                </div>
-                <div>
-                  <label className="block text-slate-400 font-semibold mb-1">예산 (원 단위)</label>
-                  <input
-                    type="number"
-                    value={customBudget}
-                    onChange={(e) => setCustomBudget(Number(e.target.value))}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-white focus:outline-none focus:border-indigo-400"
-                  />
-                </div>
-              </div>
+          {/* 회사명 / 대표자명 */}
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <label className="block text-[11px] font-semibold text-slate-400 mb-1">
+                회사명
+              </label>
+              <input
+                type="text"
+                value={companyName}
+                onChange={(e) => setCompanyName(e.target.value)}
+                placeholder="예: (주)한국광고"
+                className="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white"
+              />
             </div>
-          )}
-
-          {/* 제안사 정보 */}
-          <div className="space-y-3 pt-1">
-            <h3 className="text-xs font-bold text-slate-300 flex items-center gap-1.5">
-              <span>🏢 제안사 정보</span>
-            </h3>
-            <div className="grid grid-cols-2 gap-2 text-xs">
-              <div>
-                <label className="block text-slate-400 font-medium mb-1">상호명</label>
-                <input
-                  type="text"
-                  value={companyName}
-                  onChange={(e) => setCompanyName(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-indigo-400"
-                />
-              </div>
-              <div>
-                <label className="block text-slate-400 font-medium mb-1">대표자명</label>
-                <input
-                  type="text"
-                  value={repName}
-                  onChange={(e) => setRepName(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-indigo-400"
-                />
-              </div>
+            <div>
+              <label className="block text-[11px] font-semibold text-slate-400 mb-1">
+                대표자명
+              </label>
+              <input
+                type="text"
+                value={repName}
+                onChange={(e) => setRepName(e.target.value)}
+                placeholder="예: 홍길동"
+                className="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white"
+              />
             </div>
           </div>
 
-          {/* 디자인 콘셉트 선택 */}
-          <div className="space-y-2 pt-1">
-            <label className="block text-xs font-bold text-slate-300">
-              🎨 디자인 & 기획 콘셉트
+          {/* 실제 증빙 가능 여부 체크 */}
+          <div className="space-y-2 pt-2 border-t border-slate-800 text-xs">
+            <span className="text-[11px] font-semibold text-slate-400 block">
+              보유 자격 체크 (직접 확인된 항목만 선택)
+            </span>
+
+            <label className="flex items-center gap-2 cursor-pointer p-2 bg-slate-950 rounded-lg border border-slate-800">
+              <input
+                type="checkbox"
+                checked={hasFactory}
+                onChange={(e) => setHasFactory(e.target.checked)}
+                className="rounded text-blue-600 focus:ring-0"
+              />
+              <span className="text-slate-300">자체 공장/제작설비 보유 증빙 가능</span>
             </label>
-            <div className="grid grid-cols-1 gap-1.5">
-              {CONCEPT_OPTIONS.map((c) => (
-                <button
-                  key={c}
-                  type="button"
-                  onClick={() => setSelectedConcept(c)}
-                  className={`text-left px-3 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer flex items-center justify-between ${
-                    selectedConcept === c
-                      ? "bg-indigo-600 text-white font-bold shadow-md shadow-indigo-600/30 ring-1 ring-indigo-400"
-                      : "bg-slate-950 text-slate-400 hover:text-white border border-slate-800"
-                  }`}
-                >
-                  <span>{c}</span>
-                  {selectedConcept === c && <Check className="w-3.5 h-3.5 text-white shrink-0" />}
-                </button>
-              ))}
-            </div>
-          </div>
 
-          {/* 핵심 강점 토글 */}
-          <div className="space-y-2 pt-1">
-            <label className="block text-xs font-bold text-slate-300">
-              🛡️ 제안서 강조 역량 (다중 선택)
+            <label className="flex items-center gap-2 cursor-pointer p-2 bg-slate-950 rounded-lg border border-slate-800">
+              <input
+                type="checkbox"
+                checked={hasDirectProd}
+                onChange={(e) => setHasDirectProd(e.target.checked)}
+                className="rounded text-blue-600 focus:ring-0"
+              />
+              <span className="text-slate-300">직접생산확인증명서 보유 확인</span>
             </label>
-            <div className="space-y-1.5">
-              {STRENGTH_OPTIONS.map((s) => {
-                const isChecked = selectedStrengths.includes(s);
-                return (
-                  <button
-                    key={s}
-                    type="button"
-                    onClick={() => toggleStrength(s)}
-                    className={`w-full text-left px-3 py-1.5 rounded-xl text-xs transition-all cursor-pointer flex items-center justify-between ${
-                      isChecked
-                        ? "bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-bold"
-                        : "bg-slate-950 text-slate-500 hover:text-slate-300 border border-slate-800"
-                    }`}
-                  >
-                    <span>{s}</span>
-                    {isChecked && <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />}
-                  </button>
-                );
-              })}
-            </div>
           </div>
 
-          <button
-            type="button"
-            onClick={handleGenerate}
-            className="w-full inline-flex items-center justify-center gap-2 py-3 rounded-2xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-500 hover:to-purple-500 text-white font-black text-sm shadow-lg shadow-indigo-600/30 transition-all cursor-pointer transform hover:scale-[1.02] active:scale-[0.98]"
-          >
-            <Sparkles className="w-4 h-4 text-amber-300 animate-pulse" />
-            <span>AI 제안서 6대 표준 목차 즉시 생성하기</span>
-          </button>
+          {/* 실적 요약 입력 */}
+          <div>
+            <label className="block text-[11px] font-semibold text-slate-400 mb-1">
+              대표 실적 (직접 증빙 가능한 실적만 입력)
+            </label>
+            <input
+              type="text"
+              value={confirmedExperience}
+              onChange={(e) => setConfirmedExperience(e.target.value)}
+              placeholder="예: 지자체 간판사업 3건 완료"
+              className="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white"
+            />
+          </div>
+
+          {/* 보증기간 확약 */}
+          <div>
+            <label className="block text-[11px] font-semibold text-slate-400 mb-1">
+              확약 하자보증 조건
+            </label>
+            <input
+              type="text"
+              value={confirmedWarranty}
+              onChange={(e) => setConfirmedWarranty(e.target.value)}
+              placeholder="예: 준공 후 2년 무상 A/S"
+              className="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white"
+            />
+          </div>
         </div>
-      </div>
 
-      {/* 우측: 생성된 제안서 결과 뷰어 (7열) */}
-      <div className="lg:col-span-7 space-y-4">
-        <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-5 sm:p-6 shadow-2xl flex flex-col space-y-4">
-          
-          {/* 상단 탭 & 요약 바 */}
-          <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-800">
-            <div className="bg-slate-950 p-1 rounded-xl border border-slate-800 inline-flex">
+        {/* 우측: 3단계 구분 제안서 뷰어 */}
+        <div className="lg:col-span-8 space-y-4">
+          {/* 뷰 탭 전환 */}
+          <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+            <div className="flex items-center gap-2">
               <button
-                type="button"
                 onClick={() => setActiveViewTab("document")}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer flex items-center gap-1.5 ${
                   activeViewTab === "document"
-                    ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/30"
-                    : "text-slate-400 hover:text-white"
+                    ? "bg-blue-600 text-white"
+                    : "bg-slate-900 text-slate-400 hover:text-white border border-slate-800"
                 }`}
               >
                 <FileText className="w-3.5 h-3.5" />
-                <span>📄 공문서 전체 서식 뷰</span>
+                <span>표준 제안서 초안</span>
               </button>
 
               <button
-                type="button"
                 onClick={() => setActiveViewTab("slides")}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer flex items-center gap-1.5 ${
                   activeViewTab === "slides"
-                    ? "bg-purple-600 text-white shadow-md shadow-purple-600/30"
-                    : "text-slate-400 hover:text-white"
+                    ? "bg-blue-600 text-white"
+                    : "bg-slate-900 text-slate-400 hover:text-white border border-slate-800"
                 }`}
               >
                 <Presentation className="w-3.5 h-3.5" />
-                <span>🖥️ PPT 슬라이드 뷰 (6장)</span>
+                <span>PT 슬라이드 요약</span>
               </button>
             </div>
 
-            <div className="flex items-center gap-1.5">
+            {activeViewTab === "document" && (
               <button
-                type="button"
-                onClick={handleDownload}
-                title="텍스트 파일로 다운로드"
-                className="p-2 rounded-xl bg-slate-950 hover:bg-slate-800 text-slate-300 border border-slate-800 transition-all cursor-pointer"
+                onClick={copyDoc}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white text-xs font-semibold border border-slate-700 transition-colors cursor-pointer"
               >
-                <Download className="w-4 h-4 text-indigo-400" />
+                {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                <span>{copied ? "전체 복사됨" : "제안서 전문 복사"}</span>
               </button>
-
-              <button
-                type="button"
-                onClick={() => window.print()}
-                title="인쇄 및 PDF 저장"
-                className="p-2 rounded-xl bg-slate-950 hover:bg-slate-800 text-slate-300 border border-slate-800 transition-all cursor-pointer"
-              >
-                <Printer className="w-4 h-4 text-cyan-400" />
-              </button>
-
-              <button
-                type="button"
-                onClick={handleCopyDocument}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white shadow-md shadow-indigo-600/30 transition-all cursor-pointer"
-              >
-                {copied ? (
-                  <>
-                    <Check className="w-3.5 h-3.5 text-white" />
-                    <span>복사됨! ✓</span>
-                  </>
-                ) : (
-                  <>
-                    <Copy className="w-3.5 h-3.5 text-white" />
-                    <span>전체 복사</span>
-                  </>
-                )}
-              </button>
-            </div>
+            )}
           </div>
 
-          {/* 본문 렌더링 영역 */}
-          {isGenerating ? (
-            <div className="py-24 text-center space-y-3">
-              <RefreshCw className="w-8 h-8 text-indigo-400 animate-spin mx-auto" />
-              <p className="text-sm text-slate-300 font-bold">Gemini AI가 제안서를 작성 중입니다...</p>
-            </div>
-          ) : activeViewTab === "document" ? (
-            <div className="space-y-4">
-              <div className="bg-slate-950/80 border border-slate-800/90 rounded-2xl p-5 font-mono text-xs text-slate-200 whitespace-pre-wrap leading-relaxed select-all shadow-inner border-l-4 border-l-indigo-500 max-h-[620px] overflow-y-auto">
+          {activeViewTab === "document" ? (
+            <div className="bg-slate-900 rounded-2xl border border-slate-800 p-5 space-y-4">
+              {/* 3가지 구분 안내 배너 */}
+              <div className="grid grid-cols-3 gap-2 text-[11px] text-center">
+                <div className="bg-blue-950/40 p-2 rounded-lg border border-blue-500/30 text-blue-300 font-semibold">
+                  1. 회사 사실정보
+                </div>
+                <div className="bg-emerald-950/40 p-2 rounded-lg border border-emerald-500/30 text-emerald-300 font-semibold">
+                  2. 공고문 요구사항
+                </div>
+                <div className="bg-cyan-950/40 p-2 rounded-lg border border-cyan-500/30 text-cyan-300 font-semibold">
+                  3. AI 제안문 초안
+                </div>
+              </div>
+
+              {/* 제안서 텍스트 영역 */}
+              <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 font-mono text-xs text-slate-300 whitespace-pre-wrap leading-relaxed max-h-[500px] overflow-y-auto">
                 {proposalDocumentText}
               </div>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 max-h-[620px] overflow-y-auto pr-1">
-              {slideCards.map((slide, idx) => (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {presentationSlides.map((slide, idx) => (
                 <div
                   key={idx}
-                  className="bg-slate-950/90 border border-slate-800 hover:border-purple-500/40 rounded-2xl p-4 shadow-lg flex flex-col justify-between space-y-2.5 group transition-all"
+                  className="bg-slate-900 rounded-2xl border border-slate-800 p-4 space-y-3 flex flex-col justify-between"
                 >
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30">
-                        SLIDE {slide.slideNum} / 6
+                      <span className="text-[10px] px-2 py-0.5 rounded bg-slate-950 text-cyan-300 border border-slate-800">
+                        {slide.type}
                       </span>
                       <button
-                        type="button"
                         onClick={() =>
-                          handleCopySingleSlide(
-                            `[SLIDE ${slide.slideNum}] ${slide.title}\n${slide.points.map((p) => `• ${p}`).join("\n")}`,
-                            idx
+                          copySlide(
+                            idx,
+                            `${slide.title}\n${slide.bullets.map((b) => `• ${b}`).join("\n")}`
                           )
                         }
-                        className="text-[11px] text-slate-400 hover:text-white transition-colors flex items-center gap-1 cursor-pointer"
+                        className="text-slate-400 hover:text-white p-1 rounded hover:bg-slate-800"
                       >
                         {copiedSlideIdx === idx ? (
-                          <span className="text-emerald-400 font-bold flex items-center gap-0.5">
-                            <Check className="w-3 h-3" /> 복사됨
-                          </span>
+                          <Check className="w-3.5 h-3.5 text-emerald-400" />
                         ) : (
-                          <span className="flex items-center gap-0.5">
-                            <Copy className="w-3 h-3" /> 슬라이드 복사
-                          </span>
+                          <Copy className="w-3.5 h-3.5" />
                         )}
                       </button>
                     </div>
-
-                    <h4 className="text-xs sm:text-sm font-black text-white group-hover:text-purple-300 transition-colors">
+                    <h4 className="text-xs sm:text-sm font-bold text-white">
                       {slide.title}
                     </h4>
-                    <p className="text-[10px] text-slate-400">{slide.subtitle}</p>
-
-                    <div className="pt-2 space-y-1 border-t border-slate-800/80">
-                      {slide.points.map((pt, pIdx) => (
-                        <p key={pIdx} className="text-[11px] text-slate-300 flex items-start gap-1">
-                          <ChevronRight className="w-3 h-3 text-purple-400 shrink-0 mt-0.5" />
-                          <span>{pt}</span>
-                        </p>
+                    <ul className="space-y-1.5 text-xs text-slate-300">
+                      {slide.bullets.map((bullet, bIdx) => (
+                        <li key={bIdx} className="flex items-start gap-1.5 leading-relaxed">
+                          <span className="text-blue-400 shrink-0">•</span>
+                          <span>{bullet}</span>
+                        </li>
                       ))}
-                    </div>
+                    </ul>
                   </div>
                 </div>
               ))}
             </div>
           )}
-
-          <div className="pt-2 text-xs text-slate-400 border-t border-slate-800 flex items-center justify-between">
-            <span className="flex items-center gap-1 text-emerald-400 font-bold">
-              <CheckCircle2 className="w-3.5 h-3.5" />
-              6대 표준 목차 완성 (사업개요, 환경분석, 자재규격, 시공안전, 품질보증, 산출내역)
-            </span>
-            <span className="text-slate-500 hidden sm:inline">
-              ※ 한글(HWP) 및 파워포인트(PPT) 호환
-            </span>
-          </div>
         </div>
       </div>
     </div>

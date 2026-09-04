@@ -1,51 +1,34 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
+import { usePathname } from "next/navigation";
 import {
   X,
   RotateCcw,
-  ChevronDown,
   Send,
   Loader2,
-  Headphones,
   Bot,
-  UserCheck,
+  MessageSquare,
+  ShieldCheck,
+  Sparkles,
 } from "lucide-react";
-import chatData from "../../public/data/chat-data.json";
 import bidsData from "../../public/data/bids.json";
-import partnersData from "../../public/data/partners.json";
 
 interface Message {
   id: string;
-  sender: "user" | "bot" | "admin";
+  sender: "user" | "bot";
   text: string;
   time: string;
-}
-
-interface AdminRawMessage {
-  id?: string;
-  sender?: string;
-  text?: string;
-  message?: string;
-  timestamp?: string;
 }
 
 const createMsgId = (prefix: string) =>
   `${prefix}-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
 
 export default function Chatbot() {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>(() => [
-    {
-      id: "welcome-msg",
-      sender: "bot",
-      text: chatData.welcomeMessage,
-      time: "오전 09:00",
-    },
-  ]);
   const [inputValue, setInputValue] = useState("");
   const [isTyping, setIsTyping] = useState(false);
-  const [isHumanMode, setIsHumanMode] = useState(false); // 상담원 대기 모드 여부
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -58,548 +41,302 @@ export default function Chatbot() {
     });
   };
 
-  // 메시지 추가 시 스크롤 자동 이동
+  // 현재 상세 페이지인 경우 해당 공고 탐색
+  const currentBid = useMemo(() => {
+    if (pathname.startsWith("/bids/")) {
+      const bidId = pathname.replace("/bids/", "");
+      const bids = (bidsData as unknown as Array<{
+        id: string;
+        title: string;
+        client: string;
+        category: string;
+        location: string;
+        endDate: string;
+        verifiedRequirements?: {
+          license?: string;
+          directProduction?: string;
+          workPeriod?: string;
+          warrantyPeriod?: string;
+        };
+      }>) || [];
+      return bids.find((b) => b.id === bidId) || null;
+    }
+    return null;
+  }, [pathname]);
+
+  const [messages, setMessages] = useState<Message[]>(() => [
+    {
+      id: "welcome-msg",
+      sender: "bot",
+      text: `안녕하세요! 옥외광고 전문 AI 입찰비서입니다.\n참가 자격 요건, 직접생산확인, 면허 기준, 입찰 일정 등에 대해 질문해 주세요.\n\n※ AI 답변은 참고용입니다. 실제 입찰 전 공식 공고문과 발주기관 안내를 확인하세요.`,
+      time: "오전 09:00",
+    },
+  ]);
+
   useEffect(() => {
     if (isOpen) {
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages, isTyping, isOpen]);
 
-  // 창 열릴 때 인풋 포커스
   useEffect(() => {
     if (isOpen) {
       setTimeout(() => {
         inputRef.current?.focus();
-      }, 200);
+      }, 150);
     }
   }, [isOpen]);
 
-  // 2초마다 /api/chat-poll로 GET 요청해서 sender: "admin" 새 메시지 확인
-  useEffect(() => {
-    if (!isHumanMode || !isOpen) return;
-
-    const pollInterval = setInterval(async () => {
-      try {
-        const response = await fetch("/api/chat-poll", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          cache: "no-store",
-        });
-
-        if (!response.ok) return;
-
-        const data = await response.json();
-        const incomingMessages = Array.isArray(data)
-          ? data
-          : Array.isArray(data?.messages)
-            ? data.messages
-            : [];
-
-        if (incomingMessages.length > 0) {
-          setMessages((prev) => {
-            const existingIds = new Set(prev.map((m) => m.id));
-            const newAdminMsgs = (incomingMessages as AdminRawMessage[])
-              .filter(
-                (m) =>
-                  m &&
-                  m.sender === "admin" &&
-                  !existingIds.has(m.id || `admin-${m.text}-${m.timestamp}`)
-              )
-              .map((m, idx) => ({
-                id: m.id || `admin-${m.timestamp || idx}-${idx}`,
-                sender: "admin" as const,
-                text: m.text || m.message || "",
-                time: m.timestamp
-                  ? new Date(m.timestamp).toLocaleTimeString("ko-KR", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                      hour12: true,
-                    })
-                  : getCurrentTime(),
-              }));
-
-            if (newAdminMsgs.length === 0) return prev;
-            return [...prev, ...newAdminMsgs];
-          });
-        }
-      } catch (err) {
-        console.error("Polling error:", err);
-      }
-    }, 2000);
-
-    return () => clearInterval(pollInterval);
-  }, [isHumanMode, isOpen]);
-
-  // 대화 초기화
   const handleReset = () => {
     setIsTyping(false);
     setInputValue("");
-    setIsHumanMode(false);
     setMessages([
       {
         id: createMsgId("welcome"),
         sender: "bot",
-        text: chatData.welcomeMessage,
+        text: `대화가 초기화되었습니다.\n궁금하신 공고 조건이나 입찰 법령에 대해 질문해 주세요.\n\n※ AI 답변은 참고용입니다. 실제 입찰 전 공식 공고문과 발주기관 안내를 확인하세요.`,
         time: getCurrentTime(),
       },
     ]);
   };
 
-  // 상담원 대기 모드 전환
-  const handleSwitchToHuman = () => {
-    setIsHumanMode(true);
-    setMessages((prev) => [
-      ...prev,
-      {
-        id: createMsgId("human-mode"),
-        sender: "bot",
-        text: "👨‍💼 **입찰 담당자(상담원) 문의 모드**로 전환되었습니다.\n궁금하신 입찰 건이나 요구사항을 입력해 주시면 담당자가 실시간으로 확인 후 답변해 드립니다.",
-        time: getCurrentTime(),
-      },
-    ]);
-    setTimeout(() => {
-      inputRef.current?.focus();
-    }, 150);
-  };
+  // 5단계 정형화 응답 생성기 (결론 -> 확인된 원문 -> 추가 확인 필요 -> 근거 -> 면책 안내)
+  const generateStructuredResponse = (userQuery: string): string => {
+    const q = userQuery.toLowerCase();
 
-  // AI 모드로 복귀
-  const handleSwitchToAi = () => {
-    setIsHumanMode(false);
-    setMessages((prev) => [
-      ...prev,
-      {
-        id: createMsgId("ai-mode"),
-        sender: "bot",
-        text: "🤖 **AI 입찰 도우미 모드**로 전환되었습니다. 무엇이든 질문해 주세요!",
-        time: getCurrentTime(),
-      },
-    ]);
-  };
+    // 1. 직접생산 관련 질문
+    if (q.includes("직생") || q.includes("직접생산")) {
+      return `[ 1. 결론 ]
+공공입찰 물품제조 및 인쇄·설치 공고의 경우 중소벤처기업부 발급 유효 '직접생산확인증명서' 보유가 필수 요건입니다.
 
-  // 1. 고정 FAQ 질문 클릭 핸들러 (chat-data.json 즉시 답변)
-  const handleQuestionClick = (question: string, answer: string) => {
-    if (isTyping) return;
+[ 2. 확인된 원문 내용 ]
+• 세부품명 10자리 번호가 공고문에 명시된 품목과 완벽히 일치해야 합니다.
+• 투찰 마감일 기준으로 유효기간 내에 있어야 적격심사 통과가 가능합니다.
 
-    const userTime = getCurrentTime();
-    const newMessages: Message[] = [
-      ...messages,
-      {
-        id: createMsgId("user"),
-        sender: "user",
-        text: question,
-        time: userTime,
-      },
-    ];
+[ 3. 추가 확인이 필요한 내용 ]
+• SMPP(공공구매종합정보망)에서 보유 증명서의 유효기간 및 세부품명 코드를 재확인하십시오.
 
-    setMessages(newMessages);
-    setIsTyping(true);
+[ 4. 근거 ]
+중소기업제품 구매촉진 및 판로지원에 관한 법률 제9조
 
-    setTimeout(() => {
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: createMsgId("bot"),
-          sender: "bot",
-          text: answer,
-          time: getCurrentTime(),
-        },
-      ]);
-      setIsTyping(false);
-    }, 400);
-  };
-
-  // 클라이언트 측 지능형 RAG 백업 응답 생성기
-  const generateFallbackResponse = (query: string): string => {
-    const lower = query.toLowerCase();
-    const isPartnerQuery = /업체|협력사|파트너|외주|크레인|스카이|가공|공장|시공팀|실사|현수막|인쇄|도매|연락처|전화번호|전화|대표|실장|팀장/.test(lower);
-    const isBidQuery = /입찰|공고|마감|예산|금액|발주|나라장터|온비드|전광판|간판|사이니지|표찰|현판|랩핑|학교|아파트|지자체|청사/.test(lower);
-
-    if (isPartnerQuery) {
-      const keywords = lower.split(/[\s,?.!]+/).filter(k => k.length >= 2);
-      const matched = (partnersData as any[]).filter(p => {
-        const full = `${p.companyName} ${p.category} ${p.location} ${p.description} ${(p.equipment || []).join(" ")}`.toLowerCase();
-        return keywords.some(k => full.includes(k)) || /스카이|크레인|가공|공장|시공|실사/.test(full);
-      }).slice(0, 2);
-
-      if (matched.length > 0) {
-        return `🏢 [추천 협력업체 DB 안내]\n\n` + matched.map(p => 
-          `• ${p.companyName} (${p.category})\n  - 📞 담당: ${p.contactPerson} (${p.phone})\n  - 📍 지역: ${p.location}\n  - 🛠️ 장비/역량: ${(p.equipment || []).join(", ")}\n  - ℹ️ ${p.description}`
-        ).join("\n\n") + `\n\n상단 메뉴의 [🤝 협력사·DB]에서 전국 등록 업체를 검색하실 수 있습니다.`;
-      }
+※ AI 답변은 참고용입니다. 실제 입찰 전 공식 공고문과 발주기관 안내를 확인하세요.`;
     }
 
-    if (isBidQuery) {
-      const keywords = lower.split(/[\s,?.!]+/).filter(k => k.length >= 2);
-      let matchedBids = (bidsData as any[]).filter(b => {
-        const full = `${b.title} ${b.client} ${b.category} ${b.location} ${b.bidType}`.toLowerCase();
-        return keywords.some(k => full.includes(k));
-      });
+    // 2. 면허/옥외광고업 등록 질문
+    if (q.includes("면허") || q.includes("자격") || q.includes("등록")) {
+      return `[ 1. 결론 ]
+옥외광고물 제작 및 설치 입찰은 관할 시·군·구청에 '옥외광고사업' 정식 등록을 필한 사업자만 참가 가능합니다.
 
-      if (matchedBids.length === 0) {
-        matchedBids = (bidsData as any[]).slice(0, 2);
-      } else {
-        matchedBids = matchedBids.slice(0, 2);
-      }
+[ 2. 확인된 원문 내용 ]
+• 옥외광고사업 등록증 및 사업자등록증명 사본 제출 필수
+• 전광판/사이니지 사업의 경우 정보통신공사업 면허가 추가 요구될 수 있습니다.
 
-      if (matchedBids.length > 0) {
-        return `📢 [실시간 매칭 입찰공고 안내]\n\n` + matchedBids.map(b =>
-          `• ${b.title}\n  - 🏛️ 발주처: ${b.client} (${b.location})\n  - 💰 배정예산: ${b.budgetText}\n  - ⏱️ 마감일시: ${b.endDate ? b.endDate.substring(0, 16) : "-"} (D-${b.dDay})\n  - 💡 AI 요약: ${b.aiSummary || b.category}`
-        ).join("\n\n") + `\n\n메인 화면에서 해당 공고를 클릭하시면 시방서 엑스레이 및 적격심사 자가진단을 확인하실 수 있습니다.`;
-      }
+[ 3. 추가 확인이 필요한 내용 ]
+• 공동도급(공동이행방식) 허용 여부를 공고문에서 최종 확인하십시오.
+
+[ 4. 근거 ]
+옥외광고물 등의 관리와 옥외광고산업 진흥에 관한 법률 제11조
+
+※ AI 답변은 참고용입니다. 실제 입찰 전 공식 공고문과 발주기관 안내를 확인하세요.`;
     }
 
-    return `안녕하세요! 옥외광고 입찰 및 우수 협력사 DB 전문 도우미입니다.\n\n현재 사이트에 등록된 20건의 실시간 공고와 크레인·가공공장·시공팀 협력사 정보를 바로 안내해 드릴 수 있습니다.\n\n예: "수도권 스카이 크레인 업체 알려줘", "마감 임박한 전광판 입찰공고 찾아줘" 등으로 질문해 보세요!`;
+    // 3. 현재 공고 기반 질문인 경우
+    if (currentBid) {
+      return `[ 1. 결론 ]
+현재 조회 중인 [${currentBid.title}] 공고에 대한 요약입니다.
+
+[ 2. 확인된 원문 내용 ]
+• 발주기관: ${currentBid.client}
+• 필수자격: ${currentBid.verifiedRequirements?.license || "옥외광고사업 등록"}
+• 직접생산: ${currentBid.verifiedRequirements?.directProduction || "해당 세부품명 직생증명서"}
+• 투찰마감: ${currentBid.endDate}
+
+[ 3. 추가 확인이 필요한 내용 ]
+• 참가 전 시방서 내 지정 자재 규격 및 현장설명회 참석 의무 여부를 확인하십시오.
+
+[ 4. 근거 ]
+조달청 나라장터 공식 공고문 및 과업지시서
+
+※ AI 답변은 참고용입니다. 실제 입찰 전 공식 공고문과 발주기관 안내를 확인하세요.`;
+    }
+
+    // 기본 응답
+    return `[ 1. 결론 ]
+질문하신 내용에 대한 입찰 안내입니다.
+
+[ 2. 확인된 원문 내용 ]
+• 옥외광고 공공입찰은 공고별 필수 면허(옥외광고업, 정보통신 등), 직접생산확인, 지역제한 요건을 충족해야 합니다.
+• 투찰 전 조달청 적격심사 세부기준의 낙찰하한율을 반드시 확인하십시오.
+
+[ 3. 추가 확인이 필요한 내용 ]
+• 발주기관의 세부 과업지시서 내 특수조건 및 제출서류 목록을 확인하세요.
+
+[ 4. 근거 ]
+지방자치단체 입찰 및 계약 집행기준
+
+※ AI 답변은 참고용입니다. 실제 입찰 전 공식 공고문과 발주기관 안내를 확인하세요.`;
   };
 
-  // 2. 메시지 전송 핸들러 (AI 모드 또는 상담원 대기 모드)
-  const handleSendMessage = async (e?: React.FormEvent) => {
-    if (e) e.preventDefault();
-    const trimmed = inputValue.trim();
-    if (!trimmed || isTyping) return;
+  const handleSendMessage = (textToSend?: string) => {
+    const text = (textToSend || inputValue).trim();
+    if (!text || isTyping) return;
 
-    const userTime = getCurrentTime();
     const userMsg: Message = {
       id: createMsgId("user"),
       sender: "user",
-      text: trimmed,
-      time: userTime,
+      text,
+      time: getCurrentTime(),
     };
 
     setMessages((prev) => [...prev, userMsg]);
     setInputValue("");
-
-    // A. 상담원 대기 모드인 경우 -> /api/chat-human POST 호출
-    if (isHumanMode) {
-      try {
-        await fetch("/api/chat-human", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            message: trimmed,
-            sender: "user",
-            time: userTime,
-          }),
-        });
-      } catch (err) {
-        console.error("Chat human error:", err);
-      }
-      return;
-    }
-
-    // B. AI 챗봇 모드인 경우 -> /api/chat POST 호출 (실패 시 스마트 RAG 엔진 백업)
     setIsTyping(true);
-    try {
-      const response = await fetch("/api/chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          message: trimmed,
-        }),
-      });
 
-      if (!response.ok) {
-        throw new Error(`Server returned ${response.status}`);
-      }
-
-      const data = await response.json();
-      const botReply = data.response || generateFallbackResponse(trimmed);
-
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: `bot-${Date.now()}`,
-          sender: "bot",
-          text: botReply,
-          time: getCurrentTime(),
-        },
-      ]);
-    } catch (err) {
-      console.warn("AI chat API offline, using client fallback:", err);
-      const fallbackReply = generateFallbackResponse(trimmed);
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: `bot-fallback-${Date.now()}`,
-          sender: "bot",
-          text: fallbackReply,
-          time: getCurrentTime(),
-        },
-      ]);
-    } finally {
+    setTimeout(() => {
+      const replyText = generateStructuredResponse(text);
+      const botMsg: Message = {
+        id: createMsgId("bot"),
+        sender: "bot",
+        text: replyText,
+        time: getCurrentTime(),
+      };
+      setMessages((prev) => [...prev, botMsg]);
       setIsTyping(false);
+    }, 400);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
     }
   };
 
   return (
-    <>
-      {/* 1. 플로팅 챗봇 버튼 */}
-      <div className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-50 flex items-center gap-3">
-        {!isOpen && (
-          <div className="hidden sm:flex items-center gap-1.5 bg-slate-900/95 backdrop-blur-md text-white text-xs font-medium px-3.5 py-2 rounded-full shadow-xl border border-indigo-500/30 animate-bounce whitespace-nowrap shrink-0 select-none">
-            <span className="text-sm shrink-0">🤖</span>
-            <span className="bg-gradient-to-r from-blue-400 to-indigo-300 bg-clip-text text-transparent font-semibold whitespace-nowrap">
-              AI 입찰 도우미
-            </span>
-          </div>
-        )}
-
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label={isOpen ? "채팅창 닫기" : "AI 입찰 도우미 챗봇 열기"}
-          className={`w-14 h-14 rounded-full flex items-center justify-center text-white shadow-2xl transition-all duration-300 transform active:scale-95 cursor-pointer ${
-            isOpen
-              ? "bg-slate-800 hover:bg-slate-700 rotate-90"
-              : "bg-gradient-to-tr from-blue-600 via-indigo-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 shadow-indigo-500/30 hover:shadow-indigo-500/50 hover:scale-110 ring-4 ring-indigo-500/20"
-          }`}
-        >
-          {isOpen ? (
-            <X className="w-6 h-6 text-slate-300" />
-          ) : (
-            <div className="relative flex items-center justify-center">
-              <Bot className="w-7 h-7 text-white drop-shadow-md" />
-              <span className="absolute -top-1 -right-1 flex h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500 ring-2 ring-slate-950" />
-              </span>
-            </div>
-          )}
-        </button>
-      </div>
-
-      {/* 2. 카카오톡 스타일 채팅창 */}
-      <div
-        className={`fixed z-50 transition-all duration-300 ease-in-out ${
-          isOpen
-            ? "opacity-100 pointer-events-auto translate-y-0 scale-100"
-            : "opacity-0 pointer-events-none translate-y-4 scale-95"
-        } 
-        /* 모바일: 전체화면 / 데스크탑: 360px x 500px 우측 하단 */
-        inset-0 sm:inset-auto sm:bottom-24 sm:right-6 sm:w-[360px] sm:h-[500px]
-        bg-slate-900 border border-slate-800 sm:rounded-2xl shadow-2xl flex flex-col overflow-hidden`}
-      >
-        {/* 헤더 영역 */}
-        <div className="bg-slate-950 px-4 py-3 border-b border-slate-800/80 flex items-center justify-between shrink-0">
-          <div className="flex items-center gap-3">
-            <div
-              className={`relative w-9 h-9 rounded-full flex items-center justify-center text-white shadow-inner ${
-                isHumanMode
-                  ? "bg-indigo-600"
-                  : "bg-gradient-to-tr from-blue-600 to-indigo-600 ring-1 ring-blue-400/30"
-              }`}
-            >
-              {isHumanMode ? (
-                <UserCheck className="w-5 h-5" />
-              ) : (
-                <Bot className="w-5 h-5 text-white" />
-              )}
-              <span
-                className={`absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full ring-2 ring-slate-950 ${
-                  isHumanMode ? "bg-amber-400 animate-pulse" : "bg-emerald-500"
-                }`}
-              />
-            </div>
-            <div>
-              <h3 className="text-sm font-bold text-slate-100 flex items-center gap-1.5">
-                {isHumanMode ? "입찰 전담 상담원" : chatData.botName}
-              </h3>
-              <p
-                className={`text-[11px] flex items-center gap-1 font-medium ${
-                  isHumanMode ? "text-amber-400" : "text-emerald-400"
-                }`}
-              >
-                <span
-                  className={`inline-block w-1.5 h-1.5 rounded-full animate-pulse ${
-                    isHumanMode ? "bg-amber-400" : "bg-emerald-400"
-                  }`}
-                />
-                {isHumanMode ? "상담원 대기 중 · 실시간 연결" : "AI 온라인 · 실시간 응답"}
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-1">
-            {isHumanMode && (
-              <button
-                onClick={handleSwitchToAi}
-                title="AI 모드로 전환"
-                className="px-2 py-1 text-[11px] text-blue-400 hover:text-blue-300 bg-blue-950/60 hover:bg-blue-900/60 rounded-md transition-colors border border-blue-800/60 flex items-center gap-1"
-              >
-                <Bot className="w-3 h-3" />
-                <span>AI</span>
-              </button>
-            )}
-            <button
-              onClick={handleReset}
-              title="대화 초기화"
-              className="p-1.5 text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 rounded-lg transition-colors"
-            >
-              <RotateCcw className="w-4 h-4" />
-            </button>
-            <button
-              onClick={() => setIsOpen(false)}
-              title="닫기"
-              className="p-1.5 text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 rounded-lg transition-colors"
-            >
-              <ChevronDown className="w-5 h-5 hidden sm:block" />
-              <X className="w-5 h-5 sm:hidden" />
-            </button>
-          </div>
-        </div>
-
-        {/* 중앙 말풍선 대화 영역 */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-slate-900/60 scroll-smooth">
-          {messages.map((msg) => (
-            <div
-              key={msg.id}
-              className={`flex items-end gap-1.5 ${
-                msg.sender === "user" ? "justify-end" : "justify-start"
-              }`}
-            >
-              {/* 1. 상담원(Admin) 답변 말풍선 */}
-              {msg.sender === "admin" && (
-                <div className="max-w-[82%]">
-                  <div className="text-[10px] text-indigo-300 font-semibold mb-0.5 ml-1 flex items-center gap-1">
-                    <UserCheck className="w-3 h-3 text-indigo-400" />
-                    <span>입찰 담당자</span>
-                  </div>
-                  <div className="bg-indigo-950/80 text-indigo-100 rounded-2xl rounded-tl-sm px-3.5 py-2.5 text-xs sm:text-[13px] leading-relaxed shadow-sm border border-indigo-700/60 whitespace-pre-line break-words">
-                    {msg.text}
-                  </div>
-                  <span className="text-[10px] text-slate-500 mt-1 ml-1 inline-block">
-                    {msg.time}
+    <div className="fixed bottom-5 right-5 z-50 flex flex-col items-end">
+      {/* 챗봇 대화창 (기본 닫힘) */}
+      {isOpen && (
+        <div className="mb-3 w-[360px] sm:w-[420px] max-w-[calc(100vw-2.5rem)] h-[540px] max-h-[calc(100vh-6rem)] bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-in fade-in duration-150">
+          {/* 헤더 */}
+          <div className="bg-slate-950 px-4 py-3 border-b border-slate-800 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-lg bg-blue-600/20 flex items-center justify-center text-blue-400 border border-blue-500/30">
+                <Bot className="w-4 h-4" />
+              </div>
+              <div>
+                <h4 className="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>SignBid AI 입찰비서</span>
+                  <span className="text-[9px] px-1 py-0.2 rounded bg-blue-500/20 text-blue-300 font-medium">
+                    표준 답변
                   </span>
-                </div>
-              )}
-
-              {/* 2. 봇(Bot) 답변 말풍선 */}
-              {msg.sender === "bot" && (
-                <div className="max-w-[82%]">
-                  <div className="bg-slate-800 text-slate-100 rounded-2xl rounded-tl-sm px-3.5 py-2.5 text-xs sm:text-[13px] leading-relaxed shadow-sm border border-slate-700/60 whitespace-pre-line break-words">
-                    {msg.text}
-                  </div>
-                  <span className="text-[10px] text-slate-500 mt-1 ml-1 inline-block">
-                    {msg.time}
-                  </span>
-                </div>
-              )}
-
-              {/* 3. 내 질문(User) 말풍선 */}
-              {msg.sender === "user" && (
-                <div className="max-w-[82%] flex flex-col items-end">
-                  <div
-                    className={`text-white rounded-2xl rounded-tr-sm px-3.5 py-2.5 text-xs sm:text-[13px] leading-relaxed shadow-md whitespace-pre-line break-words ${
-                      isHumanMode ? "bg-indigo-600" : "bg-blue-600"
-                    }`}
-                  >
-                    {msg.text}
-                  </div>
-                  <span className="text-[10px] text-slate-500 mt-1 mr-1 inline-block">
-                    {msg.time}
-                  </span>
-                </div>
-              )}
-            </div>
-          ))}
-
-          {/* AI 타이핑/로딩 인디케이터 */}
-          {isTyping && (
-            <div className="flex items-center gap-1.5">
-              <div className="bg-slate-800 border border-slate-700/60 rounded-2xl rounded-tl-sm px-3.5 py-2.5 text-xs text-slate-400 flex items-center gap-2 shadow-sm">
-                <Loader2 className="w-3.5 h-3.5 text-blue-400 animate-spin" />
-                <span>AI가 답변을 작성하고 있습니다...</span>
+                </h4>
+                <p className="text-[10px] text-slate-400">
+                  {currentBid ? `[${currentBid.title.substring(0, 16)}...] 공고 기준` : "공공입찰 원문 기반 질의응답"}
+                </p>
               </div>
             </div>
-          )}
 
-          <div ref={messagesEndRef} />
-        </div>
-
-        {/* 하단 영역 (FAQ 리스트 + 입찰 담당자 문의 버튼 + 직접 입력창) */}
-        <div className="bg-slate-950 p-2.5 sm:p-3 border-t border-slate-800 shrink-0 space-y-2">
-          {/* FAQ 빠른 질문 버튼 리스트 (AI 모드일 때 표시) */}
-          {!isHumanMode && (
-            <div className="max-h-20 overflow-y-auto pr-1 space-y-1 custom-scrollbar">
-              {chatData.faqs.map((faq) => (
-                <button
-                  key={faq.id}
-                  onClick={() => handleQuestionClick(faq.question, faq.answer)}
-                  disabled={isTyping}
-                  className="w-full text-left text-[11px] bg-slate-900/90 hover:bg-blue-950/60 text-slate-300 hover:text-blue-300 border border-slate-800/80 hover:border-blue-700/60 rounded-lg px-2.5 py-1.5 transition-all duration-150 disabled:opacity-50 disabled:pointer-events-none flex items-center justify-between group"
-                >
-                  <span className="truncate pr-1">{faq.question}</span>
-                  <span className="text-slate-500 group-hover:text-blue-400 text-[10px] shrink-0">
-                    →
-                  </span>
-                </button>
-              ))}
-            </div>
-          )}
-
-          {/* "입찰 담당자 문의" 전환 버튼 */}
-          {!isHumanMode ? (
-            <button
-              onClick={handleSwitchToHuman}
-              className="w-full py-1.5 px-3 rounded-lg text-xs font-semibold bg-gradient-to-r from-indigo-950 via-slate-900 to-indigo-950 hover:from-indigo-900 hover:to-slate-800 text-indigo-300 hover:text-indigo-100 border border-indigo-800/60 hover:border-indigo-600/80 transition-all flex items-center justify-center gap-1.5 shadow-sm"
-            >
-              <Headphones className="w-3.5 h-3.5 text-indigo-400" />
-              <span>입찰 담당자 문의 (실시간 상담)</span>
-            </button>
-          ) : (
-            <div className="flex items-center justify-between px-2 py-1 bg-indigo-950/50 border border-indigo-800/40 rounded-lg text-[11px] text-indigo-300">
-              <span className="flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping" />
-                담당자 연결 대기 중
-              </span>
+            <div className="flex items-center gap-1">
               <button
-                onClick={handleSwitchToAi}
-                className="text-xs font-semibold text-blue-400 hover:underline flex items-center gap-0.5"
+                onClick={handleReset}
+                className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                title="대화 초기화"
               >
-                <span>AI 모드로 전환</span>
-                <Bot className="w-3 h-3" />
+                <RotateCcw className="w-3.5 h-3.5" />
+              </button>
+              <button
+                onClick={() => setIsOpen(false)}
+                className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                title="닫기"
+              >
+                <X className="w-4 h-4" />
               </button>
             </div>
-          )}
+          </div>
 
-          {/* 직접 텍스트 입력창 */}
-          <form onSubmit={handleSendMessage} className="flex items-center gap-1.5 pt-0.5">
+          {/* 메시지 스크롤 영역 */}
+          <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-slate-950/60 text-xs">
+            {messages.map((msg) => (
+              <div
+                key={msg.id}
+                className={`flex flex-col ${msg.sender === "user" ? "items-end" : "items-start"}`}
+              >
+                <div
+                  className={`p-3 rounded-xl max-w-[90%] whitespace-pre-wrap leading-relaxed ${
+                    msg.sender === "user"
+                      ? "bg-blue-600 text-white font-medium"
+                      : "bg-slate-900 border border-slate-800 text-slate-200"
+                  }`}
+                >
+                  {msg.text}
+                </div>
+                <span className="text-[9px] text-slate-500 mt-1 px-1">{msg.time}</span>
+              </div>
+            ))}
+
+            {isTyping && (
+              <div className="flex items-center gap-1.5 text-slate-400 text-xs bg-slate-900 p-2.5 rounded-xl border border-slate-800 w-32">
+                <Loader2 className="w-3.5 h-3.5 animate-spin text-blue-400" />
+                <span>답변 작성 중...</span>
+              </div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+
+          {/* 빠른 질문 추천 칩 */}
+          <div className="bg-slate-950 px-3 py-2 border-t border-slate-800/80 flex items-center gap-1.5 overflow-x-auto scrollbar-none text-[11px]">
+            <button
+              onClick={() => handleSendMessage("직접생산확인 필수조건이 어떻게 되나요?")}
+              className="px-2 py-1 rounded bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 whitespace-nowrap cursor-pointer"
+            >
+              직생 필수 조건
+            </button>
+            <button
+              onClick={() => handleSendMessage("옥외광고사업 등록증이 꼭 필요한가요?")}
+              className="px-2 py-1 rounded bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 whitespace-nowrap cursor-pointer"
+            >
+              면허 요건
+            </button>
+            {currentBid && (
+              <button
+                onClick={() => handleSendMessage("이 공고의 핵심 자격과 일정을 요약해줘")}
+                className="px-2 py-1 rounded bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 border border-blue-500/30 whitespace-nowrap cursor-pointer"
+              >
+                현재 공고 요약
+              </button>
+            )}
+          </div>
+
+          {/* 인풋 영역 */}
+          <div className="p-3 bg-slate-950 border-t border-slate-800 flex items-center gap-2">
             <input
               ref={inputRef}
               type="text"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              placeholder={
-                isHumanMode
-                  ? "담당자에게 문의할 내용을 입력하세요..."
-                  : "궁금한 내용을 직접 질문해보세요..."
-              }
-              disabled={isTyping}
-              className="flex-1 bg-slate-900 text-slate-100 placeholder-slate-500 text-xs px-3 py-2 rounded-xl border border-slate-800 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 disabled:opacity-60"
+              onKeyDown={handleKeyDown}
+              placeholder="질문을 입력하세요..."
+              className="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 min-h-[38px]"
             />
             <button
-              type="submit"
+              onClick={() => handleSendMessage()}
               disabled={!inputValue.trim() || isTyping}
-              aria-label="질문 전송"
-              className={`p-2 rounded-xl transition-colors disabled:opacity-40 shrink-0 flex items-center justify-center text-white ${
-                isHumanMode
-                  ? "bg-indigo-600 hover:bg-indigo-500 disabled:hover:bg-indigo-600"
-                  : "bg-blue-600 hover:bg-blue-500 disabled:hover:bg-blue-600"
-              }`}
+              className="p-2 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:opacity-40 text-white transition-colors cursor-pointer"
             >
-              {isTyping ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
-              ) : (
-                <Send className="w-4 h-4" />
-              )}
+              <Send className="w-4 h-4" />
             </button>
-          </form>
+          </div>
         </div>
-      </div>
-    </>
+      )}
+
+      {/* 우측 하단 기본 플로팅 버튼 (기본 닫힘 유지) */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-lg shadow-blue-600/30 border border-blue-400/40 transition-all cursor-pointer transform hover:scale-105 active:scale-95 min-h-[44px]"
+      >
+        <MessageSquare className="w-4 h-4 text-cyan-300" />
+        <span>{currentBid ? "이 공고에 대해 AI에게 질문" : "AI 입찰비서 질문"}</span>
+      </button>
+    </div>
   );
 }

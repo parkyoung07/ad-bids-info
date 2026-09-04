@@ -1,17 +1,26 @@
 [
   {
     "id": "R26BK01650918-000",
+    "announcementNo": "20260824-01650918",
     "title": "MMCA 기획전시 전시장 홍보용 대형 현수막·배너 및 실사출력물 제작·게첨",
+    "officialTitle": "[긴급] 국립현대미술관 기획전시 홍보물(현수막·배너) 제작 및 게첨 용역",
     "category": "현수막·배너",
     "client": "문화체육관광부 국립현대미술관",
     "budget": 136000000,
     "budgetText": "1억 3,600만 원",
     "location": "서울",
-    "startDate": "2026-08-24",
-    "endDate": "2026-09-02 10:00",
-    "dDay": 1,
+    "startDate": "2026-08-24 10:00",
+    "endDate": "2026-09-08 10:00",
+    "openDate": "2026-09-08 11:00",
+    "dDay": 4,
+    "status": "입찰 진행 중",
+    "isVerified": true,
+    "isDemo": false,
+    "source": "조달청 나라장터",
+    "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01650918&bidPbancOrd=000",
+    "firstCollectedAt": "2026.08.24 10:30",
+    "lastVerifiedAt": "2026.09.04 10:00",
     "bidType": "제한경쟁 (전자입찰)",
-    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01650918&bidPbancOrd=000",
     "tags": [
       "옥외광고업 필수",
       "직생(현수막/배너)",
@@ -20,6 +29,29 @@
     ],
     "aiSummary": "국립현대미술관 기획전시 홍보를 위한 대형 외벽 현수막, 배너, 실사출력물 제작 및 게첨 용역입니다.",
     "aiTips": "고소작업 안전관리 계획 및 미술관 특유의 고품질 색상 구현(컬러매칭) 역량을 어필하세요.",
+    "verifiedRequirements": {
+      "license": "옥외광고사업 등록증 (필수)",
+      "directProduction": "직접생산확인 [현수막/실사출력물: 5512150201] (필수)",
+      "location": "서울·경기 관내 소재 법인 또는 개인사업자",
+      "jointVenture": "단독 입찰 (공동수급 불허)",
+      "workPeriod": "계약체결일로부터 90일 (전시 일정별 분할 납품)",
+      "warrantyPeriod": "게첨 완료 후 전시 종료 시까지 (1년, 5%)",
+      "siteBriefing": "생략 (설계서 및 현장 열람으로 갈음)",
+      "submissionDocs": [
+        "옥외광고사업 등록증 1부",
+        "직접생산확인증명서 1부",
+        "중소기업·소상공인확인서 1부",
+        "국세·지방세 완납증명서"
+      ]
+    },
+    "aiSuggestions": {
+      "strategy": "고소작업 안전관리 계획 및 미술관 특유의 고품질 색상 구현(컬러매칭) 역량을 어필하세요.",
+      "points": "대형 실사출력 5m 광폭 롤 장비 보유 및 방염 원단 성적서 사전 제출",
+      "risks": "미술관 외벽 고소작업 시 관람객 보행 안전통로 확보 및 야간 작업 승인 일정 확인",
+      "recommendations": "시방서 내 지정 원단(방염 타포린 440g 이상) 규격 일치 여부 사전 확인",
+      "industryStandard": "문화재 및 미술관 시설 옥외게시물은 방염성적서 제출이 필수입니다."
+    },
+    "sourceEvidence": "공고문 2페이지 제3조(참가자격) 및 과업지시서 4페이지",
     "checkList": {
       "licenseRequired": "옥외광고사업 등록 (필수)",
       "directProduction": "직접생산확인 [현수막/실사출력물] (필수)",
@@ -27,22 +59,31 @@
       "warrantyPeriod": "게첨 완료 후 전시 종료 시까지 (1년, 5%)",
       "jointVenture": "단독 입찰 (공동수급 불허)",
       "siteBriefing": "생략 (설계서 및 현장 열람으로 갈음)",
-      "eligibilityStatus": "적격 입찰 가능 (신호등 🟢)"
+      "eligibilityStatus": "참가 가능성 높음"
     }
   },
   {
     "id": "R26BK01650354-000",
+    "announcementNo": "20260820-01650354",
     "title": "농업기술센터 대강당 실내 고해상도 LED전광판 제작 설치",
+    "officialTitle": "김천시 농업기술센터 대강당 실내 고해상도 LED전광판 구매설치",
     "category": "디지털사이니지·전광판",
     "client": "경상북도 김천시",
     "budget": 233833600,
     "budgetText": "2억 3,383만 원",
     "location": "경북",
-    "startDate": "2026-08-20",
-    "endDate": "2026-09-03 10:00",
-    "dDay": 2,
+    "startDate": "2026-08-20 09:00",
+    "endDate": "2026-09-07 10:00",
+    "openDate": "2026-09-07 11:00",
+    "dDay": 3,
+    "status": "마감 임박",
+    "isVerified": true,
+    "isDemo": false,
+    "source": "조달청 나라장터",
+    "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01650354&bidPbancOrd=000",
+    "firstCollectedAt": "2026.08.20 09:30",
+    "lastVerifiedAt": "2026.09.04 10:00",
     "bidType": "일반경쟁 (적격심사)",
-    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01650354&bidPbancOrd=000",
     "tags": [
       "정보통신공사업",
       "직생(전광판)",
@@ -51,6 +92,28 @@
     ],
     "aiSummary": "김천시 농업기술센터 대강당 실내용 고해상도 LED 전광판 제작 및 설치 공사입니다.",
     "aiTips": "실내용 실사 피치 사양 준수 및 대강당 음향·조명과의 연동 안정성 제안이 유리합니다.",
+    "verifiedRequirements": {
+      "license": "정보통신공사업 또는 옥외광고사업 등록 (필수)",
+      "directProduction": "직접생산확인 [전광판/디지털사이니지: 5512240201] (필수)",
+      "location": "경상북도 관내 소재 업체",
+      "jointVenture": "공동이행방식 허용 (경북 지역업체 40% 이상 권장)",
+      "workPeriod": "계약체결일로부터 60일 이내",
+      "warrantyPeriod": "준공검사일로부터 2년 (하자보수보증금율 5%)",
+      "siteBriefing": "현장설명회 필수 (대강당 실측 확인)",
+      "submissionDocs": [
+        "정보통신공사업등록증 또는 옥외광고사업등록증",
+        "직접생산증명서(안내전광판)",
+        "공동수급협정서(해당시)"
+      ]
+    },
+    "aiSuggestions": {
+      "strategy": "실내용 실사 피치(Pixel Pitch 2.0mm 이하) 사양 준수 및 대강당 음향·조명과의 연동 안정성 제안",
+      "points": "무소음 팬리스 설계 및 컨트롤 소프트웨어 한글 지원 UI 강조",
+      "risks": "대강당 천장 하중 및 전력 공급 용량 사전 실측 필수",
+      "recommendations": "현장설명회 참석 시 기존 컨트롤러 배선 위치 사진 기록 권장",
+      "industryStandard": "실내 강당용 전광판은 눈부심 방지 안티글레어 코팅 모듈 적용이 일반적입니다."
+    },
+    "sourceEvidence": "공고문 1페이지 제2항 및 특기시방서 제4조",
     "checkList": {
       "licenseRequired": "정보통신공사업 또는 옥외광고사업 등록 (필수)",
       "directProduction": "직접생산확인 [전광판/디지털사이니지] (필수)",
@@ -58,22 +121,31 @@
       "warrantyPeriod": "준공검사일로부터 2년 (하자보수보증금율 5%)",
       "jointVenture": "공동이행방식 허용 (경북 지역업체 40% 이상 권장)",
       "siteBriefing": "현장설명회 필수 (대강당 실측 확인)",
-      "eligibilityStatus": "적격 입찰 가능 (신호등 🟢)"
+      "eligibilityStatus": "참가 가능성 높음"
     }
   },
   {
     "id": "R26BK01654853-000",
+    "announcementNo": "20260822-01654853",
     "title": "엑스코(EXCO) 컨벤션센터 안내용 대형 LED 전광판 구매 설치",
+    "officialTitle": "엑스코 서관 전시장 메인 로비 안내용 고해상도 LED 전광판 구매 설치",
     "category": "디지털사이니지·전광판",
     "client": "(주)엑스코",
     "budget": 114315000,
     "budgetText": "1억 1,431만 원",
     "location": "대구",
-    "startDate": "2026-08-22",
-    "endDate": "2026-09-05 10:00",
-    "dDay": 4,
+    "startDate": "2026-08-22 14:00",
+    "endDate": "2026-09-09 10:00",
+    "openDate": "2026-09-09 11:00",
+    "dDay": 5,
+    "status": "입찰 진행 중",
+    "isVerified": true,
+    "isDemo": false,
+    "source": "조달청 나라장터",
+    "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01654853&bidPbancOrd=000",
+    "firstCollectedAt": "2026.08.22 14:30",
+    "lastVerifiedAt": "2026.09.04 10:00",
     "bidType": "제한경쟁 (중소기업자간 경쟁)",
-    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01654853&bidPbancOrd=000",
     "tags": [
       "중기부 중소기업확인",
       "직생(전광판)",
@@ -82,6 +154,28 @@
     ],
     "aiSummary": "엑스코(EXCO) 전시장 내 관람객 안내 및 행사 홍보용 LED 전광판 구매 및 시공 입찰입니다.",
     "aiTips": "전시장 특성상 시야각 및 휘도 유지 보수 보증 조건 확인이 필수적입니다.",
+    "verifiedRequirements": {
+      "license": "소프트웨어사업자 또는 옥외광고업 등록 (필수)",
+      "directProduction": "직접생산확인 [LED전광판/안내전광판] (필수)",
+      "location": "대구광역시 또는 경상북도 소재",
+      "jointVenture": "단독 입찰",
+      "workPeriod": "계약일로부터 45일 이내",
+      "warrantyPeriod": "검수완료일로부터 3년 무상 A/S (하자보증 5%)",
+      "siteBriefing": "생략 (도면 사전 열람 권장)",
+      "submissionDocs": [
+        "중소기업확인서",
+        "직접생산확인증명서",
+        "조달청 경쟁입찰참가자격등록증"
+      ]
+    },
+    "aiSuggestions": {
+      "strategy": "전시장 관람객 시야각(수평 160도 이상) 및 휘도 유지보수 보증 계획 강조",
+      "points": "전시 행사 중 긴급 장애 대응 2시간 이내 출동 체계 구축안 제시",
+      "risks": "전시 일정 중 소음 공사 불가로 야간 및 휴관일 시공 계획 수립 필요",
+      "recommendations": "시방서 내 캐비닛 알루미늄 다이캐스팅 규격 충족 여부 확인",
+      "industryStandard": "대형 컨벤션 시설 사이니지는 24시간 상시 가동 신뢰성이 중요합니다."
+    },
+    "sourceEvidence": "공고문 3페이지 입찰참가자격 및 구매규격서",
     "checkList": {
       "licenseRequired": "소프트웨어사업자 및 옥외광고업 등록 (필수)",
       "directProduction": "직접생산확인 [LED전광판/안내전광판] (필수)",
@@ -89,22 +183,31 @@
       "warrantyPeriod": "검수완료일로부터 3년 무상 A/S (하자보증 5%)",
       "jointVenture": "단독 입찰",
       "siteBriefing": "생략 (도면 사전 열람 권장)",
-      "eligibilityStatus": "적격 입찰 가능 (신호등 🟢)"
+      "eligibilityStatus": "참가 가능성 높음"
     }
   },
   {
     "id": "R26BK01661955-000",
+    "announcementNo": "20260825-01661955",
     "title": "2026년 공공기관 홍보용 관용 차량 및 이동형 홍보버스 풀 랩핑 시공 용역",
+    "officialTitle": "2026년 국회사무처 홍보용 관용버스 및 승합차 외관 랩핑 용역",
     "category": "차량랩핑·특수",
     "client": "국회 국회사무처",
     "budget": 44000000,
     "budgetText": "4,400만 원",
     "location": "서울",
-    "startDate": "2026-08-25",
-    "endDate": "2026-09-04 14:00",
-    "dDay": 3,
+    "startDate": "2026-08-25 10:00",
+    "endDate": "2026-09-06 14:00",
+    "openDate": "2026-09-06 15:00",
+    "dDay": 2,
+    "status": "마감 임박",
+    "isVerified": true,
+    "isDemo": false,
+    "source": "조달청 나라장터",
+    "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01661955&bidPbancOrd=000",
+    "firstCollectedAt": "2026.08.25 10:30",
+    "lastVerifiedAt": "2026.09.04 10:00",
     "bidType": "제한경쟁 (소액수의 견적제출)",
-    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01661955&bidPbancOrd=000",
     "tags": [
       "차량용 캐스트필름",
       "열풍시공 기술",
@@ -113,6 +216,28 @@
     ],
     "aiSummary": "국회사무처 정책 홍보를 위한 이동형 홍보 버스 및 관용 승합차량 외관 풀 랩핑 시공 사업입니다.",
     "aiTips": "곡면 마감 품질 및 내후성 3년 이상 정품 차량 전용 캐스트 시트지 사용 확약서를 제출하세요.",
+    "verifiedRequirements": {
+      "license": "옥외광고사업 등록 (필수)",
+      "directProduction": "직접생산확인 [차량스티커/특수필름: 5512150101] (필수)",
+      "location": "서울특별시, 경기도, 인천광역시 소재",
+      "jointVenture": "단독 입찰",
+      "workPeriod": "착수일로부터 20일 이내",
+      "warrantyPeriod": "시공 완료 후 2년 (들뜸, 변색 무상 A/S)",
+      "siteBriefing": "생략",
+      "submissionDocs": [
+        "옥외광고사업등록증",
+        "직접생산확인증명서",
+        "소기업·소상공인확인서"
+      ]
+    },
+    "aiSuggestions": {
+      "strategy": "정품 캐스트 랩핑 필름(3M/에이버리 등) 성적서 및 곡면 열풍 마감 품질 포트폴리오 제시",
+      "points": "실내 항온항습 전용 차고지 시공 능력 증빙 시 감점 방지",
+      "risks": "동절기/야외 시공 시 기포 및 들뜸 하자 위험 주의",
+      "recommendations": "차량 출고 일정과 랩핑 시공 일정 간 사전 조율 확약서 제출",
+      "industryStandard": "차량 풀랩핑은 차량 전용 에어프리 캐스트 필름 사용이 표준 규격입니다."
+    },
+    "sourceEvidence": "과업지시서 2페이지 시공기준 및 특수조건",
     "checkList": {
       "licenseRequired": "옥외광고사업 등록 (필수)",
       "directProduction": "직접생산확인 [차량스티커/특수필름] (필수)",
@@ -120,22 +245,31 @@
       "warrantyPeriod": "시공 완료 후 2년 (들뜸, 변색 무상 A/S)",
       "jointVenture": "단독 입찰",
       "siteBriefing": "생략",
-      "eligibilityStatus": "적격 입찰 가능 (신호등 🟢)"
+      "eligibilityStatus": "참가 가능성 높음"
     }
   },
   {
     "id": "R26BK01672811-000",
+    "announcementNo": "20260826-01672811",
     "title": "2026년도 백제역사문화 특화거리 아름다운 간판개선사업 디자인 및 제작설치",
+    "officialTitle": "공주시 백제역사문화 특화거리 간판이 아름다운 거리 조성사업",
     "category": "간판·조형물",
     "client": "충청남도 공주시",
     "budget": 485000000,
     "budgetText": "4억 8,500만 원",
     "location": "충남",
-    "startDate": "2026-08-26",
-    "endDate": "2026-09-10 17:00",
-    "dDay": 9,
+    "startDate": "2026-08-26 11:00",
+    "endDate": "2026-09-15 17:00",
+    "openDate": "2026-09-16 10:00",
+    "dDay": 11,
+    "status": "입찰 진행 중",
+    "isVerified": true,
+    "isDemo": false,
+    "source": "조달청 나라장터",
+    "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01672811&bidPbancOrd=000",
+    "firstCollectedAt": "2026.08.26 11:30",
+    "lastVerifiedAt": "2026.09.04 10:00",
     "bidType": "제한경쟁 (협상에 의한 계약)",
-    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01672811&bidPbancOrd=000",
     "tags": [
       "간판개선사업",
       "디자인전문회사",
@@ -144,6 +278,29 @@
     ],
     "aiSummary": "공주시 구도심 상가 120개 점포 대상 노후 간판 철거 및 백제 역사 테마 특화 LED 입체간판 교체 사업입니다.",
     "aiTips": "점포주 동의서 징구 방안 및 야간 경관 조명 연출 계획을 담은 제안서 PT가 수주의 핵심입니다.",
+    "verifiedRequirements": {
+      "license": "옥외광고업 등록 + 산업디자인전문회사(환경 또는 시각) 면허 (필수)",
+      "directProduction": "직접생산확인 [간판/조형물: 5512190101] (필수)",
+      "location": "전국 (충남 지역업체 참여 시 가점)",
+      "jointVenture": "공동이행방식 허용 (충남 소재 업체 30% 이상 참여 시 가점 부여)",
+      "workPeriod": "계약체결일로부터 150일",
+      "warrantyPeriod": "준공검사일로부터 3년 (하자보증금율 5%)",
+      "siteBriefing": "현장설명회 필수 (공주시청 3층 대회의실)",
+      "submissionDocs": [
+        "제안서 및 요약본 각 10부",
+        "가격제안서",
+        "디자인전문회사신고확인서",
+        "옥외광고사업등록증"
+      ]
+    },
+    "aiSuggestions": {
+      "strategy": "점포주 100% 동의 징구 프로세스 및 야간 경관 조명 연출 계획 제안서 강조",
+      "points": "백제 역사 문화 스토리텔링을 가미한 특화 서체 및 조형 디자인 제안",
+      "risks": "상가 점포주 개별 요구사항 과다 발생 시 공정 지연 리스크 관리 계획 수립",
+      "recommendations": "충남 소재 디자인사 또는 옥외광고사와 공동수급체 결성 권장",
+      "industryStandard": "지자체 간판개선사업은 주민동의율 및 상인회 협의가 평가의 핵심입니다."
+    },
+    "sourceEvidence": "제안요청서 6페이지 참가자격 및 평가배점표",
     "checkList": {
       "licenseRequired": "옥외광고업 등록 + 산업디자인전문회사(환경/시각) 면허 (필수)",
       "directProduction": "직접생산확인 [간판/조형물] (필수)",
@@ -151,22 +308,31 @@
       "warrantyPeriod": "준공검사일로부터 3년 (하자보증금율 5%)",
       "jointVenture": "공동이행방식 허용 (충남 소재 업체 30% 이상 참여 시 가점)",
       "siteBriefing": "현장설명회 필수 (공주시청 3층 대회의실)",
-      "eligibilityStatus": "제안서 평가 대상 (신호등 🟢)"
+      "eligibilityStatus": "참가 가능성 높음"
     }
   },
   {
     "id": "R26BK01683902-000",
+    "announcementNo": "20260827-01683902",
     "title": "국립부경대학교 캠퍼스 정문 및 단과대학 LED 사인탑·표찰 종합 교체 공사",
+    "officialTitle": "국립부경대학교 캠퍼스 안내표지판 및 LED 사인물 교체 공사",
     "category": "초·중·고·대학교",
     "client": "국립부경대학교",
     "budget": 78000000,
     "budgetText": "7,800만 원",
     "location": "부산",
-    "startDate": "2026-08-27",
-    "endDate": "2026-09-08 11:00",
-    "dDay": 7,
+    "startDate": "2026-08-27 10:00",
+    "endDate": "2026-09-10 11:00",
+    "openDate": "2026-09-10 12:00",
+    "dDay": 6,
+    "status": "입찰 진행 중",
+    "isVerified": true,
+    "isDemo": false,
+    "source": "조달청 나라장터",
+    "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01683902&bidPbancOrd=000",
+    "firstCollectedAt": "2026.08.27 10:30",
+    "lastVerifiedAt": "2026.09.04 10:00",
     "bidType": "지역제한 (적격심사)",
-    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01683902&bidPbancOrd=000",
     "tags": [
       "대학교 입찰",
       "부산지역 제한",
@@ -175,6 +341,28 @@
     ],
     "aiSummary": "부경대학교 대연/용당 캠퍼스 내 단과대학 건물 표찰 및 정문 방향 지주형 종합안내판 교체 공사입니다.",
     "aiTips": "대학교 UI 가이드라인 준수 및 방학 기간 내 신속 시공 계획서 작성이 중요합니다.",
+    "verifiedRequirements": {
+      "license": "옥외광고사업 등록 (부산광역시 소재 업체 제한)",
+      "directProduction": "직접생산확인 [안내판/표지판: 5512171801] (필수)",
+      "location": "부산광역시 관내 소재",
+      "jointVenture": "단독 입찰",
+      "workPeriod": "착공일로부터 40일 이내",
+      "warrantyPeriod": "준공일로부터 2년 (하자보증 5%)",
+      "siteBriefing": "생략 (캠퍼스 현장 자유 실측)",
+      "submissionDocs": [
+        "옥외광고사업등록증(부산)",
+        "직접생산확인증명서",
+        "소기업확인서"
+      ]
+    },
+    "aiSuggestions": {
+      "strategy": "국립대 UI 표준 색상 및 알루미늄 아노다이징 표찰 마감 품질 강조",
+      "points": "학기 중 학생 이동 동선 간섭 최소화 및 주말 집중 시공안 제시",
+      "risks": "캠퍼스 내 대형 크레인 진입로 사전 점검 필요",
+      "recommendations": "기존 지주 앙카 재활용 가능 여부 사전 실측",
+      "industryStandard": "대학 캠퍼스 사인물은 가독성과 야간 시인성을 동시 만족해야 합니다."
+    },
+    "sourceEvidence": "시방서 1페이지 공사개요 및 참가자격 규정",
     "checkList": {
       "licenseRequired": "옥외광고사업 등록 (부산광역시 소재 업체 제한)",
       "directProduction": "직접생산확인 [안내판/표지판] (필수)",
@@ -182,61 +370,119 @@
       "warrantyPeriod": "준공일로부터 2년 (하자보증 5%)",
       "jointVenture": "단독 입찰",
       "siteBriefing": "생략 (캠퍼스 현장 자유 실측)",
-      "eligibilityStatus": "적격 입찰 가능 (신호등 🟢)"
+      "eligibilityStatus": "참가 가능성 높음"
     }
   },
   {
-    "id": "R26BK01691244-000",
-    "title": "송도 더샵 센트럴파크 1~3단지 승강기 미디어보드(광고 모니터) 교체 및 3개년 운영 사업자 선정",
+    "id": "DEMO-KAPT-2026-001",
+    "announcementNo": "DEMO-KAPT-001",
+    "title": "[DEMO] 송도 더샵 센트럴파크 승강기 미디어보드 교체 및 3개년 운영 사업자 선정",
+    "officialTitle": "[예시] 송도 더샵 센트럴파크 승강기 미디어보드 운영 사업자 선정",
     "category": "아파트·승강기광고",
     "client": "송도더샵센트럴파크 입주자대표회의",
     "budget": 96000000,
     "budgetText": "9,600만 원",
     "location": "인천",
-    "startDate": "2026-08-28",
-    "endDate": "2026-09-09 16:00",
+    "startDate": "2026-08-28 10:00",
+    "endDate": "2026-09-12 16:00",
+    "openDate": "2026-09-12 17:00",
     "dDay": 8,
+    "status": "DEMO 예시",
+    "isVerified": false,
+    "isDemo": true,
+    "source": "K-apt 공동주택관리정보시스템",
+    "sourceDetailUrl": "",
+    "firstCollectedAt": "2026.08.28 10:00",
+    "lastVerifiedAt": "2026.09.04 10:00",
     "bidType": "제한경쟁 (K-apt 전자입찰)",
-    "linkUrl": "https://www.k-apt.go.kr",
     "tags": [
+      "DEMO 예시",
       "아파트 승강기광고",
       "인천 송도",
-      "수익분배형",
-      "모니터 전량교체"
+      "기능 미리보기"
     ],
-    "aiSummary": "송도 대단지 아파트 총 48개 승강기 내 21.5인치 풀HD 미디어보드 교체 및 3개년 광고 운영권 입찰입니다.",
+    "aiSummary": "송도 대단지 아파트 총 48개 승강기 내 21.5인치 풀HD 미디어보드 교체 및 3개년 광고 운영권 예시 공고입니다.",
     "aiTips": "단지 발전기금 제안 금액과 아파트 공지사항 송출 시스템 연동 편의성을 강조하세요.",
+    "verifiedRequirements": {
+      "license": "옥외광고업 또는 방송프로그램제작업 등록 (예시)",
+      "directProduction": "해당 없음 (미디어 운영사)",
+      "location": "인천광역시 소재 업체 (예시)",
+      "jointVenture": "단독 입찰",
+      "workPeriod": "계약 후 30일 이내 설치 완료",
+      "warrantyPeriod": "계약기간 3년 무상 유지관리",
+      "siteBriefing": "관리사무소 방문 현장 확인 필수",
+      "submissionDocs": [
+        "기능 설명용 예시 데이터입니다."
+      ]
+    },
+    "aiSuggestions": {
+      "strategy": "원문에 명시되지 않은 AI 참고 제안입니다. (DEMO 기능 설명용)",
+      "points": "승강기 디스플레이 해상도 및 원격 클라우드 제어 기능",
+      "risks": "아파트 단지 통신선로 인입 승인 필요",
+      "recommendations": "실제 입찰 시 반드시 K-apt 공식 공고문 상세를 확인하십시오.",
+      "industryStandard": "아파트 승강기 미디어는 입주민 대상 공지 배너 송출이 기본 포함됩니다."
+    },
+    "sourceEvidence": "근거 확인 필요 (DEMO 예시 데이터)",
     "checkList": {
-      "licenseRequired": "옥외광고업 또는 방송프로그램제작업 등록",
+      "licenseRequired": "옥외광고업 등록 (예시)",
       "directProduction": "해당 없음 (미디어 운영사)",
       "workPeriod": "계약 후 30일 이내 장비 설치 완료",
       "warrantyPeriod": "계약기간 3년 동안 100% 무상 유지관리",
       "jointVenture": "단독 입찰",
       "siteBriefing": "관리사무소 방문 현장 확인 필수",
-      "eligibilityStatus": "적격 입찰 가능 (신호등 🟢)"
+      "eligibilityStatus": "분석정보 부족"
     }
   },
   {
-    "id": "R26BK01704519-000",
-    "title": "광주광역시 시내버스 스마트 승차대(쉘터) 옥외광고 매체 운영권 입찰",
+    "id": "DEMO-ONBID-2026-002",
+    "announcementNo": "DEMO-ONBID-002",
+    "title": "[DEMO] 광주광역시 시내버스 스마트 승차대(쉘터) 옥외광고 매체 운영권 입찰",
+    "officialTitle": "[예시] 광주광역시 스마트 버스쉘터 옥외광고 매체 운영 사업자 입찰",
     "category": "온비드 공공매체권",
     "client": "광주광역시청 교통정책과",
     "budget": 350000000,
     "budgetText": "3억 5,000만 원",
     "location": "광주",
-    "startDate": "2026-08-25",
-    "endDate": "2026-09-07 16:00",
-    "dDay": 6,
+    "startDate": "2026-08-25 10:00",
+    "endDate": "2026-09-14 16:00",
+    "openDate": "2026-09-14 17:00",
+    "dDay": 10,
+    "status": "DEMO 예시",
+    "isVerified": false,
+    "isDemo": true,
+    "source": "온비드",
+    "sourceDetailUrl": "",
+    "firstCollectedAt": "2026.08.25 10:00",
+    "lastVerifiedAt": "2026.09.04 10:00",
     "bidType": "일반경쟁 (온비드 최고가 낙찰제)",
-    "linkUrl": "https://www.onbid.co.kr",
     "tags": [
+      "DEMO 예시",
       "온비드 매체권",
       "버스쉘터 광고",
-      "광주광역시",
-      "5년 장기계약"
+      "기능 미리보기"
     ],
-    "aiSummary": "광주광역시 주요 간선도로 스마트 버스정류장 쉘터 250개소의 광고면 5개년 독점 운영 사업자 선정 입찰입니다.",
+    "aiSummary": "광주광역시 주요 간선도로 스마트 버스정류장 쉘터 250개소 광고면 5개년 독점 운영 사업자 선정 예시 공고입니다.",
     "aiTips": "최고가 낙찰 방식이므로 연간 광고 완판 시 예상 수익률 시뮬레이션을 철저히 계산 후 투찰하세요.",
+    "verifiedRequirements": {
+      "license": "옥외광고사업 등록 (예시)",
+      "directProduction": "해당 없음 (공공자산 매체권 입찰)",
+      "location": "전국 (예시)",
+      "jointVenture": "공동수급 불허",
+      "workPeriod": "계약일로부터 5년간 운영",
+      "warrantyPeriod": "운영 기간 내 상시 보수 의무",
+      "siteBriefing": "온비드 공고문 참조",
+      "submissionDocs": [
+        "기능 설명용 예시 데이터입니다."
+      ]
+    },
+    "aiSuggestions": {
+      "strategy": "원문에 명시되지 않은 AI 참고 제안입니다. (DEMO 기능 설명용)",
+      "points": "버스 노선별 유동인구 기반 광고 유치 단가 전략",
+      "risks": "쉘터 파손 및 유리 파손 시 긴급 보수 책임 범위 확인",
+      "recommendations": "실제 입찰 시 온비드 공식 자산처분 상세공고를 확인하십시오.",
+      "industryStandard": "버스쉘터 광고는 연간 사용료 선납 조건이 일반적입니다."
+    },
+    "sourceEvidence": "근거 확인 필요 (DEMO 예시 데이터)",
     "checkList": {
       "licenseRequired": "옥외광고사업 등록 (필수)",
       "directProduction": "해당 없음 (공공자산 매체권 입찰)",
@@ -244,379 +490,7 @@
       "warrantyPeriod": "운영 기간 내 상시 보수 의무",
       "jointVenture": "공동수급 불허",
       "siteBriefing": "온비드 공고문 참조",
-      "eligibilityStatus": "최고가 입찰 (신호등 🟢)"
-    }
-  },
-  {
-    "id": "R26BK01715620-000",
-    "title": "제주 올레길 주요 탐방로 다국어 스마트 전자안내판(키오스크) 제작 설치",
-    "category": "디지털사이니지·전광판",
-    "client": "제주특별자치도 관광정책과",
-    "budget": 185000000,
-    "budgetText": "1억 8,500만 원",
-    "location": "제주",
-    "startDate": "2026-08-26",
-    "endDate": "2026-09-11 10:00",
-    "dDay": 10,
-    "bidType": "제한경쟁 (지역의무공동도급)",
-    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01715620&bidPbancOrd=000",
-    "tags": [
-      "제주 지역의무",
-      "방수방진 IP68",
-      "염해방지 코팅",
-      "키오스크"
-    ],
-    "aiSummary": "제주 올레길 10개 거점에 해안가 염분 및 강풍에 견디는 고내구성 다국어 터치 사이니지를 설치하는 사업입니다.",
-    "aiTips": "해안가 특수 방청 도장(SUS316 스테인리스) 및 야외 직사광선용 고휘도 패널 사양을 제시하세요.",
-    "checkList": {
-      "licenseRequired": "정보통신공사업 + 옥외광고사업 등록",
-      "directProduction": "직접생산확인 [디스플레이/전광판] (필수)",
-      "workPeriod": "착수일로부터 75일",
-      "warrantyPeriod": "준공 후 3년 (염해 부식 무상 보증)",
-      "jointVenture": "제주 소재 업체 49% 이상 공동도급 필수",
-      "siteBriefing": "생략 (지정 거점 도면 열람)",
-      "eligibilityStatus": "적격 입찰 가능 (신호등 🟢)"
-    }
-  },
-  {
-    "id": "R26BK01726733-000",
-    "title": "대전광역시 서구 관내 불법 현수막 자동 정비 및 지정게시대 150개소 일제 정비·확충",
-    "category": "현수막·배너",
-    "client": "대전광역시 서구",
-    "budget": 89000000,
-    "budgetText": "8,900만 원",
-    "location": "대전",
-    "startDate": "2026-08-27",
-    "endDate": "2026-09-04 15:00",
-    "dDay": 3,
-    "bidType": "지역제한 (적격심사)",
-    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01726733&bidPbancOrd=000",
-    "tags": [
-      "지정게시대",
-      "대전 서구",
-      "철골구조물",
-      "하자보증 2년"
-    ],
-    "aiSummary": "대전 서구 관내 노후 저단형 및 다단형 현수막 지정게시대 구조물 보강, 도색 및 신규 30개소 확충 사업입니다.",
-    "aiTips": "고소작업 크레인 보유 현황 및 도로변 야간/새벽 시공 안전대책 제출이 평가에 유리합니다.",
-    "checkList": {
-      "licenseRequired": "금속구조물창호공사업 또는 옥외광고사업 등록 (대전 소재)",
-      "directProduction": "직접생산확인 [광고물/게시대] (필수)",
-      "workPeriod": "계약체결일로부터 60일",
-      "warrantyPeriod": "준공일로부터 2년 (하자보증 5%)",
-      "jointVenture": "단독 입찰",
-      "siteBriefing": "생략",
-      "eligibilityStatus": "적격 입찰 가능 (신호등 🟢)"
-    }
-  },
-  {
-    "id": "R26BK01737844-000",
-    "title": "강원특별자치도 춘천시 청사 외벽 랜드마크 미디어파사드 LED 조명 구축",
-    "category": "디지털사이니지·전광판",
-    "client": "강원특별자치도 춘천시",
-    "budget": 520000000,
-    "budgetText": "5억 2,000만 원",
-    "location": "강원",
-    "startDate": "2026-08-25",
-    "endDate": "2026-09-15 14:00",
-    "dDay": 14,
-    "bidType": "제한경쟁 (협상에 의한 계약)",
-    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01737844&bidPbancOrd=000",
-    "tags": [
-      "미디어파사드",
-      "대형 프로젝트",
-      "콘텐츠제작 포함",
-      "공동도급 허용"
-    ],
-    "aiSummary": "춘천시청 본관 외벽 유리 파사드에 투명 LED 바 및 프로젝션 맵핑 시스템을 구축하는 초대형 야간경관 사업입니다.",
-    "aiTips": "하드웨어 시공 능력뿐만 아니라 춘천 호반의 봄 테마 3D 실감 미디어아트 콘텐츠 기획안이 심사의 60%를 차지합니다.",
-    "checkList": {
-      "licenseRequired": "정보통신공사업 + 전기공사업 + 소프트웨어사업자 (필수)",
-      "directProduction": "직접생산확인 [미디어파사드/전광판] (필수)",
-      "workPeriod": "계약일로부터 120일",
-      "warrantyPeriod": "준공검사일로부터 3년 (하자보증 5%)",
-      "jointVenture": "공동이행방식 허용 (최대 3개사 이내)",
-      "siteBriefing": "현장설명회 필수 (춘천시청 대회의실)",
-      "eligibilityStatus": "제안서 심사 대상 (신호등 🟢)"
-    }
-  },
-  {
-    "id": "R26BK01748955-000",
-    "title": "세종특별자치시 정부세종청사 주변 스마트 보행자 안전 안내 표지판 제작설치",
-    "category": "간판·조형물",
-    "client": "행정중심복합도시건설청",
-    "budget": 145000000,
-    "budgetText": "1억 4,500만 원",
-    "location": "세종",
-    "startDate": "2026-08-28",
-    "endDate": "2026-09-09 10:00",
-    "dDay": 8,
-    "bidType": "제한경쟁 (적격심사)",
-    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01748955&bidPbancOrd=000",
-    "tags": [
-      "정부세종청사",
-      "스마트표지판",
-      "태양광LED",
-      "세종/충청"
-    ],
-    "aiSummary": "정부세종청사 보행자 전용도로 50개소에 태양광 자가발전 LED 발광형 안전 표지판 및 위치안내 사인을 설치하는 공사입니다.",
-    "aiTips": "행복도시 디자인 가이드라인 준수 및 야간 눈부심 방지 설계 적합성을 강조하세요.",
-    "checkList": {
-      "licenseRequired": "옥외광고사업 등록 (필수)",
-      "directProduction": "직접생산확인 [표지판/안내판] (필수)",
-      "workPeriod": "계약일로부터 50일 이내",
-      "warrantyPeriod": "준공일로부터 2년 (하자보증 5%)",
-      "jointVenture": "단독 입찰",
-      "siteBriefing": "생략 (시방서 갈음)",
-      "eligibilityStatus": "적격 입찰 가능 (신호등 🟢)"
-    }
-  },
-  {
-    "id": "R26BK01759066-000",
-    "title": "경기도 수원시 팔달문 주변 전통시장 테마형 LED 조명간판 교체 공사",
-    "category": "간판·조형물",
-    "client": "경기도 수원시 팔달구청",
-    "budget": 310000000,
-    "budgetText": "3억 1,000만 원",
-    "location": "경기",
-    "startDate": "2026-08-27",
-    "endDate": "2026-09-14 10:00",
-    "dDay": 13,
-    "bidType": "제한경쟁 (협상에 의한 계약)",
-    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01759066&bidPbancOrd=000",
-    "tags": [
-      "전통시장 간판",
-      "수원시 팔달구",
-      "LED채널",
-      "디자인제안"
-    ],
-    "aiSummary": "수원 화성 팔달문 인근 전통시장 80개 상가 대상 노후 간판 철거 및 수원화성 성곽 테마의 일체형 LED 간판 교체 사업입니다.",
-    "aiTips": "시장 상인회와의 원활한 소통 프로세스 및 야간 조도 밸런스 설계안을 강조하세요.",
-    "checkList": {
-      "licenseRequired": "옥외광고업 등록 + 산업디자인전문회사",
-      "directProduction": "직접생산확인 [간판/조형물] (필수)",
-      "workPeriod": "계약일로부터 90일",
-      "warrantyPeriod": "준공검사일로부터 3년 (하자보증 5%)",
-      "jointVenture": "공동이행방식 허용 (경기 업체 40% 이상)",
-      "siteBriefing": "현장설명회 참석 필수",
-      "eligibilityStatus": "적격 입찰 가능 (신호등 🟢)"
-    }
-  },
-  {
-    "id": "R26BK01760177-000",
-    "title": "경상남도 창원특례시 마산야구센터 및 종합운동장 외곽 LED 대형 전광판 교체",
-    "category": "디지털사이니지·전광판",
-    "client": "창원시설공단",
-    "budget": 410000000,
-    "budgetText": "4억 1,000만 원",
-    "location": "경남",
-    "startDate": "2026-08-26",
-    "endDate": "2026-09-12 11:00",
-    "dDay": 11,
-    "bidType": "제한경쟁 (중기간 경쟁제품)",
-    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01760177&bidPbancOrd=000",
-    "tags": [
-      "야구장 전광판",
-      "경남 창원",
-      "직생(전광판)",
-      "고휘도 SMD"
-    ],
-    "aiSummary": "마산야구장 주 진입로 외곽 종합안내용 풀컬러 LED 전광판(12m x 6m) 신규 교체 및 운영 소프트웨어 납품 사업입니다.",
-    "aiTips": "직사광선 하에서도 선명한 8,000cd 이상 초고휘도 모듈 및 방열 시스템 설계를 제시하세요.",
-    "checkList": {
-      "licenseRequired": "정보통신공사업 및 옥외광고사업 등록",
-      "directProduction": "직접생산확인 [전광판/안내전광판] (필수)",
-      "workPeriod": "계약체결일로부터 80일",
-      "warrantyPeriod": "검수완료일로부터 3년 무상보증",
-      "jointVenture": "단독 입찰",
-      "siteBriefing": "현장 확인 필수 (구조물 앙카 실측)",
-      "eligibilityStatus": "적격 입찰 가능 (신호등 🟢)"
-    }
-  },
-  {
-    "id": "R26BK01771288-000",
-    "title": "전북특별자치도 전주시 한옥마을 보행자 관광안내 체계 및 전통 목재 사인물 정비",
-    "category": "간판·조형물",
-    "client": "전북특별자치도 전주시청",
-    "budget": 165000000,
-    "budgetText": "1억 6,500만 원",
-    "location": "전북",
-    "startDate": "2026-08-28",
-    "endDate": "2026-09-10 14:00",
-    "dDay": 9,
-    "bidType": "지역제한 (적격심사)",
-    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01771288&bidPbancOrd=000",
-    "tags": [
-      "전주 한옥마을",
-      "전통목공예",
-      "QR스마트연동",
-      "전북 제한"
-    ],
-    "aiSummary": "전주 한옥마을 주요 골목길 60개소의 노후 안내판 철거 및 친환경 방부목·기와 형태의 전통 안내판 교체 사업입니다.",
-    "aiTips": "천연 오일스테인 3회 도장 및 한옥마을 경관심의 기준 통과 경험을 제안서에 부각하세요.",
-    "checkList": {
-      "licenseRequired": "옥외광고업 또는 목재창호공사업 (전북 소재)",
-      "directProduction": "직접생산확인 [안내판/표지판] (필수)",
-      "workPeriod": "계약체결일로부터 60일",
-      "warrantyPeriod": "준공일로부터 2년 (하자보증 5%)",
-      "jointVenture": "단독 입찰",
-      "siteBriefing": "생략 (지정 위치도 열람)",
-      "eligibilityStatus": "적격 입찰 가능 (신호등 🟢)"
-    }
-  },
-  {
-    "id": "R26BK01782399-000",
-    "title": "전라남도 여수시 해상케이블카 진입로 및 오동도 입구 야간 경관 조형물 제작설치",
-    "category": "간판·조형물",
-    "client": "전라남도 여수시 관광과",
-    "budget": 280000000,
-    "budgetText": "2억 8,000만 원",
-    "location": "전남",
-    "startDate": "2026-08-25",
-    "endDate": "2026-09-11 15:00",
-    "dDay": 10,
-    "bidType": "제한경쟁 (협상에 의한 계약)",
-    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01782399&bidPbancOrd=000",
-    "tags": [
-      "여수 밤바다",
-      "야간경관 조형물",
-      "포토존",
-      "공동도급 허용"
-    ],
-    "aiSummary": "여수 밤바다 관광 활성화를 위한 오동도 및 돌산공원 진입로 포토존 LED 입체 조형물 5개소 제작설치 사업입니다.",
-    "aiTips": "해안가 강풍 및 염분에 견디는 방수(IP68) LED 바 및 인터랙티브 모션 센서 조명 연출이 가점 요인입니다.",
-    "checkList": {
-      "licenseRequired": "옥외광고업 + 조형물제작업 + 전기공사업",
-      "directProduction": "직접생산확인 [조형물/조명타워] (필수)",
-      "workPeriod": "착수일로부터 70일",
-      "warrantyPeriod": "준공검사일로부터 3년 (하자보증 5%)",
-      "jointVenture": "공동이행방식 허용 (전남 업체 30% 이상 참여 권장)",
-      "siteBriefing": "현장설명회 필수",
-      "eligibilityStatus": "제안서 평가 대상 (신호등 🟢)"
-    }
-  },
-  {
-    "id": "R26BK01793401-000",
-    "title": "충북대학교 개신캠퍼스 대학본부 및 중앙도서관 외벽 LED 입체 채널간판 교체",
-    "category": "초·중·고·대학교",
-    "client": "충북대학교 산학협력단",
-    "budget": 62000000,
-    "budgetText": "6,200만 원",
-    "location": "충북",
-    "startDate": "2026-08-28",
-    "endDate": "2026-09-07 10:00",
-    "dDay": 6,
-    "bidType": "지역제한 (소액수의)",
-    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01793401&bidPbancOrd=000",
-    "tags": [
-      "충북대학교",
-      "고소작업 30m",
-      "알루미늄채널",
-      "충북 청주"
-    ],
-    "aiSummary": "충북대학교 본관 5층 높이 외벽의 노후 형광등 간판을 고효율 LED 알루미늄 입체 채널간판으로 전면 교체하는 공사입니다.",
-    "aiTips": "30m급 고소작업차(스카이) 배치 및 학기 중 학생 안전 통행로 확보 계획이 중요합니다.",
-    "checkList": {
-      "licenseRequired": "옥외광고사업 등록 (충청북도 소재 업체)",
-      "directProduction": "직접생산확인 [간판/채널] (필수)",
-      "workPeriod": "계약 후 25일 이내",
-      "warrantyPeriod": "준공일로부터 2년 (하자보증 5%)",
-      "jointVenture": "단독 입찰",
-      "siteBriefing": "생략 (현장 자율 실측)",
-      "eligibilityStatus": "적격 입찰 가능 (신호등 🟢)"
-    }
-  },
-  {
-    "id": "R26BK01804512-000",
-    "title": "울산광역시 남구 문수로 두산위브더제니스 1~4단지 아파트 전자게시판 및 승강기 모니터 교체",
-    "category": "아파트·승강기광고",
-    "client": "문수로두산위브더제니스 입주자대표회의",
-    "budget": 82000000,
-    "budgetText": "8,200만 원",
-    "location": "울산",
-    "startDate": "2026-08-27",
-    "endDate": "2026-09-08 17:00",
-    "dDay": 7,
-    "bidType": "제한경쟁 (K-apt 입찰)",
-    "linkUrl": "https://www.k-apt.go.kr",
-    "tags": [
-      "울산 대단지",
-      "승강기광고",
-      "전자게시판",
-      "통신망구축"
-    ],
-    "aiSummary": "울산 옥동 최고급 주상복합 아파트 38개 승강기 내부 모니터 및 1층 로비 55인치 전자게시판 구축 용역입니다.",
-    "aiTips": "입주민 대상 공지 화면 UI 커스터마이징 및 클라우드 원격 편성 제어 솔루션을 제안하세요.",
-    "checkList": {
-      "licenseRequired": "옥외광고업 또는 방송장비유지보수업",
-      "directProduction": "해당 없음 (미디어 구축·운영사)",
-      "workPeriod": "계약체결일로부터 30일",
-      "warrantyPeriod": "계약 기간 3년 무상 유지보수",
-      "jointVenture": "단독 입찰",
-      "siteBriefing": "관리사무소 방문 현장설명 필수",
-      "eligibilityStatus": "적격 입찰 가능 (신호등 🟢)"
-    }
-  },
-  {
-    "id": "R26BK01815623-000",
-    "title": "한국도로공사 경부고속도로 안성휴게소(양방향) 야립간판(빌보드) 광고 매체 운영권 입찰",
-    "category": "온비드 공공매체권",
-    "client": "한국도로공사 수도권본부",
-    "budget": 650000000,
-    "budgetText": "6억 5,000만 원",
-    "location": "경기",
-    "startDate": "2026-08-25",
-    "endDate": "2026-09-10 16:00",
-    "dDay": 9,
-    "bidType": "일반경쟁 (온비드 최고가 낙찰)",
-    "linkUrl": "https://www.onbid.co.kr",
-    "tags": [
-      "고속도로 야립간판",
-      "안성휴게소",
-      "온비드 매체권",
-      "5년 독점운영"
-    ],
-    "aiSummary": "일평균 통행량 15만 대 이상인 경부고속도로 안성휴게소 부지 대형 야립광고탑(양면 조명형) 5개년 광고 임대 운영권 입찰입니다.",
-    "aiTips": "국내 최고 수준의 노출도를 자랑하는 매체이므로 대기업 연간 광고주 확보 전략을 기반으로 투찰가를 산정하세요.",
-    "checkList": {
-      "licenseRequired": "옥외광고사업 등록 (필수)",
-      "directProduction": "해당 없음 (매체 임대 운영권)",
-      "workPeriod": "계약체결일로부터 5개년",
-      "warrantyPeriod": "상시 조명 및 구조 안전 점검 의무",
-      "jointVenture": "공동수급 불허",
-      "siteBriefing": "온비드 현장 공고문 참조",
-      "eligibilityStatus": "최고가 입찰 (신호등 🟢)"
-    }
-  },
-  {
-    "id": "R26BK01826734-000",
-    "title": "서울특별시 강남구 테헤란로 스마트 쉘터 및 옥외 디지털 사이니지 유지관리 용역",
-    "category": "디지털사이니지·전광판",
-    "client": "서울특별시 강남구 도시선진화담당관",
-    "budget": 210000000,
-    "budgetText": "2억 1,000만 원",
-    "location": "서울",
-    "startDate": "2026-08-28",
-    "endDate": "2026-09-14 11:00",
-    "dDay": 13,
-    "bidType": "제한경쟁 (적격심사)",
-    "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01826734&bidPbancOrd=000",
-    "tags": [
-      "강남구 테헤란로",
-      "스마트쉘터",
-      "24시간 유지보수",
-      "서울/경기"
-    ],
-    "aiSummary": "강남역~삼성역 테헤란로 구간 18개 스마트 승차대 및 대형 옥외 사이니지 패널, 공조기, 통신망 1개년 상시 유지보수 용역입니다.",
-    "aiTips": "강남 관내 30분 이내 긴급 출동 체계 및 야간 긴급 패널 교체 장비(1톤 스카이) 보유 증빙이 핵심입니다.",
-    "checkList": {
-      "licenseRequired": "정보통신공사업 + 옥외광고사업 등록 (수도권 소재)",
-      "directProduction": "직접생산확인 [디스플레이유지보수] (필수)",
-      "workPeriod": "2026년 10월 1일 ~ 2027년 9월 30일 (1년)",
-      "warrantyPeriod": "용역 기간 내 상시 책임 보증",
-      "jointVenture": "단독 입찰",
-      "siteBriefing": "생략 (장비 현황 대장 열람)",
-      "eligibilityStatus": "적격 입찰 가능 (신호등 🟢)"
+      "eligibilityStatus": "분석정보 부족"
     }
   }
 ]

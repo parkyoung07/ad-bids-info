@@ -97,75 +97,6 @@ export default async function BlogPostDetailPage({ params }: PageProps) {
 
   return (
     <div className="flex flex-col min-h-screen bg-slate-950 text-slate-100 selection:bg-blue-500 selection:text-white">
-      {/* 상단 네비게이션 헤더 */}
-      <header className="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 shadow-md">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-14 sm:h-16">
-            <Link
-              href="/"
-              className="flex items-center space-x-2.5 sm:space-x-3 text-white hover:text-blue-400 transition-colors shrink-0"
-            >
-              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center shadow-md shadow-blue-500/25 ring-1 ring-white/20 shrink-0">
-                <Layers className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
-              </div>
-              <div className="whitespace-nowrap">
-                <span className="font-bold text-base sm:text-lg tracking-tight">
-                  옥외광고 입찰 알리미
-                </span>
-              </div>
-            </Link>
-
-            <div className="flex items-center gap-2 sm:gap-3 overflow-x-auto scrollbar-none py-1">
-              <nav className="flex items-center gap-1 sm:gap-1.5 shrink-0">
-                <Link
-                  href="/"
-                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
-                >
-                  입찰공고
-                </Link>
-                <Link
-                  href="/calendar"
-                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-semibold text-indigo-300 hover:text-indigo-200 hover:bg-slate-800 transition-all border border-indigo-500/30 bg-indigo-500/10"
-                >
-                  📅 캘린더
-                </Link>
-                <Link
-                  href="/prespec"
-                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-semibold text-cyan-300 hover:text-cyan-200 hover:bg-slate-800 transition-all border border-cyan-500/30 bg-cyan-500/10"
-                >
-                  🔔 발주예고
-                </Link>
-                <Link
-                  href="/results"
-                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-semibold text-amber-300 hover:text-amber-200 hover:bg-slate-800 transition-all border border-amber-500/30 bg-amber-500/10"
-                >
-                  🏆 낙찰통계
-                </Link>
-                <Link
-                  href="/partners"
-                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-semibold text-cyan-300 hover:text-cyan-200 hover:bg-slate-800 transition-all border border-cyan-500/30 bg-cyan-500/10"
-                >
-                  🤝 협력사·DB
-                </Link>
-                <Link
-                  href="/blog"
-                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-bold bg-blue-600 text-white shadow-md shadow-blue-600/30 ring-1 ring-blue-400"
-                >
-                  트렌드
-                </Link>
-                <Link
-                  href="/news"
-                  className="whitespace-nowrap px-2.5 py-1 rounded-lg text-xs font-bold text-emerald-300 hover:text-emerald-200 hover:bg-slate-800 transition-all border border-emerald-500/30 bg-emerald-500/10 flex items-center gap-1"
-                >
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                  뉴스
-                </Link>
-              </nav>
-            </div>
-          </div>
-        </div>
-      </header>
-
       {/* 메인 콘텐츠 영역 */}
       <main className="flex-1 max-w-4xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
         {/* 브레드크럼 네비게이션 */}
@@ -301,11 +232,6 @@ export default async function BlogPostDetailPage({ params }: PageProps) {
           </Link>
         </div>
       </main>
-
-      {/* 푸터 영역 */}
-      <footer className="bg-slate-900 border-t border-slate-800 text-slate-500 text-xs py-8 px-4 text-center mt-16">
-        <p>© 2026 옥외광고 입찰정보 알리미 · 옥외광고 트렌드 & 정책 기사 분석</p>
-      </footer>
     </div>
   );
 }

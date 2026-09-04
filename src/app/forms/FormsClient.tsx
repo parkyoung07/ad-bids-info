@@ -315,66 +315,6 @@ export default function FormsClient() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col selection:bg-cyan-500 selection:text-white">
-      {/* 상단 통합 헤더 */}
-      <header className="sticky top-0 z-40 bg-slate-950/80 backdrop-blur-xl border-b border-slate-800 shadow-xl">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 sm:h-20">
-            <Link href="/" className="flex items-center gap-3 group">
-              <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-cyan-600 to-blue-500 flex items-center justify-center text-white shadow-lg shadow-cyan-500/25 group-hover:scale-105 transition-transform">
-                <FileText className="w-5 h-5" />
-              </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="font-black text-lg sm:text-xl tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-300 bg-clip-text text-transparent">
-                    SignBid AI
-                  </span>
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
-                    서식 자료실
-                  </span>
-                </div>
-                <p className="text-[11px] text-slate-400 font-medium">
-                  옥외광고 공공입찰 필수 표준 서식 무료 다운로드
-                </p>
-              </div>
-            </Link>
-
-            {/* 메인 메뉴 */}
-            <nav className="hidden md:flex items-center gap-1.5 text-xs font-bold text-slate-300">
-              <Link href="/" className="px-3 py-2 rounded-xl hover:bg-slate-900 hover:text-white transition-colors whitespace-nowrap">
-                입찰공고
-              </Link>
-              <Link href="/calendar" className="px-3 py-2 rounded-xl hover:bg-slate-900 hover:text-white transition-colors whitespace-nowrap">
-                📅 캘린더
-              </Link>
-              <Link href="/prespec" className="px-3 py-2 rounded-xl hover:bg-slate-900 hover:text-white transition-colors whitespace-nowrap">
-                🔔 발주예고
-              </Link>
-              <Link href="/results" className="px-3 py-2 rounded-xl hover:bg-slate-900 hover:text-white transition-colors whitespace-nowrap">
-                🏆 낙찰통계
-              </Link>
-              <Link href="/calculator" className="px-3 py-2 rounded-xl hover:bg-slate-900 hover:text-white transition-colors whitespace-nowrap">
-                💰 투찰계산기
-              </Link>
-              <Link href="/spec-xray" className="px-3 py-2 rounded-xl hover:bg-slate-900 hover:text-white transition-colors whitespace-nowrap">
-                🔍 시방서 엑스레이
-              </Link>
-              <Link href="/partners" className="px-3 py-2 rounded-xl hover:bg-slate-900 hover:text-white transition-colors whitespace-nowrap">
-                🤝 협력사·DB
-              </Link>
-              <Link href="/proposal" className="px-3 py-2 rounded-xl hover:bg-slate-900 hover:text-white transition-colors whitespace-nowrap">
-                ✨ AI제안서
-              </Link>
-              <Link href="/forms" className="px-3 py-2 rounded-xl bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 whitespace-nowrap">
-                📄 입찰서식
-              </Link>
-              <Link href="/blog" className="px-3 py-2 rounded-xl hover:bg-slate-900 hover:text-white transition-colors whitespace-nowrap">
-                트렌드
-              </Link>
-            </nav>
-          </div>
-        </div>
-      </header>
-
       {/* 히어로 헤더 */}
       <section className="relative overflow-hidden bg-gradient-to-b from-slate-900 via-slate-950 to-slate-950 border-b border-slate-800 py-12 px-4">
         <div className="max-w-4xl mx-auto text-center space-y-4">
