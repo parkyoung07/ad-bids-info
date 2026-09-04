@@ -1,0 +1,7 @@
+# Cloudflare Pages Redirects / Status Rules
+# 1. Force 404 on old unverified / deleted real bid URLs
+/bids/R26BK* /404 404
+/bids/DEMO-G2B* /404 404
+/bids/DEMO-KAPT* /404 404
+/bids/DEMO-ONBID* /404 404
+/bids/2026* /404 404
