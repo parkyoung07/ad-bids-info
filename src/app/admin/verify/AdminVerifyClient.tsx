@@ -99,16 +99,23 @@ export default function AdminVerifyClient() {
 
   const loadBids = async () => {
     try {
-      const res = await fetch('/data/bids-verified-raw.json');
+      const res = await fetch('/api/admin/verify');
       if (res.ok) {
         const data = await res.json();
-        setBids(data);
-        if (data.length > 0) {
-          setSelectedBid(data[0]);
+        setBids(data.bids || []);
+        if (data.bids && data.bids.length > 0) {
+          setSelectedBid(data.bids[0]);
+        }
+      } else {
+        const fallbackRes = await fetch('/data/bids.json');
+        if (fallbackRes.ok) {
+          const fallbackData = await fallbackRes.json();
+          setBids(fallbackData);
+          if (fallbackData.length > 0) setSelectedBid(fallbackData[0]);
         }
       }
     } catch (e) {
-      console.error('Failed to load raw bids:', e);
+      console.error('Failed to load bids:', e);
     }
   };
 

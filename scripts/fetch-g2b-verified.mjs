@@ -352,8 +352,8 @@ async function main() {
     verified3TierRecords.push(record);
   }
 
-  // 4. 비공개 저장소에 저장
-  const outputPath = path.resolve(process.cwd(), 'public/data/bids-verified-raw.json');
+  // 4. 비공개 저장소에 저장 (public 외부에 안전 보관)
+  const outputPath = path.resolve(process.cwd(), 'data/bids-verified-raw.json');
   fs.writeFileSync(outputPath, JSON.stringify(verified3TierRecords, null, 2), 'utf8');
 
   console.log(`\n================================================================================`);

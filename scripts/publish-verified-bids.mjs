@@ -49,9 +49,9 @@ function determineOutdoorCategory(title) {
 }
 
 async function publishVerifiedDirectBids() {
-  const verifiedRawPath = path.resolve(process.cwd(), 'public/data/bids-verified-raw.json');
+  const verifiedRawPath = path.resolve(process.cwd(), 'data/bids-verified-raw.json');
   if (!fs.existsSync(verifiedRawPath)) {
-    console.error('❌ bids-verified-raw.json 파일이 없습니다.');
+    console.error('❌ data/bids-verified-raw.json 파일이 없습니다.');
     process.exit(1);
   }
 

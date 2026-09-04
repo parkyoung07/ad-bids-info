@@ -29,7 +29,7 @@ async function verifyIntegrityRules() {
   console.log('================================================================================');
 
   const bidsJsonPath = path.join(__dirname, '../public/data/bids.json');
-  const rawJsonPath = path.join(__dirname, '../public/data/bids-verified-raw.json');
+  const rawJsonPath = path.join(__dirname, '../data/bids-verified-raw.json');
   
   if (!fs.existsSync(bidsJsonPath)) {
     console.error('❌ public/data/bids.json 파일이 존재하지 않습니다.');

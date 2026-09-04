@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const rawPath = path.resolve(process.cwd(), 'public/data/bids-verified-raw.json');
+const rawPath = path.resolve(process.cwd(), 'data/bids-verified-raw.json');
 const raw = JSON.parse(fs.readFileSync(rawPath, 'utf8'));
 
 const targetKeys = [
