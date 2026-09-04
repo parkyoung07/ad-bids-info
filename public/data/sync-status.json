@@ -1,13 +1,13 @@
 {
-  "lastSyncTime": "2026-09-04T07:35:21.459Z",
-  "lastSyncDateText": "2026-09-04 16:35 KST",
+  "lastSyncTime": "2026-09-04T13:03:08.193Z",
+  "lastSyncDateText": "2026-09-04 22:03 KST",
   "stats": {
     "g2bCount": 8,
     "onbidCount": 3,
     "s2bCount": 3,
     "kaptCount": 3,
     "localGovCount": 3,
-    "totalIngested": 8
+    "totalIngested": 13
   },
   "channels": [
     {
