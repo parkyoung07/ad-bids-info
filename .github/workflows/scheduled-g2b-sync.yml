@@ -1,4 +1,4 @@
-name: 📡 나라장터 공식 입찰공고 자동 정기 수집 파이프라인
+name: 📡 나라장터 공식 입찰공고 자동 정기 수집 파이프라인 (검토대기 전용)
 
 on:
   schedule:
@@ -24,7 +24,7 @@ jobs:
       - name: 📦 의존성 패키지 설치
         run: npm ci
 
-      - name: 📡 나라장터 공식 OpenAPI 수집 및 3계층 데이터 파이프라인 가동
+      - name: 📡 나라장터 공식 OpenAPI 수집 (REVIEW_REQUIRED 비공개 저장)
         env:
           PUBLIC_DATA_API_KEY: ${{ secrets.PUBLIC_DATA_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
@@ -35,17 +35,13 @@ jobs:
         run: |
           node scripts/audit-secrets.mjs
 
-      - name: 🔍 검색 인덱스 갱신
-        run: |
-          node scripts/build-search-index.js
-
-      - name: 🚀 수집 데이터 자동 커밋 및 푸시
+      - name: 🔒 비공개 검토대기 데이터셋 커밋 (공개 bids.json 자동 반영 금지)
         run: |
           git config --local user.email "bot@signbidai.com"
           git config --local user.name "SignBid Auto Sync Bot"
-          if [ -n "$(git status --porcelain public/data/)" ]; then
-            git add public/data/
-            git commit -m "chore(sync): automated G2B outdoor advertising bids synchronization [skip ci]"
+          if [ -n "$(git status --porcelain public/data/bids-verified-raw.json)" ]; then
+            git add public/data/bids-verified-raw.json
+            git commit -m "chore(sync): updated raw G2B bids for administrator review [skip ci]"
             git push origin main
           else
             echo "ℹ️ 변경된 신규 공고 데이터가 없습니다."

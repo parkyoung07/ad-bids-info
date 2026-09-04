@@ -13,7 +13,7 @@ import {
   ShieldCheck,
   MessageCircle,
   AlertCircle,
-  Eye,
+  CheckCircle2,
 } from "lucide-react";
 import bidsData from "../../public/data/bids.json";
 import SubscribeModal from "@/components/SubscribeModal";
@@ -35,7 +35,7 @@ export default function HomePage() {
   const [sortBy, setSortBy] = useState<"dDay" | "budgetDesc" | "budgetAsc" | "newest">("dDay");
   const [isSubscribeModalOpen, setIsSubscribeModalOpen] = useState(false);
   const [bookmarkedIds, setBookmarkedIds] = useState<string[]>([]);
-  const [viewTab, setViewTab] = useState<"verified" | "demo" | "bookmarks">("verified");
+  const [viewTab, setViewTab] = useState<"active" | "closed" | "demo" | "bookmarks">("active");
 
   // 로컬스토리지 북마크 불러오기
   useEffect(() => {
@@ -65,28 +65,39 @@ export default function HomePage() {
     return (bidsData as unknown as BidItem[]) || [];
   }, []);
 
-  // 검증된 실제 공고와 DEMO 공고 분리
-  const verifiedBids = useMemo(() => {
-    return allBids.filter((b) => !b.isDemo && b.status !== "DEMO 예시");
+  // 1. 실시간 진행 공고 (마감일 미도래: dDay >= 0 and !isClosed)
+  const activeVerifiedBids = useMemo(() => {
+    return allBids.filter(
+      (b) => !b.isDemo && b.status !== "DEMO 예시" && b.dDay >= 0 && !b.isClosed && b.status !== "마감"
+    );
   }, [allBids]);
 
+  // 2. 마감된 공고 (dDay < 0 or isClosed or status === "마감")
+  const closedVerifiedBids = useMemo(() => {
+    return allBids.filter(
+      (b) => !b.isDemo && b.status !== "DEMO 예시" && (b.dDay < 0 || b.isClosed || b.status === "마감")
+    );
+  }, [allBids]);
+
+  // 3. DEMO 가상 예시 공고
   const demoBids = useMemo(() => {
     return allBids.filter((b) => b.isDemo || b.status === "DEMO 예시");
   }, [allBids]);
 
-  // 오늘 마감 공고 수
+  // 오늘 마감 임박 공고 수 (진행 공고 중 D-0, D-1)
   const todayUrgentCount = useMemo(() => {
-    return verifiedBids.filter((b) => b.dDay === 0 || b.dDay === 1).length;
-  }, [verifiedBids]);
+    return activeVerifiedBids.filter((b) => b.dDay === 0 || b.dDay === 1).length;
+  }, [activeVerifiedBids]);
 
   // 현재 탭에 따른 기본 대상 리스트
   const currentTabBids = useMemo(() => {
+    if (viewTab === "closed") return closedVerifiedBids;
     if (viewTab === "demo") return demoBids;
     if (viewTab === "bookmarks") {
       return allBids.filter((b) => bookmarkedIds.includes(b.id));
     }
-    return verifiedBids;
-  }, [viewTab, verifiedBids, demoBids, allBids, bookmarkedIds]);
+    return activeVerifiedBids;
+  }, [viewTab, activeVerifiedBids, closedVerifiedBids, demoBids, allBids, bookmarkedIds]);
 
   // 필터링 및 정렬
   const filteredBids = useMemo(() => {
@@ -147,23 +158,23 @@ export default function HomePage() {
         if (sortBy === "dDay") return a.dDay - b.dDay;
         if (sortBy === "budgetDesc") return (b.budget || 0) - (a.budget || 0);
         if (sortBy === "budgetAsc") return (a.budget || 0) - (b.budget || 0);
-        if (sortBy === "newest") return b.startDate.localeCompare(a.startDate);
+        if (sortBy === "newest") return (b.startDate || "").localeCompare(a.startDate || "");
         return 0;
       });
   }, [currentTabBids, filters, searchQuery, sortBy]);
 
   return (
     <div className="flex-1 flex flex-col">
-      {/* 히어로 섹션 (단일 고정 B2B 테마 & 단순화된 구조) */}
+      {/* 히어로 섹션 */}
       <section className="relative overflow-hidden bg-slate-900 border-b border-slate-800 py-10 sm:py-14 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center space-y-4 relative z-10">
           {/* 상단 신뢰 배지 */}
           <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-slate-950 border border-slate-700 text-slate-300 text-xs font-semibold shadow-sm">
             <ShieldCheck className="w-3.5 h-3.5 text-cyan-400" />
-            <span>조달청 나라장터 공식 연계 · 신뢰할 수 있는 옥외광고 입찰 정보</span>
+            <span>조달청 나라장터 공식 Open API 연계 · 옥외광고 입찰 정보</span>
           </div>
 
-          {/* 메인 헤드라인 (명확한 가치 제안) */}
+          {/* 메인 헤드라인 */}
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-tight">
             우리 회사가 참여할 수 있는{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">
@@ -174,7 +185,7 @@ export default function HomePage() {
 
           {/* 보조 설명 */}
           <p className="text-xs sm:text-sm text-slate-300 max-w-2xl mx-auto leading-relaxed">
-            나라장터·온비드·K-apt·학교 발주공고를 수집하고, 참가자격과 마감일을 AI가 쉽게 정리합니다.
+            나라장터 공식 공고를 수집하고, 마감일자와 발주정보를 투명하게 제공합니다.
           </p>
 
           {/* 통합 검색창 */}
@@ -203,25 +214,25 @@ export default function HomePage() {
           <div className="pt-2 flex flex-wrap items-center justify-center gap-2.5">
             <button
               onClick={() => {
-                setViewTab("verified");
+                setViewTab("active");
                 setFilters(INITIAL_FILTERS);
                 setSearchQuery("");
               }}
               className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer min-h-[44px]"
             >
               <Sparkles className="w-4 h-4 text-cyan-300" />
-              <span>맞춤 공고 찾기</span>
+              <span>진행 공고 보기</span>
             </button>
 
             <button
               onClick={() => {
-                setViewTab("verified");
+                setViewTab("active");
                 setFilters({ ...INITIAL_FILTERS, deadline: "d3" });
               }}
               className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white font-bold text-xs sm:text-sm border border-slate-700 transition-all cursor-pointer min-h-[44px]"
             >
               <Flame className="w-4 h-4 text-rose-400" />
-              <span>오늘 마감 공고 ({todayUrgentCount}건)</span>
+              <span>마감 임박 공고 ({todayUrgentCount}건)</span>
             </button>
 
             <button
@@ -233,11 +244,11 @@ export default function HomePage() {
             </button>
           </div>
 
-          {/* 검증된 공고 통계 요약 바 */}
+          {/* 공고 집계 통계 요약 바 (정확한 실시간 집계) */}
           <div className="pt-2 flex flex-wrap items-center justify-center gap-3 text-xs text-slate-400">
             <div className="flex items-center gap-1.5 bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800">
               <FileText className="w-3.5 h-3.5 text-blue-400" />
-              <span>검증된 진행 공고: <strong className="text-white font-bold">{verifiedBids.length}건</strong></span>
+              <span>실시간 진행 공고: <strong className="text-white font-bold">{activeVerifiedBids.length}건</strong></span>
             </div>
             <div className="flex items-center gap-1.5 bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800">
               <Flame className="w-3.5 h-3.5 text-rose-400" />
@@ -245,7 +256,7 @@ export default function HomePage() {
             </div>
             <div className="flex items-center gap-1.5 bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800 text-slate-400">
               <Clock className="w-3.5 h-3.5 text-cyan-400" />
-              <span>공식 데이터 마지막 확인: <strong className="text-slate-300 font-medium">2026.09.04 10:00</strong></span>
+              <span>수집 기준: <strong className="text-slate-300 font-medium">조달청 나라장터 API 실시간 동기화</strong></span>
             </div>
           </div>
         </div>
@@ -253,19 +264,31 @@ export default function HomePage() {
 
       {/* 메인 컨텐츠 영역 */}
       <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 space-y-6">
-        {/* 공고 구분 탭 (검증된 실제 공고 vs DEMO 예시 공고 vs 관심공고) */}
+        {/* 공고 구분 탭 (진행 공고 vs 마감 공고 vs DEMO 예시 공고 vs 관심공고) */}
         <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-800">
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <button
-              onClick={() => setViewTab("verified")}
+              onClick={() => setViewTab("active")}
               className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-1.5 min-h-[40px] ${
-                viewTab === "verified"
+                viewTab === "active"
                   ? "bg-blue-600 text-white shadow-md shadow-blue-600/20"
                   : "bg-slate-900 text-slate-400 hover:text-white border border-slate-800"
               }`}
             >
-              <ShieldCheck className="w-4 h-4 text-cyan-300" />
-              <span>검증된 실제 공고 ({verifiedBids.length})</span>
+              <CheckCircle2 className="w-4 h-4 text-cyan-300" />
+              <span>진행 공고 ({activeVerifiedBids.length})</span>
+            </button>
+
+            <button
+              onClick={() => setViewTab("closed")}
+              className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-1.5 min-h-[40px] ${
+                viewTab === "closed"
+                  ? "bg-slate-800 text-rose-300 border border-rose-600/50"
+                  : "bg-slate-900 text-slate-400 hover:text-white border border-slate-800"
+              }`}
+            >
+              <Clock className="w-4 h-4 text-slate-400" />
+              <span>마감 공고 ({closedVerifiedBids.length})</span>
             </button>
 
             <button
@@ -309,7 +332,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* DEMO 탭 안내 배너 (DEMO 선택 시 노출) */}
+        {/* DEMO 탭 안내 배너 */}
         {viewTab === "demo" && (
           <div className="bg-amber-950/20 border border-amber-500/30 rounded-xl p-4 text-xs text-amber-200 flex items-start gap-3">
             <AlertCircle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
@@ -336,42 +359,18 @@ export default function HomePage() {
             조회된 공고 <strong className="text-blue-400 font-bold text-sm">{filteredBids.length}</strong>건
           </div>
           <span className="text-slate-500 text-[11px]">
-            ※ 세부 시방서 및 법정 자격 요건은 각 공고의 [상세 분석]을 확인하세요.
+            ※ 세부 시방서 및 법정 자격 요건은 각 공고의 [상세 보기]를 확인하세요.
           </span>
         </div>
 
         {/* 공고 카드 그리드 */}
-        {viewTab === "verified" && verifiedBids.length === 0 ? (
-          <div className="bg-slate-900/80 rounded-2xl border border-blue-500/30 p-8 sm:p-12 text-center my-6 shadow-lg space-y-4">
-            <div className="w-14 h-14 bg-blue-500/10 border border-blue-400/30 rounded-2xl flex items-center justify-center mx-auto text-blue-400 shadow-inner">
-              <ShieldCheck className="w-7 h-7 text-cyan-400" />
-            </div>
-            <div className="space-y-2 max-w-lg mx-auto">
-              <h3 className="text-base sm:text-lg font-bold text-white">
-                조달청 실시간 검증 공고 준비 중 (0건)
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                SignBid AI는 <strong>제목·발주기관·마감일·금액·참가자격이 철저히 검증된 실시간 데이터만 ‘검증된 실제 공고’로 등록</strong>합니다.<br />
-                현재 공공데이터 실시간 연동 및 무결성 검증 파이프라인을 점검 중이며, 검증 완료 즉시 실시간 공고가 등록됩니다.
-              </p>
-            </div>
-            <div className="pt-2">
-              <button
-                onClick={() => setViewTab("demo")}
-                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs sm:text-sm shadow-md transition-all cursor-pointer min-h-[44px]"
-              >
-                <AlertCircle className="w-4 h-4 text-amber-200" />
-                <span>기능 미리보기 DEMO 공고 확인하기 ({demoBids.length}건)</span>
-              </button>
-            </div>
-          </div>
-        ) : filteredBids.length === 0 ? (
+        {filteredBids.length === 0 ? (
           <div className="bg-slate-900/60 rounded-2xl border border-slate-800 p-12 text-center my-6 shadow-sm">
             <div className="w-12 h-12 bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-3 text-slate-400">
               <Search className="w-6 h-6" />
             </div>
             <h3 className="text-base font-bold text-slate-200 mb-1">
-              일치하는 입찰 공고가 없습니다
+              해당 탭에 일치하는 입찰 공고가 없습니다
             </h3>
             <p className="text-xs text-slate-400 mb-4">
               선택한 업종, 지역, 마감일 필터 또는 검색어 조건을 변경하여 다시 확인해보세요.
@@ -380,7 +379,6 @@ export default function HomePage() {
               onClick={() => {
                 setFilters(INITIAL_FILTERS);
                 setSearchQuery("");
-                setViewTab("demo");
               }}
               className="inline-flex items-center gap-1 px-4 py-2 bg-blue-600/20 text-blue-300 hover:bg-blue-600/30 rounded-xl text-xs font-semibold border border-blue-500/30 transition-colors"
             >

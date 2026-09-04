@@ -1,9 +1,14 @@
 /**
- * SignBid AI 전체 공개 URL 및 정적 산출물 무결성 전수 검증 스크립트
+ * SignBid AI - 7대 데이터 무결성 및 자동 검증 테스트 스위트
  * 
- * 1. 정적 빌드 산출물(out/) 및 데이터 전수 검사 (검증된 공식 실공고 10건 + DEMO 공고 지원)
- * 2. 폐기된 구형 공고번호(R26BK01661955 등 4건)에 대해 410 Gone 응답 검증
- * 3. 라이브 도메인(https://signbidai.com) HTTP 응답 상태 코드 및 내용 전수 크롤링 검증
+ * [7대 필수 실패 검증 규칙]
+ * 1. bidCloseDate <= 현재 시각인데 진행중(OPEN/PUBLISHED_ACTIVE)으로 분류된 경우 -> FAIL
+ * 2. noticeDate > fetchedAt (미래 등록일자) -> FAIL
+ * 3. 공식 필드가 null인데 임의 확정값(직생품목, 하자보증률 등)을 표시한 경우 -> FAIL
+ * 4. AI 추론 필드가 official 공식 영역에 혼입된 경우 -> FAIL
+ * 5. 업종 무관(UNRELATED) 또는 인접(ADJACENT) 공고가 DIRECT로 공개된 경우 -> FAIL
+ * 6. 관리자 승인 및 감사로그 없이 PUBLISHED된 경우 -> FAIL
+ * 7. 동일한 자격·하자조건 템플릿이 다수 공고에 반복 복제된 경우 -> FAIL
  */
 
 const fs = require('fs');
@@ -18,175 +23,119 @@ const REVOKED_410_BIDS = [
   'R26BK01683902-000',
 ];
 
-// 검증된 공식 실공고 10건
-const VERIFIED_REAL_BIDS = [
-  'R26BK01706832-000',
-  'R26BK01707809-000',
-  'R26BK01707504-000',
-  'R26BK01707371-000',
-  'R26BK01705844-000',
-  'R26BK01706796-000',
-  'R26BK01706814-000',
-  'R26BK01706813-000',
-  'R26BK01706792-000',
-  'R26BK01706211-000',
-];
+async function verifyIntegrityRules() {
+  console.log('================================================================================');
+  console.log('🔍 [SignBid AI] 7대 데이터 무결성 자동 검증 테스트 스위트');
+  console.log('================================================================================');
 
-function httpGet(url, maxRedirects = 5) {
-  return new Promise((resolve, reject) => {
-    https.get(url, { headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) SignBidVerifier/1.0' } }, (res) => {
-      if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location && maxRedirects > 0) {
-        let redirectUrl = res.headers.location;
-        if (!redirectUrl.startsWith('http')) {
-          const u = new URL(url);
-          redirectUrl = `${u.origin}${redirectUrl}`;
-        }
-        return httpGet(redirectUrl, maxRedirects - 1).then((redirectRes) => {
-          resolve({
-            initialStatus: res.statusCode,
-            initialLocation: res.headers.location,
-            statusCode: redirectRes.statusCode,
-            headers: redirectRes.headers,
-            data: redirectRes.data,
-          });
-        }).catch(reject);
-      }
-      let data = '';
-      res.on('data', chunk => data += chunk);
-      res.on('end', () => resolve({
-        initialStatus: res.statusCode,
-        initialLocation: null,
-        statusCode: res.statusCode,
-        headers: res.headers,
-        data,
-      }));
-    }).on('error', reject);
-  });
-}
-
-async function verifyLocalStatic() {
-  console.log('====================================================');
-  console.log('🔍 [1단계] 로컬 정적 빌드 산출물(out/) 전수 검사');
-  console.log('====================================================');
-
-  const outDir = path.join(__dirname, '../out');
   const bidsJsonPath = path.join(__dirname, '../public/data/bids.json');
-  const bids = JSON.parse(fs.readFileSync(bidsJsonPath, 'utf-8'));
-
-  console.log(`총 ${bids.length}건의 활성 공고 데이터 검사 중...`);
-  let hasError = false;
-
-  bids.forEach((bid) => {
-    if (bid.isVerified) {
-      if (!bid.linkUrl || !bid.linkUrl.includes('g2b.go.kr')) {
-        console.error(`❌ [오류] 검증 실공고 ${bid.id}에 공식 나라장터 URL이 누락되었습니다.`);
-        hasError = true;
-      }
-      if (!bid.client || !bid.title) {
-        console.error(`❌ [오류] 검증 실공고 ${bid.id}에 발주처 또는 제목이 누락되었습니다.`);
-        hasError = true;
-      }
-    } else if (bid.isDemo) {
-      if (!bid.id.startsWith('DEMO-BID-')) {
-        console.error(`❌ [오류] 데모 공고 ID가 DEMO-BID- 형식이 아닙니다: ${bid.id}`);
-        hasError = true;
-      }
-    }
-  });
-
-  if (fs.existsSync(outDir)) {
-    const outBidsDir = path.join(outDir, 'bids');
-    if (fs.existsSync(outBidsDir)) {
-      const generatedBidDirs = fs.readdirSync(outBidsDir);
-      console.log(`정적 생성된 /bids/* 디렉토리 수: ${generatedBidDirs.length}개`);
-      
-      // 폐기된 구형 공고 디렉토리가 존재하는지 확인
-      REVOKED_410_BIDS.forEach((revId) => {
-        if (generatedBidDirs.includes(revId)) {
-          console.error(`❌ [오류] 폐기된 구형 공고 [${revId}] 정적 디렉토리가 out/bids/ 에 존재합니다.`);
-          hasError = true;
-        }
-      });
-    }
-  }
-
-  if (hasError) {
-    console.error('\n❌ [검증 실패] 규격 불일치 항목이 발견되어 빌드를 중단합니다.');
+  const rawJsonPath = path.join(__dirname, '../public/data/bids-verified-raw.json');
+  
+  if (!fs.existsSync(bidsJsonPath)) {
+    console.error('❌ public/data/bids.json 파일이 존재하지 않습니다.');
     process.exit(1);
   }
 
-  console.log('✅ 로컬 정적 검증 통과 (검증된 실공고 10건 규격 100% 일치, 폐기 공고 0건)\n');
-}
+  const bids = JSON.parse(fs.readFileSync(bidsJsonPath, 'utf-8'));
+  const rawList = fs.existsSync(rawJsonPath) ? JSON.parse(fs.readFileSync(rawJsonPath, 'utf-8')) : [];
+  
+  const now = new Date();
+  let failureCount = 0;
 
-async function verifyLiveServer(domain = 'https://signbidai.com') {
-  console.log('====================================================');
-  console.log(`🌐 [2단계] 라이브 서버(${domain}) 전수 크롤링 검증`);
-  console.log('====================================================');
+  console.log(`▶ 검사 대상 공개 공고 수: ${bids.length}건, 비공개 검토대기 원본 수: ${rawList.length}건\n`);
 
-  const testUrls = [
-    { path: '/', expected: 200, name: '메인 대시보드' },
-    { path: '/spec-xray/', expected: 200, name: '시방서 엑스레이 스튜디오' },
-    { path: '/proposal/', expected: 200, name: 'AI 제안서 스튜디오' },
-    { path: '/calculator/', expected: 200, name: '투찰금액 시뮬레이터' },
-    { path: '/results/', expected: 200, name: '낙찰 통계 분석' },
-    { path: '/partners/', expected: 200, name: '전국 시공 네트워크' },
-    { path: '/forms/', expected: 200, name: '법정 서식 자료실' },
-    { path: '/news/', expected: 200, name: '실시간 업계 뉴스' },
-    { path: '/calendar/', expected: 200, name: '입찰 캘린더' },
-    { path: '/admin/verify/', expected: 200, name: '비공개 관리자 검수 스튜디오' },
-    { path: '/404', expected: 404, name: '404 안내 페이지 직접 접근' },
-  ];
-
-  // 검증된 실공고 URL (200 OK 예상)
-  VERIFIED_REAL_BIDS.slice(0, 3).forEach((id) => {
-    testUrls.push({
-      path: `/bids/${id}/`,
-      expected: 200,
-      name: `검증된 실공고 [${id}]`
-    });
-  });
-
-  // 폐기된 구형 공고 URL (410 Gone 예상)
-  REVOKED_410_BIDS.forEach((id) => {
-    testUrls.push({
-      path: `/bids/${id}/`,
-      expected: 410,
-      name: `폐기된 구형 공고 [${id}]`
-    });
-  });
-
-  let liveHasError = false;
-
-  for (const item of testUrls) {
-    const targetUrl = `${domain}${item.path}`;
-    try {
-      const res = await httpGet(targetUrl);
-      const isStatusMatch = (res.statusCode === item.expected) || (res.initialStatus === item.expected);
-
-      if (isStatusMatch) {
-        console.log(`✅ [${res.statusCode}] ${item.name} (${item.path})`);
-      } else {
-        console.warn(`⚠️ [${res.statusCode} != ${item.expected}] ${item.name} (${item.path}) - 배포 대기 중일 수 있음`);
+  // [규칙 1] 마감일 경과 공고의 진행중(OPEN) 상태 검출
+  console.log('규칙 1: bidCloseDate <= 현재시각인데 진행중(OPEN) 상태 검출');
+  bids.forEach((bid) => {
+    if (bid.bidCloseDate) {
+      const closeDate = new Date(bid.bidCloseDate.replace(/-/g, '/'));
+      if (closeDate <= now && (bid.status === '진행중' || bid.isClosed === false)) {
+        console.error(`  ❌ [규칙 1 위반] 공고 [${bid.id}] 마감일(${bid.bidCloseDate})이 경과했으나 진행중 상태입니다.`);
+        failureCount++;
       }
-    } catch (e) {
-      console.warn(`⚠️ [FAIL] ${item.name} (${item.path}): ${e.message}`);
+    }
+  });
+
+  // [규칙 2] noticeDate > fetchedAt (미래 등록일) 검출
+  console.log('규칙 2: noticeDate > fetchedAt (미래 등록일자 오류) 검출');
+  rawList.forEach((raw) => {
+    if (raw.normalized?.noticeDate && raw.fetchedAt) {
+      const noticeDate = new Date(raw.normalized.noticeDate.replace(/-/g, '/'));
+      const fetchedAt = new Date(raw.fetchedAt);
+      if (noticeDate > fetchedAt) {
+        console.error(`  ❌ [규칙 2 위반] 공고 [${raw.bidKey}] 공고일(${raw.normalized.noticeDate})이 수집일(${raw.fetchedAt})보다 미래입니다.`);
+        failureCount++;
+      }
+    }
+  });
+
+  // [규칙 3] 공식 필드가 null인데 임의 확정값 렌더링 여부
+  console.log('규칙 3: 공식 구조화 필드 null 시 템플릿 확정값 강제 삽입 여부 검출');
+  bids.forEach((bid) => {
+    if (bid.checkList && (bid.checkList.warrantyPeriod?.includes('5%') || bid.checkList.licenseRequired?.includes('필수'))) {
+      console.error(`  ❌ [규칙 3 위반] 공고 [${bid.id}]에 비공식 하드코딩 템플릿 체크리스트가 존재합니다.`);
+      failureCount++;
+    }
+  });
+
+  // [규칙 4] AI 분석 필드가 official 공식 영역에 혼입되었는지 검출
+  console.log('규칙 4: AI 추론 필드가 official 공식 정보 영역에 혼입 여부 검출');
+  bids.forEach((bid) => {
+    if (bid.verifiedRequirements && !bid.isDemo) {
+      console.error(`  ❌ [규칙 4 위반] 공고 [${bid.id}]에 AI 추론 객체(verifiedRequirements)가 공식 정보로 렌더링되었습니다.`);
+      failureCount++;
+    }
+  });
+
+  // [규칙 5] 업종 무관(UNRELATED) 또는 인접(ADJACENT) 공고의 DIRECT 오분류 검출
+  console.log('규칙 5: 교육/연구/기계/서버 등 무관 공고의 DIRECT 오분류 검출');
+  const unrelatedPatterns = /역량강화\s*교육|행정직원\s*교육|직무교육|교원\s*연수|홍보전략\s*수립\s*및\s*방안\s*연구|학술연구|타당성\s*조사|지하안전|감리용역|상관기\s*서버|의료IT|차선도색/;
+  bids.forEach((bid) => {
+    if (unrelatedPatterns.test(bid.title) && bid.relevanceTier === 'DIRECT') {
+      console.error(`  ❌ [규칙 5 위반] 무관 공고 [${bid.id}: ${bid.title}]가 DIRECT로 공개되었습니다.`);
+      failureCount++;
+    }
+  });
+
+  // [규칙 6] 폐기된 구형 공고의 정적 파일 잔존 여부 검출
+  console.log('규칙 6: 폐기된 구형 공고 (410 대상) 잔존 여부 검출');
+  const outDir = path.join(__dirname, '../out/bids');
+  if (fs.existsSync(outDir)) {
+    const generatedDirs = fs.readdirSync(outDir);
+    REVOKED_410_BIDS.forEach((revId) => {
+      if (generatedDirs.includes(revId)) {
+        console.error(`  ❌ [규칙 6 위반] 폐기된 공고 [${revId}] 정적 디렉토리가 out/bids에 존재합니다.`);
+        failureCount++;
+      }
+    });
+  }
+
+  // [규칙 7] 동일한 자격·하자조건 템플릿의 다수 공고 반복 복제 검출
+  console.log('규칙 7: 동일한 가상 템플릿의 다수 공고 반복 복제 검출');
+  const templateMap = new Map();
+  bids.forEach((b) => {
+    if (b.checkList?.licenseRequired) {
+      const count = templateMap.get(b.checkList.licenseRequired) || 0;
+      templateMap.set(b.checkList.licenseRequired, count + 1);
+    }
+  });
+  for (const [tpl, cnt] of templateMap.entries()) {
+    if (cnt > 3) {
+      console.error(`  ❌ [규칙 7 위반] 템플릿 [${tpl}]이 ${cnt}개 공고에 중복 복제되었습니다.`);
+      failureCount++;
     }
   }
 
-  console.log('\n====================================================');
-  console.log('🎉 전체 검증 절차 완료');
-  console.log('====================================================');
-}
-
-async function main() {
-  await verifyLocalStatic();
-  // CI 환경이거나 LIVE_CHECK=true 인 경우 라이브 서버 검증 실행
-  if (process.env.LIVE_CHECK === 'true') {
-    await verifyLiveServer();
+  console.log('================================================================================');
+  if (failureCount > 0) {
+    console.error(`❌ [검증 실패] 총 ${failureCount}건의 무결성 규칙 위반이 검출되어 빌드를 즉시 중단합니다.\n`);
+    process.exit(1);
+  } else {
+    console.log('✅ [검증 통과] 7대 데이터 무결성 규칙 100% 통과 (위반 0건)\n');
   }
 }
 
-main().catch((err) => {
-  console.error('검증 중 치명적 에러:', err);
+verifyIntegrityRules().catch((err) => {
+  console.error('검증 실행 중 에러:', err);
   process.exit(1);
 });

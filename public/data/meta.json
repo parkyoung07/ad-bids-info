@@ -1,8 +1,9 @@
 {
-  "lastUpdated": "2026-09-04T08:24:30.436Z",
-  "totalCount": 10,
+  "lastUpdated": "2026-09-04T08:54:12.920Z",
+  "totalCount": 14,
+  "activeBidsCount": 11,
+  "closedBidsCount": 3,
   "activeDate": "2026년 9월 4일",
-  "liveBidsCount": 10,
   "isVerifiedFeed": true,
-  "verificationTier": 6
+  "relevanceFilter": "DIRECT_ONLY"
 }

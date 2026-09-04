@@ -1,5 +1,15 @@
 /**
- * SignBid AI - 1단계: 검증된 공식 실공고 10건 안전 공개 전환 스크립트
+ * SignBid AI - 관리자 승인 기반 DIRECT 옥외광고 공고 배포 스크립트
+ * 
+ * [원칙]
+ * 1. DIRECT 옥외광고(간판, 전광판, 조형물, 안내판, 교통표지판, 현수막 등) 공고만 포함
+ * 2. 임의 생성 템플릿(하자보증 5%, 직생확인 품목 등) 완전 배제 -> API 공식 필드만 매핑
+ * 3. 정확한 날짜 매핑:
+ *    - noticeDate: raw.bidNtceDt (공고등록일)
+ *    - bidBeginDate: raw.bidBeginDt (입찰시작)
+ *    - bidCloseDate: raw.bidClseDt (입찰마감)
+ *    - openingDate: raw.opengDt (개찰일시)
+ * 4. 마감 공고(dDay < 0, isClosed)는 status='마감'으로 명확히 구분
  */
 
 import fs from 'fs';
@@ -9,10 +19,10 @@ function calculateDDay(endDateStr) {
   if (!endDateStr) return 7;
   try {
     const end = new Date(endDateStr.replace(/-/g, '/'));
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const endDay = new Date(end.getFullYear(), end.getMonth(), end.getDate());
-    const diffTime = endDay.getTime() - today.getTime();
+    const now = new Date();
+    // 분/초 단위까지 정밀 비교
+    const diffTime = end.getTime() - now.getTime();
+    if (diffTime < 0) return -1;
     return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   } catch (e) {
     return 7;
@@ -30,37 +40,15 @@ function formatKoreanCurrency(amount) {
   return `${result.trim()}원`;
 }
 
-function fallbackCategory(title) {
-  if (/전광판|사이니지|전자게시대|미디어월|키오스크/.test(title)) return '디지털사이니지·전광판';
-  if (/간판|조형물|채널|지주|돌출|LED|조명|아트월|경관/.test(title)) return '간판·조형물';
-  if (/표찰|현판|호실|안내판|안내도|인포메이션|게시판|사인물/.test(title)) return '실내표찰·현판';
-  if (/랩핑|래핑|차량|버스|도색|스티커/.test(title)) return '차량랩핑·특수';
-  if (/현수막|배너|게시대|가로등|실사|부스|전시/.test(title)) return '현수막·배너';
-  if (/인쇄|홍보물|리플릿|리플렛|포스터|소식지|책자|간행물|CI|BI/.test(title)) return '인쇄·판촉';
-  return '간판·조형물';
+function determineOutdoorCategory(title) {
+  if (/전광판|사이니지|전자게시대|미디어월|키오스크|LED/.test(title)) return '디지털사이니지·전광판';
+  if (/간판|지주간판|돌출간판|채널간판|아치조형물|상징조형물|조형물/.test(title)) return '간판·조형물';
+  if (/안내판|안내도|표지판|교통표지판|표찰|현판|사인물|안내시스템/.test(title)) return '안내판·사인물';
+  if (/현수막|가로등배너|지정게시대|현수기/.test(title)) return '현수막·배너';
+  return '옥외광고·사인물';
 }
 
-function generateVerifiedChecklist(category, location, rawItem) {
-  const isDigital = category.includes('전광판') || category.includes('사이니지');
-  const isExhibition = category.includes('배너') || category.includes('부스') || category.includes('특수');
-  const isPrinting = category.includes('인쇄');
-
-  return {
-    licenseRequired: isDigital
-      ? '정보통신공사업 또는 옥외광고사업 등록 (필수)'
-      : (isPrinting ? '인쇄출판업 또는 옥외광고사업 등록 (필수)' : '옥외광고사업 등록증 (필수)'),
-    directProduction: isExhibition
-      ? '직접생산확인 [전시 및 부스디자인/조형물] (필수)'
-      : (isDigital ? '직접생산확인 [전광판/LED사이니지] (필수)' : '직접생산확인 [간판/현수막/인쇄물] (필수)'),
-    workPeriod: '계약체결일로부터 과업지시서 지정 기한 내',
-    warrantyPeriod: '검수 완료일로부터 1~2년 (하자보수보증금 5%)',
-    jointVenture: rawItem?.cntrctCnclsMthdNm?.includes('제한') ? '단독 입찰 권장 (공동수급 과업지시서 참조)' : '공동이행방식 허용 가능',
-    siteBriefing: '생략 (설계도서 및 현장 열람 갈음)',
-    eligibilityStatus: '적격 입찰 추천 (공식 검증 🟢)'
-  };
-}
-
-async function publishVerifiedBids() {
+async function publishVerifiedDirectBids() {
   const verifiedRawPath = path.resolve(process.cwd(), 'public/data/bids-verified-raw.json');
   if (!fs.existsSync(verifiedRawPath)) {
     console.error('❌ bids-verified-raw.json 파일이 없습니다.');
@@ -68,25 +56,32 @@ async function publishVerifiedBids() {
   }
 
   const allVerified = JSON.parse(fs.readFileSync(verifiedRawPath, 'utf8'));
-  const tenBids = allVerified.slice(0, 10);
+  
+  // 1. DIRECT 옥외광고 공고만 선별
+  const directBids = allVerified.filter(b => b.relevanceTier === 'DIRECT');
+  console.log(`🔍 DIRECT 옥외광고 공고 선별: 총 ${directBids.length}건`);
 
-  const publicBids = tenBids.map((b) => {
+  const now = new Date();
+
+  const publicBids = directBids.map((b) => {
     const norm = b.normalized;
     const raw = b.raw.mainApi;
-    const cat = fallbackCategory(norm.title);
-    const dDay = calculateDDay(norm.endDate);
+    const cat = determineOutdoorCategory(norm.title);
+    const dDay = calculateDDay(norm.bidCloseDate);
     const budgetNum = norm.allocatedBudget || 0;
 
-    let locLabel = '전국';
+    let locLabel = norm.displayRegion || '전국';
     if (norm.regionStatus === 'RESTRICTED' && norm.restrictedRegions?.length) {
       locLabel = `${norm.restrictedRegions.join(', ')} 관내`;
     }
 
+    const isClosed = dDay < 0 || norm.isClosed || (norm.bidCloseDate && new Date(norm.bidCloseDate.replace(/-/g, '/')) <= now);
+
     const defaultTags = [
-      '조달청 검증',
-      locLabel === '전국' ? '전국 입찰' : locLabel,
-      cat.includes('전광판') ? '직생(전광판)' : '옥외광고업',
-      '전자투찰'
+      '조달청 수집',
+      locLabel === '전국' ? '전국' : locLabel,
+      cat,
+      norm.contractMethod || '전자입찰'
     ];
 
     return {
@@ -99,8 +94,12 @@ async function publishVerifiedBids() {
       budget: budgetNum,
       budgetText: formatKoreanCurrency(budgetNum),
       location: locLabel,
-      startDate: norm.startDate ? norm.startDate.substring(0, 10) : '2026-09-01',
-      endDate: norm.endDate || '2026-09-10 18:00:00',
+      noticeDate: norm.noticeDate,
+      bidBeginDate: norm.bidBeginDate,
+      bidCloseDate: norm.bidCloseDate,
+      openingDate: norm.openingDate,
+      startDate: norm.bidBeginDate || norm.noticeDate || '2026-09-01',
+      endDate: norm.bidCloseDate || '마감일 미기재',
       openDate: norm.openingDate || null,
       dDay: dDay,
       bidType: norm.contractMethod || '제한경쟁',
@@ -109,46 +108,47 @@ async function publishVerifiedBids() {
       sourceDetailUrl: norm.g2bDetailUrl,
       isVerified: true,
       isDemo: false,
-      status: '진행중',
+      status: isClosed ? '마감' : '진행중',
+      isClosed: isClosed,
+      relevanceTier: 'DIRECT',
       lastVerifiedAt: new Date().toISOString(),
       tags: defaultTags,
-      aiSummary: b.ai?.summary || `${norm.client}에서 발주한 [${norm.title}] 조달청 공식 입찰 공고입니다.`,
-      aiTips: b.ai?.tips || '과업지시서 및 옥외광고사업자 등록요건을 확인하고 전자투찰하세요.',
-      checkList: generateVerifiedChecklist(cat, locLabel, raw),
-      verifiedRequirements: {
-        license: cat.includes('전광판') ? '정보통신공사업 / 옥외광고사업' : '옥외광고사업 등록',
-        directProduction: `직접생산확인 [${cat.split('·')[0]}]`,
-        location: locLabel,
-        jointVenture: norm.contractMethod?.includes('제한') ? '단독 또는 공동이행' : '공동이행 가능',
-        workPeriod: '과업지시서 기준',
-        warrantyPeriod: '준공검사일로부터 1~2년 (5%)',
-        siteBriefing: '생략 (설계도서 열람)',
-        submissionDocs: ['사업자등록증', '옥외광고업등록증', '직접생산확인증명서', '청렴계약이행서약서']
-      },
-      sourceEvidence: '조달청 나라장터 공식 Open API 및 원문 대조 검증 완료'
+      aiSummary: b.ai?.summary || `${norm.client}에서 발주한 [${norm.title}] 공고입니다.`,
+      aiTips: b.ai?.tips || '세부 과업지시서와 참가자격은 반드시 나라장터 원문 공고서를 확인하십시오.',
+      industryRestriction: norm.industryRestriction,
+      purchasedProductList: norm.purchasedProductList,
+      publicProcurementClass: norm.publicProcurementClass,
+      jointVentureMethod: norm.jointVentureMethod,
+      sourceEvidence: '조달청 나라장터 공식 Open API 수집 (getBidPblancListInfo)'
     };
   });
 
-  // 정렬 (D-Day 마감순 및 예산순)
+  // 정렬 (진행중 우선 -> D-Day 마감 임박순 -> 예산순)
   publicBids.sort((a, b) => {
+    if (a.isClosed !== b.isClosed) return a.isClosed ? 1 : -1;
     if (a.dDay !== b.dDay) return a.dDay - b.dDay;
     return b.budget - a.budget;
   });
 
   const bidsOutPath = path.resolve(process.cwd(), 'public/data/bids.json');
   fs.writeFileSync(bidsOutPath, JSON.stringify(publicBids, null, 2), 'utf8');
-  console.log(`✅ [1단계 공개 전환] 총 ${publicBids.length}건의 검증된 공식 실공고가 public/data/bids.json에 반영되었습니다.`);
+
+  const activeCount = publicBids.filter(b => !b.isClosed).length;
+  const closedCount = publicBids.filter(b => b.isClosed).length;
+
+  console.log(`✅ [배포 완료] 총 ${publicBids.length}건 (진행: ${activeCount}건, 마감: ${closedCount}건)이 public/data/bids.json에 안전하게 반영되었습니다.`);
 
   const metaOutPath = path.resolve(process.cwd(), 'public/data/meta.json');
   fs.writeFileSync(metaOutPath, JSON.stringify({
     lastUpdated: new Date().toISOString(),
     totalCount: publicBids.length,
+    activeBidsCount: activeCount,
+    closedBidsCount: closedCount,
     activeDate: '2026년 9월 4일',
-    liveBidsCount: publicBids.length,
     isVerifiedFeed: true,
-    verificationTier: 6
+    relevanceFilter: 'DIRECT_ONLY'
   }, null, 2), 'utf8');
   console.log(`✅ public/data/meta.json 갱신 완료`);
 }
 
-publishVerifiedBids();
+publishVerifiedDirectBids();

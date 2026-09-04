@@ -11,21 +11,9 @@ import {
   Bookmark,
   ChevronRight,
   ExternalLink,
-  ShieldCheck,
   AlertCircle,
-  FileText,
   Bot,
 } from "lucide-react";
-
-export interface BidCheckList {
-  licenseRequired?: string;
-  directProduction?: string;
-  workPeriod?: string;
-  warrantyPeriod?: string;
-  jointVenture?: string;
-  siteBriefing?: string;
-  eligibilityStatus?: string;
-}
 
 export interface BidItem {
   id: string;
@@ -37,6 +25,10 @@ export interface BidItem {
   budget: number;
   budgetText: string;
   location: string;
+  noticeDate?: string;
+  bidBeginDate?: string;
+  bidCloseDate?: string;
+  openingDate?: string;
   startDate: string;
   endDate: string;
   openDate?: string;
@@ -48,21 +40,16 @@ export interface BidItem {
   isVerified?: boolean;
   isDemo?: boolean;
   status?: string;
+  isClosed?: boolean;
+  relevanceTier?: 'DIRECT' | 'ADJACENT' | 'UNRELATED';
   lastVerifiedAt?: string;
   tags?: string[];
   aiSummary?: string;
   aiTips?: string;
-  checkList?: BidCheckList;
-  verifiedRequirements?: {
-    license?: string;
-    directProduction?: string;
-    location?: string;
-    jointVenture?: string;
-    workPeriod?: string;
-    warrantyPeriod?: string;
-    siteBriefing?: string;
-    submissionDocs?: string[];
-  };
+  industryRestriction?: boolean;
+  purchasedProductList?: string;
+  publicProcurementClass?: string;
+  jointVentureMethod?: string;
   sourceEvidence?: string;
 }
 
@@ -77,7 +64,6 @@ export default function BidCard({
   bid,
   isBookmarked = false,
   onToggleBookmark,
-  onOpenSpecXray,
 }: BidCardProps) {
   const [saved, setSaved] = useState(isBookmarked);
 
@@ -91,8 +77,8 @@ export default function BidCard({
   };
 
   const isDemo = bid.isDemo || bid.status === "DEMO 예시";
-  const isUrgent = bid.dDay <= 3 && bid.dDay >= 0;
-  const isExpired = bid.dDay < 0;
+  const isExpired = bid.dDay < 0 || bid.isClosed || bid.status === "마감";
+  const isUrgent = !isExpired && bid.dDay <= 3 && bid.dDay >= 0;
 
   // 상태 배지 렌더링
   const renderStatusBadge = () => {
@@ -100,14 +86,14 @@ export default function BidCard({
       return (
         <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-400/30">
           <AlertCircle className="w-3 h-3" />
-          DEMO · 기능 설명 예시
+          DEMO 예시
         </span>
       );
     }
     if (isExpired) {
       return (
-        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-medium bg-slate-800 text-slate-400 border border-slate-700">
-          입찰 마감
+        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-bold bg-rose-950/60 text-rose-300 border border-rose-800/60">
+          🔴 입찰 마감
         </span>
       );
     }
@@ -122,22 +108,10 @@ export default function BidCard({
     return (
       <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-bold bg-slate-800 text-blue-300 border border-slate-700">
         <Clock className="w-3 h-3 text-blue-400" />
-        마감 D-{bid.dDay}
+        진행중 (D-{bid.dDay})
       </span>
     );
   };
-
-  // 핵심 필수조건 2~3개 추출
-  const keyRequirements = [];
-  if (bid.verifiedRequirements?.license || bid.checkList?.licenseRequired) {
-    keyRequirements.push(bid.verifiedRequirements?.license || bid.checkList?.licenseRequired);
-  }
-  if (bid.verifiedRequirements?.directProduction || bid.checkList?.directProduction) {
-    keyRequirements.push(bid.verifiedRequirements?.directProduction || bid.checkList?.directProduction);
-  }
-  if (bid.location && bid.location !== "전국") {
-    keyRequirements.push(`${bid.location} 관내`);
-  }
 
   return (
     <div
@@ -164,7 +138,7 @@ export default function BidCard({
             {/* 지역 */}
             <span className="inline-flex items-center gap-0.5 text-[11px] text-slate-300 bg-slate-800/80 px-2 py-0.5 rounded border border-slate-700/40">
               <MapPin className="w-2.5 h-2.5 text-slate-400" />
-              {bid.location}
+              {bid.location || "전국"}
             </span>
           </div>
 
@@ -212,7 +186,7 @@ export default function BidCard({
           <div className="flex items-center gap-1.5">
             <Calendar className="w-3.5 h-3.5 text-slate-500 shrink-0" />
             <span>
-              마감: <strong className="text-slate-200 font-semibold">{bid.endDate ? bid.endDate.substring(0, 16) : "-"}</strong>
+              마감: <strong className={`${isExpired ? "text-slate-400" : "text-rose-400"} font-semibold`}>{bid.endDate ? bid.endDate.substring(0, 16) : "-"}</strong>
             </span>
           </div>
 
@@ -221,21 +195,6 @@ export default function BidCard({
             <span>{bid.budgetText}</span>
           </div>
         </div>
-
-        {/* 필수자격 2~3개 태그 요약 */}
-        {keyRequirements.length > 0 && (
-          <div className="pt-2 flex flex-wrap items-center gap-1 text-[11px]">
-            <span className="text-slate-500 font-medium mr-0.5">필수조건:</span>
-            {keyRequirements.slice(0, 3).map((req, idx) => (
-              <span
-                key={idx}
-                className="px-1.5 py-0.2 rounded bg-slate-800/90 text-slate-300 border border-slate-700/60 text-[10px]"
-              >
-                {req}
-              </span>
-            ))}
-          </div>
-        )}
       </div>
 
       {/* 하단 액션 버튼 바 */}
@@ -253,14 +212,14 @@ export default function BidCard({
             >
               DEMO 예시
             </span>
-          ) : bid.sourceDetailUrl ? (
+          ) : (bid.sourceDetailUrl || bid.linkUrl) ? (
             <a
-              href={bid.sourceDetailUrl}
+              href={bid.sourceDetailUrl || bid.linkUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 transition-colors"
             >
-              <span>발주시스템 확인</span>
+              <span>조달청 원문</span>
               <ExternalLink className="w-2.5 h-2.5" />
             </a>
           ) : null}
@@ -270,7 +229,7 @@ export default function BidCard({
             href={`/bids/${bid.id}`}
             className="inline-flex items-center gap-1 text-[11px] font-bold px-3 py-1 rounded-md bg-blue-600 hover:bg-blue-500 text-white shadow-sm shadow-blue-600/20 transition-all"
           >
-            <span>{isDemo ? "DEMO 분석" : "상세 분석"}</span>
+            <span>상세 보기</span>
             <ChevronRight className="w-3 h-3" />
           </Link>
         </div>

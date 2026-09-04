@@ -1,27 +1,21 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
-  Building2,
-  Calendar,
   MapPin,
   Clock,
   ArrowLeft,
   Flame,
-  ShieldCheck,
+  ShieldAlert,
   FileCheck2,
-  AlertTriangle,
-  Banknote,
-  Briefcase,
-  FileText,
+  AlertCircle,
   Sparkles,
   Bot,
   ExternalLink,
   Tag,
-  AlertCircle,
   Cpu,
   Calculator,
-  Layers,
-  HelpCircle,
+  FileText,
+  Calendar,
 } from "lucide-react";
 import bidsData from "../../../../public/data/bids.json";
 import BidDetailActions from "@/components/BidDetailActions";
@@ -51,7 +45,12 @@ export default async function BidDetailPage({ params }: PageProps) {
 
   const isDemo = bid.isDemo || bid.status === "DEMO 예시";
   const isUrgent = bid.dDay <= 3 && bid.dDay >= 0;
-  const isExpired = bid.dDay < 0;
+  const isExpired = bid.dDay < 0 || bid.isClosed || bid.status === "마감";
+
+  const noticeDateStr = bid.noticeDate || bid.startDate?.substring(0, 10) || "미확인";
+  const beginDateStr = bid.bidBeginDate || bid.startDate || "미확인";
+  const closeDateStr = bid.bidCloseDate || bid.endDate || "마감일 미기재";
+  const openDateStr = bid.openingDate || bid.openDate || "개찰일 미기재";
 
   return (
     <div className="flex-1 max-w-5xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 space-y-8">
@@ -87,7 +86,7 @@ export default async function BidDetailPage({ params }: PageProps) {
         </div>
       )}
 
-      {/* 🌟 1. 첫 번째: 핵심 공고정보 (Core Info) */}
+      {/* 🌟 1. 핵심 공고정보 (Core Info) */}
       <section className="bg-slate-900 rounded-2xl border border-slate-800 p-6 sm:p-8 shadow-xl space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex flex-wrap items-center gap-2">
@@ -97,8 +96,8 @@ export default async function BidDetailPage({ params }: PageProps) {
                 DEMO 예시
               </span>
             ) : isExpired ? (
-              <span className="px-2.5 py-0.5 rounded-md text-xs font-medium bg-slate-800 text-slate-400 border border-slate-700">
-                입찰 마감
+              <span className="px-2.5 py-0.5 rounded-md text-xs font-bold bg-rose-950/60 text-rose-300 border border-rose-800/60">
+                🔴 입찰 마감
               </span>
             ) : isUrgent ? (
               <span className="inline-flex items-center gap-1 px-3 py-1 rounded-md text-xs font-black bg-rose-500 text-white shadow-md animate-pulse">
@@ -108,7 +107,7 @@ export default async function BidDetailPage({ params }: PageProps) {
             ) : (
               <span className="inline-flex items-center gap-1 px-3 py-1 rounded-md text-xs font-bold bg-slate-800 text-blue-300 border border-slate-700">
                 <Clock className="w-3.5 h-3.5 text-blue-400" />
-                마감 D-{bid.dDay}
+                진행중 (D-{bid.dDay})
               </span>
             )}
 
@@ -118,7 +117,7 @@ export default async function BidDetailPage({ params }: PageProps) {
 
             <span className="inline-flex items-center gap-1 text-xs text-slate-300 bg-slate-800 px-2.5 py-0.5 rounded-md border border-slate-700">
               <MapPin className="w-3 h-3 text-slate-400" />
-              {bid.location}
+              {bid.location || "전국"}
             </span>
           </div>
 
@@ -133,7 +132,7 @@ export default async function BidDetailPage({ params }: PageProps) {
           </h1>
           {bid.officialTitle && bid.officialTitle !== bid.title && (
             <p className="text-xs sm:text-sm text-slate-400 mt-1 font-medium">
-              {isDemo ? "예시 부제목: " : "세부 공고명: "}{bid.officialTitle}
+              원문 공고명: {bid.officialTitle}
             </p>
           )}
         </div>
@@ -166,31 +165,31 @@ export default async function BidDetailPage({ params }: PageProps) {
           </div>
 
           <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800">
-            <span className="text-slate-500 block mb-1">배정예산 (추정가격)</span>
-            <strong className="text-blue-400 font-bold text-sm block">{bid.budgetText}</strong>
+            <span className="text-slate-500 block mb-1">사업예산 (배정금액)</span>
+            <strong className="text-blue-400 font-bold text-sm block">{bid.budgetText || `${Number(bid.budget || 0).toLocaleString()}원`}</strong>
           </div>
 
           <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800">
             <span className="text-slate-500 block mb-1">공고등록일</span>
-            <strong className="text-slate-200 font-medium block">{bid.startDate}</strong>
+            <strong className="text-slate-200 font-medium block">{noticeDateStr}</strong>
           </div>
 
           <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800">
             <span className="text-slate-500 block mb-1">투찰 마감일시</span>
-            <strong className="text-rose-400 font-bold block">{bid.endDate}</strong>
+            <strong className={`${isExpired ? "text-slate-400" : "text-rose-400"} font-bold block`}>{closeDateStr}</strong>
           </div>
 
           <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800">
-            <span className="text-slate-500 block mb-1">계약방법 / 입찰방식</span>
-            <strong className="text-slate-200 font-medium block truncate">{bid.bidType}</strong>
+            <span className="text-slate-500 block mb-1">계약방법</span>
+            <strong className="text-slate-200 font-medium block truncate">{bid.bidType || "제한경쟁 (원문 확인)"}</strong>
           </div>
         </div>
 
-        {/* 안내 및 마지막 확인 시각 */}
+        {/* 조달청 원문 바로가기 링크 */}
         <div className="pt-2 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-400 border-t border-slate-800/60">
           <div className="flex items-center gap-1.5">
             <Clock className="w-3.5 h-3.5 text-cyan-400" />
-            <span>데이터 생성 기준: <strong className="text-slate-300 font-medium">{bid.lastVerifiedAt || "2026.09.04 10:00"}</strong></span>
+            <span>수집 기준: <strong className="text-slate-300 font-medium">{bid.lastVerifiedAt?.substring(0, 19) || "조달청 OpenAPI 수집"}</strong></span>
           </div>
 
           <div>
@@ -198,27 +197,27 @@ export default async function BidDetailPage({ params }: PageProps) {
               <span className="text-amber-400/80 text-[11px] font-medium">
                 💡 DEMO 예시 공고입니다 (투찰 불가)
               </span>
-            ) : bid.sourceDetailUrl ? (
+            ) : bid.sourceDetailUrl || bid.linkUrl ? (
               <a
-                href={bid.sourceDetailUrl}
+                href={bid.sourceDetailUrl || bid.linkUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white font-semibold border border-slate-700 transition-colors"
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold shadow transition-colors"
               >
-                <span>발주시스템 확인</span>
-                <ExternalLink className="w-3.5 h-3.5 text-blue-400" />
+                <span>조달청 나라장터 원문 열람</span>
+                <ExternalLink className="w-3.5 h-3.5" />
               </a>
             ) : null}
           </div>
         </div>
       </section>
 
-      {/* 🌟 2. 두 번째: 참가 가능성 및 자가진단 (Eligibility) */}
+      {/* 🌟 2. 참가자격 자가진단 시뮬레이터 */}
       <section className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-base sm:text-lg font-bold text-white flex items-center gap-2">
-            <ShieldCheck className="w-5 h-5 text-blue-400" />
-            <span>참가 자격 요건 & 자가진단</span>
+            <FileCheck2 className="w-5 h-5 text-blue-400" />
+            <span>참가 자격 자가진단 (시뮬레이터)</span>
           </h2>
           <span className="text-xs text-slate-400 font-medium">
             회사 정보 등록 시 참가 가능성 자동 분석
@@ -232,72 +231,62 @@ export default async function BidDetailPage({ params }: PageProps) {
         />
       </section>
 
-      {/* 🌟 3. 세 번째: 중요한 일정 (Schedule) */}
+      {/* 🌟 3. 공고 주요 진행 일정 */}
       <section className="bg-slate-900 rounded-2xl border border-slate-800 p-6 shadow-xl space-y-4">
         <h2 className="text-base sm:text-lg font-bold text-white flex items-center gap-2">
           <Calendar className="w-5 h-5 text-indigo-400" />
-          <span>{isDemo ? "공고 주요 진행 일정 (가상 예시)" : "공고 주요 진행 일정 (조달청 공식)"}</span>
+          <span>{isDemo ? "공고 주요 진행 일정 (가상 예시)" : "공고 주요 진행 일정 (조달청 API 수집)"}</span>
         </h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-3 text-xs">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
           <div className="bg-slate-950 p-3.5 rounded-xl border border-slate-800">
-            <span className="text-slate-500 block mb-1">1. 공고등록일</span>
-            <strong className="text-slate-200 text-sm block">{bid.startDate.substring(0, 10)}</strong>
+            <span className="text-slate-500 block mb-1">1. 공고등록일시</span>
+            <strong className="text-slate-200 text-sm block">{noticeDateStr}</strong>
           </div>
 
           <div className="bg-slate-950 p-3.5 rounded-xl border border-slate-800">
-            <span className="text-slate-500 block mb-1">2. 현장설명회</span>
-            <strong className="text-slate-200 text-sm block truncate">
-              {bid.verifiedRequirements?.siteBriefing || bid.checkList?.siteBriefing || "생략 (설계서 열람)"}
-            </strong>
+            <span className="text-slate-500 block mb-1">2. 입찰서 접수시작</span>
+            <strong className="text-slate-200 text-sm block truncate">{beginDateStr}</strong>
           </div>
 
           <div className="bg-slate-950 p-3.5 rounded-xl border border-slate-800">
-            <span className="text-slate-500 block mb-1">3. 투찰 마감일시</span>
-            <strong className="text-rose-400 text-sm font-bold block">{bid.endDate}</strong>
+            <span className="text-slate-500 block mb-1">3. 입찰서 접수마감</span>
+            <strong className={`${isExpired ? "text-slate-400" : "text-rose-400"} text-sm font-bold block`}>{closeDateStr}</strong>
           </div>
 
           <div className="bg-slate-950 p-3.5 rounded-xl border border-slate-800">
             <span className="text-slate-500 block mb-1">4. 개찰일시</span>
-            <strong className="text-cyan-300 text-sm block">{bid.openDate || `${bid.endDate.substring(0, 10)} 11:00`}</strong>
-          </div>
-
-          <div className="bg-slate-950 p-3.5 rounded-xl border border-slate-800">
-            <span className="text-slate-500 block mb-1">5. 납품·준공기한</span>
-            <strong className="text-slate-200 text-sm block truncate">
-              {bid.verifiedRequirements?.workPeriod || bid.checkList?.workPeriod || "계약체결일 기준 산정"}
-            </strong>
+            <strong className="text-cyan-300 text-sm block">{openDateStr}</strong>
           </div>
         </div>
       </section>
 
-      {/* 🌟 4. 네 번째: AI 핵심 요약 및 공식 검증 요건 분리 */}
+      {/* 🌟 4. 조달청 공식정보 vs AI 분석 엄격 분리 영역 */}
       <section className="bg-slate-900 rounded-2xl border border-slate-800 p-6 sm:p-8 shadow-xl space-y-6">
         {/* 섹션 상단 헤더 & 배지 */}
         <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-800">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-cyan-600/20 flex items-center justify-center text-cyan-400 border border-cyan-500/30">
+            <div className="w-9 h-9 rounded-xl bg-slate-800 flex items-center justify-center text-slate-300 border border-slate-700">
               <Bot className="w-5 h-5" />
             </div>
             <div>
               <h2 className="text-base sm:text-lg font-bold text-white flex items-center gap-2">
-                <span>{isDemo ? "AI 공고 분석 브리프" : "공식 검증 요건 및 AI 분석 브리프"}</span>
+                <span>{isDemo ? "DEMO 요건 및 AI 분석 브리프" : "조달청 API 수집 정보 및 AI 참고 분석"}</span>
                 {isDemo ? (
                   <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-300 border border-amber-400/30">
-                    <ShieldCheck className="w-3 h-3 text-amber-400" />
-                    DEMO 시뮬레이션 · 실제 입찰은 나라장터 원문을 확인하십시오
+                    <ShieldAlert className="w-3 h-3 text-amber-400" />
+                    DEMO 가상 데이터
                   </span>
                 ) : (
-                  <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-400/30">
-                    <ShieldCheck className="w-3 h-3 text-emerald-400" />
-                    조달청 나라장터 공식 검증 완료
+                  <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-slate-800 text-cyan-300 border border-cyan-500/30">
+                    조달청 API 기본정보 수집 완료 · 세부 참가자격 검토 전
                   </span>
                 )}
               </h2>
               <p className="text-xs text-slate-400">
                 {isDemo
                   ? "DEMO 가정 조건과 AI 분석 참고사항을 구분하여 안내합니다."
-                  : "조달청 공식 공고 요건과 AI 전략 분석을 엄격히 분리하여 제공합니다."}
+                  : "조달청 공식 API 수집 항목과 AI 참고 분석을 엄격히 분리하여 제공합니다."}
               </p>
             </div>
           </div>
@@ -305,45 +294,45 @@ export default async function BidDetailPage({ params }: PageProps) {
 
         {/* 2개 분리 영역 */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {/* 영역 1: 공식 검증 / DEMO 요건 */}
+          {/* 영역 1: 조달청 공식 API 구조화 수집 정보 (임의 생성값 절대 배제) */}
           <div className="bg-slate-950/80 rounded-xl p-5 border border-slate-800 space-y-3.5">
             <div className="flex items-center justify-between pb-2 border-b border-slate-800">
-              <span className="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
-                <FileCheck2 className="w-4 h-4" />
-                <span>{isDemo ? "DEMO 가정 조건" : "조달청 공식 요건"}</span>
+              <span className="text-xs font-bold text-slate-200 flex items-center gap-1.5">
+                <FileCheck2 className="w-4 h-4 text-blue-400" />
+                <span>{isDemo ? "DEMO 가정 조건" : "조달청 공식 API 수집 항목"}</span>
               </span>
-              <span className={`text-[10px] px-1.5 py-0.2 rounded font-medium ${isDemo ? 'bg-amber-500/10 text-amber-300 border border-amber-500/30' : 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/30'}`}>
-                {isDemo ? "가정 예시" : "공식 검증"}
+              <span className="text-[10px] px-2 py-0.5 rounded font-medium bg-slate-800 text-slate-300 border border-slate-700">
+                {isDemo ? "가정 예시" : "공식 API 원문"}
               </span>
             </div>
 
             <div className="space-y-2.5 text-xs text-slate-300">
               <div>
-                <span className="text-slate-500 block text-[11px]">필수 면허/등록 요건:</span>
+                <span className="text-slate-500 block text-[11px]">업종 및 면허제한 여부:</span>
                 <p className="font-semibold text-white">
-                  {bid.verifiedRequirements?.license || bid.checkList?.licenseRequired || "옥외광고사업 등록증 (필수)"}
+                  {bid.industryRestriction ? "업종제한 있음 (상세 면허는 공고문 확인 필요)" : "업종제한 미기재 (공고문 확인 필요)"}
                 </p>
               </div>
 
               <div>
-                <span className="text-slate-500 block text-[11px]">직접생산확인 증명:</span>
+                <span className="text-slate-500 block text-[11px]">물품 세부품명 / 공공조달 분류:</span>
                 <p className="font-semibold text-white">
-                  {bid.verifiedRequirements?.directProduction || bid.checkList?.directProduction || "해당 세부품명 직접생산확인증명서 (필수)"}
+                  {bid.purchasedProductList || bid.publicProcurementClass || "공고문 확인 필요 (미확인)"}
                 </p>
               </div>
 
               <div>
-                <span className="text-slate-500 block text-[11px]">참가자격 지역 및 공동도급:</span>
+                <span className="text-slate-500 block text-[11px]">참가자격 지역 및 공동수급:</span>
                 <p className="font-semibold text-white">
-                  {bid.location === "전국" ? "전국 입찰 가능" : `${bid.location} 소재 업체 제한`} /{" "}
-                  {bid.verifiedRequirements?.jointVenture || bid.checkList?.jointVenture || "단독 또는 공동이행"}
+                  {bid.location === "전국" ? "전국 (지역제한 없음)" : `지역제한 (${bid.location})`} /{" "}
+                  {bid.jointVentureMethod || "공동수급 방식 공고문 확인 필요"}
                 </p>
               </div>
 
               <div>
-                <span className="text-slate-500 block text-[11px]">하자보수보증 및 기간:</span>
-                <p className="font-semibold text-white">
-                  {bid.verifiedRequirements?.warrantyPeriod || bid.checkList?.warrantyPeriod || "준공검사일로부터 1~2년 (하자보수 5%)"}
+                <span className="text-slate-500 block text-[11px]">직접생산확인 및 하자보수 요건:</span>
+                <p className="font-semibold text-slate-400 italic">
+                  공고문 및 과업지시서 직접 확인 필요 (API 구조화 필드 미제공)
                 </p>
               </div>
 
@@ -351,43 +340,41 @@ export default async function BidDetailPage({ params }: PageProps) {
               <div className="pt-2 border-t border-slate-800/60 text-[11px] text-slate-400">
                 <span className="text-slate-500 font-medium">데이터 출처: </span>
                 <span className="text-cyan-300 font-mono">
-                  {isDemo ? "DEMO 분석 예시: 실제 공고문을 업로드하면 해당 문구와 위치를 추출합니다." : (bid.sourceEvidence || "조달청 나라장터 공식 Open API 및 원문 대조 검증 완료")}
+                  {isDemo ? "DEMO 분석 예시" : "조달청 나라장터 공식 Open API"}
                 </span>
               </div>
             </div>
           </div>
 
-          {/* 영역 2: AI가 제안한 참고사항 */}
-          <div className="bg-slate-950/80 rounded-xl p-5 border border-slate-800 space-y-3.5">
+          {/* 영역 2: AI 참고 분석 (격리 영역) */}
+          <div className="bg-slate-950/80 rounded-xl p-5 border border-cyan-900/40 space-y-3.5">
             <div className="flex items-center justify-between pb-2 border-b border-slate-800">
               <span className="text-xs font-bold text-cyan-400 flex items-center gap-1.5">
                 <Sparkles className="w-4 h-4" />
-                <span>AI 전략 분석 (분리 영역)</span>
+                <span>AI 참고 분석 (별도 분리 영역)</span>
               </span>
-              <span className="text-[10px] px-1.5 py-0.2 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/30 font-medium">
-                AI 분석
+              <span className="text-[10px] px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800/60 font-medium">
+                AI 의견
               </span>
+            </div>
+
+            {/* AI 주의 안내 배너 */}
+            <div className="bg-cyan-950/40 p-2.5 rounded-lg border border-cyan-800/40 text-[11px] text-cyan-200 font-medium">
+              ⚠️ AI 참고 분석이며 조달청 공식 참가자격이 아닙니다.
             </div>
 
             <div className="space-y-2.5 text-xs text-slate-300">
               <div>
-                <span className="text-slate-500 block text-[11px]">수주 및 투찰 전략 제안:</span>
+                <span className="text-slate-500 block text-[11px]">AI 요약 브리프:</span>
                 <p className="text-slate-200 leading-relaxed">
-                  {bid.aiTips || "공고문 참가 요건 및 제출서류 마감 기한을 철저히 확인하세요."}
+                  {bid.aiSummary || "옥외광고 및 사인물 관련 공고입니다."}
                 </p>
               </div>
 
               <div>
-                <span className="text-slate-500 block text-[11px]">주요 과업 핵심 요약:</span>
+                <span className="text-slate-500 block text-[11px]">AI 수주 전략 팁:</span>
                 <p className="text-slate-200 leading-relaxed">
-                  {bid.aiSummary || "옥외광고물 제작 및 시공 설치 용역입니다."}
-                </p>
-              </div>
-
-              <div className="bg-slate-900 p-2.5 rounded-lg border border-slate-800 text-[11px] text-slate-400">
-                <p className="flex items-start gap-1">
-                  <span className="text-amber-400 font-bold shrink-0">안내:</span>
-                  <span>기능 시뮬레이션용 AI 참고 제안입니다. 실제 시공 전 설계내역서를 확인하십시오.</span>
+                  {bid.aiTips || "세부 과업지시서와 참가자격은 반드시 나라장터 원문 공고서를 확인하십시오."}
                 </p>
               </div>
             </div>
@@ -395,7 +382,7 @@ export default async function BidDetailPage({ params }: PageProps) {
         </div>
       </section>
 
-      {/* 🌟 5. 다섯 번째: 입찰 준비 도구 (Tools) */}
+      {/* 🌟 5. 입찰 준비 도구함 */}
       <section className="bg-slate-900 rounded-2xl border border-slate-800 p-6 shadow-xl space-y-4">
         <h2 className="text-base sm:text-lg font-bold text-white flex items-center gap-2">
           <FileText className="w-5 h-5 text-blue-400" />
@@ -472,7 +459,7 @@ export default async function BidDetailPage({ params }: PageProps) {
         <BidDetailActions
           bid={{
             ...bid,
-            linkUrl: bid.sourceDetailUrl || "",
+            linkUrl: bid.sourceDetailUrl || bid.linkUrl || "",
           }}
         />
       </div>
