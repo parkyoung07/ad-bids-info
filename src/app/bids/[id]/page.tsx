@@ -16,6 +16,7 @@ import {
   Calculator,
   FileText,
   Calendar,
+  History,
 } from "lucide-react";
 import bidsData from "../../../../public/data/bids.json";
 import BidDetailActions from "@/components/BidDetailActions";
@@ -117,7 +118,7 @@ export default async function BidDetailPage({ params }: PageProps) {
             )}
 
             <span className="px-2.5 py-0.5 rounded-md text-xs font-bold bg-blue-600/15 text-blue-300 border border-blue-500/30">
-              {bid.category}
+              SignBid 업종 분류: {bid.category}
             </span>
 
             <span className="inline-flex items-center gap-1 text-xs text-slate-300 bg-slate-800 px-2.5 py-0.5 rounded-md border border-slate-700">
@@ -266,6 +267,44 @@ export default async function BidDetailPage({ params }: PageProps) {
         </div>
       </section>
 
+      {/* 🌟 공고 차수 변경 이력 (정정/취소 이력 보존) */}
+      {bid.orderHistory && bid.orderHistory.length > 0 && (
+        <section className="bg-slate-900 rounded-2xl border border-slate-800 p-6 shadow-xl space-y-3">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <h2 className="text-base font-bold text-white flex items-center gap-2">
+              <History className="w-5 h-5 text-cyan-400" />
+              <span>조달청 공고 차수 이력 (총 {bid.orderHistory.length}개 차수 보존)</span>
+            </h2>
+            <span className="text-xs text-emerald-400 font-bold bg-emerald-950/40 px-2.5 py-0.5 rounded-full border border-emerald-800/50">
+              최신 유효 차수 단일 노출 중
+            </span>
+          </div>
+          <div className="space-y-2 pt-1">
+            {bid.orderHistory.map((item, idx) => (
+              <div
+                key={idx}
+                className="bg-slate-950 p-3.5 rounded-xl border border-slate-800 text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2"
+              >
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-slate-800 text-slate-200 border border-slate-700">
+                    차수 -{item.bidOrd}
+                  </span>
+                  <span
+                    className={`px-2 py-0.5 rounded text-[11px] font-bold ${
+                      item.isCancelled ? "bg-rose-950 text-rose-300 border border-rose-800/60" : "bg-blue-950 text-blue-300 border border-blue-800/60"
+                    }`}
+                  >
+                    {item.noticeKind}
+                  </span>
+                  <span className="text-slate-300 font-medium">{item.changeReason}</span>
+                </div>
+                <span className="text-[11px] text-slate-500 font-mono shrink-0">{item.noticeDate}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* 🌟 4. 조달청 공식정보 vs AI 분석 엄격 분리 영역 */}
       <section className="bg-slate-900 rounded-2xl border border-slate-800 p-6 sm:p-8 shadow-xl space-y-6">
         {/* 섹션 상단 헤더 & 배지 */}
@@ -348,6 +387,24 @@ export default async function BidDetailPage({ params }: PageProps) {
                   {isDemo ? "DEMO 분석 예시" : "조달청 나라장터 공식 Open API"}
                 </span>
               </div>
+
+              {/* 관리자 승인 감사로그 (7대 필수 필드 표시) */}
+              {bid.auditLogId && (
+                <div className="pt-2.5 border-t border-slate-800/80 text-[11px] text-slate-400 space-y-1.5">
+                  <div className="flex items-center justify-between text-xs font-semibold text-slate-300">
+                    <span>관리자 승인 감사로그:</span>
+                    <span className="text-emerald-400 font-mono font-bold bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800/50">
+                      {bid.afterStatus || "PUBLISHED"} (승인완료)
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 text-[10px] text-slate-500 font-mono bg-slate-900/80 p-2 rounded-lg border border-slate-800/80">
+                    <div>감사ID: <strong className="text-slate-400">{bid.auditLogId}</strong></div>
+                    <div>승인자: <strong className="text-slate-400">{bid.approvedBy}</strong></div>
+                    <div className="truncate">원천해시: <strong className="text-slate-400" title={bid.sourceHash}>{bid.sourceHash?.substring(0, 16)}...</strong></div>
+                    <div>승인일시: <strong className="text-slate-400">{bid.approvedAt?.substring(0, 19).replace('T', ' ')}</strong></div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 

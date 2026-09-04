@@ -51,6 +51,22 @@ export interface BidItem {
   publicProcurementClass?: string;
   jointVentureMethod?: string;
   sourceEvidence?: string;
+  signbidCategory?: string;
+  orderHistory?: Array<{
+    bidOrd: string;
+    noticeKind: string;
+    noticeDate: string;
+    changeReason: string;
+    isCancelled: boolean;
+    bidKey: string;
+  }>;
+  approvedBy?: string;
+  approvedAt?: string;
+  auditLogId?: string;
+  sourceHash?: string;
+  approvalReason?: string;
+  beforeStatus?: string;
+  afterStatus?: string;
 }
 
 interface BidCardProps {
@@ -138,9 +154,9 @@ export default function BidCard({
               {bid.source || "조달청 나라장터"}
             </span>
 
-            {/* 업종 카테고리 */}
+            {/* SignBid 자체 업종 분류 명시 배지 */}
             <span className="text-[11px] font-bold text-blue-300 bg-blue-500/10 px-2 py-0.5 rounded border border-blue-400/20">
-              {bid.category}
+              SignBid 업종 분류: {bid.category}
             </span>
 
             {/* 지역 */}

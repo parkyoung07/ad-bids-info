@@ -8,7 +8,8 @@
     "fetch-news": "node scripts/fetch-news.mjs",
     "generate-post": "node scripts/generate-post.js",
     "prebuild": "node scripts/fetch-news.mjs && node scripts/build-search-index.js",
-    "build": "node scripts/fetch-news.mjs && node scripts/build-search-index.js && next build && node scripts/verify-all.cjs",
+    "test:orders": "node scripts/test-notice-orders.cjs",
+    "build": "node scripts/fetch-news.mjs && node scripts/build-search-index.js && node scripts/test-notice-orders.cjs && next build && node scripts/verify-all.cjs",
     "verify": "node scripts/verify-all.cjs --live",
     "start": "next start",
     "lint": "eslint"

@@ -165,12 +165,52 @@ async function verifyIntegrityRules() {
   const urgentBids = bids.filter((b) => !b.isClosed && b.dDay !== null && b.dDay >= 0 && b.dDay <= 3);
   console.log(`  ℹ️ 현재 진행 공고 중 마감 임박(D-3 이내) 공고: ${urgentBids.length}건 (${urgentBids.map(b => b.id).join(', ')})`);
 
+  // [규칙 12] 관리자 승인 7대 의무 필드 누락 검출
+  console.log('규칙 12: 관리자 승인 7대 필수 감사 필드 전수 검증');
+  const requiredAuditFields = [
+    'approvedBy', 'approvedAt', 'auditLogId', 'sourceHash',
+    'approvalReason', 'beforeStatus', 'afterStatus'
+  ];
+  bids.forEach((b) => {
+    for (const f of requiredAuditFields) {
+      if (!b[f] || typeof b[f] !== 'string' || b[f].trim() === '') {
+        console.error(`  ❌ [규칙 12 위반] 공고 [${b.id}]에 관리자 승인 필수 감사 필드 [${f}]가 누락되었습니다.`);
+        failureCount++;
+      }
+    }
+  });
+
+  // [규칙 13] CANCELLED(취소) 공고의 진행 공고 혼입 및 과거 차수 부활 검출
+  console.log('규칙 13: 취소(CANCELLED) 공고의 진행 공고 혼입 여부 검출');
+  bids.forEach((b) => {
+    if (b.status === '진행중' && (b.title.includes('취소공고') || b.officialTitle?.includes('취소공고'))) {
+      console.error(`  ❌ [규칙 13 위반] 취소공고 [${b.id}]가 진행중 상태로 노출되었습니다.`);
+      failureCount++;
+    }
+    if (b.orderHistory && Array.isArray(b.orderHistory)) {
+      const latest = b.orderHistory[b.orderHistory.length - 1];
+      if (latest && latest.isCancelled && !b.isClosed) {
+        console.error(`  ❌ [규칙 13 위반] 최신 차수가 취소된 공고 [${b.id}]가 공개 목록에 노출되었습니다.`);
+        failureCount++;
+      }
+    }
+  });
+
+  // [규칙 14] SignBid 자체 업종 분류 명시 확인
+  console.log('규칙 14: SignBid 자체 업종 분류 라벨링 전수 확인');
+  bids.forEach((b) => {
+    if (!b.signbidCategory || !b.signbidCategory.startsWith('SignBid 업종 분류:')) {
+      console.error(`  ❌ [규칙 14 위반] 공고 [${b.id}]에 SignBid 자체 업종 분류 문구가 누락되었습니다.`);
+      failureCount++;
+    }
+  });
+
   console.log('================================================================================');
   if (failureCount > 0) {
     console.error(`❌ [검증 실패] 총 ${failureCount}건의 무결성 규칙 위반이 검출되어 빌드를 즉시 중단합니다.\n`);
     process.exit(1);
   } else {
-    console.log('✅ [검증 통과] 전체 데이터 무결성 규칙 100% 통과 (위반 0건)\n');
+    console.log('✅ [검증 통과] 전체 14대 데이터 무결성 규칙 100% 통과 (위반 0건)\n');
   }
 }
 
