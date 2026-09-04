@@ -1,0 +1,68 @@
+[
+  {
+    "inqryDiv": "1",
+    "description": "공고게시일시 기준",
+    "httpStatus": 200,
+    "resultCode": "00",
+    "errorMsg": "정상",
+    "totalCount": 4469,
+    "firstReturnedBidNtceNo": "R26BK01706796",
+    "isRequestedMatchingFirst": true,
+    "isFilterWorking": false
+  },
+  {
+    "inqryDiv": "2",
+    "description": "입찰마감일시 기준",
+    "httpStatus": 200,
+    "resultCode": "08",
+    "errorMsg": "필수값 입력 에러",
+    "totalCount": "N/A",
+    "firstReturnedBidNtceNo": "N/A",
+    "isRequestedMatchingFirst": false,
+    "isFilterWorking": false
+  },
+  {
+    "inqryDiv": "3",
+    "description": "개찰일시 기준",
+    "httpStatus": 200,
+    "resultCode": "07",
+    "errorMsg": "입력범위값 초과 에러",
+    "totalCount": "N/A",
+    "firstReturnedBidNtceNo": "N/A",
+    "isRequestedMatchingFirst": false,
+    "isFilterWorking": false
+  },
+  {
+    "inqryDiv": "4",
+    "description": "입찰서접수마감일시 기준",
+    "httpStatus": 200,
+    "resultCode": "07",
+    "errorMsg": "입력범위값 초과 에러",
+    "totalCount": "N/A",
+    "firstReturnedBidNtceNo": "N/A",
+    "isRequestedMatchingFirst": false,
+    "isFilterWorking": false
+  },
+  {
+    "inqryDiv": "11",
+    "description": "공고번호 기준",
+    "httpStatus": 200,
+    "resultCode": "07",
+    "errorMsg": "입력범위값 초과 에러",
+    "totalCount": "N/A",
+    "firstReturnedBidNtceNo": "N/A",
+    "isRequestedMatchingFirst": false,
+    "isFilterWorking": false
+  },
+  {
+    "inqryDiv": "12",
+    "description": "참조번호 기준",
+    "httpStatus": 200,
+    "resultCode": "07",
+    "errorMsg": "입력범위값 초과 에러",
+    "totalCount": "N/A",
+    "firstReturnedBidNtceNo": "N/A",
+    "isRequestedMatchingFirst": false,
+    "isFilterWorking": false
+  }
+]

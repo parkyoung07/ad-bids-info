@@ -1,0 +1,21 @@
+{
+  "testDate": "2026-09-04T17:05:00Z",
+  "queryRange": "202609010000 ~ 202609040000",
+  "conclusion": "inqryDiv=1 환경에서 조달청 서버는 bidNtceNo 파라미터를 무시하고 날짜 범위 전체를 반환함. 따라서 전체 페이지를 수집하여 클라이언트/수집기 인덱스 맵을 구축해야 함.",
+  "caseExisting": {
+    "requestedBidNtceNo": "R26BK01706796",
+    "httpStatus": 200,
+    "resultCode": "00",
+    "totalCount": 1777,
+    "firstReturnedBidNtceNo": "R26BK01706792",
+    "isFirstMatchingRequested": false
+  },
+  "caseNonExisting": {
+    "requestedBidNtceNo": "R99ZZ99999999",
+    "httpStatus": 200,
+    "resultCode": "00",
+    "totalCount": 1777,
+    "firstReturnedBidNtceNo": "R26BK01706792",
+    "isFilteredOut": false
+  }
+}
