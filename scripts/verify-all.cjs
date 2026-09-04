@@ -193,11 +193,14 @@ async function verifyLiveServer(domain = 'https://signbidai.com') {
     { path: '/bids/DEMO-BID-007/', expected: 200, name: 'DEMO 공고 7' },
     { path: '/bids/DEMO-BID-008/', expected: 200, name: 'DEMO 공고 8' },
 
-    // 3. 구형 불일치 공고 상세 (모두 404/410 이어야 정상)
-    { path: '/bids/R26BK01661955-000/', expected: 404, name: '구형 공고 (국회방송 불일치건)' },
-    { path: '/bids/R26BK01650918-000/', expected: 404, name: '구형 공고 (MMCA 불일치건)' },
-    { path: '/bids/R26BK01650354-000/', expected: 404, name: '구형 공고 (소방본부 불일치건)' },
-    { path: '/bids/R26BK01683902-000/', expected: 404, name: '구형 공고 (부경대 불일치건)' },
+    // 3. 구형 불일치 공고 상세 (최초 요청에서 직접 HTTP 410 Gone 이어야 정상)
+    { path: '/bids/R26BK01661955-000/', expected: 410, name: '구형 공고 (국회방송 불일치건)' },
+    { path: '/bids/R26BK01650918-000/', expected: 410, name: '구형 공고 (MMCA 불일치건)' },
+    { path: '/bids/R26BK01650354-000/', expected: 410, name: '구형 공고 (소방본부 불일치건)' },
+    { path: '/bids/R26BK01683902-000/', expected: 410, name: '구형 공고 (부경대 불일치건)' },
+
+    // 4. /404 안내 페이지 자체 직접 접근 테스트 (직접 404 상태코드 반환)
+    { path: '/404', expected: 404, name: '404 안내 페이지' },
   ];
 
   const results = [];
@@ -207,34 +210,26 @@ async function verifyLiveServer(domain = 'https://signbidai.com') {
     const fullUrl = `${domain}${target.path}`;
     try {
       const res = await httpGet(fullUrl);
-      const is404Expected = target.expected === 404;
-      const is404Result = (
-        res.initialStatus === 404 ||
-        res.statusCode === 404 ||
-        (res.initialStatus === 302 && res.initialLocation && res.initialLocation.includes('404')) ||
-        res.data.includes('404 NOT FOUND') ||
-        res.data.includes('존재하지 않거나 삭제된 공고')
-      );
+      
+      // 최초 응답 상태 코드가 기대값과 완벽히 일치해야 통과 (302 리다이렉트 불허)
+      const isInitialMatch = (res.initialStatus === target.expected);
+      const isFinalMatch = (res.statusCode === target.expected);
+      const isStatusMatch = isInitialMatch && isFinalMatch;
 
-      const isStatusMatch = is404Expected ? is404Result : (res.statusCode === target.expected);
       let forbiddenFound = [];
-
-      if (res.statusCode === 200 && !is404Result) {
+      if (res.statusCode === 200) {
         forbiddenFound = checkContentForForbidden(res.data, target.path);
       }
 
       const passed = isStatusMatch && forbiddenFound.length === 0;
       if (!passed) allPassed = false;
 
-      const displayActual = res.initialStatus !== res.statusCode
-        ? `${res.initialStatus} ➔ ${res.statusCode} (${res.initialLocation || ''})`
-        : `${res.statusCode}`;
-
       results.push({
         name: target.name,
         path: target.path,
         expected: target.expected,
-        actual: displayActual,
+        initialStatus: res.initialStatus,
+        finalStatus: res.statusCode,
         forbiddenCount: forbiddenFound.length,
         forbiddenDetails: forbiddenFound.join(', '),
         passed,
@@ -245,7 +240,8 @@ async function verifyLiveServer(domain = 'https://signbidai.com') {
         name: target.name,
         path: target.path,
         expected: target.expected,
-        actual: `ERROR: ${e.message}`,
+        initialStatus: `ERR`,
+        finalStatus: `ERR: ${e.message}`,
         forbiddenCount: 0,
         forbiddenDetails: '',
         passed: false,
@@ -253,12 +249,12 @@ async function verifyLiveServer(domain = 'https://signbidai.com') {
     }
   }
 
-  console.log('\n| 대상 화면 | 경로 | 기대 상태코드 | 실제 상태코드 | 금지어 검출 | 판정 |');
-  console.log('| :--- | :--- | :---: | :---: | :---: | :---: |');
+  console.log('\n| 대상 화면 | 경로 | 기대 상태 | 최초 응답 상태 | 최종 응답 상태 | 금지어 검출 | 판정 |');
+  console.log('| :--- | :--- | :---: | :---: | :---: | :---: | :---: |');
   results.forEach((r) => {
     const statusMark = r.passed ? '✅ 정상' : '❌ 실패';
     const forbiddenText = r.forbiddenCount > 0 ? `🚨 ${r.forbiddenDetails}` : '0건 (안전)';
-    console.log(`| ${r.name} | \`${r.path}\` | \`${r.expected}\` | \`${r.actual}\` | ${forbiddenText} | ${statusMark} |`);
+    console.log(`| ${r.name} | \`${r.path}\` | \`${r.expected}\` | \`${r.initialStatus}\` | \`${r.finalStatus}\` | ${forbiddenText} | ${statusMark} |`);
   });
 
   if (!allPassed) {
