@@ -181,7 +181,7 @@ export default function AiProposalModal({
                   type="text"
                   value={repName}
                   onChange={(e) => setRepName(e.target.value)}
-                  placeholder="예: 홍길동"
+                  placeholder="예: 대표자 성명"
                   className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-white"
                 />
               </div>
