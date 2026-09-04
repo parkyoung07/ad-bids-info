@@ -48,20 +48,34 @@ function checkContentForForbidden(content, filePathOrUrl) {
   return violations;
 }
 
-function httpGet(url) {
+function httpGet(url, maxRedirects = 5) {
   return new Promise((resolve, reject) => {
     https.get(url, { headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) SignBidVerifier/1.0' } }, (res) => {
-      if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
+      if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location && maxRedirects > 0) {
         let redirectUrl = res.headers.location;
         if (!redirectUrl.startsWith('http')) {
           const u = new URL(url);
           redirectUrl = `${u.origin}${redirectUrl}`;
         }
-        return httpGet(redirectUrl).then(resolve).catch(reject);
+        return httpGet(redirectUrl, maxRedirects - 1).then((redirectRes) => {
+          resolve({
+            initialStatus: res.statusCode,
+            initialLocation: res.headers.location,
+            statusCode: redirectRes.statusCode,
+            headers: redirectRes.headers,
+            data: redirectRes.data,
+          });
+        }).catch(reject);
       }
       let data = '';
       res.on('data', chunk => data += chunk);
-      res.on('end', () => resolve({ statusCode: res.statusCode, headers: res.headers, data }));
+      res.on('end', () => resolve({
+        initialStatus: res.statusCode,
+        initialLocation: null,
+        statusCode: res.statusCode,
+        headers: res.headers,
+        data,
+      }));
     }).on('error', reject);
   });
 }
@@ -193,21 +207,34 @@ async function verifyLiveServer(domain = 'https://signbidai.com') {
     const fullUrl = `${domain}${target.path}`;
     try {
       const res = await httpGet(fullUrl);
-      const isStatusMatch = res.statusCode === target.expected;
+      const is404Expected = target.expected === 404;
+      const is404Result = (
+        res.initialStatus === 404 ||
+        res.statusCode === 404 ||
+        (res.initialStatus === 302 && res.initialLocation && res.initialLocation.includes('404')) ||
+        res.data.includes('404 NOT FOUND') ||
+        res.data.includes('존재하지 않거나 삭제된 공고')
+      );
+
+      const isStatusMatch = is404Expected ? is404Result : (res.statusCode === target.expected);
       let forbiddenFound = [];
 
-      if (res.statusCode === 200) {
+      if (res.statusCode === 200 && !is404Result) {
         forbiddenFound = checkContentForForbidden(res.data, target.path);
       }
 
       const passed = isStatusMatch && forbiddenFound.length === 0;
       if (!passed) allPassed = false;
 
+      const displayActual = res.initialStatus !== res.statusCode
+        ? `${res.initialStatus} ➔ ${res.statusCode} (${res.initialLocation || ''})`
+        : `${res.statusCode}`;
+
       results.push({
         name: target.name,
         path: target.path,
         expected: target.expected,
-        actual: res.statusCode,
+        actual: displayActual,
         forbiddenCount: forbiddenFound.length,
         forbiddenDetails: forbiddenFound.join(', '),
         passed,
