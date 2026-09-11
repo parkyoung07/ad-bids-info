@@ -70,13 +70,13 @@ const NAV_SECTIONS: NavSection[] = [
     ],
   },
   {
-    title: "입찰 가이드",
+    title: "뉴스 & 트렌드",
     icon: <BookOpen className="w-4 h-4 text-amber-400" />,
     items: [
-      { title: "초보자 안내", href: "/blog", desc: "옥외광고 공공입찰 기초 가이드" },
-      { title: "자격·면허 안내", href: "/blog", desc: "직접생산확인 및 옥외광고업 등록" },
-      { title: "트렌드", href: "/blog", desc: "디지털 사이니지 및 공공디자인 동향" },
-      { title: "뉴스", href: "/news", desc: "조달 정책 및 입찰 관련 소식" },
+      { title: "📰 실시간 뉴스", href: "/news", desc: "네이버 뉴스 및 3대 전문지 실시간 속보", isNew: true },
+      { title: "💡 옥외광고 트렌드", href: "/blog", desc: "매일 오전/오후 정기 심층 분석 기사" },
+      { title: "자격·면허 가이드", href: "/blog", desc: "직접생산확인 및 옥외광고업 등록 안내" },
+      { title: "초보자 입찰 안내", href: "/blog", desc: "옥외광고 공공입찰 기초 가이드" },
     ],
   },
 ];
@@ -207,11 +207,23 @@ export default function Header() {
             })}
           </nav>
 
-          {/* 우측 퀵 액션 (마이페이지 / 무료알림) */}
-          <div className="hidden lg:flex items-center gap-2.5">
+          {/* 우측 퀵 액션 (실시간 뉴스 / 트렌드 기사 / 관심공고) */}
+          <div className="hidden lg:flex items-center gap-2">
+            <Link
+              href="/news"
+              className="px-3 py-1.5 rounded-lg text-xs font-bold text-emerald-400 hover:text-white bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-500/30 transition-colors flex items-center gap-1.5 shadow-sm"
+            >
+              <span>📰 실시간 뉴스</span>
+            </Link>
+            <Link
+              href="/blog"
+              className="px-3 py-1.5 rounded-lg text-xs font-bold text-cyan-300 hover:text-white bg-blue-950/50 hover:bg-blue-900/80 border border-cyan-500/30 transition-colors flex items-center gap-1.5 shadow-sm"
+            >
+              <span>💡 트렌드 기사</span>
+            </Link>
             <Link
               href="/#bookmarks"
-              className="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-800 border border-slate-700 transition-colors"
+              className="px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-800 border border-slate-700 transition-colors"
             >
               관심공고
             </Link>
@@ -220,12 +232,24 @@ export default function Header() {
               className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white shadow-sm shadow-blue-600/20 transition-all"
             >
               <Sparkles className="w-3.5 h-3.5 text-cyan-300" />
-              <span>맞춤 공고 찾기</span>
+              <span>맞춤 공고</span>
             </Link>
           </div>
 
           {/* 모바일 햄버거 메뉴 버튼 (44px 터치 영역) */}
-          <div className="lg:hidden flex items-center">
+          <div className="lg:hidden flex items-center gap-2">
+            <Link
+              href="/news"
+              className="px-2.5 py-1.5 rounded-lg text-xs font-bold text-emerald-400 bg-emerald-950/60 border border-emerald-500/30 flex items-center gap-1"
+            >
+              <span>📰 뉴스</span>
+            </Link>
+            <Link
+              href="/blog"
+              className="px-2.5 py-1.5 rounded-lg text-xs font-bold text-cyan-300 bg-blue-950/60 border border-cyan-500/30 flex items-center gap-1"
+            >
+              <span>💡 트렌드</span>
+            </Link>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-2.5 min-h-[44px] min-w-[44px] rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 focus:outline-none flex items-center justify-center cursor-pointer"
@@ -240,6 +264,23 @@ export default function Header() {
       {/* 모바일 슬라이드다운 햄버거 메뉴 */}
       {mobileMenuOpen && (
         <div className="lg:hidden bg-slate-900 border-b border-slate-800 max-h-[calc(100vh-4rem)] overflow-y-auto px-4 py-4 space-y-4">
+          {/* 모바일 최상단 퀵 링크 바 */}
+          <div className="grid grid-cols-2 gap-2 pb-2">
+            <Link
+              href="/news"
+              onClick={() => setMobileMenuOpen(false)}
+              className="py-2.5 px-3 rounded-xl bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 text-center font-bold text-xs flex items-center justify-center gap-1.5 shadow-md"
+            >
+              <span>📰 실시간 뉴스 보기</span>
+            </Link>
+            <Link
+              href="/blog"
+              onClick={() => setMobileMenuOpen(false)}
+              className="py-2.5 px-3 rounded-xl bg-blue-950/80 text-cyan-300 border border-cyan-500/40 text-center font-bold text-xs flex items-center justify-center gap-1.5 shadow-md"
+            >
+              <span>💡 옥외광고 트렌드</span>
+            </Link>
+          </div>
           <div className="space-y-4">
             {NAV_SECTIONS.map((section) => (
               <div key={section.title} className="bg-slate-950/60 rounded-xl p-3 border border-slate-800/80">
