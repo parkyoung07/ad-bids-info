@@ -22,6 +22,7 @@ import bidsData from "../../../../public/data/bids.json";
 import BidDetailActions from "@/components/BidDetailActions";
 import RateAnalyticsChart from "@/components/RateAnalyticsChart";
 import BidSimulator from "@/components/BidSimulator";
+import SourceGuideCard from "@/components/SourceGuideCard";
 import { BidItem } from "@/components/BidCard";
 
 export async function generateStaticParams() {
@@ -243,29 +244,14 @@ export default async function BidDetailPage({ params }: PageProps) {
           </div>
         </div>
 
-        {/* 🏛️ 발주처 공식 원문 및 전자입찰 안내 가이드 카드 */}
-        <div className="bg-slate-950/70 rounded-xl p-3.5 border border-slate-800/80 text-xs space-y-2">
-          <div className="flex items-center justify-between gap-2">
-            <span className="text-slate-400 font-bold flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
-              발주기관 공식 공고번호: <strong className="text-cyan-300 font-mono text-xs sm:text-sm">{bid.announcementNo || bid.id}</strong>
-            </span>
-            {sourceLinkUrl && (
-              <a
-                href={sourceLinkUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-400 hover:text-blue-300 font-bold underline flex items-center gap-1 text-[11px]"
-              >
-                <span>{sourceName} 바로가기</span>
-                <ExternalLink className="w-3 h-3" />
-              </a>
-            )}
-          </div>
-          <p className="text-[11px] text-slate-400 leading-relaxed">
-            ※ <strong>{sourceName}</strong> 시스템 특성상 로그인 또는 공고번호 조회가 필요할 수 있습니다. 위 공고번호(<strong>{bid.announcementNo || bid.id}</strong>)를 복사하신 후 공식 시스템에서 검색하시면 세부 시방서·도면·과업지시서를 즉시 다운로드하실 수 있습니다.
-          </p>
-        </div>
+        {/* 🏛️ 발주처 공식 원문 조회 및 공고번호 복사 안내 카드 */}
+        <SourceGuideCard
+          sourceName={sourceName}
+          announcementNo={bid.announcementNo || bid.id}
+          sourceLinkUrl={sourceLinkUrl}
+          clientName={bid.client}
+          bidType={bid.bidType}
+        />
       </section>
 
       {/* 🌟 2. 참가자격 자가진단 시뮬레이터 */}
