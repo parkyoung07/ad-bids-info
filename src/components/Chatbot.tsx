@@ -9,8 +9,6 @@ import {
   Loader2,
   Bot,
   MessageSquare,
-  ShieldCheck,
-  Sparkles,
 } from "lucide-react";
 import bidsData from "../../public/data/bids.json";
 

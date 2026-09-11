@@ -138,9 +138,17 @@ export default async function BidDetailPage({ params }: PageProps) {
           </h1>
           {bid.officialTitle && bid.officialTitle !== bid.title && (
             <p className="text-xs sm:text-sm text-slate-400 mt-1 font-medium">
-              원문 공고명: {bid.officialTitle}
+              공식 원문명: {bid.officialTitle}
             </p>
           )}
+        </div>
+
+        {/* 🛡️ 원문 공고 확인 필수 안내 배너 */}
+        <div className="bg-blue-950/40 border border-blue-500/30 rounded-xl p-3.5 flex items-start gap-2.5 text-xs text-blue-200">
+          <AlertCircle className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
+          <p className="leading-relaxed">
+            <strong>※ 입찰 공고 안내:</strong> 모든 입찰 공고는 시스템 연동 과정상 시차나 세부 조건 변경이 있을 수 있으므로, 입찰 참가 전 반드시 각 발주처(조달청 나라장터 등)의 공식 원문 공고를 최종 확인하시기 바랍니다.
+          </p>
         </div>
 
         {/* 태그 목록 */}

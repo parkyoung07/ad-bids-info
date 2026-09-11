@@ -5,14 +5,7 @@ import {
   X,
   FileCheck2,
   AlertTriangle,
-  Lightbulb,
   Building2,
-  Calendar,
-  Sparkles,
-  ExternalLink,
-  ShieldCheck,
-  Check,
-  Layers,
   Cpu,
 } from "lucide-react";
 

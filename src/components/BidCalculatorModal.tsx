@@ -8,7 +8,6 @@ import {
   Check,
   Building2,
   Banknote,
-  Sliders,
   Info,
 } from "lucide-react";
 
@@ -45,8 +44,8 @@ export default function BidCalculatorModal({
   // A값 (국민건강보험, 국민연금 등 공제항목) 적용 여부 및 금액
   const [hasAValue, setHasAValue] = useState<boolean>(false);
   const [aValue, setAValue] = useState<number>(Math.round((bid.budget || 50000000) * 0.035));
-  // 사정률 미세조정 슬라이더 (-2.00% ~ +2.00%)
-  const [rateAdjustment, setRateAdjustment] = useState<number>(0.0);
+  // 사정률 기준값 (0.00%)
+  const rateAdjustment = 0.0;
 
   const [copiedType, setCopiedType] = useState<string | null>(null);
 

@@ -1,12 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import Link from "next/link";
 import {
-  BellRing,
-  Building2,
-  MapPin,
-  Clock,
   Search,
   Bot,
   ExternalLink,
@@ -14,9 +9,6 @@ import {
   Radio,
   Copy,
   Check,
-  Send,
-  ShieldCheck,
-  FileText,
 } from "lucide-react";
 import prespecData from "../../../public/data/prespec-bids.json";
 
@@ -52,9 +44,9 @@ const CATEGORIES = [
 
 export default function PrespecPage() {
   const [selectedCategory, setSelectedCategory] = useState("전체");
-  const [selectedRadarStage, setSelectedRadarStage] = useState<string>("all");
+  const selectedRadarStage = "all";
   const [searchQuery, setSearchQuery] = useState("");
-  const [sortBy, setSortBy] = useState<"dDay" | "budgetDesc" | "newest">("dDay");
+  const sortBy = "dDay";
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
   const items: PrespecItem[] = useMemo(() => {

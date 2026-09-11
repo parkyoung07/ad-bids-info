@@ -1,24 +1,11 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import Link from "next/link";
 import {
   FileCheck2,
   AlertTriangle,
-  Lightbulb,
   Search,
-  Building2,
-  Calendar,
-  CheckCircle2,
-  Sparkles,
-  ExternalLink,
   ShieldCheck,
-  ChevronRight,
-  Copy,
-  Check,
-  Info,
-  Layers,
-  HelpCircle,
 } from "lucide-react";
 import { BidItem } from "@/components/BidCard";
 
@@ -32,7 +19,6 @@ export default function SpecXrayStudioClient({
   const bids = useMemo(() => initialBids, [initialBids]);
   const [selectedBidId, setSelectedBidId] = useState<string>(bids[0]?.id || "DEMO-BID-001");
   const [activeTab, setActiveTab] = useState<"all" | "compliance" | "materials" | "safety">("all");
-  const [copied, setCopied] = useState(false);
 
   // 인터랙티브 필수서류 체크리스트 상태 (기본값: 확인 전, 0개 체크)
   const [checkedDocs, setCheckedDocs] = useState<Record<string, boolean>>({});

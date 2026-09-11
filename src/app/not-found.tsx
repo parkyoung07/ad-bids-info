@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { AlertCircle, ArrowLeft, Home, Search } from "lucide-react";
+import { AlertCircle, Home, Search } from "lucide-react";
 
 export default function NotFound() {
   return (

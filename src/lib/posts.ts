@@ -58,11 +58,11 @@ export function getAllPosts(): PostMeta[] {
           : typeof data.tags === "string"
           ? data.tags.split(",").map((t: string) => t.trim())
           : [],
-        coverImage: data.coverImage || "",
+        coverImage: data.coverImage || data.thumbnail || "",
         coverImageCredit: data.coverImageCredit || "",
         coverImageCreditUrl: data.coverImageCreditUrl || "",
-        source: data.source || "",
-        sourceUrl: data.sourceUrl || "",
+        source: data.source || "행정안전부 및 조달청 나라장터 공공데이터",
+        sourceUrl: data.sourceUrl || "https://www.g2b.go.kr",
       } as PostMeta;
     });
 
@@ -97,11 +97,11 @@ export function getPostBySlug(slug: string): PostItem | null {
       : typeof data.tags === "string"
       ? data.tags.split(",").map((t: string) => t.trim())
       : [],
-    coverImage: data.coverImage || "",
+    coverImage: data.coverImage || data.thumbnail || "",
     coverImageCredit: data.coverImageCredit || "",
     coverImageCreditUrl: data.coverImageCreditUrl || "",
-    source: data.source || "",
-    sourceUrl: data.sourceUrl || "",
+    source: data.source || "행정안전부 및 조달청 나라장터 공공데이터",
+    sourceUrl: data.sourceUrl || "https://www.g2b.go.kr",
     content,
   };
 }

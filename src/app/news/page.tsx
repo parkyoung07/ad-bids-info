@@ -3,12 +3,10 @@
 import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import {
-  Layers,
   Newspaper,
   Sparkles,
   ExternalLink,
   Search,
-  TrendingUp,
   Calendar,
   Flame,
   Filter,
@@ -17,7 +15,6 @@ import {
   CheckCircle2,
   RefreshCw,
   Building,
-  Tag,
   Radio,
 } from "lucide-react";
 
@@ -107,16 +104,16 @@ export default function NewsPage() {
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 mb-4 shadow-sm">
                 <Radio className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
-                네이버 실시간 뉴스 & 업계 속보
+                공식 언론사 & 포털 실시간 뉴스 연동
               </div>
               <h1 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight">
                 옥외광고 · 디지털사이니지 <br className="hidden sm:inline" />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">
-                  실시간 업계 동향 & 정책 뉴스
+                  실시간 언론 기사 & 정책 브리핑
                 </span>
               </h1>
               <p className="mt-3 text-sm sm:text-base text-slate-400 max-w-2xl">
-                네이버 포털에서 실시간으로 발행되는 옥외광고, LED 간판, 공공디자인, 지자체 정비사업 뉴스를 엄선하여 가장 빠르게 전달합니다.
+                국내 주요 언론사(연합뉴스, 전자신문, 이데일리 등) 및 포털에서 실시간으로 발행되는 옥외광고, LED 간판, 사이니지 정책 기사를 투명한 출처 표기와 함께 제공합니다.
               </p>
             </div>
 
@@ -143,8 +140,21 @@ export default function NewsPage() {
             </div>
           </div>
 
+          {/* 출처 투명성 안내 띠지 */}
+          <div className="mt-6 p-3.5 rounded-xl bg-slate-900/90 border border-slate-800/90 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-slate-400">
+            <div className="flex items-center gap-2">
+              <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                출처 보증
+              </span>
+              <span>수집 경로: 네이버 뉴스 공식 Open API 및 각 언론사 원문 데이터베이스 연동</span>
+            </div>
+            <span className="text-[11px] text-slate-500">
+              ※ 각 기사의 저작권 및 상세 내용은 해당 언론사 원문에 귀속됩니다.
+            </span>
+          </div>
+
           {/* 카테고리 탭 */}
-          <div className="mt-8 flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+          <div className="mt-6 flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
             {categories.map((cat) => {
               const active = selectedCategory === cat;
               return (
@@ -175,7 +185,7 @@ export default function NewsPage() {
           <div className="flex flex-col items-center justify-center py-20">
             <RefreshCw className="w-8 h-8 text-emerald-400 animate-spin mb-4" />
             <p className="text-sm text-slate-400 font-medium">
-              네이버 실시간 뉴스를 불러오는 중입니다...
+              실시간 언론사 뉴스를 불러오는 중입니다...
             </p>
           </div>
         ) : filteredArticles.length === 0 ? (
@@ -216,8 +226,8 @@ export default function NewsPage() {
                         <Calendar className="w-3.5 h-3.5 text-slate-500" />
                         {topNews.pubDate}
                       </span>
-                      <span className="text-xs font-medium text-slate-300 bg-slate-800/80 px-2 py-0.5 rounded border border-slate-700">
-                        📰 {topNews.press}
+                      <span className="text-xs font-bold text-emerald-300 bg-emerald-950/60 px-2.5 py-0.5 rounded border border-emerald-500/30 flex items-center gap-1">
+                        📰 언론사 출처: {topNews.press}
                       </span>
                     </div>
 
@@ -244,7 +254,7 @@ export default function NewsPage() {
                       rel="noopener noreferrer"
                       className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-bold text-sm bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 hover:from-emerald-400 hover:to-teal-400 transition-all shadow-lg shadow-emerald-500/25 group-hover:scale-105"
                     >
-                      <span>네이버 원문 보기</span>
+                      <span>기사 원문 출처 바로가기</span>
                       <ExternalLink className="w-4 h-4" />
                     </a>
                     <button
@@ -282,8 +292,8 @@ export default function NewsPage() {
                         <span className="px-2 py-0.5 rounded text-[11px] font-semibold bg-slate-800 text-emerald-400 border border-emerald-500/20">
                           {item.category}
                         </span>
-                        <span className="font-medium text-slate-300">
-                          {item.press}
+                        <span className="font-bold text-emerald-300 bg-emerald-950/40 px-2 py-0.5 rounded border border-emerald-500/20 text-[11px] flex items-center gap-1">
+                          📰 {item.press}
                         </span>
                       </div>
                       <span className="text-slate-500 flex items-center gap-1 text-[11px]">
@@ -318,7 +328,7 @@ export default function NewsPage() {
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-400 hover:text-emerald-300 transition-colors group-hover:translate-x-0.5 transform"
                     >
-                      <span>기사 원문 읽기</span>
+                      <span>{item.press} 원문 기사 확인</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </a>
                     <button
@@ -335,6 +345,12 @@ export default function NewsPage() {
                   </div>
                 </article>
               ))}
+            </div>
+
+            {/* 뉴스 저작권 및 안내 문구 */}
+            <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-300/90 leading-relaxed">
+              <p className="font-semibold mb-1">※ 뉴스 저작권 및 안내</p>
+              <p>본 뉴스는 네이버 뉴스 Open API 및 언론사 공식 보도자료를 기반으로 수집·제공되며, 기사의 저작권 및 상세 내용은 각 발행 언론사에 귀속됩니다. 관련된 입찰 및 공공사업 세부 내용은 각 발주기관의 공식 공고를 확인하시기 바랍니다.</p>
             </div>
 
             {/* 3. 하단 추천 배너 & 키워드 안내 */}

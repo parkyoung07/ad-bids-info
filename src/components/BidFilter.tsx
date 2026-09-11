@@ -2,15 +2,9 @@
 
 import React, { useState } from "react";
 import {
-  Filter,
   SlidersHorizontal,
   X,
   RotateCcw,
-  Building,
-  MapPin,
-  Calendar,
-  Briefcase,
-  Layers,
 } from "lucide-react";
 
 export interface FilterState {
@@ -81,12 +75,25 @@ const CONTRACT_TYPES = [
   "적격심사",
 ];
 
+const SOURCE_CHANNELS = [
+  { label: "전체 발주처", value: "all", icon: "🌐" },
+  { label: "조달청 나라장터", value: "g2b", icon: "🏛️" },
+  { label: "학교장터(S2B)", value: "s2b", icon: "🏫" },
+  { label: "K-apt 아파트", value: "kapt", icon: "🏢" },
+  { label: "캠코 온비드", value: "onbid", icon: "💎" },
+  { label: "협회 · LH", value: "assoc_lh", icon: "📢" },
+];
+
 export default function BidFilter({ filters, onChange, onReset }: BidFilterProps) {
   const [showDetailed, setShowDetailed] = useState(false);
 
   // 활성화된 태그 목록 계산
   const activeTags: { key: keyof FilterState; label: string; value: string }[] = [];
 
+  if (filters.sourceOrigin && filters.sourceOrigin !== "all") {
+    const sObj = SOURCE_CHANNELS.find((s) => s.value === filters.sourceOrigin);
+    activeTags.push({ key: "sourceOrigin", label: "발주처", value: sObj?.label || filters.sourceOrigin });
+  }
   if (filters.category !== "전체") {
     activeTags.push({ key: "category", label: "업종", value: filters.category });
   }
@@ -109,21 +116,45 @@ export default function BidFilter({ filters, onChange, onReset }: BidFilterProps
         : "1억원 이상";
     activeTags.push({ key: "budgetRange", label: "예산", value: bLabel });
   }
-  if (filters.sourceOrigin && filters.sourceOrigin !== "all") {
-    activeTags.push({ key: "sourceOrigin", label: "출처", value: filters.sourceOrigin });
-  }
 
   const removeTag = (key: keyof FilterState) => {
+    if (key === "sourceOrigin") onChange({ ...filters, sourceOrigin: "all" });
     if (key === "category") onChange({ ...filters, category: "전체" });
     if (key === "location") onChange({ ...filters, location: "전국" });
     if (key === "deadline") onChange({ ...filters, deadline: "all" });
     if (key === "contractType") onChange({ ...filters, contractType: "계약유형 전체" });
     if (key === "budgetRange") onChange({ ...filters, budgetRange: "all" });
-    if (key === "sourceOrigin") onChange({ ...filters, sourceOrigin: "all" });
   };
 
   return (
     <div className="bg-slate-900/90 rounded-2xl border border-slate-800 p-4 sm:p-5 shadow-lg space-y-4">
+      {/* 🚀 발주 채널 바로선택 탭 버튼바 */}
+      <div>
+        <label className="block text-[11px] font-bold text-slate-400 mb-2">
+          🏢 대한민국 8대 입찰 발주 채널 바로가기
+        </label>
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-1.5 scrollbar-thin">
+          {SOURCE_CHANNELS.map((ch) => {
+            const isSelected = (filters.sourceOrigin || "all") === ch.value;
+            return (
+              <button
+                key={ch.value}
+                type="button"
+                onClick={() => onChange({ ...filters, sourceOrigin: ch.value })}
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all duration-150 cursor-pointer ${
+                  isSelected
+                    ? "bg-blue-600 text-white shadow-md shadow-blue-600/30 border border-blue-500 scale-[1.02]"
+                    : "bg-slate-950 text-slate-300 hover:text-white hover:bg-slate-800 border border-slate-800"
+                }`}
+              >
+                <span>{ch.icon}</span>
+                <span>{ch.label}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
       {/* 4대 기본 필터 행 */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
         {/* 1. 업종 필터 */}

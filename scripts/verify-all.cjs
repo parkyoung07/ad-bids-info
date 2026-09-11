@@ -205,12 +205,43 @@ async function verifyIntegrityRules() {
     }
   });
 
+  // [규칙 15] 협력사 DB 내 휴·폐업 사업자 혼입 0건 검출
+  console.log('규칙 15: 협력사 DB 내 휴·폐업 사업자 혼입 0건 (100% 정상영업) 검증');
+  const regBizPath = path.join(__dirname, '../public/data/registered-businesses.json');
+  if (fs.existsSync(regBizPath)) {
+    const regData = JSON.parse(fs.readFileSync(regBizPath, 'utf-8'));
+    const businesses = regData.businesses || [];
+    businesses.forEach((biz) => {
+      if (biz.status !== '정상영업') {
+        console.error(`  ❌ [규칙 15 위반] 협력사 [${biz.id}: ${biz.companyName}] 상태가 정상영업이 아닙니다: ${biz.status}`);
+        failureCount++;
+      }
+    });
+  }
+
+  // [규칙 16] 전국 17개 시·도 등록업체 필수 필드 및 등록번호 체계 정합성 검증
+  console.log('규칙 16: 전국 17개 시·도 등록업체 필수 필드(등록번호, 상호, 주소, 지역) 무결성 검증');
+  if (fs.existsSync(regBizPath)) {
+    const regData = JSON.parse(fs.readFileSync(regBizPath, 'utf-8'));
+    const businesses = regData.businesses || [];
+    businesses.forEach((biz) => {
+      if (!biz.regNumber || !biz.companyName || !biz.address || !biz.region || typeof biz.phone === 'undefined') {
+        console.error(`  ❌ [규칙 16 위반] 협력사 [${biz.id}]에 필수 식별 필드가 누락되었습니다.`);
+        failureCount++;
+      }
+      if (biz.companyName.includes('(주)(주)')) {
+        console.error(`  ❌ [규칙 16 위반] 협력사 [${biz.id}: ${biz.companyName}] 상호에 (주)가 중복되었습니다.`);
+        failureCount++;
+      }
+    });
+  }
+
   console.log('================================================================================');
   if (failureCount > 0) {
     console.error(`❌ [검증 실패] 총 ${failureCount}건의 무결성 규칙 위반이 검출되어 빌드를 즉시 중단합니다.\n`);
     process.exit(1);
   } else {
-    console.log('✅ [검증 통과] 전체 14대 데이터 무결성 규칙 100% 통과 (위반 0건)\n');
+    console.log('✅ [검증 통과] 전체 16대 데이터 무결성 규칙 100% 통과 (위반 0건)\n');
   }
 }
 
@@ -218,3 +249,4 @@ verifyIntegrityRules().catch((err) => {
   console.error('검증 실행 중 에러:', err);
   process.exit(1);
 });
+

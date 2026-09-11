@@ -3,13 +3,10 @@
 import React, { useState, useMemo } from "react";
 import {
   X,
-  FileText,
-  Presentation,
   Copy,
   Check,
   AlertCircle,
   Building,
-  ShieldCheck,
   Sparkles,
 } from "lucide-react";
 
@@ -48,10 +45,8 @@ export default function AiProposalModal({
   const [repName, setRepName] = useState("");
   const [hasFactory, setHasFactory] = useState(false);
   const [hasDirectProd, setHasDirectProd] = useState(false);
-  const [confirmedWarranty, setConfirmedWarranty] = useState("");
-  const [confirmedExperience, setConfirmedExperience] = useState("");
-
-  const [activeViewTab, setActiveViewTab] = useState<"document" | "slides">("document");
+  const confirmedWarranty = "";
+  const confirmedExperience = "";
   const [copied, setCopied] = useState(false);
 
   // 제안서 전문 생성 (3단계 구분 & 확인 필요 처리)

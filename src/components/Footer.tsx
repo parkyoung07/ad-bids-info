@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import Link from "next/link";
-import { ShieldCheck, Info, AlertTriangle, FileText, CheckCircle2, X } from "lucide-react";
+import { ShieldCheck, X } from "lucide-react";
 
 export default function Footer() {
   const [modalType, setModalType] = useState<string | null>(null);

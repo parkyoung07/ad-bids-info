@@ -46,7 +46,7 @@ const pastStr = formatDateString(pastDate);
 
 console.log(`📅 검색 기간: ${pastStr} ~ ${todayStr}`);
 
-// 3. 확장 필터링 키워드 (옥외광고, 사인물, 전광판, 사이니지, 인쇄, 랩핑, 조형물, 학교/교육, 온비드 매체권 전 분야 포괄)
+// 3. 확장 필터링 키워드 (옥외광고, 사인물, 전광판, 사이니지, 인쇄, 랩핑, 조형물, 학교/교육, 아파트/공동주택, 온비드 매체권 전 분야 포괄)
 const TARGET_KEYWORDS = [
   '간판', '사인', '표찰', '현판', '현수막', '배너', '랩핑', '래핑',
   '안내판', '조형물', '실사출력', '인포메이션', '게시대', '가로등배너',
@@ -57,20 +57,27 @@ const TARGET_KEYWORDS = [
   '옥외', '안내시스템', '채널간판', '지주간판', '돌출간판', '아트월',
   '조명탑', '홍보탑', '홍보판', '전광판', '사이니지', '전자게시대',
   '미디어월', '키오스크', 'LED전광판',
-  // 학교 및 교육기관 특화 키워드
+  // 학교 및 교육기관 특화 옥외광고/사인/인쇄/전광판 키워드
   '교표', '교훈판', '학교간판', '교실표찰', '전자현수막', '졸업앨범',
   '학교요람', '학교신문', '학습안내판', '강당전광판', '체육관전광판',
-  '교내안내판', '교문명판', '교실안내도', '학사안내도', '학교홍보',
+  '교내안내판', '교문명판', '교실안내도', '학사안내도', '학교홍보물',
+  '학교표지판', '학습게시판', '강당스크린', '학교현수막',
+  // 아파트 및 공동주택 특화 옥외광고/게시판/승강기미디어 키워드
+  '승강기광고', '엘리베이터TV', '미디어보드', '타운보드',
+  '단지안내판', '아파트간판', '동호수표찰', '아파트게시판', '동대표게시판',
+  '단지표지판', '승강기모니터', '엘리베이터모니터', '단지내안내',
+  '아파트도색', '단지사인물', '주차차단기전광판', '아파트사인',
   // 옥외광고 매체권·임대·사용수익허가 특화 키워드
   '매체권', '사용수익허가', '광고사업자', '광고대행', '매체운영',
   '지하철광고', '쉘터광고', '가로등현수기', '게시대위탁', '야립간판',
   '전광판임대', '광고물관리'
 ];
 
-// 무관한 공고 제외 블랙리스트 키워드
+// 무관한 공고 제외 블랙리스트 키워드 (의료, 전산서버, 보험, 경비, 기자재 등)
 const EXCLUDE_KEYWORDS = [
   '뷰티', '미용', '헤어', '네일', '교복', '실험실습', '기자재', '흡진기',
-  '청소', '경비', '소탁', '수술', '의료기기'
+  '청소', '경비', '소탁', '수술', '의료', '진료재료', '시뮬레이터', '분광기',
+  '로봇', '임차(렌트)', '배상책임보험', '탈수기', '방사선', '전산개발', '통합학사시스템', '클라우드서비스'
 ];
 
 // 예산 한글 변환 함수
@@ -130,21 +137,24 @@ function calculateDDay(endDateStr) {
   }
 }
 
-// 기본 카테고리 매핑 규칙
+// 기본 카테고리 매핑 규칙 (UI 필터 규격과 100% 일치)
 function fallbackCategory(title, client = '') {
   const fullText = `${title} ${client}`;
-  if (/매체권|사용수익허가|광고사업자|광고대행|매체운영|지하철광고|쉘터광고|가로등현수기|게시대위탁|야립간판|전광판임대|광고물관리/.test(fullText)) {
-    return '매체권·임대';
+  if (/매체권|사용수익허가|광고사업자|광고대행|매체운영|지하철광고|쉘터광고|가로등현수기|게시대위탁|야립간판|전광판임대|광고물관리|온비드/.test(fullText)) {
+    return '온비드 공공매체권';
   }
-  if (/학교|초등|중학|고등|대학|교육청|교육지원청|유치원|교표|교훈|졸업앨범|학교요람|학습안내/.test(fullText)) {
-    return '학교·교육';
+  if (/아파트|공동주택|승강기광고|엘리베이터|타운보드|미디어보드|단지안내|동호수표찰|아파트게시판|동대표|관리사무소|입주자대표/.test(fullText)) {
+    return '아파트·승강기광고';
   }
-  if (/사이니지|전광판|전자게시대|미디어월|키오스크/.test(title)) return '디지털사이니지·전광판';
+  if (/학교|초등|중학|고등|대학|교육청|교육지원청|유치원|교표|교훈|졸업앨범|학교요람|학습안내|교내안내/.test(fullText)) {
+    return '초·중·고·대학교';
+  }
+  if (/사이니지|전광판|전자게시대|미디어월|키오스크|LED/.test(title)) return '디지털사이니지·전광판';
   if (/간판|조형물|채널|지주|돌출|LED|조명|아트월|경관/.test(title)) return '간판·조형물';
-  if (/표찰|현판|호실|안내판|안내도|인포메이션|아크릴|안내시설|게시판|사인시스템/.test(title)) return '실내표찰·현판';
+  if (/표찰|현판|호실|안내판|안내도|인포메이션|아크릴|안내시설|게시판|사인시스템/.test(title)) return '간판·조형물';
   if (/랩핑|래핑|차량|버스|도색|스티커/.test(title)) return '차량랩핑·특수';
   if (/현수막|배너|게시대|가로등|실사|현수기|부스|전시/.test(title)) return '현수막·배너';
-  if (/인쇄|홍보물|리플릿|리플렛|포스터|소식지|책자|팜플렛|발간|달력|다이어리|간행물|CI|BI|브랜드|디자인/.test(title)) return '인쇄·판촉';
+  if (/인쇄|홍보물|리플릿|리플렛|포스터|소식지|책자|팜플렛|발간|달력|다이어리|간행물|CI|BI|브랜드|디자인/.test(title)) return '간판·조형물';
   return '간판·조형물';
 }
 
@@ -159,7 +169,7 @@ async function batchAnalyzeChunk(bidsChunk) {
     budget: b.budgetText
   }));
 
-  const prompt = `당신은 옥외광고·사인물·전광판·인쇄·매체권입찰 전문 수석 분석가입니다. 아래 공고 목록을 보고 각 공고의 카테고리(간판·조형물, 디지털사이니지·전광판, 실내표찰·현판, 매체권·임대, 학교·교육, 차량랩핑·특수, 현수막·배너, 인쇄·판촉 중 택1), 사업자용 1줄 요약(aiSummary), 참가 팁(aiTips)을 JSON 배열로 작성해주세요.
+  const prompt = `당신은 옥외광고·사인물·전광판·인쇄·매체권입찰 전문 수석 분석가입니다. 아래 공고 목록을 보고 각 공고의 카테고리(간판·조형물, 디지털사이니지·전광판, 초·중·고·대학교, 아파트·승강기광고, 온비드 공공매체권, 현수막·배너, 차량랩핑·특수 중 택1), 사업자용 1줄 요약(aiSummary), 참가 팁(aiTips)을 JSON 배열로 작성해주세요.
 공고 목록:
 ${JSON.stringify(promptInput)}
 
@@ -271,7 +281,68 @@ async function fetchOnbidBids() {
   return onbidBids;
 }
 
-// 6. 메인 데이터 수집 실행 함수
+// 6. 국토교통부 K-apt(공동주택관리정보시스템) 아파트 옥외광고·승강기·게시판 입찰 수집 함수
+async function fetchKaptBids() {
+  if (!PUBLIC_DATA_API_KEY) return [];
+  const encKey = encodeURIComponent(PUBLIC_DATA_API_KEY);
+  const kaptBids = [];
+
+  const kaptEndpoints = [
+    `http://apis.data.go.kr/1613000/AptBiddingInfoService/getAptBiddingList?serviceKey=${encKey}&numOfRows=100&pageNo=1&_type=json`,
+    `http://apis.data.go.kr/1611000/AptListInfoService/getAptBiddingList?serviceKey=${encKey}&numOfRows=100&pageNo=1&_type=json`
+  ];
+
+  for (const url of kaptEndpoints) {
+    try {
+      const res = await fetch(url, { signal: AbortSignal.timeout(5000) });
+      if (!res.ok) continue;
+      const data = await res.json();
+      const items = data.response?.body?.items?.item || data.response?.body?.items || [];
+      const itemArr = Array.isArray(items) ? items : [items];
+
+      for (const item of itemArr) {
+        if (!item) continue;
+        const title = item.kaptBidNm || item.bidNm || item.bidTitle || '';
+        const client = item.kaptName || item.aptName || '아파트 입주자대표회의/관리사무소';
+        if (
+          TARGET_KEYWORDS.some(kw => title.includes(kw)) &&
+          !EXCLUDE_KEYWORDS.some(ex => title.includes(ex))
+        ) {
+          const endDate = item.bidEndDate || item.bidClseDt || `${todayStr.substring(0,4)}-${todayStr.substring(4,6)}-${todayStr.substring(6,8)} 18:00:00`;
+          const dDay = calculateDDay(endDate);
+          if (dDay < 0) continue;
+
+          const budgetNum = Number(item.estPrice || item.bidAmt || 0);
+          const cleanId = `KAPT-${item.kaptBidNo || item.bidNo || Math.floor(Math.random() * 1000000)}`;
+
+          kaptBids.push({
+            id: cleanId,
+            title: title,
+            client: client,
+            budget: budgetNum,
+            budgetText: formatKoreanCurrency(budgetNum),
+            location: extractLocation(client, title),
+            startDate: item.bidStartDate ? item.bidStartDate.substring(0, 10) : todayStr,
+            endDate: endDate,
+            dDay: dDay,
+            bidType: 'K-apt 아파트 전자입찰',
+            category: '아파트·승강기광고',
+            linkUrl: 'https://www.k-apt.go.kr'
+          });
+        }
+      }
+    } catch (e) {
+      // 연동 대기 또는 API 미제공 시 조용히 넘어감
+    }
+  }
+
+  if (kaptBids.length > 0) {
+    console.log(`📡 K-apt 아파트 옥외광고/게시판 공고 ${kaptBids.length}건 수집 완료!`);
+  }
+  return kaptBids;
+}
+
+// 7. 메인 데이터 수집 실행 함수
 async function fetchLiveBids() {
   const encKey = encodeURIComponent(PUBLIC_DATA_API_KEY);
   const ops = [
@@ -335,6 +406,11 @@ async function fetchLiveBids() {
     console.log(`📡 온비드(OnBid) 공공 매체권 공고 수집 중...`);
     const onbidItems = await fetchOnbidBids();
     rawMatchedBids.push(...onbidItems);
+
+    // K-apt 아파트 공고 추가 수집
+    console.log(`📡 K-apt 아파트 옥외광고/게시판 공고 수집 중...`);
+    const kaptItems = await fetchKaptBids();
+    rawMatchedBids.push(...kaptItems);
   }
 
   // 중복 제거 및 마감 지난 공고 엄격 필터링
@@ -387,9 +463,9 @@ async function fetchLiveBids() {
     const defaultCheckList = {
       licenseRequired: cat.includes('전광판') || cat.includes('사이니지')
         ? '정보통신공사업 또는 옥외광고사업 등록 (필수)'
-        : '옥외광고사업 등록 (필수)',
-      directProduction: cat.includes('매체') || cat.includes('임대')
-        ? '해당 없음 (광고매체 위탁운영)'
+        : (cat.includes('아파트') ? '옥외광고사업 등록 또는 광고대행업 사업자' : '옥외광고사업 등록 (필수)'),
+      directProduction: cat.includes('매체') || cat.includes('임대') || cat.includes('아파트')
+        ? '해당 없음 (광고매체 위탁운영 및 시설설치)'
         : `직접생산확인 [${cat.split('·')[0]}] (필수)`,
       workPeriod: '계약체결일로부터 30~60일 이내',
       warrantyPeriod: '준공검사 완료일로부터 2년 (하자보수 5%)',
@@ -400,7 +476,7 @@ async function fetchLiveBids() {
 
     const defaultTags = [
       '옥외광고업 필수',
-      cat.includes('전광판') ? '직생(전광판)' : `직생(${cat.split('·')[0]})`,
+      cat.includes('전광판') ? '직생(전광판)' : (cat.includes('아파트') ? '아파트단지' : `직생(${cat.split('·')[0]})`),
       b.location === '전국' ? '전국 입찰' : `${b.location} 관내`,
       '하자보증 2년'
     ];

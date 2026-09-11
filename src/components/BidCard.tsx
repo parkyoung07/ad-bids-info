@@ -137,6 +137,51 @@ export default function BidCard({
     );
   };
 
+  // 발주 채널별 고유 색상 및 아이콘 배지 렌더링
+  const renderSourceBadge = () => {
+    const src = bid.source || "조달청 나라장터";
+    if (src.includes("학교장터") || src.includes("S2B")) {
+      return (
+        <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-300 bg-emerald-500/15 px-2 py-0.5 rounded border border-emerald-500/30">
+          🏫 학교장터(S2B)
+        </span>
+      );
+    }
+    if (src.includes("K-apt") || src.includes("공동주택") || src.includes("아파트")) {
+      return (
+        <span className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-300 bg-amber-500/15 px-2 py-0.5 rounded border border-amber-500/30">
+          🏢 K-apt 아파트
+        </span>
+      );
+    }
+    if (src.includes("온비드") || src.includes("OnBid")) {
+      return (
+        <span className="inline-flex items-center gap-1 text-[11px] font-bold text-purple-300 bg-purple-500/15 px-2 py-0.5 rounded border border-purple-500/30">
+          💎 캠코 온비드
+        </span>
+      );
+    }
+    if (src.includes("협회") || src.includes("AKOAM")) {
+      return (
+        <span className="inline-flex items-center gap-1 text-[11px] font-bold text-cyan-300 bg-cyan-500/15 px-2 py-0.5 rounded border border-cyan-500/30">
+          📢 옥외광고협회
+        </span>
+      );
+    }
+    if (src.includes("LH")) {
+      return (
+        <span className="inline-flex items-center gap-1 text-[11px] font-bold text-indigo-300 bg-indigo-500/15 px-2 py-0.5 rounded border border-indigo-500/30">
+          🏗️ LH 전자조달
+        </span>
+      );
+    }
+    return (
+      <span className="inline-flex items-center gap-1 text-[11px] font-medium text-blue-300 bg-blue-500/15 px-2 py-0.5 rounded border border-blue-500/30">
+        🏛️ 조달청 나라장터
+      </span>
+    );
+  };
+
   return (
     <div
       className={`bg-slate-900/90 hover:bg-slate-900 border rounded-xl p-4 sm:p-5 transition-all duration-200 shadow-sm hover:shadow-md flex flex-col justify-between group relative ${
@@ -149,14 +194,12 @@ export default function BidCard({
           <div className="flex flex-wrap items-center gap-1.5">
             {renderStatusBadge()}
 
-            {/* 출처 배지 */}
-            <span className="text-[11px] font-medium text-slate-300 bg-slate-800/90 px-2 py-0.5 rounded border border-slate-700/60">
-              {bid.source || "조달청 나라장터"}
-            </span>
+            {/* 출처 배지 (채널별 전용 배지) */}
+            {renderSourceBadge()}
 
             {/* SignBid 자체 업종 분류 명시 배지 */}
-            <span className="text-[11px] font-bold text-blue-300 bg-blue-500/10 px-2 py-0.5 rounded border border-blue-400/20">
-              SignBid 업종 분류: {bid.category}
+            <span className="text-[11px] font-bold text-slate-300 bg-slate-800/90 px-2 py-0.5 rounded border border-slate-700/60">
+              {bid.category}
             </span>
 
             {/* 지역 */}

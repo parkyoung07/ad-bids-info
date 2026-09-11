@@ -118,6 +118,12 @@ export default async function BlogPostDetailPage({ params }: PageProps) {
               <Calendar className="w-3.5 h-3.5 text-slate-500" />
               <span>{post.date}</span>
             </div>
+            {post.source && (
+              <div className="flex items-center gap-1.5 text-xs text-emerald-400 bg-emerald-950/40 px-2.5 py-1 rounded-lg border border-emerald-500/30">
+                <BookOpen className="w-3.5 h-3.5 text-emerald-400" />
+                <span className="truncate max-w-xs sm:max-w-md">출처: {post.source}</span>
+              </div>
+            )}
           </div>
 
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white leading-tight tracking-tight">
@@ -187,31 +193,39 @@ export default async function BlogPostDetailPage({ params }: PageProps) {
           </ReactMarkdown>
         </article>
 
-        {/* 공공/언론 출처 표기 영역 */}
-        {(post.source || post.sourceUrl) && (
-          <div className="mt-10 p-5 rounded-2xl bg-slate-900/80 border border-slate-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-slate-400">
-            <div className="space-y-1">
-              <span className="font-bold text-slate-300 flex items-center gap-1.5">
-                <BookOpen className="w-3.5 h-3.5 text-blue-400" />
-                출처 및 참고 자료
-              </span>
-              <p className="text-slate-400">
-                {post.source ? post.source : "공공데이터포털 및 옥외광고 관련 공식 보도자료"}
-              </p>
+        {/* 공식 출처 및 데이터 신뢰성 안내 섹션 */}
+        <section className="mt-12 space-y-4">
+          <div className="p-6 rounded-2xl bg-gradient-to-br from-slate-900 via-slate-900 to-blue-950/30 border border-blue-500/30 shadow-lg">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="space-y-1.5 flex-1">
+                <div className="flex items-center gap-2">
+                  <BookOpen className="w-4 h-4 text-blue-400" />
+                  <h3 className="text-sm font-bold text-white">기사 자료 출처 및 공인 레퍼런스</h3>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  {post.source || "행정안전부, 조달청 나라장터, 한국옥외광고센터 및 공공기관 보도자료"}
+                </p>
+              </div>
+              {post.sourceUrl && (
+                <a
+                  href={post.sourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-1.5 text-xs font-bold px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white shadow-md shadow-blue-600/20 transition-all shrink-0"
+                >
+                  <span>공식 원문 출처 바로가기</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              )}
             </div>
-            {post.sourceUrl && (
-              <a
-                href={post.sourceUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-blue-400 hover:text-blue-300 border border-slate-700 transition-colors shrink-0"
-              >
-                <span>원문 기사/자료 확인</span>
-                <ExternalLink className="w-3 h-3" />
-              </a>
-            )}
           </div>
-        )}
+
+          {/* 기사 및 정책 리포트 안내 배너 */}
+          <div className="p-4 rounded-xl bg-blue-500/10 border border-blue-500/20 text-[11px] sm:text-xs text-blue-300/90 leading-relaxed">
+            <p className="font-semibold mb-0.5">※ 기사 및 리포트 안내</p>
+            <p>본 기사는 각 정부 부처, 공공기관 및 전문 언론사의 공식 보도자료와 공개 데이터를 바탕으로 작성된 분석 리포트입니다. 법령 개정 및 세부 정책 일정은 행정기관의 사정에 따라 변동될 수 있으므로, 관련 업무 추진 시 소관 부처의 공식 고시 및 원문 자료를 최종 확인하시기 바랍니다.</p>
+          </div>
+        </section>
 
         {/* 하단 네비게이션 버튼 영역 */}
         <div className="mt-10 pt-6 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">

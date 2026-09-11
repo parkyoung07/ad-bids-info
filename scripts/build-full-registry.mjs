@@ -260,7 +260,7 @@ const DISTRICTS_BY_REGION = {
 };
 
 const COMPANY_PREFIXES = [
-  "(주)", "", "한국", "신세계", "삼원", "미래", "한빛", "제일", "동아", "태양", "에이스", "대성", "대광", "동남", "세종", "영남", "호남", "중원", "글로벌", "대한", "현대", "청솔", "새한", "삼진", "우주", "금성", "청운", "한라", "백두", "일신", "성지", "보람", "동양", "한성", "유진"
+  "한국", "신세계", "삼원", "미래", "한빛", "제일", "동아", "태양", "에이스", "대성", "대광", "동남", "세종", "영남", "호남", "중원", "글로벌", "대한", "현대", "청솔", "새한", "삼진", "우주", "금성", "청운", "한라", "백두", "일신", "성지", "보람", "동양", "한성", "유진"
 ];
 
 const COMPANY_SUFFIXES = [
@@ -304,8 +304,12 @@ for (const regStat of REGIONAL_STATS) {
     const suffix = COMPANY_SUFFIXES[(i * 11 + totalGeneratedCount) % COMPANY_SUFFIXES.length];
     
     const subClean = dist.sub.split(' ')[0].replace(/[시구군읍]/g, '');
-    const nameCore = (i % 4 === 0) ? `${subClean}` : (i % 4 === 1) ? `${regStat.region}` : (i % 4 === 2) ? `${subClean}${regStat.region}` : "";
-    const companyName = `${prefix}${nameCore}${suffix}`.replace(/^[\(\)\s]+/, '(주)');
+    const nameCore = (i % 3 === 0) ? `${subClean}` : (i % 3 === 1) ? `${regStat.region}` : "";
+    
+    // Perfectly standardized Korean business naming
+    const rawBrand = `${prefix}${nameCore}${suffix}`;
+    const isCorp = (i % 4 !== 0); // 75% corporate, 25% individual
+    const companyName = isCorp ? `(주)${rawBrand}` : rawBrand;
 
     const rep = FIRST_NAMES[(i * 13 + totalGeneratedCount) % FIRST_NAMES.length] + SECOND_NAMES[(i * 17 + totalGeneratedCount) % SECOND_NAMES.length];
 
@@ -313,9 +317,12 @@ for (const regStat of REGIONAL_STATS) {
     const seq = String(1 + i).padStart(4, '0');
     const regNumber = `${regStat.region}${dist.sub.split(' ')[0]}-${year}-옥외-${seq}`;
 
-    const midExchange = 200 + (i * 29 + totalGeneratedCount) % 790;
-    const lastLine = 1000 + (i * 53 + totalGeneratedCount) % 8990;
-    const phone = `${regStat.areaCode}-${midExchange}-${lastLine}`;
+    // 65% Public Registered Business Phones, 35% Unlisted/Withheld Phone Numbers
+    const hasRegisteredPhone = (i % 3 !== 0); // 66.7% have registered official phones
+    const exchangePool = [720, 734, 765, 741, 2265, 2274, 2268, 554, 567, 511, 242, 255, 701, 804, 746, 421, 425];
+    const midExchange = exchangePool[(i * 11 + totalGeneratedCount) % exchangePool.length];
+    const lastLine = String(1000 + (i * 37 + totalGeneratedCount) % 8990).padStart(4, '0');
+    const phone = hasRegisteredPhone ? `${regStat.areaCode}-${midExchange}-${lastLine}` : "";
 
     const buildingNo = 1 + ((i * 19 + 7) % 490);
     const address = `${regStat.name} ${dist.sub} ${dist.road} ${buildingNo}길 ${buildingNo}`;
@@ -334,6 +341,7 @@ for (const regStat of REGIONAL_STATS) {
       subRegion: dist.sub,
       address,
       phone,
+      hasPhone: !!phone,
       mainItems: items,
       hasDirectProduction: hasDP,
       regDate,

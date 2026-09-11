@@ -250,7 +250,7 @@ const DISTRICTS_BY_REGION = {
 };
 
 const COMPANY_PREFIXES = [
-  "(주)", "", "한국", "신세계", "삼원", "미래", "한빛", "제일", "동아", "태양", "에이스", "대성", "대광", "동남", "세종", "영남", "호남", "중원", "글로벌", "대한", "현대"
+  "한국", "신세계", "삼원", "미래", "한빛", "제일", "동아", "태양", "에이스", "대성", "대광", "동남", "세종", "영남", "호남", "중원", "글로벌", "대한", "현대"
 ];
 
 const COMPANY_SUFFIXES = [
@@ -285,13 +285,16 @@ function generateBusinessList() {
 
     for (let i = 0; i < targetCount; i++) {
       const dist = districts[i % districts.length];
-      const prefix = COMPANY_PREFIXES[(idCounter * 7) % COMPANY_PREFIXES.length];
+      const prefix = COMPANY_PREFIXES[(idCounter * 7) % COMPANY_PREFIXES.length].replace(/[\(\)\s]/g, '');
       const suffix = COMPANY_SUFFIXES[(idCounter * 11) % COMPANY_SUFFIXES.length];
       
       const regionPure = regStat.region;
       const subPure = dist.sub.replace(/[시구군읍]/g, '');
       const nameRoot = i % 3 === 0 ? `${dist.sub.split(' ')[0]}` : i % 3 === 1 ? `${regionPure}` : "";
-      const companyName = `${prefix}${nameRoot}${suffix}`.replace(/^[\(\)\s]+/, '(주)');
+      
+      const baseName = `${prefix}${nameRoot}${suffix}`.replace(/[\(\)\s]/g, '');
+      const isCorp = (idCounter % 3 === 0);
+      const companyName = isCorp ? `(주)${baseName}` : baseName;
 
       const rep = FIRST_NAMES[(idCounter * 13) % FIRST_NAMES.length] + SECOND_NAMES[(idCounter * 17) % SECOND_NAMES.length];
 
@@ -300,11 +303,12 @@ function generateBusinessList() {
       const regSeq = String(10 + (idCounter * 7) % 890).padStart(4, '0');
       const regNumber = `${regStat.region}${dist.sub.split(' ')[0]}-${year}-옥외-${regSeq}`;
 
-      // Realistic Phone Number with Authentic Area Code (NO masked XXXX)
-      // e.g. 02-734-8891, 054-432-6110, 031-236-8090
-      const midExchange = 200 + (idCounter * 23) % 790;
-      const lastLine = 1000 + (idCounter * 47) % 8990;
-      const phone = `${regStat.areaCode}-${midExchange}-${lastLine}`;
+      // 65% Public Registered Business Phones, 35% Unlisted/Withheld Phone Numbers
+      const hasRegisteredPhone = (idCounter % 3 !== 0);
+      const exchangePool = [720, 734, 765, 741, 2265, 2274, 2268, 554, 567, 511, 242, 255, 701, 804, 746, 421, 425];
+      const midExchange = exchangePool[(idCounter * 11) % exchangePool.length];
+      const lastLine = String(1000 + (idCounter * 37) % 8990).padStart(4, '0');
+      const phone = hasRegisteredPhone ? `${regStat.areaCode}-${midExchange}-${lastLine}` : "";
 
       // Road address
       const buildingNo = 10 + (idCounter * 19) % 350;
@@ -325,6 +329,7 @@ function generateBusinessList() {
         subRegion: dist.sub,
         address,
         phone,
+        hasPhone: !!phone,
         mainItems: items,
         hasDirectProduction: hasDP,
         regDate,

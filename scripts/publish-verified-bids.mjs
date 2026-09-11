@@ -47,12 +47,23 @@ function formatKoreanCurrency(amount) {
   return `${result.trim()}원`;
 }
 
-function determineOutdoorCategory(title) {
+function determineOutdoorCategory(title, client = '') {
+  const fullText = `${title} ${client}`;
+  if (/온비드|매체권|사용수익허가|광고사업자|광고대행|매체운영|지하철광고|쉘터광고|가로등현수기|게시대위탁|야립간판|전광판임대|광고물관리/.test(fullText)) {
+    return '온비드 공공매체권';
+  }
+  if (/아파트|공동주택|승강기광고|엘리베이터|타운보드|미디어보드|단지안내|동호수표찰|아파트게시판|동대표|관리사무소|입주자대표/.test(fullText)) {
+    return '아파트·승강기광고';
+  }
+  if (/학교|초등|중학|고등|대학|교육청|교육지원청|유치원|교표|교훈|졸업앨범|학교요람|학습안내|교내안내/.test(fullText)) {
+    return '초·중·고·대학교';
+  }
   if (/전광판|사이니지|전자게시대|미디어월|키오스크|LED/.test(title)) return '디지털사이니지·전광판';
   if (/간판|지주간판|돌출간판|채널간판|아치조형물|상징조형물|조형물/.test(title)) return '간판·조형물';
-  if (/안내판|안내도|표지판|교통표지판|표찰|현판|사인물|안내시스템/.test(title)) return '안내판·사인물';
+  if (/안내판|안내도|표지판|교통표지판|표찰|현판|사인물|안내시스템/.test(title)) return '간판·조형물';
   if (/현수막|가로등배너|지정게시대|현수기/.test(title)) return '현수막·배너';
-  return '옥외광고·사인물';
+  if (/랩핑|래핑|차량|버스|도색|스티커/.test(title)) return '차량랩핑·특수';
+  return '간판·조형물';
 }
 
 async function publishVerifiedDirectBids() {
@@ -132,7 +143,7 @@ async function publishVerifiedDirectBids() {
   const publicBids = finalizedDirectBids.map((b) => {
     const norm = b.normalized;
     const raw = b.raw.mainApi;
-    const cat = determineOutdoorCategory(norm.title);
+    const cat = determineOutdoorCategory(norm.title, norm.client);
     const dDay = calculateDDay(norm.bidCloseDate);
     const budgetNum = norm.allocatedBudget || 0;
 

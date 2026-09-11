@@ -10,8 +10,6 @@ import {
   Award,
   RefreshCw,
   AlertCircle,
-  HelpCircle,
-  UserCheck,
 } from "lucide-react";
 import {
   evaluateQualification,
@@ -22,7 +20,7 @@ import {
 interface BidSimulatorProps {
   location: string;
   category: string;
-  bidTitle: string;
+  bidTitle?: string;
 }
 
 const STORAGE_KEY = "ad_bids_company_profile";
@@ -30,7 +28,6 @@ const STORAGE_KEY = "ad_bids_company_profile";
 export default function BidSimulator({
   location,
   category,
-  bidTitle,
 }: BidSimulatorProps) {
   // 사용자가 등록한 회사 정보가 있는지 여부
   const [isRegistered, setIsRegistered] = useState(false);
@@ -42,21 +39,24 @@ export default function BidSimulator({
 
   // 로컬 스토리지에서 프로필 불러오기
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (parsed && typeof parsed === "object") {
-          setIsRegistered(true);
-          setHasLicense(!!parsed.hasLicense);
-          setHasDirectProduction(!!parsed.hasDirectProduction);
-          setHasLocationMatch(!!parsed.hasLocationMatch);
-          setHasPastExperience(!!parsed.hasPastExperience);
+    const timer = setTimeout(() => {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (parsed && typeof parsed === "object") {
+            setIsRegistered(true);
+            setHasLicense(!!parsed.hasLicense);
+            setHasDirectProduction(!!parsed.hasDirectProduction);
+            setHasLocationMatch(!!parsed.hasLocationMatch);
+            setHasPastExperience(!!parsed.hasPastExperience);
+          }
         }
+      } catch {
+        // fallback
       }
-    } catch {
-      // fallback
-    }
+    }, 0);
+    return () => clearTimeout(timer);
   }, []);
 
   const profile: QualificationProfile | null = useMemo(() => {

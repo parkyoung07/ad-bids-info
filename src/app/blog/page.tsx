@@ -104,10 +104,18 @@ export default function BlogListPage() {
                 {/* 포스트 메타 및 내용 */}
                 <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between">
                   <div>
-                    {/* 날짜 */}
-                    <div className="flex items-center gap-2 text-xs text-slate-400 mb-2.5">
-                      <Calendar className="w-3.5 h-3.5 text-slate-500" />
-                      <span>{post.date}</span>
+                    {/* 날짜 및 출처 */}
+                    <div className="flex items-center justify-between gap-2 text-xs text-slate-400 mb-2.5">
+                      <div className="flex items-center gap-1.5">
+                        <Calendar className="w-3.5 h-3.5 text-slate-500" />
+                        <span>{post.date}</span>
+                      </div>
+                      {post.source && (
+                        <div className="flex items-center gap-1 text-[11px] text-emerald-400 bg-emerald-950/40 px-2 py-0.5 rounded border border-emerald-500/20 truncate max-w-[150px]">
+                          <BookOpen className="w-3 h-3 shrink-0 text-emerald-400" />
+                          <span className="truncate">{post.source}</span>
+                        </div>
+                      )}
                     </div>
 
                     {/* 제목 */}
@@ -142,7 +150,7 @@ export default function BlogListPage() {
                     )}
 
                     <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs font-semibold text-blue-400 group-hover:text-blue-300">
-                      <span>전문 읽기</span>
+                      <span>전문 읽기 및 출처 확인</span>
                       <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                     </div>
                   </div>
@@ -151,6 +159,12 @@ export default function BlogListPage() {
             ))}
           </div>
         )}
+
+        {/* 기사 및 정책 리포트 안내 배너 */}
+        <div className="mt-12 p-4 rounded-2xl bg-slate-900/60 border border-slate-800 text-center text-xs text-slate-400">
+          <p className="font-semibold text-slate-300 mb-1">※ 기사 및 리포트 안내</p>
+          <p>본 트렌드 분석 및 기사는 정부 부처, 공공기관 및 옥외광고 전문 언론사의 공식 보도자료를 바탕으로 작성되었습니다. 세부 정책 일정 및 법령 개정 사항은 소관 부처의 공식 고시를 최종 확인하시기 바랍니다.</p>
+        </div>
       </main>
     </div>
   );

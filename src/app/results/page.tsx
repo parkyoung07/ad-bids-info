@@ -1,15 +1,9 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import Link from "next/link";
 import {
-  BarChart3,
   Search,
-  Users,
-  Percent,
-  Banknote,
   AlertCircle,
-  Building2,
   HelpCircle,
   X,
   Info,

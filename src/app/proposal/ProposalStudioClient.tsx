@@ -2,21 +2,12 @@
 
 import React, { useState, useMemo } from "react";
 import {
-  Sparkles,
   FileText,
   Presentation,
   Check,
   Copy,
-  Download,
-  Printer,
-  ChevronRight,
-  Sliders,
-  CheckCircle2,
-  RefreshCw,
   AlertCircle,
-  ShieldCheck,
   Building,
-  Info,
 } from "lucide-react";
 
 interface BidItem {
@@ -55,11 +46,11 @@ export default function ProposalStudioClient({
   const [selectedBidId, setSelectedBidId] = useState<string>(
     initialBids[0]?.id || "custom"
   );
-  const [customTitle, setCustomTitle] = useState("2026년도 시가지 옥외 간판개선 및 LED 조형물 제작설치 사업");
-  const [customClient, setCustomClient] = useState("경상북도 김천시청");
-  const [customBudget, setCustomBudget] = useState(85000000);
-  const [customCategory, setCustomCategory] = useState("간판·조형물");
-  const [customLocation, setCustomLocation] = useState("경북 김천시");
+  const customTitle = "2026년도 시가지 옥외 간판개선 및 LED 조형물 제작설치 사업";
+  const customClient = "경상북도 김천시청";
+  const customBudget = 85000000;
+  const customCategory = "간판·조형물";
+  const customLocation = "경북 김천시";
 
   // 사용자가 직접 입력하는 회사 사실정보
   const [companyName, setCompanyName] = useState("");

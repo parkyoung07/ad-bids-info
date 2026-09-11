@@ -11,9 +11,9 @@ interface RawBid {
   verifierId: string | null;
   isPublicLocked: boolean;
   raw: {
-    mainApi: any;
-    regionApi: any[];
-    chgHstryApi: any[];
+    mainApi: Record<string, unknown>;
+    regionApi: Record<string, unknown>[];
+    chgHstryApi: Record<string, unknown>[];
   };
   normalized: {
     bidNo: string;
@@ -66,7 +66,7 @@ export default function AdminVerifyClient() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState('');
-  const [adminUser, setAdminUser] = useState<any>(null);
+  const [adminUser, setAdminUser] = useState<{ id: string; username: string; role: string; csrfToken?: string } | null>(null);
 
   const [bids, setBids] = useState<RawBid[]>([]);
   const [selectedBid, setSelectedBid] = useState<RawBid | null>(null);
@@ -75,11 +75,17 @@ export default function AdminVerifyClient() {
   const [actionLoading, setActionLoading] = useState(false);
   const [notification, setNotification] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
-  // 1. 초기 인증 상태 및 데이터 로드
-  useEffect(() => {
-    checkAuth();
-    loadBids();
-  }, []);
+  const loadAuditLogs = async () => {
+    try {
+      const res = await fetch('/api/admin/audit-logs');
+      if (res.ok) {
+        const data = await res.json();
+        setAuditLogs(data.logs || []);
+      }
+    } catch {
+      // safe fallback
+    }
+  };
 
   const checkAuth = async () => {
     try {
@@ -92,7 +98,7 @@ export default function AdminVerifyClient() {
       } else {
         setIsAuthenticated(false);
       }
-    } catch (e) {
+    } catch {
       setIsAuthenticated(false);
     }
   };
@@ -119,15 +125,20 @@ export default function AdminVerifyClient() {
     }
   };
 
-  const loadAuditLogs = async () => {
-    try {
-      const res = await fetch('/api/admin/audit-logs');
-      if (res.ok) {
-        const data = await res.json();
-        setAuditLogs(data.logs || []);
+  // 1. 초기 인증 상태 및 데이터 로드
+  useEffect(() => {
+    let isMounted = true;
+    const init = async () => {
+      await checkAuth();
+      if (isMounted) {
+        await loadBids();
       }
-    } catch (e) {}
-  };
+    };
+    init();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -146,8 +157,9 @@ export default function AdminVerifyClient() {
       } else {
         setLoginError(data.message || '인증 실패');
       }
-    } catch (e: any) {
-      setLoginError(e.message || '서버 통신 오류');
+    } catch (e: unknown) {
+      const err = e instanceof Error ? e.message : '서버 통신 오류';
+      setLoginError(err);
     }
   };
 
@@ -208,8 +220,9 @@ export default function AdminVerifyClient() {
       } else {
         setNotification({ type: 'error', message: data.message || '검수 처리 실패' });
       }
-    } catch (e: any) {
-      setNotification({ type: 'error', message: e.message || '요청 실패' });
+    } catch (e: unknown) {
+      const err = e instanceof Error ? e.message : '요청 실패';
+      setNotification({ type: 'error', message: err });
     } finally {
       setActionLoading(false);
     }
@@ -435,14 +448,14 @@ export default function AdminVerifyClient() {
                           <td className="p-3 text-white font-semibold">
                             {selectedBid.normalized.allocatedBudget ? `${selectedBid.normalized.allocatedBudget.toLocaleString()}원` : <span className="text-slate-500">null (미기재)</span>}
                           </td>
-                          <td className="p-3 font-mono text-slate-400">{selectedBid.raw.mainApi.asignBdgtAmt || selectedBid.raw.mainApi.bdgtAmt || 'null'}</td>
+                          <td className="p-3 font-mono text-slate-400">{String(selectedBid.raw.mainApi.asignBdgtAmt || selectedBid.raw.mainApi.bdgtAmt || 'null')}</td>
                         </tr>
                         <tr>
                           <td className="p-3 font-medium text-slate-300">추정가격 (presmptPrce)</td>
                           <td className="p-3 text-white font-semibold">
                             {selectedBid.normalized.estimatedPrice ? `${selectedBid.normalized.estimatedPrice.toLocaleString()}원` : <span className="text-slate-500">null (미기재)</span>}
                           </td>
-                          <td className="p-3 font-mono text-slate-400">{selectedBid.raw.mainApi.presmptPrce || 'null'}</td>
+                          <td className="p-3 font-mono text-slate-400">{String(selectedBid.raw.mainApi.presmptPrce || 'null')}</td>
                         </tr>
                         <tr>
                           <td className="p-3 font-medium text-slate-300">기초금액 (baseAmount)</td>
@@ -459,18 +472,18 @@ export default function AdminVerifyClient() {
                             </span>
                           </td>
                           <td className="p-3 font-mono text-slate-400">
-                            {selectedBid.raw.regionApi?.length > 0 ? selectedBid.raw.regionApi.map((r: any) => r.regionName).join(', ') : '전체 4,469건 인덱스 내 0건 (전국)'}
+                            {selectedBid.raw.regionApi?.length > 0 ? selectedBid.raw.regionApi.map((r: Record<string, unknown>) => String(r.regionName || '')).join(', ') : '전체 4,469건 인덱스 내 0건 (전국)'}
                           </td>
                         </tr>
                         <tr>
                           <td className="p-3 font-medium text-slate-300">입찰 마감일시</td>
                           <td className="p-3 text-white font-mono">{selectedBid.normalized.endDate || 'null'}</td>
-                          <td className="p-3 font-mono text-slate-400">{selectedBid.raw.mainApi.bidClseDt || 'null'}</td>
+                          <td className="p-3 font-mono text-slate-400">{String(selectedBid.raw.mainApi.bidClseDt || 'null')}</td>
                         </tr>
                         <tr>
                           <td className="p-3 font-medium text-slate-300">계약체결방법</td>
                           <td className="p-3 text-white">{selectedBid.normalized.contractMethod || 'null'}</td>
-                          <td className="p-3 font-mono text-slate-400">{selectedBid.raw.mainApi.cntrctCnclsMthdNm || 'null'}</td>
+                          <td className="p-3 font-mono text-slate-400">{String(selectedBid.raw.mainApi.cntrctCnclsMthdNm || 'null')}</td>
                         </tr>
                       </tbody>
                     </table>

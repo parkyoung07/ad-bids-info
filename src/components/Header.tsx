@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -64,7 +64,7 @@ const NAV_SECTIONS: NavSection[] = [
     title: "협력사",
     icon: <Users2 className="w-4 h-4 text-emerald-400" />,
     items: [
-      { title: "협력사 검색", href: "/partners", desc: "검증 절차 준비 안내 및 데이터 구조" },
+      { title: "협력사 검색", href: "/partners", desc: "전국 17개 시·도 공공등록 옥외광고 협력사 실시간 검색" },
       { title: "외주·시공 요청", href: "/partners", desc: "스카이·가공·현지시공 협업" },
       { title: "공동수급 파트너", href: "/partners", desc: "지역의무 및 복합면허 파트너" },
     ],
@@ -98,11 +98,12 @@ export default function Header() {
     }, 150);
   };
 
-  // 라우트 변경 시 모바일 메뉴 닫기
-  useEffect(() => {
+  const [prevPathname, setPrevPathname] = useState(pathname);
+  if (prevPathname !== pathname) {
+    setPrevPathname(pathname);
     setMobileMenuOpen(false);
     setOpenDropdown(null);
-  }, [pathname]);
+  }
 
   return (
     <header className="sticky top-0 z-50 bg-slate-900/98 backdrop-blur-md border-b border-slate-800 shadow-md">

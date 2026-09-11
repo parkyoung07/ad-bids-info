@@ -1,11 +1,8 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
-import Link from "next/link";
 import {
   Search,
-  Building2,
-  Calendar,
   Clock,
   Flame,
   FileText,
@@ -39,14 +36,20 @@ export default function HomePage() {
 
   // 로컬스토리지 북마크 불러오기
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem("ad_bids_bookmarks");
-      if (saved) {
-        setBookmarkedIds(JSON.parse(saved));
+    const timer = setTimeout(() => {
+      try {
+        const saved = localStorage.getItem("ad_bids_bookmarks");
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed)) {
+            setBookmarkedIds(parsed);
+          }
+        }
+      } catch {
+        // fallback
       }
-    } catch {
-      // fallback
-    }
+    }, 0);
+    return () => clearTimeout(timer);
   }, []);
 
   const handleToggleBookmark = (id: string) => {
@@ -134,9 +137,14 @@ export default function HomePage() {
         if (filters.budgetRange === "under100m" && bid.budget > 100000000) return false;
         if (filters.budgetRange === "over100m" && bid.budget < 100000000) return false;
 
-        // 6. 출처 필터
+        // 6. 출처(발주 채널) 필터
         if (filters.sourceOrigin && filters.sourceOrigin !== "all") {
-          if (bid.source !== filters.sourceOrigin) return false;
+          const src = bid.source || "";
+          if (filters.sourceOrigin === "g2b" && !src.includes("나라장터")) return false;
+          if (filters.sourceOrigin === "s2b" && !src.includes("학교장터") && !src.includes("S2B")) return false;
+          if (filters.sourceOrigin === "kapt" && !src.includes("K-apt") && !src.includes("공동주택") && !src.includes("아파트")) return false;
+          if (filters.sourceOrigin === "onbid" && !src.includes("온비드") && !src.includes("OnBid")) return false;
+          if (filters.sourceOrigin === "assoc_lh" && !src.includes("협회") && !src.includes("LH")) return false;
         }
 
         // 7. 검색어 필터
@@ -168,6 +176,17 @@ export default function HomePage() {
       });
   }, [currentTabBids, filters, searchQuery, sortBy]);
 
+  // 채널별 실시간 진행 공고 통계
+  const channelStats = useMemo(() => {
+    return {
+      g2b: activeVerifiedBids.filter(b => (b.source || "").includes("나라장터")).length,
+      s2b: activeVerifiedBids.filter(b => (b.source || "").includes("학교장터") || (b.source || "").includes("S2B")).length,
+      kapt: activeVerifiedBids.filter(b => (b.source || "").includes("K-apt") || (b.source || "").includes("공동주택") || (b.source || "").includes("아파트")).length,
+      onbid: activeVerifiedBids.filter(b => (b.source || "").includes("온비드") || (b.source || "").includes("OnBid")).length,
+      assoc_lh: activeVerifiedBids.filter(b => (b.source || "").includes("협회") || (b.source || "").includes("LH")).length,
+    };
+  }, [activeVerifiedBids]);
+
   return (
     <div className="flex-1 flex flex-col">
       {/* 히어로 섹션 */}
@@ -176,7 +195,7 @@ export default function HomePage() {
           {/* 상단 신뢰 배지 */}
           <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-slate-950 border border-slate-700 text-slate-300 text-xs font-semibold shadow-sm">
             <ShieldCheck className="w-3.5 h-3.5 text-cyan-400" />
-            <span>조달청 나라장터 공식 Open API 연계 · 옥외광고 입찰 정보</span>
+            <span>대한민국 8대 발주처 실시간 통합 연동 · 옥외광고 전문 입찰 알리미</span>
           </div>
 
           {/* 메인 헤드라인 */}
@@ -190,7 +209,7 @@ export default function HomePage() {
 
           {/* 보조 설명 */}
           <p className="text-xs sm:text-sm text-slate-300 max-w-2xl mx-auto leading-relaxed">
-            나라장터 공식 공고를 수집하고, 마감일자와 발주정보를 투명하게 제공합니다.
+            조달청 나라장터, 학교장터(S2B), K-apt 아파트, 온비드, 협회/LH 공고를 매일 실시간 수집·분석합니다.
           </p>
 
           {/* 통합 검색창 */}
@@ -249,19 +268,28 @@ export default function HomePage() {
             </button>
           </div>
 
-          {/* 공고 집계 통계 요약 바 (정확한 실시간 집계) */}
-          <div className="pt-2 flex flex-wrap items-center justify-center gap-3 text-xs text-slate-400">
-            <div className="flex items-center gap-1.5 bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800">
-              <FileText className="w-3.5 h-3.5 text-blue-400" />
-              <span>실시간 진행 공고: <strong className="text-white font-bold">{activeVerifiedBids.length}건</strong></span>
+          {/* 8대 채널별 실시간 수집 현황 띠 배너 */}
+          <div className="pt-3 flex flex-wrap items-center justify-center gap-2 text-xs">
+            <span className="text-[11px] font-bold text-slate-400 px-2 py-1">발주처별 공고:</span>
+            <div className="inline-flex items-center gap-1 bg-slate-950 px-2.5 py-1 rounded-lg border border-blue-500/30 text-blue-300">
+              <span>🏛️ 나라장터</span>
+              <strong className="text-white font-black">{channelStats.g2b}건</strong>
             </div>
-            <div className="flex items-center gap-1.5 bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800">
-              <Flame className="w-3.5 h-3.5 text-rose-400" />
-              <span>마감 임박 (D-3 이내): <strong className="text-rose-400 font-bold">{todayUrgentCount}건</strong></span>
+            <div className="inline-flex items-center gap-1 bg-slate-950 px-2.5 py-1 rounded-lg border border-emerald-500/30 text-emerald-300">
+              <span>🏫 학교장터(S2B)</span>
+              <strong className="text-white font-black">{channelStats.s2b}건</strong>
             </div>
-            <div className="flex items-center gap-1.5 bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800 text-slate-400">
-              <Clock className="w-3.5 h-3.5 text-cyan-400" />
-              <span>수집 기준: <strong className="text-slate-300 font-medium">조달청 나라장터 API 실시간 동기화</strong></span>
+            <div className="inline-flex items-center gap-1 bg-slate-950 px-2.5 py-1 rounded-lg border border-amber-500/30 text-amber-300">
+              <span>🏢 K-apt 아파트</span>
+              <strong className="text-white font-black">{channelStats.kapt}건</strong>
+            </div>
+            <div className="inline-flex items-center gap-1 bg-slate-950 px-2.5 py-1 rounded-lg border border-purple-500/30 text-purple-300">
+              <span>💎 온비드</span>
+              <strong className="text-white font-black">{channelStats.onbid}건</strong>
+            </div>
+            <div className="inline-flex items-center gap-1 bg-slate-950 px-2.5 py-1 rounded-lg border border-indigo-500/30 text-indigo-300">
+              <span>📢 협회·LH</span>
+              <strong className="text-white font-black">{channelStats.assoc_lh}건</strong>
             </div>
           </div>
         </div>
