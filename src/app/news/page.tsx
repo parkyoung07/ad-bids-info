@@ -17,8 +17,7 @@ import {
   Building,
   Radio,
   BookOpen,
-  X,
-  FileText,
+  Info,
 } from "lucide-react";
 
 interface NewsItem {
@@ -47,7 +46,6 @@ export default function NewsPage() {
   const [selectedCategory, setSelectedCategory] = useState("전체");
   const [searchQuery, setSearchQuery] = useState("");
   const [copiedId, setCopiedId] = useState<string | null>(null);
-  const [activeModalItem, setActiveModalItem] = useState<NewsItem | null>(null);
 
   useEffect(() => {
     fetch("/data/news.json")
@@ -92,7 +90,10 @@ export default function NewsPage() {
     filteredArticles.length > 1 ? filteredArticles.slice(1) : [];
 
   const handleShare = (item: NewsItem, e?: React.MouseEvent) => {
-    if (e) e.stopPropagation();
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     const shareUrl = item.internalBlogSlug
       ? `${window.location.origin}/blog/${item.internalBlogSlug}`
       : item.link || window.location.href;
@@ -107,12 +108,12 @@ export default function NewsPage() {
   return (
     <div className="flex flex-col min-h-screen bg-slate-950 text-slate-100 selection:bg-emerald-500 selection:text-white">
       {/* 메인 히어로 섹션 */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-slate-900 via-slate-900/60 to-slate-950 border-b border-slate-800 py-10 sm:py-14">
+      <section className="relative overflow-hidden bg-gradient-to-b from-slate-900 via-slate-900/60 to-slate-950 border-b border-slate-800 py-8 sm:py-12">
         <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-500/10 via-transparent to-transparent"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 mb-4 shadow-sm">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 mb-3 shadow-sm">
                 <Radio className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
                 실시간 언론사 뉴스 & 3대 전문지 심층 분석 연동
               </div>
@@ -122,8 +123,8 @@ export default function NewsPage() {
                   실시간 언론 기사 & 전문지 분석
                 </span>
               </h1>
-              <p className="mt-3 text-sm sm:text-base text-slate-400 max-w-2xl">
-                국내 주요 언론사의 실시간 속보와 3대 전문지(월간 팝사인, 월간 사인문화, 한국옥외광고신문)의 핵심 기획을 사이트 내에서 즉시 읽을 수 있는 심층 리포트 및 언론사 원문 링크로 제공합니다.
+              <p className="mt-2 text-xs sm:text-sm text-slate-400 max-w-2xl">
+                국내 주요 언론사의 실시간 속보와 3대 전문지(월간 팝사인, 월간 사인문화, 한국옥외광고신문)의 핵심 기획을 클릭 한 번으로 바로 읽으실 수 있습니다.
               </p>
             </div>
 
@@ -150,17 +151,24 @@ export default function NewsPage() {
             </div>
           </div>
 
-          {/* 출처 투명성 안내 띠지 */}
-          <div className="mt-6 p-3.5 rounded-xl bg-slate-900/90 border border-slate-800/90 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-slate-400">
-            <div className="flex items-center gap-2">
-              <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-                원문 직접 연결
-              </span>
-              <span>수집 경로: 언론사 공식 뉴스 피드(Google News 실시간 연동) 및 전문지 독점 심층 분석</span>
+          {/* 📢 첫 화면 고정 공식 안내 공지 배너 (번거로운 팝업 없이 첫 화면에서 명확히 안내) */}
+          <div className="mt-6 p-4 rounded-2xl bg-gradient-to-r from-slate-900/95 via-emerald-950/40 to-slate-900/95 border border-emerald-500/30 text-xs sm:text-sm text-slate-300 shadow-lg">
+            <div className="flex items-start gap-3">
+              <div className="p-1.5 rounded-lg bg-emerald-500/20 text-emerald-400 shrink-0 mt-0.5 border border-emerald-500/30">
+                <Info className="w-4 h-4" />
+              </div>
+              <div className="space-y-1 leading-relaxed">
+                <div className="flex items-center gap-2">
+                  <span className="font-bold text-white text-xs px-2 py-0.5 rounded bg-emerald-500 text-slate-950">
+                    공지
+                  </span>
+                  <strong className="text-emerald-300 font-semibold text-xs sm:text-sm">※ 뉴스 및 기사 이용 안내</strong>
+                </div>
+                <p className="text-slate-300 text-xs sm:text-xs">
+                  본 뉴스는 실시간 언론사 공식 뉴스 피드 및 옥외광고 전문 언론사의 보도자료를 기반으로 제공되며, 기사의 저작권은 각 발행 언론사에 귀속됩니다. 각 카드를 클릭하시면 <strong>별도의 팝업 확인 과정 없이 기사 본문으로 즉시 이동</strong>합니다.
+                </p>
+              </div>
             </div>
-            <span className="text-[11px] text-slate-500">
-              ※ 각 기사의 저작권 및 상세 내용은 해당 언론사 원문에 귀속됩니다.
-            </span>
           </div>
 
           {/* 카테고리 탭 */}
@@ -219,7 +227,7 @@ export default function NewsPage() {
           </div>
         ) : (
           <div className="space-y-8">
-            {/* 1. 오늘의 주요 헤드라인 (Top Spotlight) */}
+            {/* 1. 오늘의 주요 헤드라인 (클릭 시 1초 만에 본문으로 직통 연결) */}
             {topNews && (
               <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-slate-900/90 to-emerald-950/40 border border-emerald-500/30 p-6 sm:p-8 shadow-xl shadow-black/30 group hover:border-emerald-500/50 transition-all">
                 <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
@@ -267,123 +275,105 @@ export default function NewsPage() {
                     {topNews.internalBlogSlug ? (
                       <Link
                         href={`/blog/${topNews.internalBlogSlug}`}
-                        className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-bold text-sm bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 hover:from-emerald-400 hover:to-teal-400 transition-all shadow-lg shadow-emerald-500/25 text-center"
+                        className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-bold text-sm bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 hover:from-emerald-400 hover:to-teal-400 transition-all shadow-lg shadow-emerald-500/25 text-center group-hover:scale-105"
                       >
                         <BookOpen className="w-4 h-4" />
-                        <span>우리 사이트 심층 분석 읽기</span>
+                        <span>심층 분석 리포트 바로보기</span>
+                        <ArrowRight className="w-4 h-4" />
                       </Link>
                     ) : (
                       <a
                         href={topNews.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-bold text-sm bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 hover:from-emerald-400 hover:to-teal-400 transition-all shadow-lg shadow-emerald-500/25 text-center"
+                        className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-bold text-sm bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 hover:from-emerald-400 hover:to-teal-400 transition-all shadow-lg shadow-emerald-500/25 text-center group-hover:scale-105"
                       >
-                        <span>원문 기사 바로가기</span>
+                        <span>{topNews.press} 원문 기사 바로보기</span>
                         <ExternalLink className="w-4 h-4" />
                       </a>
                     )}
 
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={() => setActiveModalItem(topNews)}
-                        className="flex-1 inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-semibold bg-slate-800/90 text-slate-300 hover:text-white hover:bg-slate-800 border border-slate-700 transition-all"
-                      >
-                        <FileText className="w-3.5 h-3.5" />
-                        <span>요약 브리핑</span>
-                      </button>
-                      <button
-                        onClick={(e) => handleShare(topNews, e)}
-                        className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-semibold bg-slate-800/90 text-slate-300 hover:text-white hover:bg-slate-800 border border-slate-700 transition-all"
-                      >
-                        {copiedId === topNews.id ? (
-                          <>
-                            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                            <span className="text-emerald-400">복사됨</span>
-                          </>
-                        ) : (
-                          <>
-                            <Share2 className="w-3.5 h-3.5 text-slate-400" />
-                            <span>공유</span>
-                          </>
-                        )}
-                      </button>
-                    </div>
+                    <button
+                      onClick={(e) => handleShare(topNews, e)}
+                      className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-semibold bg-slate-800/90 text-slate-300 hover:text-white hover:bg-slate-800 border border-slate-700 transition-all"
+                    >
+                      {copiedId === topNews.id ? (
+                        <>
+                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                          <span className="text-emerald-400">링크 복사됨</span>
+                        </>
+                      ) : (
+                        <>
+                          <Share2 className="w-3.5 h-3.5 text-slate-400" />
+                          <span>기사 링크 공유</span>
+                        </>
+                      )}
+                    </button>
                   </div>
                 </div>
               </div>
             )}
 
-            {/* 2. 뉴스 카드 그리드 목록 */}
+            {/* 2. 뉴스 카드 그리드 (카드 클릭 시 번거로운 팝업 없이 기사 본문으로 직통 연결) */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
-              {regularNews.map((item) => (
-                <article
-                  key={item.id}
-                  onClick={() => setActiveModalItem(item)}
-                  className="flex flex-col justify-between rounded-2xl bg-slate-900/80 border border-slate-800/80 p-5 sm:p-6 hover:border-emerald-500/40 hover:bg-slate-900 transition-all duration-200 group shadow-md shadow-black/20 cursor-pointer"
-                >
-                  <div className="space-y-3">
-                    {/* 카드 헤더 메타정보 */}
-                    <div className="flex items-center justify-between gap-2 text-xs">
-                      <div className="flex items-center gap-2">
-                        <span className="px-2 py-0.5 rounded text-[11px] font-semibold bg-slate-800 text-emerald-400 border border-emerald-500/20">
-                          {item.category}
-                        </span>
-                        <span className="font-bold text-emerald-300 bg-emerald-950/40 px-2 py-0.5 rounded border border-emerald-500/20 text-[11px] flex items-center gap-1">
-                          📰 {item.press}
+              {regularNews.map((item) => {
+                const CardWrapper = item.internalBlogSlug ? Link : "a";
+                const cardProps = item.internalBlogSlug
+                  ? { href: `/blog/${item.internalBlogSlug}` }
+                  : { href: item.link, target: "_blank", rel: "noopener noreferrer" };
+
+                return (
+                  <CardWrapper
+                    key={item.id}
+                    {...cardProps}
+                    className="flex flex-col justify-between rounded-2xl bg-slate-900/80 border border-slate-800/80 p-5 sm:p-6 hover:border-emerald-500/50 hover:bg-slate-900 transition-all duration-200 group shadow-md shadow-black/20 block cursor-pointer"
+                  >
+                    <div className="space-y-3">
+                      {/* 카드 헤더 메타정보 */}
+                      <div className="flex items-center justify-between gap-2 text-xs">
+                        <div className="flex items-center gap-2">
+                          <span className="px-2 py-0.5 rounded text-[11px] font-semibold bg-slate-800 text-emerald-400 border border-emerald-500/20">
+                            {item.category}
+                          </span>
+                          <span className="font-bold text-emerald-300 bg-emerald-950/40 px-2 py-0.5 rounded border border-emerald-500/20 text-[11px] flex items-center gap-1">
+                            📰 {item.press}
+                          </span>
+                        </div>
+                        <span className="text-slate-500 flex items-center gap-1 text-[11px]">
+                          <Calendar className="w-3 h-3" />
+                          {item.pubDate.slice(5, 16)}
                         </span>
                       </div>
-                      <span className="text-slate-500 flex items-center gap-1 text-[11px]">
-                        <Calendar className="w-3 h-3" />
-                        {item.pubDate.slice(5, 16)}
-                      </span>
+
+                      {/* 제목 */}
+                      <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-emerald-400 transition-colors leading-snug line-clamp-2">
+                        {item.title}
+                      </h3>
+
+                      {/* 요약 내용 */}
+                      <p className="text-xs sm:text-sm text-slate-400 leading-relaxed line-clamp-3">
+                        {item.description}
+                      </p>
                     </div>
 
-                    {/* 제목 */}
-                    <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-emerald-400 transition-colors leading-snug line-clamp-2">
-                      {item.title}
-                    </h3>
+                    {/* 카드 푸터 액션 */}
+                    <div className="mt-5 pt-4 border-t border-slate-800/60 flex items-center justify-between">
+                      {item.internalBlogSlug ? (
+                        <span className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-400 group-hover:text-emerald-300 transition-colors group-hover:translate-x-1 transform">
+                          <BookOpen className="w-3.5 h-3.5 text-emerald-400" />
+                          <span>심층 분석 리포트 읽기</span>
+                          <ArrowRight className="w-3.5 h-3.5" />
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-400 group-hover:text-emerald-300 transition-colors group-hover:translate-x-1 transform">
+                          <span>{item.press} 원문 기사 바로보기</span>
+                          <ExternalLink className="w-3.5 h-3.5" />
+                        </span>
+                      )}
 
-                    {/* 요약 내용 */}
-                    <p className="text-xs sm:text-sm text-slate-400 leading-relaxed line-clamp-3">
-                      {item.description}
-                    </p>
-                  </div>
-
-                  {/* 카드 푸터 액션 */}
-                  <div className="mt-5 pt-4 border-t border-slate-800/60 flex items-center justify-between" onClick={(e) => e.stopPropagation()}>
-                    {item.internalBlogSlug ? (
-                      <Link
-                        href={`/blog/${item.internalBlogSlug}`}
-                        className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-400 hover:text-emerald-300 transition-colors group-hover:translate-x-0.5 transform"
-                      >
-                        <BookOpen className="w-3.5 h-3.5 text-emerald-400" />
-                        <span>심층 분석 리포트 읽기</span>
-                        <ArrowRight className="w-3.5 h-3.5" />
-                      </Link>
-                    ) : (
-                      <a
-                        href={item.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-400 hover:text-emerald-300 transition-colors group-hover:translate-x-0.5 transform"
-                      >
-                        <span>원문 기사 바로가기</span>
-                        <ExternalLink className="w-3.5 h-3.5" />
-                      </a>
-                    )}
-
-                    <div className="flex items-center gap-1">
-                      <button
-                        onClick={() => setActiveModalItem(item)}
-                        title="기사 요약 보기"
-                        className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
-                      >
-                        <FileText className="w-4 h-4" />
-                      </button>
                       <button
                         onClick={(e) => handleShare(item, e)}
-                        title="링크 복사"
+                        title="기사 링크 복사"
                         className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
                       >
                         {copiedId === item.id ? (
@@ -393,12 +383,12 @@ export default function NewsPage() {
                         )}
                       </button>
                     </div>
-                  </div>
-                </article>
-              ))}
+                  </CardWrapper>
+                );
+              })}
             </div>
 
-            {/* 뉴스 저작권 및 안내 문구 */}
+            {/* 뉴스 하단 저작권 및 안내 문구 */}
             <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-300/90 leading-relaxed">
               <p className="font-semibold mb-1">※ 뉴스 저작권 및 안내</p>
               <p>본 뉴스는 실시간 언론사 공식 뉴스 피드 및 옥외광고 전문 언론사의 보도자료를 기반으로 수집·제공되며, 기사의 저작권 및 상세 내용은 각 발행 언론사에 귀속됩니다. 관련된 입찰 및 공공사업 세부 내용은 각 발주기관의 공식 공고를 확인하시기 바랍니다.</p>
@@ -429,97 +419,6 @@ export default function NewsPage() {
           </div>
         )}
       </main>
-
-      {/* 뉴스 상세 브리핑 팝업 모달 */}
-      {activeModalItem && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200"
-          onClick={() => setActiveModalItem(null)}
-        >
-          <div
-            className="relative w-full max-w-2xl bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl p-6 sm:p-8 space-y-5 max-h-[90vh] overflow-y-auto"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* 모달 닫기 버튼 */}
-            <button
-              onClick={() => setActiveModalItem(null)}
-              className="absolute top-4 right-4 p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
-            >
-              <X className="w-5 h-5" />
-            </button>
-
-            {/* 메타 태그 */}
-            <div className="flex items-center gap-2.5 flex-wrap">
-              <span className="px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-                {activeModalItem.category}
-              </span>
-              <span className="text-xs font-bold text-slate-300 bg-slate-800 px-2.5 py-1 rounded-lg border border-slate-700">
-                📰 {activeModalItem.press}
-              </span>
-              <span className="text-xs text-slate-400 flex items-center gap-1">
-                <Calendar className="w-3.5 h-3.5 text-slate-500" />
-                {activeModalItem.pubDate}
-              </span>
-            </div>
-
-            {/* 제목 */}
-            <h2 className="text-xl sm:text-2xl font-extrabold text-white leading-snug">
-              {activeModalItem.title}
-            </h2>
-
-            {/* 본문 요약 내용 */}
-            <div className="p-4 rounded-xl bg-slate-950/70 border border-slate-800 text-slate-300 text-sm sm:text-base leading-relaxed whitespace-pre-line">
-              {activeModalItem.description}
-            </div>
-
-            {/* 안내 배너 */}
-            <div className="text-xs text-slate-400 bg-slate-800/60 p-3.5 rounded-xl border border-slate-700/60 leading-relaxed">
-              💡 <strong>안내:</strong> 본 기사는 옥외광고 및 공공조달 입찰 참여 기업을 위한 핵심 뉴스 브리핑입니다. 상세 전체 기사 및 멀티미디어는 언론사 원문이나 우리 사이트 심층 분석 리포트에서 확인하실 수 있습니다.
-            </div>
-
-            {/* 모달 액션 버튼 */}
-            <div className="pt-2 flex flex-col sm:flex-row items-center justify-end gap-3 border-t border-slate-800">
-              {activeModalItem.internalBlogSlug && (
-                <Link
-                  href={`/blog/${activeModalItem.internalBlogSlug}`}
-                  onClick={() => setActiveModalItem(null)}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-bold text-sm bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 hover:from-emerald-400 hover:to-teal-400 transition-all shadow-lg shadow-emerald-500/25"
-                >
-                  <BookOpen className="w-4 h-4" />
-                  <span>우리 사이트 심층 리포트 보기</span>
-                </Link>
-              )}
-
-              <a
-                href={activeModalItem.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-bold text-sm bg-slate-800 hover:bg-slate-700 text-white border border-slate-600 transition-all"
-              >
-                <span>{activeModalItem.press} 원문 기사 열기</span>
-                <ExternalLink className="w-4 h-4" />
-              </a>
-
-              <button
-                onClick={(e) => handleShare(activeModalItem, e)}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-3 rounded-xl text-xs font-semibold bg-slate-800/80 text-slate-300 hover:text-white hover:bg-slate-700 border border-slate-700 transition-all"
-              >
-                {copiedId === activeModalItem.id ? (
-                  <>
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                    <span className="text-emerald-400">링크 복사됨</span>
-                  </>
-                ) : (
-                  <>
-                    <Share2 className="w-3.5 h-3.5 text-slate-400" />
-                    <span>공유하기</span>
-                  </>
-                )}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

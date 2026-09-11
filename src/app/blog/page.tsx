@@ -41,6 +41,23 @@ export default function BlogListPage() {
           <p className="text-xs sm:text-sm text-slate-300 max-w-2xl mx-auto leading-relaxed">
             디지털 사이니지 규제 완화, 스마트 도시 사인물, 공공기관 입찰 자격 트렌드 및 주요 언론·학술 기사를 심층 분석하여 전달합니다.
           </p>
+
+          {/* 📢 첫 화면 고정 공식 안내 공지 배너 */}
+          <div className="pt-2">
+            <div className="max-w-3xl mx-auto p-4 rounded-2xl bg-gradient-to-r from-slate-900/95 via-blue-950/40 to-slate-900/95 border border-blue-500/30 text-xs sm:text-sm text-slate-300 shadow-lg text-left">
+              <div className="flex items-start gap-3">
+                <span className="font-bold text-white text-xs px-2.5 py-1 rounded bg-blue-600 shrink-0">
+                  공지
+                </span>
+                <div className="space-y-0.5 leading-relaxed">
+                  <strong className="text-blue-300 font-semibold text-xs sm:text-sm">※ 트렌드 기사 및 리포트 안내</strong>
+                  <p className="text-slate-300 text-xs">
+                    본 기사는 정부 부처 및 옥외광고 전문 매체의 공식 보도자료를 분석한 전문 리포트입니다. 카드를 클릭하시면 <strong>별도의 팝업 없이 리포트 본문으로 즉시 이동</strong>합니다.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
