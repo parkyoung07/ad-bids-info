@@ -19,49 +19,6 @@ const REVOKED_410_BIDS = new Set([
   'DEMO-G2B-006'
 ]);
 
-const VALID_BIDS = new Set([
-  // DIRECT 옥외광고 공고 14건
-  'R26BK01709285-000',
-  'R26BK01712388-000',
-  'R26BK01709472-000',
-  'R26BK01710037-000',
-  'R26BK01706337-000',
-  'R26BK01710868-000',
-  'R26BK01711670-000',
-  'R26BK01711571-000',
-  'R26BK01711670-001',
-  'R26BK01704985-000',
-  'R26BK01710609-000',
-  'R26BK01708010-000',
-  'R26BK01712005-000',
-  'R26BK01707749-000',
-  // 인접 및 검증 ID
-  'R26BK01707371-000',
-  'R26BK01705844-000',
-  'R26BK01707504-000',
-  'R26BK01708161-000',
-  'R26BK01708970-000',
-  'R26BK01708562-000',
-  'R26BK01708282-000',
-  'R26BK01706832-000',
-  'R26BK01707809-000',
-  'R26BK01698926-000',
-  'R26BK01706796-000',
-  'R26BK01706814-000',
-  'R26BK01706813-000',
-  'R26BK01706792-000',
-  'R26BK01706211-000',
-  // 데모 공고 ID
-  'DEMO-BID-001',
-  'DEMO-BID-002',
-  'DEMO-BID-003',
-  'DEMO-BID-004',
-  'DEMO-BID-005',
-  'DEMO-BID-006',
-  'DEMO-BID-007',
-  'DEMO-BID-008',
-]);
-
 const GONE_HTML = `<!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -132,7 +89,7 @@ export async function onRequest(context) {
       return context.next();
     }
 
-    // 폐기된 구형 공고 ID는 최초 요청에서 410 Gone 반환
+    // 폐기된 구형 공고 ID는 410 Gone 반환 (보안 및 SEO 무결성)
     if (REVOKED_410_BIDS.has(bidId)) {
       return new Response(GONE_HTML, {
         status: 410,
@@ -147,21 +104,8 @@ export async function onRequest(context) {
       });
     }
 
-    // 유효한 실공고 및 DEMO 공고는 정상 200 OK 서빙
-    if (VALID_BIDS.has(bidId)) {
-      return context.next();
-    }
-
-    // 그 외 미존재 공고 ID는 404 Not Found 반환
-    return new Response(NOT_FOUND_HTML, {
-      status: 404,
-      statusText: 'Not Found',
-      headers: {
-        'Content-Type': 'text/html; charset=utf-8',
-        'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0',
-        'X-Robots-Tag': 'noindex, nofollow',
-      },
-    });
+    // 정상 공고(나라장터, 학교장터, K-apt, 온비드, LH 등)는 정적 페이지로 전달
+    return context.next();
   }
 
   // 2. /404 경로 직접 요청 시 404 Not Found 반환
