@@ -55,7 +55,12 @@ sourceUrl: "https://www.g2b.go.kr"
 
 ---
 
-*출처: 《한국옥외광고신문(koaa.or.kr)》 2026년 9월 11일 보도, 부산광역시 옥외광고협회, 조달청 나라장터*
+📚 **자료 출처 및 공식 원문 링크 (Sources & References)**
+* 🏛️ 조달청 나라장터: https://www.g2b.go.kr
+* 📰 월간 팝사인: http://www.popsign.co.kr
+* 📰 월간 사인문화: http://signmunhwa.cafe24.com
+* 📰 한국옥외광고신문: https://koaa.or.kr
+* 🌐 세계옥외광고협회(WOO): https://worldooh.org
 
 ---
 

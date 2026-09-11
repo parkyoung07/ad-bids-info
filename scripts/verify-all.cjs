@@ -236,12 +236,55 @@ async function verifyIntegrityRules() {
     });
   }
 
+  // [규칙 17] 뉴스 링크 무결성 및 검색창 우회 링크(search.naver.com 등) 원천 차단 검증
+  console.log('규칙 17: 뉴스 링크 무결성 및 검색창 우회 링크(search.naver.com 등) 원천 차단 검증');
+  const newsJsonPath = path.join(__dirname, '../public/data/news.json');
+  if (fs.existsSync(newsJsonPath)) {
+    const newsData = JSON.parse(fs.readFileSync(newsJsonPath, 'utf-8'));
+    const articles = newsData.articles || [];
+    articles.forEach((art) => {
+      if (!art.link || (!art.link.startsWith('http://') && !art.link.startsWith('https://'))) {
+        console.error(`  ❌ [규칙 17 위반] 뉴스 [${art.id}: ${art.title}] 링크가 유효하지 않습니다: ${art.link}`);
+        failureCount++;
+      }
+      if (art.link.includes('search.naver.com') || art.link.includes('search.daum.net') || art.link.includes('google.com/search?')) {
+        console.error(`  ❌ [규칙 17 위반] 뉴스 [${art.id}: ${art.title}]에 검색 쿼리 페이지 URL이 포함되어 있습니다: ${art.link}`);
+        failureCount++;
+      }
+      if (!art.title || art.title.trim() === '') {
+        console.error(`  ❌ [규칙 17 위반] 뉴스 [${art.id}]에 제목이 누락되었습니다.`);
+        failureCount++;
+      }
+      if (art.internalBlogSlug) {
+        const postMdPath = path.join(__dirname, `../src/content/posts/${art.internalBlogSlug}.md`);
+        if (!fs.existsSync(postMdPath)) {
+          console.error(`  ❌ [규칙 17 위반] 뉴스 [${art.id}] 연동 블로그 포스트(${art.internalBlogSlug}.md)가 존재하지 않습니다.`);
+          failureCount++;
+        }
+      }
+    });
+  }
+
+  // [규칙 18] 블로그 포스트 출처 URL 및 이미지 무결성 검증
+  console.log('규칙 18: 블로그 포스트 출처 URL 및 마크다운 링크 무결성 검증');
+  const postsDir = path.join(__dirname, '../src/content/posts');
+  if (fs.existsSync(postsDir)) {
+    const postFiles = fs.readdirSync(postsDir).filter(f => f.endsWith('.md'));
+    postFiles.forEach(file => {
+      const content = fs.readFileSync(path.join(postsDir, file), 'utf-8');
+      if (content.includes('https://popsign.co.kr')) {
+        console.error(`  ❌ [규칙 18 위반] 포스트 [${file}]에 SSL 미지원 popsign https 링크가 포함되어 있습니다.`);
+        failureCount++;
+      }
+    });
+  }
+
   console.log('================================================================================');
   if (failureCount > 0) {
     console.error(`❌ [검증 실패] 총 ${failureCount}건의 무결성 규칙 위반이 검출되어 빌드를 즉시 중단합니다.\n`);
     process.exit(1);
   } else {
-    console.log('✅ [검증 통과] 전체 16대 데이터 무결성 규칙 100% 통과 (위반 0건)\n');
+    console.log('✅ [검증 통과] 전체 18대 데이터 무결성 규칙 100% 통과 (위반 0건)\n');
   }
 }
 
@@ -249,4 +292,5 @@ verifyIntegrityRules().catch((err) => {
   console.error('검증 실행 중 에러:', err);
   process.exit(1);
 });
+
 
