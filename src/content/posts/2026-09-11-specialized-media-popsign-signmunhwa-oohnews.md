@@ -8,7 +8,7 @@ coverImage: "https://images.pexels.com/photos/1769369/pexels-photo-1769369.jpeg?
 coverImageCredit: "Pexels License (무료 상업용 라이선스)"
 coverImageCreditUrl: "https://www.pexels.com"
 source: "월간 팝사인(popsign.co.kr), 월간 사인문화, 한국옥외광고신문(koaa.or.kr)"
-sourceUrl: "https://popsign.co.kr"
+sourceUrl: "http://www.popsign.co.kr"
 ---
 
 ![도심 속 화려한 디지털 사이니지와 간판 경관 전경](https://images.pexels.com/photos/1769369/pexels-photo-1769369.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940)
@@ -68,13 +68,15 @@ sourceUrl: "https://popsign.co.kr"
 
 ## 📚 국내 3대 전문지 및 공식 원문 링크 (Sources & References)
 
-본 기사의 분석에 활용된 국내 최고 권위의 옥외광고 전문 매체 및 공식 웹사이트는 다음과 같습니다:
+본 리포트의 분석에 활용된 국내 최고 권위의 옥외광고 전문 매체 및 공식 웹사이트 정보입니다:
 
-1. **📰 《월간 팝사인(POPSIGN)》**: 국내 최초 옥외광고·디지털사이니지 종합 매거진 ([공식 웹사이트 바로가기](https://popsign.co.kr))
-2. **📰 《월간 사인문화(Sign Munhwa)》**: 대한민국 간판문화 선진화 정론지 ([공식 웹사이트 바로가기](http://signmunhwa.cafe24.com))
-3. **📰 《한국옥외광고신문(KOAA)》**: 한국옥외광고협회중앙회 공식 신문 ([공식 웹사이트 바로가기](https://koaa.or.kr))
+1. **📰 《월간 팝사인(POPSIGN)》**: 국내 최초 옥외광고·디지털사이니지 종합 매거진 ([팝콘텐츠 공식 사이트 바로가기](http://www.popsign.co.kr))
+2. **📰 《월간 사인문화(Sign Munhwa)》**: 대한민국 간판문화 선진화 정론지 ([사인문화 공식 사이트 바로가기](http://signmunhwa.cafe24.com))
+3. **📰 《한국옥외광고신문(KOAA)》**: 한국옥외광고협회중앙회 공식 신문 ([협회중앙회 공식 사이트 바로가기](https://koaa.or.kr))
 4. **🏛️ 조달청 나라장터(G2B)**: 공공기관 간판·전광판·조형물 실시간 전자입찰 공고 ([나라장터 바로가기](https://www.g2b.go.kr))
 5. **🏢 한국옥외광고센터**: 행정안전부 산하 간판개선사업 지원 및 옥외광고 통계 ([한국옥외광고센터 바로가기](https://ooh.or.kr))
+
+> ※ 전문 잡지(월간 팝사인, 사인문화) 및 협회보(한국옥외광고신문)는 오프라인 월간 인쇄 매체 및 정기구독 서비스 특성상 개별 기사 웹링크 대신 공식 홈페이지로 안내되며, 핵심 내용과 실무 분석은 본 SignBid 심층 분석 리포트를 통해 편리하게 열람하실 수 있습니다.
 
 ---
 
