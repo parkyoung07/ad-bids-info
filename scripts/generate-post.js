@@ -470,7 +470,7 @@ ${slotFocus}
      \`지금 바로 **[옥외광고 입찰정보 알리미 메인 페이지](/)**에서 지역별·품목별 최신 실시간 공고와 Gemini AI 분석 요약을 무료로 확인하세요!\`
    - **[📚 자료 출처 및 공식 원문 링크 (Sources & References)]**:
      \`* 🏛️ 조달청 나라장터: https://www.g2b.go.kr\`
-     \`* 📰 월간 팝사인: https://popsign.co.kr\`
+     \`* 📰 월간 팝사인: http://www.popsign.co.kr\`
      \`* 📰 월간 사인문화: http://signmunhwa.cafe24.com\`
      \`* 📰 한국옥외광고신문: https://koaa.or.kr\`
      \`* 🌐 세계옥외광고협회(WOO): https://worldooh.org\`
@@ -530,6 +530,11 @@ sourceUrl: "${currentSlot === 'am' ? 'https://www.mois.go.kr' : 'https://worldoo
     console.log(`📝 [대체 모드] SEO 최적화 옥외광고 트렌드 분석 리포트를 기반으로 포스트 생성 중...`);
     generatedText = getFallbackPost(coverData);
   }
+
+  // SSL 미지원 프로토콜 링크 자동 교정 (18대 데이터 무결성 규칙 18 보장)
+  generatedText = generatedText
+    .replace(/https:\/\/(www\.)?popsign\.co\.kr/g, 'http://www.popsign.co.kr')
+    .replace(/https:\/\/signmunhwa\.cafe24\.com/g, 'http://signmunhwa.cafe24.com');
 
   // 저장 디렉토리 확인
   const postsDir = path.join(process.cwd(), 'src/content/posts');
