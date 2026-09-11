@@ -300,63 +300,6 @@ export default function HomePage() {
 
       {/* 메인 컨텐츠 영역 */}
       <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 space-y-6">
-        {/* 실시간 뉴스 & 최신 트렌드 기사 퀵 링크 배너 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Link
-            href="/news"
-            className="p-4 rounded-2xl bg-gradient-to-r from-emerald-950/60 via-slate-900 to-slate-900 border border-emerald-500/30 hover:border-emerald-500/60 transition-all group flex items-center justify-between shadow-lg"
-          >
-            <div className="flex items-center gap-3.5">
-              <div className="w-11 h-11 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xl shrink-0 ring-1 ring-emerald-500/30">
-                📰
-              </div>
-              <div>
-                <div className="flex items-center gap-2 mb-0.5">
-                  <span className="text-xs font-bold text-emerald-400 flex items-center gap-1">
-                    <Radio className="w-3 h-3 animate-pulse" />
-                    실시간 업계 뉴스
-                  </span>
-                  <span className="text-[10px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 font-semibold border border-emerald-500/30">
-                    LIVE
-                  </span>
-                </div>
-                <h3 className="text-sm sm:text-base font-bold text-white group-hover:text-emerald-300 transition-colors">
-                  네이버 & 3대 전문지(팝사인·사인문화·옥외신문) 속보
-                </h3>
-              </div>
-            </div>
-            <div className="flex items-center gap-1 text-xs font-semibold text-emerald-400 shrink-0">
-              <span className="hidden sm:inline">뉴스 보기</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </div>
-          </Link>
-
-          <Link
-            href="/blog"
-            className="p-4 rounded-2xl bg-gradient-to-r from-blue-950/60 via-slate-900 to-slate-900 border border-cyan-500/30 hover:border-cyan-500/60 transition-all group flex items-center justify-between shadow-lg"
-          >
-            <div className="flex items-center gap-3.5">
-              <div className="w-11 h-11 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-xl shrink-0 ring-1 ring-cyan-500/30">
-                💡
-              </div>
-              <div>
-                <div className="flex items-center gap-2 mb-0.5">
-                  <span className="text-xs font-bold text-cyan-400">트렌드 심층 분석</span>
-                  <span className="text-[10px] px-1.5 py-0.2 rounded bg-blue-500/20 text-blue-300 font-semibold border border-blue-500/30">
-                    오전/오후 발행
-                  </span>
-                </div>
-                <h3 className="text-sm sm:text-base font-bold text-white group-hover:text-cyan-300 transition-colors">
-                  9/11 글로벌 3D 아나몰픽 & AI 옥외광고 분석 리포트
-                </h3>
-              </div>
-            </div>
-            <div className="flex items-center gap-1 text-xs font-semibold text-cyan-400 shrink-0">
-              <span className="hidden sm:inline">기사 읽기</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </div>
-          </Link>
-        </div>
         {/* 공고 구분 탭 (진행 공고 vs 마감 공고 vs DEMO 예시 공고 vs 관심공고) */}
         <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-800">
           <div className="flex flex-wrap items-center gap-2">
