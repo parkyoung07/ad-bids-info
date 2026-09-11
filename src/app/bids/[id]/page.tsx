@@ -53,6 +53,21 @@ export default async function BidDetailPage({ params }: PageProps) {
   const closeDateStr = bid.bidCloseDate || bid.endDate || "마감일 미기재";
   const openDateStr = bid.openingDate || bid.openDate || "개찰일 미기재";
 
+  // 발주처 공식 명칭 및 버튼 라벨 결정
+  const sourceName = bid.source?.includes("학교장터") || bid.id.startsWith("S2B-")
+    ? "학교장터(S2B)"
+    : bid.source?.includes("K-apt") || bid.id.startsWith("KAPT-")
+    ? "K-apt 공동주택(아파트)"
+    : bid.source?.includes("온비드") || bid.id.startsWith("ONBID-")
+    ? "캠코 온비드(Onbid)"
+    : bid.source?.includes("LH") || bid.id.startsWith("LH-")
+    ? "LH 전자조달"
+    : bid.source?.includes("협회") || bid.id.startsWith("AKOAM-")
+    ? "한국옥외광고협회"
+    : "조달청 나라장터(G2B)";
+
+  const sourceLinkUrl = bid.sourceDetailUrl || bid.linkUrl || "";
+
   return (
     <div className="flex-1 max-w-5xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* 브레드크럼 및 뒤로가기 */}
@@ -199,11 +214,11 @@ export default async function BidDetailPage({ params }: PageProps) {
           </div>
         </div>
 
-        {/* 조달청 원문 바로가기 링크 */}
+        {/* 발주처 원문 바로가기 링크 및 수집 기준 바 */}
         <div className="pt-2 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-400 border-t border-slate-800/60">
           <div className="flex items-center gap-1.5">
             <Clock className="w-3.5 h-3.5 text-cyan-400" />
-            <span>수집 기준: <strong className="text-slate-300 font-medium">{bid.lastVerifiedAt?.substring(0, 19) || "조달청 OpenAPI 수집"}</strong></span>
+            <span>수집 기준: <strong className="text-slate-300 font-medium">{sourceName} 공식 연동 ({bid.lastVerifiedAt?.substring(0, 19) || "실시간 데이터"})</strong></span>
           </div>
 
           <div>
@@ -211,18 +226,45 @@ export default async function BidDetailPage({ params }: PageProps) {
               <span className="text-amber-400/80 text-[11px] font-medium">
                 💡 DEMO 예시 공고입니다 (투찰 불가)
               </span>
-            ) : bid.sourceDetailUrl || bid.linkUrl ? (
+            ) : sourceLinkUrl ? (
               <a
-                href={bid.sourceDetailUrl || bid.linkUrl}
+                href={sourceLinkUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold shadow transition-colors"
+                title={`${sourceName} 공식 원문 열람`}
               >
-                <span>조달청 나라장터 원문 열람</span>
+                <span>{sourceName} 공식 원문 열람</span>
                 <ExternalLink className="w-3.5 h-3.5" />
               </a>
-            ) : null}
+            ) : (
+              <span className="text-slate-500 text-xs">원문 링크 준비 중</span>
+            )}
           </div>
+        </div>
+
+        {/* 🏛️ 발주처 공식 원문 및 전자입찰 안내 가이드 카드 */}
+        <div className="bg-slate-950/70 rounded-xl p-3.5 border border-slate-800/80 text-xs space-y-2">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-slate-400 font-bold flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
+              발주기관 공식 공고번호: <strong className="text-cyan-300 font-mono text-xs sm:text-sm">{bid.announcementNo || bid.id}</strong>
+            </span>
+            {sourceLinkUrl && (
+              <a
+                href={sourceLinkUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-400 hover:text-blue-300 font-bold underline flex items-center gap-1 text-[11px]"
+              >
+                <span>{sourceName} 바로가기</span>
+                <ExternalLink className="w-3 h-3" />
+              </a>
+            )}
+          </div>
+          <p className="text-[11px] text-slate-400 leading-relaxed">
+            ※ <strong>{sourceName}</strong> 시스템 특성상 로그인 또는 공고번호 조회가 필요할 수 있습니다. 위 공고번호(<strong>{bid.announcementNo || bid.id}</strong>)를 복사하신 후 공식 시스템에서 검색하시면 세부 시방서·도면·과업지시서를 즉시 다운로드하실 수 있습니다.
+          </p>
         </div>
       </section>
 

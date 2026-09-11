@@ -80,7 +80,19 @@ export default function BidDetailActions({ bid }: BidDetailActionsProps) {
             rel="noopener noreferrer"
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-xs sm:text-sm font-bold bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/30 transition-all transform hover:scale-105 active:scale-95"
           >
-            <span>발주시스템 확인</span>
+            <span>
+              {bid.id.startsWith("S2B-")
+                ? "학교장터(S2B) 공식 원문 열람"
+                : bid.id.startsWith("KAPT-")
+                ? "K-apt 아파트 공식 원문 열람"
+                : bid.id.startsWith("ONBID-")
+                ? "온비드 공식 공고 열람"
+                : bid.id.startsWith("LH-")
+                ? "LH 전자조달 원문 열람"
+                : bid.id.startsWith("AKOAM-")
+                ? "협회 공고 원문 열람"
+                : "조달청 나라장터 공식 원문 열람"}
+            </span>
             <ExternalLink className="w-4 h-4" />
           </a>
         ) : (

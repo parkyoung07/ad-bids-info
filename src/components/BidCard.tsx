@@ -285,9 +285,22 @@ export default function BidCard({
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 transition-colors"
+              title={`${bid.source || "발주처"} 공식 원문 공고 페이지 열람`}
             >
-              <span>조달청 원문</span>
-              <ExternalLink className="w-2.5 h-2.5" />
+              <span>
+                {bid.source?.includes("학교장터") || bid.id?.startsWith("S2B-")
+                  ? "학교장터 원문"
+                  : bid.source?.includes("K-apt") || bid.id?.startsWith("KAPT-")
+                  ? "K-apt 원문"
+                  : bid.source?.includes("온비드") || bid.id?.startsWith("ONBID-")
+                  ? "온비드 원문"
+                  : bid.source?.includes("LH") || bid.id?.startsWith("LH-")
+                  ? "LH조달 원문"
+                  : bid.source?.includes("협회") || bid.id?.startsWith("AKOAM-")
+                  ? "협회 공고 원문"
+                  : "조달청 원문"}
+              </span>
+              <ExternalLink className="w-2.5 h-2.5 text-cyan-400" />
             </a>
           ) : null}
 
