@@ -95,6 +95,15 @@ export default async function BlogPostDetailPage({ params }: PageProps) {
     notFound();
   }
 
+  // 본문 맨 앞에 대표 이미지(coverImage)와 중복되는 마크다운 이미지가 있을 경우 자동 제거
+  let cleanContent = post.content || '';
+  if (post.coverImage) {
+    cleanContent = cleanContent.replace(
+      new RegExp(`^\\s*!\\[[^\\]]*\\]\\(${post.coverImage.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\)[^\\n]*\\n*(\\*[^*]+\\*\\n*)?`, 'i'),
+      ''
+    ).trim();
+  }
+
   return (
     <div className="flex flex-col min-h-screen bg-slate-950 text-slate-100 selection:bg-blue-500 selection:text-white">
       {/* 메인 콘텐츠 영역 */}
@@ -189,7 +198,7 @@ export default async function BlogPostDetailPage({ params }: PageProps) {
         {/* 아티클 본문 (Markdown 렌더링) */}
         <article className="prose prose-invert prose-slate max-w-none prose-headings:font-bold prose-headings:text-white prose-h2:text-xl sm:prose-h2:text-2xl prose-h2:border-b prose-h2:border-slate-800 prose-h2:pb-2 prose-h3:text-lg sm:prose-h3:text-xl prose-p:text-slate-300 prose-p:leading-relaxed prose-p:text-sm sm:prose-p:text-base prose-strong:text-white prose-code:text-blue-300 prose-code:bg-slate-900 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-blockquote:border-l-blue-500 prose-blockquote:bg-slate-900/50 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:rounded-r-xl prose-blockquote:text-slate-300 prose-blockquote:not-italic prose-li:text-slate-300 prose-img:rounded-xl prose-img:border prose-img:border-slate-800">
           <ReactMarkdown remarkPlugins={[remarkGfm]}>
-            {post.content}
+            {cleanContent}
           </ReactMarkdown>
         </article>
 
