@@ -1,51 +1,39 @@
 {
-  "lastSyncTime": "2026-09-11T08:19:08.563Z",
-  "lastSyncDateText": "2026-09-11 02:19 KST",
+  "lastSyncTime": "2026-09-11T08:50:00.000Z",
+  "lastSyncDateText": "2026-09-11 17:50 KST",
   "stats": {
     "g2bCount": 13,
-    "s2bCount": 3,
-    "kaptCount": 2,
-    "onbidCount": 2,
-    "akoamCount": 1,
-    "lhCount": 1,
-    "totalIngested": 22
+    "s2bCount": 0,
+    "kaptCount": 0,
+    "onbidCount": 0,
+    "akoamCount": 0,
+    "lhCount": 0,
+    "totalIngested": 13
   },
   "channels": [
     {
-      "name": "조달청 나라장터 (G2B)",
+      "name": "조달청 나라장터 (G2B OpenAPI)",
       "status": "정상 가동 중 (ONLINE)",
       "count": 13,
       "lastUpdate": "실시간"
     },
     {
       "name": "전국 교육청 & 학교장터 (S2B)",
-      "status": "정상 가동 중 (ONLINE)",
-      "count": 3,
-      "lastUpdate": "방금 전"
+      "status": "공식 연동 준비 중 (검증 대기)",
+      "count": 0,
+      "lastUpdate": "-"
     },
     {
       "name": "국토교통부 공동주택관리정보 (K-apt)",
-      "status": "정상 가동 중 (ONLINE)",
-      "count": 2,
-      "lastUpdate": "방금 전"
+      "status": "공식 연동 준비 중 (검증 대기)",
+      "count": 0,
+      "lastUpdate": "-"
     },
     {
       "name": "한국자산관리공사 온비드 (OnBid)",
-      "status": "정상 가동 중 (ONLINE)",
-      "count": 2,
-      "lastUpdate": "방금 전"
-    },
-    {
-      "name": "한국옥외광고미디어협회 (AKOAM)",
-      "status": "정상 가동 중 (ONLINE)",
-      "count": 1,
-      "lastUpdate": "방금 전"
-    },
-    {
-      "name": "한국토지주택공사 LH 전자조달",
-      "status": "정상 가동 중 (ONLINE)",
-      "count": 1,
-      "lastUpdate": "방금 전"
+      "status": "공식 연동 준비 중 (검증 대기)",
+      "count": 0,
+      "lastUpdate": "-"
     }
   ]
 }
