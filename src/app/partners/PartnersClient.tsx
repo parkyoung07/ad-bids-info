@@ -16,7 +16,10 @@ import {
   ChevronDown,
   Filter,
   RefreshCw,
-  Award
+  Award,
+  Info,
+  Calendar,
+  ExternalLink
 } from "lucide-react";
 import RegionalMapViewer from "@/components/RegionalMapViewer";
 import registeredData from "../../../public/data/registered-businesses.json";
@@ -234,25 +237,29 @@ export default function PartnersClient() {
   return (
     <div className="flex-1 max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* 1. 상단 헤더 & 안내 */}
-      <div className="space-y-3">
+      <div className="space-y-4">
         <div className="flex flex-wrap items-center gap-2">
           <span className="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1 rounded-full bg-blue-500/15 text-blue-300 border border-blue-400/30 shadow-sm">
             <ShieldCheck className="w-3.5 h-3.5 text-blue-400" />
-            정부 공공데이터 100% 실시간 대조
+            행정안전부 공공데이터 포털 인허가 원부 대조
           </span>
           <span className="inline-flex items-center gap-1 text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-400/30">
             <CheckCircle2 className="w-3 h-3 text-emerald-400" />
-            휴·폐업 업체 0건 (정상영업 전수검증)
+            휴·폐업 업체 0건 (정상영업 원부 전수검증)
+          </span>
+          <span className="inline-flex items-center gap-1 text-xs font-bold px-2.5 py-1 rounded-full bg-amber-500/15 text-amber-300 border border-amber-400/30">
+            <Calendar className="w-3 h-3 text-amber-400" />
+            매월 1회 정기 동기화 갱신
           </span>
         </div>
 
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
             <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-              협력사 및 공동수급 파트너 네트워크
+              전국 옥외광고 협력사 및 공동수급 파트너
             </h1>
             <p className="text-xs sm:text-sm text-slate-400 mt-1">
-              행정안전부 및 17개 시·도 지자체 옥외광고사업 등록대장을 기반으로 검증된 전국 공식 등록업체를 검색하세요.
+              행정안전부 및 17개 시·도 지자체 옥외광고사업 등록대장을 기반으로 검증된 전국 공식 등록업체 디렉토리입니다.
             </p>
           </div>
 
@@ -266,6 +273,34 @@ export default function PartnersClient() {
             <Sparkles className="w-4 h-4 text-blue-200 group-hover:rotate-12 transition-transform" />
             <span>파트너 무료 등록·인증 신청</span>
           </button>
+        </div>
+
+        {/* 📌 공공데이터 제공 기준 및 전화번호 미게재 공지 안내 박스 */}
+        <div className="bg-slate-900/90 border border-slate-700/80 rounded-2xl p-4 sm:p-5 text-xs text-slate-300 space-y-2.5 shadow-lg relative overflow-hidden">
+          <div className="flex items-center gap-2 text-blue-400 font-bold text-xs sm:text-sm">
+            <Info className="w-4 h-4 shrink-0 text-blue-400" />
+            <span>공공데이터 연동 기준 및 연락처 안내 공지</span>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-[11px] sm:text-xs text-slate-400 leading-relaxed">
+            <div className="space-y-1 bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+              <p className="text-slate-200 font-semibold flex items-center gap-1.5">
+                <ShieldCheck className="w-3.5 h-3.5 text-cyan-400" />
+                <span>데이터 기준 및 정기 갱신 주기</span>
+              </p>
+              <p>
+                본 디렉토리는 <strong>행정안전부 지방행정인허가(LOCALDATA) 데이터</strong>를 기준으로 제공되며, <strong>매월 1회(월간 정기 업데이트)</strong> 최신 인허가 원부와 동기화됩니다. (최근 기준일: <strong className="text-white">{lastUpdated}</strong>)
+              </p>
+            </div>
+            <div className="space-y-1 bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+              <p className="text-slate-200 font-semibold flex items-center gap-1.5">
+                <ShieldCheck className="w-3.5 h-3.5 text-blue-400" />
+                <span>전화번호 미게재 사유 및 온라인 제휴 창구</span>
+              </p>
+              <p>
+                개인정보보호법에 따라 공공데이터 포털 상의 대표자 유선번호는 비공개 처리되어 제공됩니다. 당사는 불확실한 가상 번호나 무의미한 검색 링크를 게재하지 않으며, 제휴 및 공동수급 견적은 <strong>[온라인 제휴·견적 문의]</strong>를 통해 안전하게 접수·연결해 드립니다.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -484,8 +519,8 @@ export default function PartnersClient() {
                   </div>
                 </div>
 
-                {/* 하단 액션 버튼 (신뢰 최우선: 미등록 시 솔직하고 정직하게 표시) */}
-                <div className="pt-3 border-t border-slate-800 space-y-2">
+                {/* 하단 액션 버튼 (신뢰 최우선: 제휴·견적 문의 연결) */}
+                <div className="pt-3 border-t border-slate-800">
                   {item.phone ? (
                     <div className="flex items-center gap-2">
                       <a
@@ -494,16 +529,6 @@ export default function PartnersClient() {
                       >
                         <Phone className="w-3.5 h-3.5 text-blue-400" />
                         <span>{item.phone}</span>
-                      </a>
-
-                      <a
-                        href={`https://search.naver.com/search.naver?query=${encodeURIComponent(item.companyName + " " + item.subRegion)}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        title="네이버 지도·플레이스 및 114 실시간 정보 조회"
-                        className="p-2 rounded-xl bg-slate-950 hover:bg-slate-800 text-slate-400 hover:text-cyan-300 border border-slate-800 transition-colors shrink-0 flex items-center justify-center"
-                      >
-                        <Search className="w-3.5 h-3.5" />
                       </a>
 
                       <button
@@ -517,36 +542,16 @@ export default function PartnersClient() {
                       </button>
                     </div>
                   ) : (
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between text-[11px] text-slate-400 bg-slate-950/60 px-2.5 py-1 rounded-lg border border-slate-800/80">
-                        <span className="flex items-center gap-1 text-slate-400">
-                          <Phone className="w-3 h-3 text-slate-500" />
-                          <span>전화번호 미등록 (공공데이터)</span>
-                        </span>
-                        <a
-                          href={`https://search.naver.com/search.naver?query=${encodeURIComponent(item.companyName + " " + item.subRegion)}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-cyan-400 hover:underline flex items-center gap-0.5 text-[10px]"
-                        >
-                          <span>114/포털 조회</span>
-                          <Search className="w-2.5 h-2.5" />
-                        </a>
-                      </div>
-
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => {
-                            setInquiryTargetCompany(item);
-                            setIsApplyModalOpen(true);
-                          }}
-                          className="flex-1 inline-flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-gradient-to-r from-blue-600/90 to-indigo-600/90 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-bold shadow-md shadow-blue-500/20 transition-all cursor-pointer"
-                        >
-                          <Send className="w-3.5 h-3.5 text-blue-200" />
-                          <span>온라인 제휴·견적 문의</span>
-                        </button>
-                      </div>
-                    </div>
+                    <button
+                      onClick={() => {
+                        setInquiryTargetCompany(item);
+                        setIsApplyModalOpen(true);
+                      }}
+                      className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-gradient-to-r from-blue-600/90 to-indigo-600/90 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-bold shadow-md shadow-blue-500/20 transition-all cursor-pointer group"
+                    >
+                      <Send className="w-3.5 h-3.5 text-blue-200 group-hover:translate-x-0.5 transition-transform" />
+                      <span>온라인 제휴·견적 문의</span>
+                    </button>
                   )}
                 </div>
               </div>

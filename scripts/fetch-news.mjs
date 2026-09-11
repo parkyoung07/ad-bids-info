@@ -102,6 +102,17 @@ function categorizeNews(title, description) {
 // 3대 전문지 엄선 심층 분석 기사 (우리 사이트의 정밀 블로그 분석 리포트 및 공식 홈으로 연결)
 const CURATED_SPECIALIZED_NEWS = [
   {
+    id: 'news-koaa-insurance',
+    title: '[한국옥외광고신문 안내] 옥외광고물 손해배상책임 단체보험(공제) 의무 가입 안내 및 전국 17개 시·도협회 연락처',
+    link: 'https://www.koaa.or.kr',
+    originallink: 'https://www.koaa.or.kr',
+    internalBlogSlug: '2026-09-11-outdoor-ad-liability-insurance-and-association-contacts',
+    press: '한국옥외광고신문',
+    pubDate: '2026-09-11 11:00',
+    category: '입찰·정책',
+    description: '옥외광고물법 제10조의4에 따른 법정 의무 손해배상책임보험(공제) 가입 기준, 보장 한도(대인 1.5억, 대물 1억), 미가입 과태료 및 전국 17개 시·도협회 대표 연락처를 총정리하여 안내합니다. (SignBid 전문 심층 분석 리포트 제공)'
+  },
+  {
     id: 'news-pop-1',
     title: '[월간 팝사인 9월호 기획] 옥외광고 산업의 AX(AI 전환) 가속화와 pDOOH 타겟팅 송출 혁신 전략',
     link: 'http://www.popsign.co.kr',

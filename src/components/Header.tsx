@@ -207,19 +207,14 @@ export default function Header() {
             })}
           </nav>
 
-          {/* 우측 퀵 액션 (실시간 뉴스 / 트렌드 기사 / 관심공고) */}
+          {/* 우측 퀵 액션 (뉴스 & 트렌드 / 관심공고 / 맞춤공고) */}
           <div className="hidden lg:flex items-center gap-2">
             <Link
               href="/news"
-              className="px-3 py-1.5 rounded-lg text-xs font-bold text-emerald-400 hover:text-white bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-500/30 transition-colors flex items-center gap-1.5 shadow-sm"
+              className="px-3 py-1.5 rounded-lg text-xs font-bold text-amber-300 hover:text-white bg-slate-800/90 hover:bg-slate-800 border border-amber-500/30 transition-colors flex items-center gap-1.5 shadow-sm"
             >
-              <span>📰 실시간 뉴스</span>
-            </Link>
-            <Link
-              href="/blog"
-              className="px-3 py-1.5 rounded-lg text-xs font-bold text-cyan-300 hover:text-white bg-blue-950/50 hover:bg-blue-900/80 border border-cyan-500/30 transition-colors flex items-center gap-1.5 shadow-sm"
-            >
-              <span>💡 트렌드 기사</span>
+              <BookOpen className="w-3.5 h-3.5 text-amber-400" />
+              <span>뉴스 & 트렌드</span>
             </Link>
             <Link
               href="/#bookmarks"
@@ -240,15 +235,10 @@ export default function Header() {
           <div className="lg:hidden flex items-center gap-2">
             <Link
               href="/news"
-              className="px-2.5 py-1.5 rounded-lg text-xs font-bold text-emerald-400 bg-emerald-950/60 border border-emerald-500/30 flex items-center gap-1"
+              className="px-2.5 py-1.5 rounded-lg text-xs font-bold text-amber-300 bg-slate-800/90 border border-amber-500/30 flex items-center gap-1.5"
             >
-              <span>📰 뉴스</span>
-            </Link>
-            <Link
-              href="/blog"
-              className="px-2.5 py-1.5 rounded-lg text-xs font-bold text-cyan-300 bg-blue-950/60 border border-cyan-500/30 flex items-center gap-1"
-            >
-              <span>💡 트렌드</span>
+              <BookOpen className="w-3.5 h-3.5 text-amber-400" />
+              <span>뉴스 & 트렌드</span>
             </Link>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -265,20 +255,14 @@ export default function Header() {
       {mobileMenuOpen && (
         <div className="lg:hidden bg-slate-900 border-b border-slate-800 max-h-[calc(100vh-4rem)] overflow-y-auto px-4 py-4 space-y-4">
           {/* 모바일 최상단 퀵 링크 바 */}
-          <div className="grid grid-cols-2 gap-2 pb-2">
+          <div className="pb-2">
             <Link
               href="/news"
               onClick={() => setMobileMenuOpen(false)}
-              className="py-2.5 px-3 rounded-xl bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 text-center font-bold text-xs flex items-center justify-center gap-1.5 shadow-md"
+              className="w-full py-2.5 px-3 rounded-xl bg-slate-800/90 hover:bg-slate-800 text-amber-300 border border-amber-500/30 text-center font-bold text-xs flex items-center justify-center gap-1.5 shadow-md"
             >
-              <span>📰 실시간 뉴스 보기</span>
-            </Link>
-            <Link
-              href="/blog"
-              onClick={() => setMobileMenuOpen(false)}
-              className="py-2.5 px-3 rounded-xl bg-blue-950/80 text-cyan-300 border border-cyan-500/40 text-center font-bold text-xs flex items-center justify-center gap-1.5 shadow-md"
-            >
-              <span>💡 옥외광고 트렌드</span>
+              <BookOpen className="w-4 h-4 text-amber-400" />
+              <span>뉴스 & 트렌드 바로가기</span>
             </Link>
           </div>
           <div className="space-y-4">

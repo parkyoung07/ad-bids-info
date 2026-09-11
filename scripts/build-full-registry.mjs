@@ -317,12 +317,8 @@ for (const regStat of REGIONAL_STATS) {
     const seq = String(1 + i).padStart(4, '0');
     const regNumber = `${regStat.region}${dist.sub.split(' ')[0]}-${year}-옥외-${seq}`;
 
-    // 65% Public Registered Business Phones, 35% Unlisted/Withheld Phone Numbers
-    const hasRegisteredPhone = (i % 3 !== 0); // 66.7% have registered official phones
-    const exchangePool = [720, 734, 765, 741, 2265, 2274, 2268, 554, 567, 511, 242, 255, 701, 804, 746, 421, 425];
-    const midExchange = exchangePool[(i * 11 + totalGeneratedCount) % exchangePool.length];
-    const lastLine = String(1000 + (i * 37 + totalGeneratedCount) % 8990).padStart(4, '0');
-    const phone = hasRegisteredPhone ? `${regStat.areaCode}-${midExchange}-${lastLine}` : "";
+    // Phone number: Public data from LOCALDATA/MOIS does not provide personal/direct phone numbers by default due to privacy regulations.
+    const phone = "";
 
     const buildingNo = 1 + ((i * 19 + 7) % 490);
     const address = `${regStat.name} ${dist.sub} ${dist.road} ${buildingNo}길 ${buildingNo}`;
@@ -341,7 +337,7 @@ for (const regStat of REGIONAL_STATS) {
       subRegion: dist.sub,
       address,
       phone,
-      hasPhone: !!phone,
+      hasPhone: false,
       mainItems: items,
       hasDirectProduction: hasDP,
       regDate,

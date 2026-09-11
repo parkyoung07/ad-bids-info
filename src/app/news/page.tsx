@@ -113,9 +113,18 @@ export default function NewsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 mb-3 shadow-sm">
-                <Radio className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
-                실시간 언론사 뉴스 & 3대 전문지 심층 분석 연동
+              <div className="flex flex-wrap items-center gap-2 mb-3">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-500 text-slate-950 shadow-sm">
+                  <Radio className="w-3.5 h-3.5 text-slate-950 animate-pulse" />
+                  <span>📰 실시간 언론 속보</span>
+                </span>
+                <Link
+                  href="/blog"
+                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 border border-slate-700 transition-colors"
+                >
+                  <BookOpen className="w-3.5 h-3.5 text-amber-400" />
+                  <span>💡 옥외광고 트렌드 분석</span>
+                </Link>
               </div>
               <h1 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight">
                 옥외광고 · 디지털사이니지 <br className="hidden sm:inline" />

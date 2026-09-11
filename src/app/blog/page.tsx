@@ -29,9 +29,17 @@ export default function BlogListPage() {
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-48 bg-gradient-to-r from-blue-600/20 via-indigo-500/15 to-cyan-500/20 blur-3xl -z-10 pointer-events-none"></div>
 
         <div className="max-w-4xl mx-auto text-center space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-300 text-xs font-semibold">
-            <TrendingUp className="w-4 h-4 text-cyan-400" />
-            <span>옥외광고 & 디지털사이니지 산업 트렌드 및 기사 분석</span>
+          <div className="flex flex-wrap items-center justify-center gap-2">
+            <Link
+              href="/news"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 border border-slate-700 transition-colors"
+            >
+              <span>📰 실시간 속보 뉴스</span>
+            </Link>
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-blue-600 text-white shadow-sm">
+              <TrendingUp className="w-3.5 h-3.5 text-cyan-300" />
+              <span>💡 옥외광고 트렌드 분석 리포트</span>
+            </span>
           </div>
 
           <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">

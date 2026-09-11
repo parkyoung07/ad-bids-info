@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-09-11T04:54:09.040Z",
-  "totalCount": 24,
+  "updatedAt": "2026-09-11T07:25:48.257Z",
+  "totalCount": 25,
   "isLiveApi": true,
   "categories": [
     "전체",
@@ -11,6 +11,17 @@
     "입찰·정책"
   ],
   "articles": [
+    {
+      "id": "news-koaa-insurance",
+      "title": "[한국옥외광고신문 안내] 옥외광고물 손해배상책임 단체보험(공제) 의무 가입 안내 및 전국 17개 시·도협회 연락처",
+      "link": "https://www.koaa.or.kr",
+      "originallink": "https://www.koaa.or.kr",
+      "internalBlogSlug": "2026-09-11-outdoor-ad-liability-insurance-and-association-contacts",
+      "press": "한국옥외광고신문",
+      "pubDate": "2026-09-11 11:00",
+      "category": "입찰·정책",
+      "description": "옥외광고물법 제10조의4에 따른 법정 의무 손해배상책임보험(공제) 가입 기준, 보장 한도(대인 1.5억, 대물 1억), 미가입 과태료 및 전국 17개 시·도협회 대표 연락처를 총정리하여 안내합니다. (SignBid 전문 심층 분석 리포트 제공)"
+    },
     {
       "id": "news-pop-1",
       "title": "[월간 팝사인 9월호 기획] 옥외광고 산업의 AX(AI 전환) 가속화와 pDOOH 타겟팅 송출 혁신 전략",
@@ -60,10 +71,10 @@
       "title": "삼성전자, 세계 랜드마크서 '웰컴 투 폴더블' 옥외광고",
       "link": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE1RNTQ5V0dNVW1BWU5XMS1MOUIwTVBOU0YtSmZhNVR4TFRhaUZHeEtzak9KNXBLbzQ5eGtwa3B3OFBQeEY3bVN3bmRfVDVWTnVpVmVYd2xEZ1BqMTdvZ2FDbGhXTS1NQQ?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE1RNTQ5V0dNVW1BWU5XMS1MOUIwTVBOU0YtSmZhNVR4TFRhaUZHeEtzak9KNXBLbzQ5eGtwa3B3OFBQeEY3bVN3bmRfVDVWTnVpVmVYd2xEZ1BqMTdvZ2FDbGhXTS1NQQ?oc=5",
-      "press": "thelec.kr",
+      "press": "디일렉",
       "pubDate": "2026-09-08 15:59",
       "category": "옥외광고·간판",
-      "description": "<a href=\"https://news.google.com/rss/articles/CBMiZkFVX3lxTE1RNTQ5V0dNVW1BWU5XMS1MOUIwTVBOU0YtSmZhNVR4TFRhaUZHeEtzak9KNXBLbzQ5eGtwa3B3OFBQeEY3bVN3bmRfVDVWTnVpVmVYd2xEZ1BqMTdvZ2FDbGhXTS1NQQ?oc=5\" target=\"_blank\">삼성전자, 세계 랜드마크서 '웰컴 투 폴더블' 옥외광고</a>  <font color=\"#6f6f6f\">thelec.kr</font>"
+      "description": "<a href=\"https://news.google.com/rss/articles/CBMiZkFVX3lxTE1RNTQ5V0dNVW1BWU5XMS1MOUIwTVBOU0YtSmZhNVR4TFRhaUZHeEtzak9KNXBLbzQ5eGtwa3B3OFBQeEY3bVN3bmRfVDVWTnVpVmVYd2xEZ1BqMTdvZ2FDbGhXTS1NQQ?oc=5\" target=\"_blank\">삼성전자, 세계 랜드마크서 '웰컴 투 폴더블' 옥외광고</a>  <font color=\"#6f6f6f\">디일렉</font>"
     },
     {
       "id": "live-2",
@@ -87,16 +98,6 @@
     },
     {
       "id": "live-4",
-      "title": "삼성전자, 세계 주요 도시서 '폴드8' 옥외광고…폴더블 선두 굳힌다",
-      "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTFAzcUQ0NUN2WjV6bW5MOGwwVm1OT01KZ0Y0WEx3VWlYaktuNVhXdlp6YTE5b1BNbFk1MkVZVzAySHRsbGgzUG10ZkJuWFAyTHhlMXdGUC1kVEVvYU5tckx4VQ?oc=5",
-      "originallink": "https://news.google.com/rss/articles/CBMiYEFVX3lxTFAzcUQ0NUN2WjV6bW5MOGwwVm1OT01KZ0Y0WEx3VWlYaktuNVhXdlp6YTE5b1BNbFk1MkVZVzAySHRsbGgzUG10ZkJuWFAyTHhlMXdGUC1kVEVvYU5tckx4VQ?oc=5",
-      "press": "메트로신문",
-      "pubDate": "2026-09-08 15:49",
-      "category": "옥외광고·간판",
-      "description": "<a href=\"https://news.google.com/rss/articles/CBMiYEFVX3lxTFAzcUQ0NUN2WjV6bW5MOGwwVm1OT01KZ0Y0WEx3VWlYaktuNVhXdlp6YTE5b1BNbFk1MkVZVzAySHRsbGgzUG10ZkJuWFAyTHhlMXdGUC1kVEVvYU5tckx4VQ?oc=5\" target=\"_blank\">삼성전자, 세계 주요 도시서 '폴드8' 옥외광고…폴더블 선두 굳힌다</a>  <font color=\"#6f6f6f\">메트로신문</font>"
-    },
-    {
-      "id": "live-5",
       "title": "삼성전자, 세계 주요 랜드마크서 폴드8 옥외광고",
       "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE5zb2Q0cE94eDhIM2lQay1rdllYbHh1RWdkTzRqbmQzVmxGZzBEcHlSVC1mSE9rUFh4b2U5bDZ6TTFiMzVrOWVDcnI0bGpPTWF6cnFXMW8wUlRCeElyeXNnU3MxOXnSAWhBVV95cUxNbFc1a0wtdUphRERPUXl0TzBpUUQyZXg0cTAyaU1PSGtFemhwYzJPSVVVa0xVWTdFNy1SckFKZ0FBTk1VMExLb29jNzNaYWpXOWtHdHdmWHRHQXZkUE1jMnFzM0pidDgzdg?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE5zb2Q0cE94eDhIM2lQay1rdllYbHh1RWdkTzRqbmQzVmxGZzBEcHlSVC1mSE9rUFh4b2U5bDZ6TTFiMzVrOWVDcnI0bGpPTWF6cnFXMW8wUlRCeElyeXNnU3MxOXnSAWhBVV95cUxNbFc1a0wtdUphRERPUXl0TzBpUUQyZXg0cTAyaU1PSGtFemhwYzJPSVVVa0xVWTdFNy1SckFKZ0FBTk1VMExLb29jNzNaYWpXOWtHdHdmWHRHQXZkUE1jMnFzM0pidDgzdg?oc=5",
@@ -104,6 +105,16 @@
       "pubDate": "2026-09-08 15:30",
       "category": "옥외광고·간판",
       "description": "<a href=\"https://news.google.com/rss/articles/CBMiZEFVX3lxTE5zb2Q0cE94eDhIM2lQay1rdllYbHh1RWdkTzRqbmQzVmxGZzBEcHlSVC1mSE9rUFh4b2U5bDZ6TTFiMzVrOWVDcnI0bGpPTWF6cnFXMW8wUlRCeElyeXNnU3MxOXnSAWhBVV95cUxNbFc1a0wtdUphRERPUXl0TzBpUUQyZXg0cTAyaU1PSGtFemhwYzJPSVVVa0xVWTdFNy1SckFKZ0FBTk1VMExLb29jNzNaYWpXOWtHdHdmWHRHQXZkUE1jMnFzM0pidDgzdg?oc=5\" target=\"_blank\">삼성전자, 세계 주요 랜드마크서 폴드8 옥외광고</a>  <font color=\"#6f6f6f\">매일일보</font>"
+    },
+    {
+      "id": "live-5",
+      "title": "삼성전자, 세계 주요 도시서 '폴드8' 옥외광고…폴더블 선두 굳힌다",
+      "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTFAzcUQ0NUN2WjV6bW5MOGwwVm1OT01KZ0Y0WEx3VWlYaktuNVhXdlp6YTE5b1BNbFk1MkVZVzAySHRsbGgzUG10ZkJuWFAyTHhlMXdGUC1kVEVvYU5tckx4VQ?oc=5",
+      "originallink": "https://news.google.com/rss/articles/CBMiYEFVX3lxTFAzcUQ0NUN2WjV6bW5MOGwwVm1OT01KZ0Y0WEx3VWlYaktuNVhXdlp6YTE5b1BNbFk1MkVZVzAySHRsbGgzUG10ZkJuWFAyTHhlMXdGUC1kVEVvYU5tckx4VQ?oc=5",
+      "press": "메트로신문",
+      "pubDate": "2026-09-08 15:49",
+      "category": "옥외광고·간판",
+      "description": "<a href=\"https://news.google.com/rss/articles/CBMiYEFVX3lxTFAzcUQ0NUN2WjV6bW5MOGwwVm1OT01KZ0Y0WEx3VWlYaktuNVhXdlp6YTE5b1BNbFk1MkVZVzAySHRsbGgzUG10ZkJuWFAyTHhlMXdGUC1kVEVvYU5tckx4VQ?oc=5\" target=\"_blank\">삼성전자, 세계 주요 도시서 '폴드8' 옥외광고…폴더블 선두 굳힌다</a>  <font color=\"#6f6f6f\">메트로신문</font>"
     },
     {
       "id": "live-6",
@@ -137,6 +148,16 @@
     },
     {
       "id": "live-9",
+      "title": "수영구, 불법 옥외광고물 양성화 사업 추진",
+      "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1qT3czd3h4S19CVnFvVk0wQnRrTGkzbHBNX0w2eWJZQ19GUGFNMTh0QlAtLVNpUmN2VzlCaTlscXpDdW0ybVNtWlF1RHFoQzhraE5NVEVnek1UelE?oc=5",
+      "originallink": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1qT3czd3h4S19CVnFvVk0wQnRrTGkzbHBNX0w2eWJZQ19GUGFNMTh0QlAtLVNpUmN2VzlCaTlscXpDdW0ybVNtWlF1RHFoQzhraE5NVEVnek1UelE?oc=5",
+      "press": "연합뉴스",
+      "pubDate": "2026-09-11 16:06",
+      "category": "옥외광고·간판",
+      "description": "<a href=\"https://news.google.com/rss/articles/CBMiW0FVX3lxTE1qT3czd3h4S19CVnFvVk0wQnRrTGkzbHBNX0w2eWJZQ19GUGFNMTh0QlAtLVNpUmN2VzlCaTlscXpDdW0ybVNtWlF1RHFoQzhraE5NVEVnek1UelE?oc=5\" target=\"_blank\">수영구, 불법 옥외광고물 양성화 사업 추진</a>  <font color=\"#6f6f6f\">연합뉴스</font>"
+    },
+    {
+      "id": "live-10",
       "title": "대전시, 옥외광고대상전 24점 선정...대상에 '활자에 핀 꽃'",
       "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFBVa0FKRU1RS2l4NjF5WDN5ME9xNFRXZm9MaHBYN0IzQnZjUHBTM296QTByeXZ2aTYxTkM0THNkTFp4djFFTEhCSjVSaG1wQjNNanZVYUpkVGpWTC1h?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFBVa0FKRU1RS2l4NjF5WDN5ME9xNFRXZm9MaHBYN0IzQnZjUHBTM296QTByeXZ2aTYxTkM0THNkTFp4djFFTEhCSjVSaG1wQjNNanZVYUpkVGpWTC1h?oc=5",
@@ -146,7 +167,27 @@
       "description": "<a href=\"https://news.google.com/rss/articles/CBMiXEFVX3lxTFBVa0FKRU1RS2l4NjF5WDN5ME9xNFRXZm9MaHBYN0IzQnZjUHBTM296QTByeXZ2aTYxTkM0THNkTFp4djFFTEhCSjVSaG1wQjNNanZVYUpkVGpWTC1h?oc=5\" target=\"_blank\">대전시, 옥외광고대상전 24점 선정...대상에 '활자에 핀 꽃'</a>  <font color=\"#6f6f6f\">뉴스핌</font>"
     },
     {
-      "id": "live-10",
+      "id": "live-11",
+      "title": "‘부산사인엑스포’ 16일 개막… 부산의 간판, 도시의 표정을 바꾸다",
+      "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTE1fSGs5TDJtMVMyQm1BbHU1OFlyc1NSLXFJY0w0TTFPSUxNNmpSamdpaFNZQ0Iyc0djakk0cm9fRUVxNEdkb3dDMVBxV2o5UkpaN1NyWmpIYjljY1JuTmptRXNaZ29uVUJ2VURtdVBHY3BVNjdk?oc=5",
+      "originallink": "https://news.google.com/rss/articles/CBMidEFVX3lxTE1fSGs5TDJtMVMyQm1BbHU1OFlyc1NSLXFJY0w0TTFPSUxNNmpSamdpaFNZQ0Iyc0djakk0cm9fRUVxNEdkb3dDMVBxV2o5UkpaN1NyWmpIYjljY1JuTmptRXNaZ29uVUJ2VURtdVBHY3BVNjdk?oc=5",
+      "press": "부산일보",
+      "pubDate": "2026-09-11 15:07",
+      "category": "지자체·공공디자인",
+      "description": "<a href=\"https://news.google.com/rss/articles/CBMidEFVX3lxTE1fSGs5TDJtMVMyQm1BbHU1OFlyc1NSLXFJY0w0TTFPSUxNNmpSamdpaFNZQ0Iyc0djakk0cm9fRUVxNEdkb3dDMVBxV2o5UkpaN1NyWmpIYjljY1JuTmptRXNaZ29uVUJ2VURtdVBHY3BVNjdk?oc=5\" target=\"_blank\">‘부산사인엑스포’ 16일 개막… 부산의 간판, 도시의 표정을 바꾸다</a>  <font color=\"#6f6f6f\">부산일보</font>"
+    },
+    {
+      "id": "live-12",
+      "title": "대전시, 제24회 옥외광고대상전 우수작 24점 선정…18일까지 작품 전시",
+      "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9nUTY5X3Y2MG9QU1JrRndLVVJlU0FRRm1NMFc0Tld0aHpfdmtTWG1CcGUzM0J3VkpwRUY3LXFicEx0LUlBWm5oQXdlV3QyVjJVS0l1ODVYWXFmd3FqYllMeFh6bXV2VVlXdWk3VE1ZZHdqdjg?oc=5",
+      "originallink": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9nUTY5X3Y2MG9QU1JrRndLVVJlU0FRRm1NMFc0Tld0aHpfdmtTWG1CcGUzM0J3VkpwRUY3LXFicEx0LUlBWm5oQXdlV3QyVjJVS0l1ODVYWXFmd3FqYllMeFh6bXV2VVlXdWk3VE1ZZHdqdjg?oc=5",
+      "press": "충남일보",
+      "pubDate": "2026-09-11 15:18",
+      "category": "옥외광고·간판",
+      "description": "<a href=\"https://news.google.com/rss/articles/CBMic0FVX3lxTE9nUTY5X3Y2MG9QU1JrRndLVVJlU0FRRm1NMFc0Tld0aHpfdmtTWG1CcGUzM0J3VkpwRUY3LXFicEx0LUlBWm5oQXdlV3QyVjJVS0l1ODVYWXFmd3FqYllMeFh6bXV2VVlXdWk3VE1ZZHdqdjg?oc=5\" target=\"_blank\">대전시, 제24회 옥외광고대상전 우수작 24점 선정…18일까지 작품 전시</a>  <font color=\"#6f6f6f\">충남일보</font>"
+    },
+    {
+      "id": "live-13",
       "title": "'2026 부산사인엑스포' 16일 개막…옥외광고 한자리에",
       "link": "https://news.google.com/rss/articles/CBMieEFVX3lxTE9EeFgyZzkxMW1Vd2M0VHFlR3RUc0hLUVBjZ0xGYjl6RFgxVmo5V3NmR1BYajFlNzlxb0NtZ1ZIWnk2a2N0d3o3YTQ4Tm1GSTRvUTZoeUxuUEk5X0RPNE9pVk1MVlVObDZVRXVMNHdnNUR5QkladHpVadIBeEFVX3lxTE9EeFgyZzkxMW1Vd2M0VHFlR3RUc0hLUVBjZ0xGYjl6RFgxVmo5V3NmR1BYajFlNzlxb0NtZ1ZIWnk2a2N0d3o3YTQ4Tm1GSTRvUTZoeUxuUEk5X0RPNE9pVk1MVlVObDZVRXVMNHdnNUR5QkladHpVaQ?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMieEFVX3lxTE9EeFgyZzkxMW1Vd2M0VHFlR3RUc0hLUVBjZ0xGYjl6RFgxVmo5V3NmR1BYajFlNzlxb0NtZ1ZIWnk2a2N0d3o3YTQ4Tm1GSTRvUTZoeUxuUEk5X0RPNE9pVk1MVlVObDZVRXVMNHdnNUR5QkladHpVadIBeEFVX3lxTE9EeFgyZzkxMW1Vd2M0VHFlR3RUc0hLUVBjZ0xGYjl6RFgxVmo5V3NmR1BYajFlNzlxb0NtZ1ZIWnk2a2N0d3o3YTQ4Tm1GSTRvUTZoeUxuUEk5X0RPNE9pVk1MVlVObDZVRXVMNHdnNUR5QkladHpVaQ?oc=5",
@@ -156,17 +197,7 @@
       "description": "<a href=\"https://news.google.com/rss/articles/CBMieEFVX3lxTE9EeFgyZzkxMW1Vd2M0VHFlR3RUc0hLUVBjZ0xGYjl6RFgxVmo5V3NmR1BYajFlNzlxb0NtZ1ZIWnk2a2N0d3o3YTQ4Tm1GSTRvUTZoeUxuUEk5X0RPNE9pVk1MVlVObDZVRXVMNHdnNUR5QkladHpVadIBeEFVX3lxTE9EeFgyZzkxMW1Vd2M0VHFlR3RUc0hLUVBjZ0xGYjl6RFgxVmo5V3NmR1BYajFlNzlxb0NtZ1ZIWnk2a2N0d3o3YTQ4Tm1GSTRvUTZoeUxuUEk5X0RPNE9pVk1MVlVObDZVRXVMNHdnNUR5QkladHpVaQ?oc=5\" target=\"_blank\">'2026 부산사인엑스포' 16일 개막…옥외광고 한자리에</a>  <font color=\"#6f6f6f\">뉴시스</font>"
     },
     {
-      "id": "live-11",
-      "title": "대전 옥외광고대상전 68점 경쟁…박창원 ‘활자에 핀 꽃’ 대상",
-      "link": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE9NUC03UG1TTTV2ZE0xY3cyWmZSVGZiYm1DTlJBUXg2YjNuVUtjOEhVQUhwZEhVMHJtb0syeFUtS1ZwdUY0WUtzeWdVMk5EQ0ZQMERYQw?oc=5",
-      "originallink": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE9NUC03UG1TTTV2ZE0xY3cyWmZSVGZiYm1DTlJBUXg2YjNuVUtjOEhVQUhwZEhVMHJtb0syeFUtS1ZwdUY0WUtzeWdVMk5EQ0ZQMERYQw?oc=5",
-      "press": "타임뉴스",
-      "pubDate": "2026-09-11 08:23",
-      "category": "옥외광고·간판",
-      "description": "<a href=\"https://news.google.com/rss/articles/CBMiVEFVX3lxTE9NUC03UG1TTTV2ZE0xY3cyWmZSVGZiYm1DTlJBUXg2YjNuVUtjOEhVQUhwZEhVMHJtb0syeFUtS1ZwdUY0WUtzeWdVMk5EQ0ZQMERYQw?oc=5\" target=\"_blank\">대전 옥외광고대상전 68점 경쟁…박창원 ‘활자에 핀 꽃’ 대상</a>  <font color=\"#6f6f6f\">타임뉴스</font>"
-    },
-    {
-      "id": "live-12",
+      "id": "live-14",
       "title": "대전 옥외광고대상전 ‘우수작 24점’ 선정",
       "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE41MloxTnBaNnlqZ09nSFd5TFhMT0dkZno0WXhDcnctZnh5cy1VS1lWa0ZtWkZRVUF5VEVsV1FBWXlOUThEMlNTSV9INnFhdVJteVdJLTFSaU1CWjlfeFE1SU5JTnZqRlpfbjU0aA?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMibEFVX3lxTE41MloxTnBaNnlqZ09nSFd5TFhMT0dkZno0WXhDcnctZnh5cy1VS1lWa0ZtWkZRVUF5VEVsV1FBWXlOUThEMlNTSV9INnFhdVJteVdJLTFSaU1CWjlfeFE1SU5JTnZqRlpfbjU0aA?oc=5",
@@ -174,26 +205,6 @@
       "pubDate": "2026-09-11 08:32",
       "category": "옥외광고·간판",
       "description": "<a href=\"https://news.google.com/rss/articles/CBMibEFVX3lxTE41MloxTnBaNnlqZ09nSFd5TFhMT0dkZno0WXhDcnctZnh5cy1VS1lWa0ZtWkZRVUF5VEVsV1FBWXlOUThEMlNTSV9INnFhdVJteVdJLTFSaU1CWjlfeFE1SU5JTnZqRlpfbjU0aA?oc=5\" target=\"_blank\">대전 옥외광고대상전 ‘우수작 24점’ 선정</a>  <font color=\"#6f6f6f\">공뉴스</font>"
-    },
-    {
-      "id": "live-13",
-      "title": "[부산소식] 부산사인엑스포 16일 개막…간판 변천사 기획전",
-      "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1zTzNMclFPaXFCenZ1OV9Yakh4eWZGNC1iYUJFV2JBaVA4YmJtY1ZBbVp3ZmMxYXJvYUpGOXA2QmktU1FITlRObXlOZGd2SmtvQkU5M21yYmJKQWfSAWBBVV95cUxNQzNpX2o5dVpmdG05S0k5S29YRmdnMFNSR1NmUVJNN3JNelMyemE2NlA1OU5kUkhITTJmOHh1WW5aZ3pqNzRaVWdJU0RzYW00OEo5QWJ1Qi12OTg3Mk9WUmE?oc=5",
-      "originallink": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1zTzNMclFPaXFCenZ1OV9Yakh4eWZGNC1iYUJFV2JBaVA4YmJtY1ZBbVp3ZmMxYXJvYUpGOXA2QmktU1FITlRObXlOZGd2SmtvQkU5M21yYmJKQWfSAWBBVV95cUxNQzNpX2o5dVpmdG05S0k5S29YRmdnMFNSR1NmUVJNN3JNelMyemE2NlA1OU5kUkhITTJmOHh1WW5aZ3pqNzRaVWdJU0RzYW00OEo5QWJ1Qi12OTg3Mk9WUmE?oc=5",
-      "press": "연합뉴스",
-      "pubDate": "2026-09-11 08:22",
-      "category": "지자체·공공디자인",
-      "description": "<a href=\"https://news.google.com/rss/articles/CBMiW0FVX3lxTE1zTzNMclFPaXFCenZ1OV9Yakh4eWZGNC1iYUJFV2JBaVA4YmJtY1ZBbVp3ZmMxYXJvYUpGOXA2QmktU1FITlRObXlOZGd2SmtvQkU5M21yYmJKQWfSAWBBVV95cUxNQzNpX2o5dVpmdG05S0k5S29YRmdnMFNSR1NmUVJNN3JNelMyemE2NlA1OU5kUkhITTJmOHh1WW5aZ3pqNzRaVWdJU0RzYW00OEo5QWJ1Qi12OTg3Mk9WUmE?oc=5\" target=\"_blank\">[부산소식] 부산사인엑스포 16일 개막…간판 변천사 기획전</a>  <font color=\"#6f6f6f\">연합뉴스</font>"
-    },
-    {
-      "id": "live-14",
-      "title": "대전 옥외광고대상에 '활자에 핀 꽃'",
-      "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE9TeEVXcXFqbi05TERzNkVTRVdzd3d1aG95ZzZvTFhqbVR1Q0JnbGlnWi1hd1FBY3JMUHFkZTZ2LUhrUFJZQTZyakp6cHQ5M25ycjh3VmxB?oc=5",
-      "originallink": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE9TeEVXcXFqbi05TERzNkVTRVdzd3d1aG95ZzZvTFhqbVR1Q0JnbGlnWi1hd1FBY3JMUHFkZTZ2LUhrUFJZQTZyakp6cHQ5M25ycjh3VmxB?oc=5",
-      "press": "위키트리",
-      "pubDate": "2026-09-11 11:10",
-      "category": "옥외광고·간판",
-      "description": "<a href=\"https://news.google.com/rss/articles/CBMiVkFVX3lxTE9TeEVXcXFqbi05TERzNkVTRVdzd3d1aG95ZzZvTFhqbVR1Q0JnbGlnWi1hd1FBY3JMUHFkZTZ2LUhrUFJZQTZyakp6cHQ5M25ycjh3VmxB?oc=5\" target=\"_blank\">대전 옥외광고대상에 '활자에 핀 꽃'</a>  <font color=\"#6f6f6f\">위키트리</font>"
     },
     {
       "id": "live-15",
@@ -207,6 +218,16 @@
     },
     {
       "id": "live-16",
+      "title": "대전 옥외광고대상전 68점 경쟁…박창원 ‘활자에 핀 꽃’ 대상",
+      "link": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE9NUC03UG1TTTV2ZE0xY3cyWmZSVGZiYm1DTlJBUXg2YjNuVUtjOEhVQUhwZEhVMHJtb0syeFUtS1ZwdUY0WUtzeWdVMk5EQ0ZQMERYQw?oc=5",
+      "originallink": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE9NUC03UG1TTTV2ZE0xY3cyWmZSVGZiYm1DTlJBUXg2YjNuVUtjOEhVQUhwZEhVMHJtb0syeFUtS1ZwdUY0WUtzeWdVMk5EQ0ZQMERYQw?oc=5",
+      "press": "타임뉴스",
+      "pubDate": "2026-09-11 08:23",
+      "category": "옥외광고·간판",
+      "description": "<a href=\"https://news.google.com/rss/articles/CBMiVEFVX3lxTE9NUC03UG1TTTV2ZE0xY3cyWmZSVGZiYm1DTlJBUXg2YjNuVUtjOEhVQUhwZEhVMHJtb0syeFUtS1ZwdUY0WUtzeWdVMk5EQ0ZQMERYQw?oc=5\" target=\"_blank\">대전 옥외광고대상전 68점 경쟁…박창원 ‘활자에 핀 꽃’ 대상</a>  <font color=\"#6f6f6f\">타임뉴스</font>"
+    },
+    {
+      "id": "live-17",
       "title": "대전시 옥외광고대상전, 우수작 24점 선정…16일부터 전시 - 뉴스홈(newshome)",
       "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE01N0pqTTg4Wjg0RHRvMHRNQlhTcHJ5RXRVOTdnTnJNY0VKby1UdndZYlRwc29TRDhkOE5GV0RhVkM2cE12Zm9EYVNTQ0pNenZGU21DQ09tYkpIMG5TeUduWkc1N1pKek42MlpWOTRR?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMibkFVX3lxTE01N0pqTTg4Wjg0RHRvMHRNQlhTcHJ5RXRVOTdnTnJNY0VKby1UdndZYlRwc29TRDhkOE5GV0RhVkM2cE12Zm9EYVNTQ0pNenZGU21DQ09tYkpIMG5TeUduWkc1N1pKek42MlpWOTRR?oc=5",
@@ -216,7 +237,17 @@
       "description": "<a href=\"https://news.google.com/rss/articles/CBMibkFVX3lxTE01N0pqTTg4Wjg0RHRvMHRNQlhTcHJ5RXRVOTdnTnJNY0VKby1UdndZYlRwc29TRDhkOE5GV0RhVkM2cE12Zm9EYVNTQ0pNenZGU21DQ09tYkpIMG5TeUduWkc1N1pKek42MlpWOTRR?oc=5\" target=\"_blank\">대전시 옥외광고대상전, 우수작 24점 선정…16일부터 전시</a>  <font color=\"#6f6f6f\">뉴스홈(newshome)</font>"
     },
     {
-      "id": "live-17",
+      "id": "live-18",
+      "title": "대전 옥외광고대상에 '활자에 핀 꽃'",
+      "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE9TeEVXcXFqbi05TERzNkVTRVdzd3d1aG95ZzZvTFhqbVR1Q0JnbGlnWi1hd1FBY3JMUHFkZTZ2LUhrUFJZQTZyakp6cHQ5M25ycjh3VmxB?oc=5",
+      "originallink": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE9TeEVXcXFqbi05TERzNkVTRVdzd3d1aG95ZzZvTFhqbVR1Q0JnbGlnWi1hd1FBY3JMUHFkZTZ2LUhrUFJZQTZyakp6cHQ5M25ycjh3VmxB?oc=5",
+      "press": "위키트리",
+      "pubDate": "2026-09-11 11:10",
+      "category": "옥외광고·간판",
+      "description": "<a href=\"https://news.google.com/rss/articles/CBMiVkFVX3lxTE9TeEVXcXFqbi05TERzNkVTRVdzd3d1aG95ZzZvTFhqbVR1Q0JnbGlnWi1hd1FBY3JMUHFkZTZ2LUhrUFJZQTZyakp6cHQ5M25ycjh3VmxB?oc=5\" target=\"_blank\">대전 옥외광고대상에 '활자에 핀 꽃'</a>  <font color=\"#6f6f6f\">위키트리</font>"
+    },
+    {
+      "id": "live-19",
       "title": "부산의 간판, 도시의 품격을 높이다",
       "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFBhODJiMDZSakNsYVFybVhvTHg4UURQTEhLWFhIWmk1eFR3d21YNGhvbTYzQmVJLUtveHBrQW5HbFE3QmkyMzNmWmdLR0JkeV93b3VSal83V0dqS0cw?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFBhODJiMDZSakNsYVFybVhvTHg4UURQTEhLWFhIWmk1eFR3d21YNGhvbTYzQmVJLUtveHBrQW5HbFE3QmkyMzNmWmdLR0JkeV93b3VSal83V0dqS0cw?oc=5",
@@ -226,34 +257,14 @@
       "description": "<a href=\"https://news.google.com/rss/articles/CBMiXEFVX3lxTFBhODJiMDZSakNsYVFybVhvTHg4UURQTEhLWFhIWmk1eFR3d21YNGhvbTYzQmVJLUtveHBrQW5HbFE3QmkyMzNmWmdLR0JkeV93b3VSal83V0dqS0cw?oc=5\" target=\"_blank\">부산의 간판, 도시의 품격을 높이다</a>  <font color=\"#6f6f6f\">부산경제</font>"
     },
     {
-      "id": "live-18",
-      "title": "부산광역시, '2026 부산사인엑스포' 9월 16일 개막… 부산의 간판, 도시의 표정을 바꾸다!",
-      "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE43cGc0eUNHZThKSjVOdWF5dlRvNUJfb2ZndkpiZk1JSW8tT0Q5NEhFbWxxNHJMSml0ekJqc25PcmNobVdTcW1pbm9yY1BtYjk0QjdvcVQyVGZocWlEc0Fab1Y4OA?oc=5",
-      "originallink": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE43cGc0eUNHZThKSjVOdWF5dlRvNUJfb2ZndkpiZk1JSW8tT0Q5NEhFbWxxNHJMSml0ekJqc25PcmNobVdTcW1pbm9yY1BtYjk0QjdvcVQyVGZocWlEc0Fab1Y4OA?oc=5",
-      "press": "우리투데이",
-      "pubDate": "2026-09-11 08:01",
-      "category": "지자체·공공디자인",
-      "description": "<a href=\"https://news.google.com/rss/articles/CBMiY0FVX3lxTE43cGc0eUNHZThKSjVOdWF5dlRvNUJfb2ZndkpiZk1JSW8tT0Q5NEhFbWxxNHJMSml0ekJqc25PcmNobVdTcW1pbm9yY1BtYjk0QjdvcVQyVGZocWlEc0Fab1Y4OA?oc=5\" target=\"_blank\">부산광역시, '2026 부산사인엑스포' 9월 16일 개막… 부산의 간판, 도시의 표정을 바꾸다!</a>  <font color=\"#6f6f6f\">우리투데이</font>"
-    },
-    {
-      "id": "live-19",
-      "title": "아이클릭아트, 한국옥외광고협회 정회원사 대상 회원전용 특별상품 공동구매 진행",
-      "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5sSkdfMmZIenVNdDRWOVVDME1hekgwUEc1VWZoMUxpLU85MF9yd2xkNVA2QkZyRkZMSzJMeXJpYWllbTJjTG93cU84WWZYTXg1cUgwUXZxaTJwSGZWV1piWXRmdEd2SEt4VFE?oc=5",
-      "originallink": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5sSkdfMmZIenVNdDRWOVVDME1hekgwUEc1VWZoMUxpLU85MF9yd2xkNVA2QkZyRkZMSzJMeXJpYWllbTJjTG93cU84WWZYTXg1cUgwUXZxaTJwSGZWV1piWXRmdEd2SEt4VFE?oc=5",
-      "press": "전북도민일보",
-      "pubDate": "2026-09-10 18:51",
-      "category": "옥외광고·간판",
-      "description": "<a href=\"https://news.google.com/rss/articles/CBMiakFVX3lxTE5sSkdfMmZIenVNdDRWOVVDME1hekgwUEc1VWZoMUxpLU85MF9yd2xkNVA2QkZyRkZMSzJMeXJpYWllbTJjTG93cU84WWZYTXg1cUgwUXZxaTJwSGZWV1piWXRmdEd2SEt4VFE?oc=5\" target=\"_blank\">아이클릭아트, 한국옥외광고협회 정회원사 대상 회원전용 특별상품 공동구매 진행</a>  <font color=\"#6f6f6f\">전북도민일보</font>"
-    },
-    {
       "id": "live-20",
       "title": "간판이 바꾸는 도시의 표정… '예쁜 간판' 넘어 도시경관을 설계하다",
       "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE5SR1hVSFQxTjdTWDZ2Qk90aHBYV2M5bG1KUnZlRHd2ZC1SQk1XNVo1VGFxOWhPZjVsLVZMQng3U1V2OC1NN1g5VzJFSE1yUzRMNTVVRGdR?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE5SR1hVSFQxTjdTWDZ2Qk90aHBYV2M5bG1KUnZlRHd2ZC1SQk1XNVo1VGFxOWhPZjVsLVZMQng3U1V2OC1NN1g5VzJFSE1yUzRMNTVVRGdR?oc=5",
-      "press": "urban-talk.com",
-      "pubDate": "2026-09-11 09:50",
+      "press": "어반톡",
+      "pubDate": "2026-09-11 09:51",
       "category": "옥외광고·간판",
-      "description": "<a href=\"https://news.google.com/rss/articles/CBMiVkFVX3lxTE5SR1hVSFQxTjdTWDZ2Qk90aHBYV2M5bG1KUnZlRHd2ZC1SQk1XNVo1VGFxOWhPZjVsLVZMQng3U1V2OC1NN1g5VzJFSE1yUzRMNTVVRGdR?oc=5\" target=\"_blank\">간판이 바꾸는 도시의 표정… '예쁜 간판' 넘어 도시경관을 설계하다</a>  <font color=\"#6f6f6f\">urban-talk.com</font>"
+      "description": "<a href=\"https://news.google.com/rss/articles/CBMiVkFVX3lxTE5SR1hVSFQxTjdTWDZ2Qk90aHBYV2M5bG1KUnZlRHd2ZC1SQk1XNVo1VGFxOWhPZjVsLVZMQng3U1V2OC1NN1g5VzJFSE1yUzRMNTVVRGdR?oc=5\" target=\"_blank\">간판이 바꾸는 도시의 표정… '예쁜 간판' 넘어 도시경관을 설계하다</a>  <font color=\"#6f6f6f\">어반톡</font>"
     }
   ]
 }

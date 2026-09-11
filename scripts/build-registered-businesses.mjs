@@ -303,12 +303,9 @@ function generateBusinessList() {
       const regSeq = String(10 + (idCounter * 7) % 890).padStart(4, '0');
       const regNumber = `${regStat.region}${dist.sub.split(' ')[0]}-${year}-옥외-${regSeq}`;
 
-      // 65% Public Registered Business Phones, 35% Unlisted/Withheld Phone Numbers
-      const hasRegisteredPhone = (idCounter % 3 !== 0);
-      const exchangePool = [720, 734, 765, 741, 2265, 2274, 2268, 554, 567, 511, 242, 255, 701, 804, 746, 421, 425];
-      const midExchange = exchangePool[(idCounter * 11) % exchangePool.length];
-      const lastLine = String(1000 + (idCounter * 37) % 8990).padStart(4, '0');
-      const phone = hasRegisteredPhone ? `${regStat.areaCode}-${midExchange}-${lastLine}` : "";
+      // Phone number: Public data from LOCALDATA/MOIS does not provide personal/direct phone numbers by default due to privacy regulations.
+      // Do NOT generate fake numbers. Keep empty unless verified.
+      const phone = "";
 
       // Road address
       const buildingNo = 10 + (idCounter * 19) % 350;
@@ -329,7 +326,7 @@ function generateBusinessList() {
         subRegion: dist.sub,
         address,
         phone,
-        hasPhone: !!phone,
+        hasPhone: false,
         mainItems: items,
         hasDirectProduction: hasDP,
         regDate,
