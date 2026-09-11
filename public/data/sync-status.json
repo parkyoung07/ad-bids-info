@@ -1,25 +1,14 @@
 {
-<<<<<<< HEAD
-  "lastSyncTime": "2026-09-10T22:52:46.135Z",
-  "lastSyncDateText": "2026-09-11 07:52 KST",
-=======
-  "lastSyncTime": "2026-09-11T02:42:18.435Z",
-  "lastSyncDateText": "2026-09-11 20:42 KST",
->>>>>>> af39f25 (feat: integrate 8 bid channels, specialized media news pipeline, and daily AM/PM publishing system)
+  "lastSyncTime": "2026-09-11T07:38:45.369Z",
+  "lastSyncDateText": "2026-09-11 16:38 KST",
   "stats": {
     "g2bCount": 13,
     "s2bCount": 3,
-<<<<<<< HEAD
-    "kaptCount": 3,
-    "localGovCount": 3,
-    "totalIngested": 13
-=======
     "kaptCount": 2,
     "onbidCount": 2,
     "akoamCount": 1,
     "lhCount": 1,
     "totalIngested": 22
->>>>>>> af39f25 (feat: integrate 8 bid channels, specialized media news pipeline, and daily AM/PM publishing system)
   },
   "channels": [
     {
