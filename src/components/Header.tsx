@@ -207,18 +207,11 @@ export default function Header() {
             })}
           </nav>
 
-          {/* 우측 퀵 액션 (뉴스 & 트렌드 / 관심공고 / 맞춤공고) */}
+          {/* 우측 퀵 액션 (관심공고 / 맞춤공고) */}
           <div className="hidden lg:flex items-center gap-2">
             <Link
-              href="/news"
-              className="px-3 py-1.5 rounded-lg text-xs font-bold text-amber-300 hover:text-white bg-slate-800/90 hover:bg-slate-800 border border-amber-500/30 transition-colors flex items-center gap-1.5 shadow-sm"
-            >
-              <BookOpen className="w-3.5 h-3.5 text-amber-400" />
-              <span>뉴스 & 트렌드</span>
-            </Link>
-            <Link
               href="/#bookmarks"
-              className="px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-800 border border-slate-700 transition-colors"
+              className="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-800 border border-slate-700 transition-colors"
             >
               관심공고
             </Link>
@@ -231,14 +224,13 @@ export default function Header() {
             </Link>
           </div>
 
-          {/* 모바일 햄버거 메뉴 버튼 (44px 터치 영역) */}
+          {/* 모바일 햄버거 메뉴 및 퀵 액션 */}
           <div className="lg:hidden flex items-center gap-2">
             <Link
-              href="/news"
-              className="px-2.5 py-1.5 rounded-lg text-xs font-bold text-amber-300 bg-slate-800/90 border border-amber-500/30 flex items-center gap-1.5"
+              href="/#bookmarks"
+              className="px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-300 bg-slate-800/90 border border-slate-700 hover:text-white transition-colors"
             >
-              <BookOpen className="w-3.5 h-3.5 text-amber-400" />
-              <span>뉴스 & 트렌드</span>
+              관심공고
             </Link>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -254,17 +246,6 @@ export default function Header() {
       {/* 모바일 슬라이드다운 햄버거 메뉴 */}
       {mobileMenuOpen && (
         <div className="lg:hidden bg-slate-900 border-b border-slate-800 max-h-[calc(100vh-4rem)] overflow-y-auto px-4 py-4 space-y-4">
-          {/* 모바일 최상단 퀵 링크 바 */}
-          <div className="pb-2">
-            <Link
-              href="/news"
-              onClick={() => setMobileMenuOpen(false)}
-              className="w-full py-2.5 px-3 rounded-xl bg-slate-800/90 hover:bg-slate-800 text-amber-300 border border-amber-500/30 text-center font-bold text-xs flex items-center justify-center gap-1.5 shadow-md"
-            >
-              <BookOpen className="w-4 h-4 text-amber-400" />
-              <span>뉴스 & 트렌드 바로가기</span>
-            </Link>
-          </div>
           <div className="space-y-4">
             {NAV_SECTIONS.map((section) => (
               <div key={section.title} className="bg-slate-950/60 rounded-xl p-3 border border-slate-800/80">
