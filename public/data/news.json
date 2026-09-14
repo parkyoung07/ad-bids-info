@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-14T08:51:23.438Z",
+  "updatedAt": "2026-09-14T15:53:04.646Z",
   "totalCount": 25,
   "isLiveApi": true,
   "categories": [
@@ -88,6 +88,16 @@
     },
     {
       "id": "live-3",
+      "title": "“도심 빌딩에 기름때?” …LG전자, 청소로봇 ‘로니’ 이색 옥외광고",
+      "link": "https://news.google.com/rss/articles/CBMifEFVX3lxTE56QWNsNUk5ZTBUelFaZHg0TF9aejF2d2Z0b2lKTlZNbVpuUnNXV2hxTXctblhWOC1LQVlSSldlYXF3b2xuaVpLQ2kxWURsdGpING9mZWVXODdLQ1duendMdlMyb3pnblRnaXJVZEttd1ZWQWtPQm1pUHdfaTA?oc=5",
+      "originallink": "https://news.google.com/rss/articles/CBMifEFVX3lxTE56QWNsNUk5ZTBUelFaZHg0TF9aejF2d2Z0b2lKTlZNbVpuUnNXV2hxTXctblhWOC1LQVlSSldlYXF3b2xuaVpLQ2kxWURsdGpING9mZWVXODdLQ1duendMdlMyb3pnblRnaXJVZEttd1ZWQWtPQm1pUHdfaTA?oc=5",
+      "press": "부산일보",
+      "pubDate": "2026-09-14 02:56",
+      "category": "옥외광고·간판",
+      "description": "<a href=\"https://news.google.com/rss/articles/CBMifEFVX3lxTE56QWNsNUk5ZTBUelFaZHg0TF9aejF2d2Z0b2lKTlZNbVpuUnNXV2hxTXctblhWOC1LQVlSSldlYXF3b2xuaVpLQ2kxWURsdGpING9mZWVXODdLQ1duendMdlMyb3pnblRnaXJVZEttd1ZWQWtPQm1pUHdfaTA?oc=5\" target=\"_blank\">“도심 빌딩에 기름때?” …LG전자, 청소로봇 ‘로니’ 이색 옥외광고</a>  <font color=\"#6f6f6f\">부산일보</font>"
+    },
+    {
+      "id": "live-4",
       "title": "\"광화문에 등장한 로봇청소기\"…LG전자, '로니' 이색 옥외광고 시작",
       "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTFBHTmlhRkRSSEdzOTRLZ1NpNkhFTV9sVi13X1M1WUljVi1qMldSOTZhbG1WRjV4ZXgtOXhYZ0ZEVDI5RHFBZHFBamhrMHFlV1VfV0ZkczVnakpXYlo3LWZBWm1UUEhvcUtuS1lrMkRxSmZzQVRJ?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMidEFVX3lxTFBHTmlhRkRSSEdzOTRLZ1NpNkhFTV9sVi13X1M1WUljVi1qMldSOTZhbG1WRjV4ZXgtOXhYZ0ZEVDI5RHFBZHFBamhrMHFlV1VfV0ZkczVnakpXYlo3LWZBWm1UUEhvcUtuS1lrMkRxSmZzQVRJ?oc=5",
@@ -97,17 +107,17 @@
       "description": "<a href=\"https://news.google.com/rss/articles/CBMidEFVX3lxTFBHTmlhRkRSSEdzOTRLZ1NpNkhFTV9sVi13X1M1WUljVi1qMldSOTZhbG1WRjV4ZXgtOXhYZ0ZEVDI5RHFBZHFBamhrMHFlV1VfV0ZkczVnakpXYlo3LWZBWm1UUEhvcUtuS1lrMkRxSmZzQVRJ?oc=5\" target=\"_blank\">\"광화문에 등장한 로봇청소기\"…LG전자, '로니' 이색 옥외광고 시작</a>  <font color=\"#6f6f6f\">파이낸셜포스트</font>"
     },
     {
-      "id": "live-4",
-      "title": "“도심 빌딩에 기름때?” …LG전자, 청소로봇 ‘로니’ 이색 옥외광고",
-      "link": "https://news.google.com/rss/articles/CBMifEFVX3lxTE56QWNsNUk5ZTBUelFaZHg0TF9aejF2d2Z0b2lKTlZNbVpuUnNXV2hxTXctblhWOC1LQVlSSldlYXF3b2xuaVpLQ2kxWURsdGpING9mZWVXODdLQ1duendMdlMyb3pnblRnaXJVZEttd1ZWQWtPQm1pUHdfaTA?oc=5",
-      "originallink": "https://news.google.com/rss/articles/CBMifEFVX3lxTE56QWNsNUk5ZTBUelFaZHg0TF9aejF2d2Z0b2lKTlZNbVpuUnNXV2hxTXctblhWOC1LQVlSSldlYXF3b2xuaVpLQ2kxWURsdGpING9mZWVXODdLQ1duendMdlMyb3pnblRnaXJVZEttd1ZWQWtPQm1pUHdfaTA?oc=5",
-      "press": "busan.com",
-      "pubDate": "2026-09-14 02:56",
+      "id": "live-5",
+      "title": "[해외 크리에이티브] “손가락이 4개네?” 버거킹, 만화 캐릭터 손으로 ‘4유로’ 알렸다",
+      "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE1LUllxX3lRUlZsM3Z1OFBnS3lOTmRDVGZSTFlyVGgxQ1hXT0ZBOTBEM01sMld1S0pENWRCZDdjTnlNaXJDQTl6QWxnLXdpM2JrY3kyclJwWmp1UlRBeTExZEpfOGhlbHFKX3RqUg?oc=5",
+      "originallink": "https://news.google.com/rss/articles/CBMibEFVX3lxTE1LUllxX3lRUlZsM3Z1OFBnS3lOTmRDVGZSTFlyVGgxQ1hXT0ZBOTBEM01sMld1S0pENWRCZDdjTnlNaXJDQTl6QWxnLXdpM2JrY3kyclJwWmp1UlRBeTExZEpfOGhlbHFKX3RqUg?oc=5",
+      "press": "매드타임스",
+      "pubDate": "2026-09-14 10:51",
       "category": "옥외광고·간판",
-      "description": "<a href=\"https://news.google.com/rss/articles/CBMifEFVX3lxTE56QWNsNUk5ZTBUelFaZHg0TF9aejF2d2Z0b2lKTlZNbVpuUnNXV2hxTXctblhWOC1LQVlSSldlYXF3b2xuaVpLQ2kxWURsdGpING9mZWVXODdLQ1duendMdlMyb3pnblRnaXJVZEttd1ZWQWtPQm1pUHdfaTA?oc=5\" target=\"_blank\">“도심 빌딩에 기름때?” …LG전자, 청소로봇 ‘로니’ 이색 옥외광고</a>  <font color=\"#6f6f6f\">busan.com</font>"
+      "description": "<a href=\"https://news.google.com/rss/articles/CBMibEFVX3lxTE1LUllxX3lRUlZsM3Z1OFBnS3lOTmRDVGZSTFlyVGgxQ1hXT0ZBOTBEM01sMld1S0pENWRCZDdjTnlNaXJDQTl6QWxnLXdpM2JrY3kyclJwWmp1UlRBeTExZEpfOGhlbHFKX3RqUg?oc=5\" target=\"_blank\">[해외 크리에이티브] “손가락이 4개네?” 버거킹, 만화 캐릭터 손으로 ‘4유로’ 알렸다</a>  <font color=\"#6f6f6f\">매드타임스</font>"
     },
     {
-      "id": "live-5",
+      "id": "live-6",
       "title": "LG전자, 청소로봇 '로니' 이색 옥외광고 선봬...소비자 관심도 상승",
       "link": "https://news.google.com/rss/articles/CBMifEFVX3lxTE9ud3RLS2NfNTduSjZ0TmxpMndVeWsyckxsWldqQ1pCNE5MSkdtdHpFQVBsSV81amJ3SHdYczEwaFdEZ1JsbVpQRWY2T29waUUtVDBiSTZXWWZjY2UzUUhaancxaEZNUW9kY0hGaVEzT1Y3UFo4YTc5akJQWlk?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMifEFVX3lxTE9ud3RLS2NfNTduSjZ0TmxpMndVeWsyckxsWldqQ1pCNE5MSkdtdHpFQVBsSV81amJ3SHdYczEwaFdEZ1JsbVpQRWY2T29waUUtVDBiSTZXWWZjY2UzUUhaancxaEZNUW9kY0hGaVEzT1Y3UFo4YTc5akJQWlk?oc=5",
@@ -117,7 +127,7 @@
       "description": "<a href=\"https://news.google.com/rss/articles/CBMifEFVX3lxTE9ud3RLS2NfNTduSjZ0TmxpMndVeWsyckxsWldqQ1pCNE5MSkdtdHpFQVBsSV81amJ3SHdYczEwaFdEZ1JsbVpQRWY2T29waUUtVDBiSTZXWWZjY2UzUUhaancxaEZNUW9kY0hGaVEzT1Y3UFo4YTc5akJQWlk?oc=5\" target=\"_blank\">LG전자, 청소로봇 '로니' 이색 옥외광고 선봬...소비자 관심도 상승</a>  <font color=\"#6f6f6f\">빅데이터뉴스</font>"
     },
     {
-      "id": "live-6",
+      "id": "live-7",
       "title": "LG전자, 청소로봇 ‘로니’ 이색 옥외광고 전개",
       "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE1aOV9jYThLd3I4R09tV2xQUmt1QTU4ZHZKU2FGcXd1V2l0bGxid3EyNGlkRXJRdzJyYnAwaGNHcjI5eEFiOFVRanBJNTRodTYzTGlkY3JmU0l5UEJYZTU4OUVzNjNwV2N3ZWhPQ00wONIBckFVX3lxTE5HQ1dQeHNEWEZQTG9fYjVJUmhnaWRPVGFTOXhveG03UHF6Qk5Bck1YVmJEVGFUQl9iOU5OLWhwQTdlbW1TbGxBOHdUdWw4a2Y1S2hKS25IWXZsOGNWYUN3SFlIeFNleXd0Nzlid3E2OGhfdw?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMib0FVX3lxTE1aOV9jYThLd3I4R09tV2xQUmt1QTU4ZHZKU2FGcXd1V2l0bGxid3EyNGlkRXJRdzJyYnAwaGNHcjI5eEFiOFVRanBJNTRodTYzTGlkY3JmU0l5UEJYZTU4OUVzNjNwV2N3ZWhPQ00wONIBckFVX3lxTE5HQ1dQeHNEWEZQTG9fYjVJUmhnaWRPVGFTOXhveG03UHF6Qk5Bck1YVmJEVGFUQl9iOU5OLWhwQTdlbW1TbGxBOHdUdWw4a2Y1S2hKS25IWXZsOGNWYUN3SFlIeFNleXd0Nzlid3E2OGhfdw?oc=5",
@@ -127,7 +137,7 @@
       "description": "<a href=\"https://news.google.com/rss/articles/CBMib0FVX3lxTE1aOV9jYThLd3I4R09tV2xQUmt1QTU4ZHZKU2FGcXd1V2l0bGxid3EyNGlkRXJRdzJyYnAwaGNHcjI5eEFiOFVRanBJNTRodTYzTGlkY3JmU0l5UEJYZTU4OUVzNjNwV2N3ZWhPQ00wONIBckFVX3lxTE5HQ1dQeHNEWEZQTG9fYjVJUmhnaWRPVGFTOXhveG03UHF6Qk5Bck1YVmJEVGFUQl9iOU5OLWhwQTdlbW1TbGxBOHdUdWw4a2Y1S2hKS25IWXZsOGNWYUN3SFlIeFNleXd0Nzlid3E2OGhfdw?oc=5\" target=\"_blank\">LG전자, 청소로봇 ‘로니’ 이색 옥외광고 전개</a>  <font color=\"#6f6f6f\">팝콘뉴스</font>"
     },
     {
-      "id": "live-7",
+      "id": "live-8",
       "title": "서울 도심 빌딩에 딸기잼?…LG전자 로청 '로니' 이색 옥외광고 눈길",
       "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE1hbmFmX3BNNXlBQUZZVUFGSklYTUZBRGZuR0lTLVEtbkxTVUFScnR0QmswWXcwN2Z0UFA5ZXVTSkRic29zVFJZZmttb3pvN2h6LXMxZmwtNl9MMmZzWHl1ZXpHanLSAWpBVV95cUxQS2RBVWdyR3c0ODNQV1M2OXN4eVNBN3ZDM3VZTGZVREJZMmJ5RXpyVmlURXRtaWZkcUNBMVJfejdEczlXdTEzcjlWbWRnSmthSHVVZm1oNWs0TGRwaTZpazRIT05TN1dqVjhB?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE1hbmFmX3BNNXlBQUZZVUFGSklYTUZBRGZuR0lTLVEtbkxTVUFScnR0QmswWXcwN2Z0UFA5ZXVTSkRic29zVFJZZmttb3pvN2h6LXMxZmwtNl9MMmZzWHl1ZXpHanLSAWpBVV95cUxQS2RBVWdyR3c0ODNQV1M2OXN4eVNBN3ZDM3VZTGZVREJZMmJ5RXpyVmlURXRtaWZkcUNBMVJfejdEczlXdTEzcjlWbWRnSmthSHVVZm1oNWs0TGRwaTZpazRIT05TN1dqVjhB?oc=5",
@@ -135,16 +145,6 @@
       "pubDate": "2026-09-14 00:41",
       "category": "옥외광고·간판",
       "description": "<a href=\"https://news.google.com/rss/articles/CBMiZEFVX3lxTE1hbmFmX3BNNXlBQUZZVUFGSklYTUZBRGZuR0lTLVEtbkxTVUFScnR0QmswWXcwN2Z0UFA5ZXVTSkRic29zVFJZZmttb3pvN2h6LXMxZmwtNl9MMmZzWHl1ZXpHanLSAWpBVV95cUxQS2RBVWdyR3c0ODNQV1M2OXN4eVNBN3ZDM3VZTGZVREJZMmJ5RXpyVmlURXRtaWZkcUNBMVJfejdEczlXdTEzcjlWbWRnSmthSHVVZm1oNWs0TGRwaTZpazRIT05TN1dqVjhB?oc=5\" target=\"_blank\">서울 도심 빌딩에 딸기잼?…LG전자 로청 '로니' 이색 옥외광고 눈길</a>  <font color=\"#6f6f6f\">뉴스1</font>"
-    },
-    {
-      "id": "live-8",
-      "title": "LG전자 '로니', 출시 한 달 판매량 기존 모델의 3배",
-      "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE8zT0hOV0Q5a3Y4M0JhUmNuaXhKTERtaTVwVXV5bFVHYlh1ZjBBaDVzbDJpU284ZGtlckh0dHFMeWVrbERoRmRNNWpadDRuV3p5cXJRUjNBLWVrMzE1?oc=5",
-      "originallink": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE8zT0hOV0Q5a3Y4M0JhUmNuaXhKTERtaTVwVXV5bFVHYlh1ZjBBaDVzbDJpU284ZGtlckh0dHFMeWVrbERoRmRNNWpadDRuV3p5cXJRUjNBLWVrMzE1?oc=5",
-      "press": "뉴스핌",
-      "pubDate": "2026-09-14 00:28",
-      "category": "옥외광고·간판",
-      "description": "<a href=\"https://news.google.com/rss/articles/CBMiXEFVX3lxTE8zT0hOV0Q5a3Y4M0JhUmNuaXhKTERtaTVwVXV5bFVHYlh1ZjBBaDVzbDJpU284ZGtlckh0dHFMeWVrbERoRmRNNWpadDRuV3p5cXJRUjNBLWVrMzE1?oc=5\" target=\"_blank\">LG전자 '로니', 출시 한 달 판매량 기존 모델의 3배</a>  <font color=\"#6f6f6f\">뉴스핌</font>"
     },
     {
       "id": "live-9",
@@ -158,6 +158,16 @@
     },
     {
       "id": "live-10",
+      "title": "LG전자 '로니', 출시 한 달 판매량 기존 모델의 3배",
+      "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE8zT0hOV0Q5a3Y4M0JhUmNuaXhKTERtaTVwVXV5bFVHYlh1ZjBBaDVzbDJpU284ZGtlckh0dHFMeWVrbERoRmRNNWpadDRuV3p5cXJRUjNBLWVrMzE1?oc=5",
+      "originallink": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE8zT0hOV0Q5a3Y4M0JhUmNuaXhKTERtaTVwVXV5bFVHYlh1ZjBBaDVzbDJpU284ZGtlckh0dHFMeWVrbERoRmRNNWpadDRuV3p5cXJRUjNBLWVrMzE1?oc=5",
+      "press": "뉴스핌",
+      "pubDate": "2026-09-14 00:28",
+      "category": "옥외광고·간판",
+      "description": "<a href=\"https://news.google.com/rss/articles/CBMiXEFVX3lxTE8zT0hOV0Q5a3Y4M0JhUmNuaXhKTERtaTVwVXV5bFVHYlh1ZjBBaDVzbDJpU284ZGtlckh0dHFMeWVrbERoRmRNNWpadDRuV3p5cXJRUjNBLWVrMzE1?oc=5\" target=\"_blank\">LG전자 '로니', 출시 한 달 판매량 기존 모델의 3배</a>  <font color=\"#6f6f6f\">뉴스핌</font>"
+    },
+    {
+      "id": "live-11",
       "title": "수영구, 불법 옥외광고물 양성화 사업 추진",
       "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1qT3czd3h4S19CVnFvVk0wQnRrTGkzbHBNX0w2eWJZQ19GUGFNMTh0QlAtLVNpUmN2VzlCaTlscXpDdW0ybVNtWlF1RHFoQzhraE5NVEVnek1UelE?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1qT3czd3h4S19CVnFvVk0wQnRrTGkzbHBNX0w2eWJZQ19GUGFNMTh0QlAtLVNpUmN2VzlCaTlscXpDdW0ybVNtWlF1RHFoQzhraE5NVEVnek1UelE?oc=5",
@@ -167,27 +177,7 @@
       "description": "<a href=\"https://news.google.com/rss/articles/CBMiW0FVX3lxTE1qT3czd3h4S19CVnFvVk0wQnRrTGkzbHBNX0w2eWJZQ19GUGFNMTh0QlAtLVNpUmN2VzlCaTlscXpDdW0ybVNtWlF1RHFoQzhraE5NVEVnek1UelE?oc=5\" target=\"_blank\">수영구, 불법 옥외광고물 양성화 사업 추진</a>  <font color=\"#6f6f6f\">연합뉴스</font>"
     },
     {
-      "id": "live-11",
-      "title": "LG전자, 광화문·명동 빌딩 '기름때·잼' 싹…'로니' 이색광고",
-      "link": "https://news.google.com/rss/articles/CBMiS0FVX3lxTE5aUlVwTmg1VjJXUVJ1eWhQLXJnMHVBVHgxR3NOR0ROZXM3Q2h2cllRUHNUOVRHTEJtbGI0SlU1OFgzaElPdUNNaDVOVQ?oc=5",
-      "originallink": "https://news.google.com/rss/articles/CBMiS0FVX3lxTE5aUlVwTmg1VjJXUVJ1eWhQLXJnMHVBVHgxR3NOR0ROZXM3Q2h2cllRUHNUOVRHTEJtbGI0SlU1OFgzaElPdUNNaDVOVQ?oc=5",
-      "press": "아이뉴스24",
-      "pubDate": "2026-09-14 00:24",
-      "category": "옥외광고·간판",
-      "description": "<a href=\"https://news.google.com/rss/articles/CBMiS0FVX3lxTE5aUlVwTmg1VjJXUVJ1eWhQLXJnMHVBVHgxR3NOR0ROZXM3Q2h2cllRUHNUOVRHTEJtbGI0SlU1OFgzaElPdUNNaDVOVQ?oc=5\" target=\"_blank\">LG전자, 광화문·명동 빌딩 '기름때·잼' 싹…'로니' 이색광고</a>  <font color=\"#6f6f6f\">아이뉴스24</font>"
-    },
-    {
       "id": "live-12",
-      "title": "LG 로니, 도심 빌딩 누비는 이색 광고···출시 한 달 판매량 3배",
-      "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBHenp4ZFpNX01IbngzLVdROEdKVm1iRTBTU0d4bk5GdjNCWnh3aGZHbURoVVc0WUh5N2Z3N2VKTFpaZ2ZNRVY4OVZ4NnFGTFZRb3JleW5SZXpCME9sUDlVbHd3Wk4zRGgzXzVKQw?oc=5",
-      "originallink": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBHenp4ZFpNX01IbngzLVdROEdKVm1iRTBTU0d4bk5GdjNCWnh3aGZHbURoVVc0WUh5N2Z3N2VKTFpaZ2ZNRVY4OVZ4NnFGTFZRb3JleW5SZXpCME9sUDlVbHd3Wk4zRGgzXzVKQw?oc=5",
-      "press": "스마트비즈",
-      "pubDate": "2026-09-14 00:31",
-      "category": "옥외광고·간판",
-      "description": "<a href=\"https://news.google.com/rss/articles/CBMibEFVX3lxTFBHenp4ZFpNX01IbngzLVdROEdKVm1iRTBTU0d4bk5GdjNCWnh3aGZHbURoVVc0WUh5N2Z3N2VKTFpaZ2ZNRVY4OVZ4NnFGTFZRb3JleW5SZXpCME9sUDlVbHd3Wk4zRGgzXzVKQw?oc=5\" target=\"_blank\">LG 로니, 도심 빌딩 누비는 이색 광고···출시 한 달 판매량 3배</a>  <font color=\"#6f6f6f\">스마트비즈</font>"
-    },
-    {
-      "id": "live-13",
       "title": "옥외광고 종합발전 방안 마련",
       "link": "https://news.google.com/rss/articles/CBMi_gFBVV95cUxOX2Fscm41RG1vNE1GUVhIREtHWVJlSnd2dkVUUzlpTXlDZWhUdUpZaElDaGs5Zy1aSkpTS2VsV2NDVVM1XzlXSWhiRmFCQzcwR1BSMHRtQUk3V1B2SE9SdmlNNi1tOWNtUElEbV9XeVluWHR4ZjQ2MFhTUUdQeS1EdHZHdjMxdDdWYTVPVEN5RFVfMTJ0cnd1aHVzeks3NXFiNjNBTHJJX2RhUFlDUWZfejFYVzVScUpPRkxuTUN5eU82T2hXcVBFZWp5aDh4bXVWZEVkMHFuQ0tiZGhPaTZsdTYwTUp1NkVIOVNWLWVjVjlMZDVtcm53S2R2Y1pndw?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMi_gFBVV95cUxOX2Fscm41RG1vNE1GUVhIREtHWVJlSnd2dkVUUzlpTXlDZWhUdUpZaElDaGs5Zy1aSkpTS2VsV2NDVVM1XzlXSWhiRmFCQzcwR1BSMHRtQUk3V1B2SE9SdmlNNi1tOWNtUElEbV9XeVluWHR4ZjQ2MFhTUUdQeS1EdHZHdjMxdDdWYTVPVEN5RFVfMTJ0cnd1aHVzeks3NXFiNjNBTHJJX2RhUFlDUWZfejFYVzVScUpPRkxuTUN5eU82T2hXcVBFZWp5aDh4bXVWZEVkMHFuQ0tiZGhPaTZsdTYwTUp1NkVIOVNWLWVjVjlMZDVtcm53S2R2Y1pndw?oc=5",
@@ -197,7 +187,7 @@
       "description": "<a href=\"https://news.google.com/rss/articles/CBMi_gFBVV95cUxOX2Fscm41RG1vNE1GUVhIREtHWVJlSnd2dkVUUzlpTXlDZWhUdUpZaElDaGs5Zy1aSkpTS2VsV2NDVVM1XzlXSWhiRmFCQzcwR1BSMHRtQUk3V1B2SE9SdmlNNi1tOWNtUElEbV9XeVluWHR4ZjQ2MFhTUUdQeS1EdHZHdjMxdDdWYTVPVEN5RFVfMTJ0cnd1aHVzeks3NXFiNjNBTHJJX2RhUFlDUWZfejFYVzVScUpPRkxuTUN5eU82T2hXcVBFZWp5aDh4bXVWZEVkMHFuQ0tiZGhPaTZsdTYwTUp1NkVIOVNWLWVjVjlMZDVtcm53S2R2Y1pndw?oc=5\" target=\"_blank\">옥외광고 종합발전 방안 마련</a>  <font color=\"#6f6f6f\">데일리뉴스</font>"
     },
     {
-      "id": "live-14",
+      "id": "live-13",
       "title": "아모레 이니스프리, 日 도쿄 시부야 옥외광고 캠페인…세븐틴 민규 앰배서더 등판",
       "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE9vWXpRM2pCd2UwMXQtZGR1c1BSU1RDc3FwUUlWWWZoMENfRTRId3ViVGVObUFjNVJjel93WGRJUUlTX2ZmZW5zYzUyWDJ3NEt2eW0wVC1PRm91SXg1dkE?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE9vWXpRM2pCd2UwMXQtZGR1c1BSU1RDc3FwUUlWWWZoMENfRTRId3ViVGVObUFjNVJjel93WGRJUUlTX2ZmZW5zYzUyWDJ3NEt2eW0wVC1PRm91SXg1dkE?oc=5",
@@ -207,27 +197,27 @@
       "description": "<a href=\"https://news.google.com/rss/articles/CBMiXkFVX3lxTE9vWXpRM2pCd2UwMXQtZGR1c1BSU1RDc3FwUUlWWWZoMENfRTRId3ViVGVObUFjNVJjel93WGRJUUlTX2ZmZW5zYzUyWDJ3NEt2eW0wVC1PRm91SXg1dkE?oc=5\" target=\"_blank\">아모레 이니스프리, 日 도쿄 시부야 옥외광고 캠페인…세븐틴 민규 앰배서더 등판</a>  <font color=\"#6f6f6f\">더구루</font>"
     },
     {
-      "id": "live-15",
-      "title": "LG전자, 도심 한복판서 100℃ 스팀 ‘로니’ 이색 옥외광고",
-      "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5tbHp5a0VrejJaeWVXeTNxZXNMZ0dHR2JsWDlTMjJGNUp0RXZRNVZFdTY3cERxallKQ1NzQTBGa3lnQjZPdUt6cFpxX3lxLXo1VkZVVWx5YlFfQWRKSHdQSkh4bExiSnprTlE?oc=5",
-      "originallink": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5tbHp5a0VrejJaeWVXeTNxZXNMZ0dHR2JsWDlTMjJGNUp0RXZRNVZFdTY3cERxallKQ1NzQTBGa3lnQjZPdUt6cFpxX3lxLXo1VkZVVWx5YlFfQWRKSHdQSkh4bExiSnprTlE?oc=5",
-      "press": "뉴스티앤티",
-      "pubDate": "2026-09-14 03:02",
+      "id": "live-14",
+      "title": "LG전자, 광화문·명동 빌딩 '기름때·잼' 싹…'로니' 이색광고",
+      "link": "https://news.google.com/rss/articles/CBMiS0FVX3lxTE5aUlVwTmg1VjJXUVJ1eWhQLXJnMHVBVHgxR3NOR0ROZXM3Q2h2cllRUHNUOVRHTEJtbGI0SlU1OFgzaElPdUNNaDVOVQ?oc=5",
+      "originallink": "https://news.google.com/rss/articles/CBMiS0FVX3lxTE5aUlVwTmg1VjJXUVJ1eWhQLXJnMHVBVHgxR3NOR0ROZXM3Q2h2cllRUHNUOVRHTEJtbGI0SlU1OFgzaElPdUNNaDVOVQ?oc=5",
+      "press": "아이뉴스24",
+      "pubDate": "2026-09-14 00:24",
       "category": "옥외광고·간판",
-      "description": "<a href=\"https://news.google.com/rss/articles/CBMiakFVX3lxTE5tbHp5a0VrejJaeWVXeTNxZXNMZ0dHR2JsWDlTMjJGNUp0RXZRNVZFdTY3cERxallKQ1NzQTBGa3lnQjZPdUt6cFpxX3lxLXo1VkZVVWx5YlFfQWRKSHdQSkh4bExiSnprTlE?oc=5\" target=\"_blank\">LG전자, 도심 한복판서 100℃ 스팀 ‘로니’ 이색 옥외광고</a>  <font color=\"#6f6f6f\">뉴스티앤티</font>"
+      "description": "<a href=\"https://news.google.com/rss/articles/CBMiS0FVX3lxTE5aUlVwTmg1VjJXUVJ1eWhQLXJnMHVBVHgxR3NOR0ROZXM3Q2h2cllRUHNUOVRHTEJtbGI0SlU1OFgzaElPdUNNaDVOVQ?oc=5\" target=\"_blank\">LG전자, 광화문·명동 빌딩 '기름때·잼' 싹…'로니' 이색광고</a>  <font color=\"#6f6f6f\">아이뉴스24</font>"
+    },
+    {
+      "id": "live-15",
+      "title": "LG 로니, 도심 빌딩 누비는 이색 광고···출시 한 달 판매량 3배",
+      "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBHenp4ZFpNX01IbngzLVdROEdKVm1iRTBTU0d4bk5GdjNCWnh3aGZHbURoVVc0WUh5N2Z3N2VKTFpaZ2ZNRVY4OVZ4NnFGTFZRb3JleW5SZXpCME9sUDlVbHd3Wk4zRGgzXzVKQw?oc=5",
+      "originallink": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBHenp4ZFpNX01IbngzLVdROEdKVm1iRTBTU0d4bk5GdjNCWnh3aGZHbURoVVc0WUh5N2Z3N2VKTFpaZ2ZNRVY4OVZ4NnFGTFZRb3JleW5SZXpCME9sUDlVbHd3Wk4zRGgzXzVKQw?oc=5",
+      "press": "스마트비즈",
+      "pubDate": "2026-09-14 00:31",
+      "category": "옥외광고·간판",
+      "description": "<a href=\"https://news.google.com/rss/articles/CBMibEFVX3lxTFBHenp4ZFpNX01IbngzLVdROEdKVm1iRTBTU0d4bk5GdjNCWnh3aGZHbURoVVc0WUh5N2Z3N2VKTFpaZ2ZNRVY4OVZ4NnFGTFZRb3JleW5SZXpCME9sUDlVbHd3Wk4zRGgzXzVKQw?oc=5\" target=\"_blank\">LG 로니, 도심 빌딩 누비는 이색 광고···출시 한 달 판매량 3배</a>  <font color=\"#6f6f6f\">스마트비즈</font>"
     },
     {
       "id": "live-16",
-      "title": "대전시, 옥외광고대상전 우수작 24점 선정",
-      "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTFBpY2pVWm9WRWs0OUswVmo2Y0hqQlV0a3VQakctX3FvUTRnU2NWYTF1VWtTUnhLVnRtOEotMlpzQ0p5N29Wc3pRbU54d3pyUDNVbTY2WUdQdngyd3FzZjhLLTBDZkhHbVRZM1E?oc=5",
-      "originallink": "https://news.google.com/rss/articles/CBMiakFVX3lxTFBpY2pVWm9WRWs0OUswVmo2Y0hqQlV0a3VQakctX3FvUTRnU2NWYTF1VWtTUnhLVnRtOEotMlpzQ0p5N29Wc3pRbU54d3pyUDNVbTY2WUdQdngyd3FzZjhLLTBDZkhHbVRZM1E?oc=5",
-      "press": "충청매일",
-      "pubDate": "2026-09-13 06:40",
-      "category": "옥외광고·간판",
-      "description": "<a href=\"https://news.google.com/rss/articles/CBMiakFVX3lxTFBpY2pVWm9WRWs0OUswVmo2Y0hqQlV0a3VQakctX3FvUTRnU2NWYTF1VWtTUnhLVnRtOEotMlpzQ0p5N29Wc3pRbU54d3pyUDNVbTY2WUdQdngyd3FzZjhLLTBDZkhHbVRZM1E?oc=5\" target=\"_blank\">대전시, 옥외광고대상전 우수작 24점 선정</a>  <font color=\"#6f6f6f\">충청매일</font>"
-    },
-    {
-      "id": "live-17",
       "title": "도심 빌딩에 기름때 ‘뚝뚝’, 딸기잼 ‘철썩’…알고 보니 광고였다",
       "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTFBfaTQ0SGpBdWU5TjEybkxULWVfWlN6RDRGTk1pMWtCXzdrNEUzZjFIRWxzS3lNQmJTNnlNcDVGbTE4XzZNMnBvOVAwYTRYNWM?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMiT0FVX3lxTFBfaTQ0SGpBdWU5TjEybkxULWVfWlN6RDRGTk1pMWtCXzdrNEUzZjFIRWxzS3lNQmJTNnlNcDVGbTE4XzZNMnBvOVAwYTRYNWM?oc=5",
@@ -237,7 +227,7 @@
       "description": "<a href=\"https://news.google.com/rss/articles/CBMiT0FVX3lxTFBfaTQ0SGpBdWU5TjEybkxULWVfWlN6RDRGTk1pMWtCXzdrNEUzZjFIRWxzS3lNQmJTNnlNcDVGbTE4XzZNMnBvOVAwYTRYNWM?oc=5\" target=\"_blank\">도심 빌딩에 기름때 ‘뚝뚝’, 딸기잼 ‘철썩’…알고 보니 광고였다</a>  <font color=\"#6f6f6f\">v.daum.net</font>"
     },
     {
-      "id": "live-18",
+      "id": "live-17",
       "title": "건전한 옥외광고문화 함께 만든다.",
       "link": "https://news.google.com/rss/articles/CBMilgJBVV95cUxPN1Vfd0l3LUs4QS1oUXlxT0VnS1dGYXh0QjkyWEpLX0V6X2JYdzlDeXNWTXlzeF9HNVZsR1k3Y1JfaHZuNzlaaXd3WDhiSGZLTzl6SUlrOURaX1ZWMTJIdERoZndZMWFkSHZuWV90NndUS0FCWHRtT25PY3laRDFRRDc0WlhFOGNyaG9ZbHBHWEE3UkkxdURfTnpvUGg0NGV2c2ZBblFZdWdlMFlocGNSY0hKZEdKZExFTU84V1pUOEl5c2RaV0ZfSC1fX01JT3FkeVIwblQtejZOVzBBamR5bzNwQlNFWWhaQUF4VWFRcVM2T0FkWEZHOXJOWC1hR2g5Wlk0SWNjSnRKeGlYdHBEZE1LZ19qQQ?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMilgJBVV95cUxPN1Vfd0l3LUs4QS1oUXlxT0VnS1dGYXh0QjkyWEpLX0V6X2JYdzlDeXNWTXlzeF9HNVZsR1k3Y1JfaHZuNzlaaXd3WDhiSGZLTzl6SUlrOURaX1ZWMTJIdERoZndZMWFkSHZuWV90NndUS0FCWHRtT25PY3laRDFRRDc0WlhFOGNyaG9ZbHBHWEE3UkkxdURfTnpvUGg0NGV2c2ZBblFZdWdlMFlocGNSY0hKZEdKZExFTU84V1pUOEl5c2RaV0ZfSC1fX01JT3FkeVIwblQtejZOVzBBamR5bzNwQlNFWWhaQUF4VWFRcVM2T0FkWEZHOXJOWC1hR2g5Wlk0SWNjSnRKeGlYdHBEZE1LZ19qQQ?oc=5",
@@ -245,6 +235,16 @@
       "pubDate": "2026-09-12 10:50",
       "category": "옥외광고·간판",
       "description": "<a href=\"https://news.google.com/rss/articles/CBMilgJBVV95cUxPN1Vfd0l3LUs4QS1oUXlxT0VnS1dGYXh0QjkyWEpLX0V6X2JYdzlDeXNWTXlzeF9HNVZsR1k3Y1JfaHZuNzlaaXd3WDhiSGZLTzl6SUlrOURaX1ZWMTJIdERoZndZMWFkSHZuWV90NndUS0FCWHRtT25PY3laRDFRRDc0WlhFOGNyaG9ZbHBHWEE3UkkxdURfTnpvUGg0NGV2c2ZBblFZdWdlMFlocGNSY0hKZEdKZExFTU84V1pUOEl5c2RaV0ZfSC1fX01JT3FkeVIwblQtejZOVzBBamR5bzNwQlNFWWhaQUF4VWFRcVM2T0FkWEZHOXJOWC1hR2g5Wlk0SWNjSnRKeGlYdHBEZE1LZ19qQQ?oc=5\" target=\"_blank\">건전한 옥외광고문화 함께 만든다.</a>  <font color=\"#6f6f6f\">데일리뉴스</font>"
+    },
+    {
+      "id": "live-18",
+      "title": "대전시, 옥외광고대상전 24점 선정...대상에 '활자에 핀 꽃'",
+      "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFBVa0FKRU1RS2l4NjF5WDN5ME9xNFRXZm9MaHBYN0IzQnZjUHBTM296QTByeXZ2aTYxTkM0THNkTFp4djFFTEhCSjVSaG1wQjNNanZVYUpkVGpWTC1h?oc=5",
+      "originallink": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFBVa0FKRU1RS2l4NjF5WDN5ME9xNFRXZm9MaHBYN0IzQnZjUHBTM296QTByeXZ2aTYxTkM0THNkTFp4djFFTEhCSjVSaG1wQjNNanZVYUpkVGpWTC1h?oc=5",
+      "press": "뉴스핌",
+      "pubDate": "2026-09-11 02:15",
+      "category": "옥외광고·간판",
+      "description": "<a href=\"https://news.google.com/rss/articles/CBMiXEFVX3lxTFBVa0FKRU1RS2l4NjF5WDN5ME9xNFRXZm9MaHBYN0IzQnZjUHBTM296QTByeXZ2aTYxTkM0THNkTFp4djFFTEhCSjVSaG1wQjNNanZVYUpkVGpWTC1h?oc=5\" target=\"_blank\">대전시, 옥외광고대상전 24점 선정...대상에 '활자에 핀 꽃'</a>  <font color=\"#6f6f6f\">뉴스핌</font>"
     },
     {
       "id": "live-19",
@@ -258,13 +258,13 @@
     },
     {
       "id": "live-20",
-      "title": "대전시, 옥외광고대상전 24점 선정...대상에 '활자에 핀 꽃'",
-      "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFBVa0FKRU1RS2l4NjF5WDN5ME9xNFRXZm9MaHBYN0IzQnZjUHBTM296QTByeXZ2aTYxTkM0THNkTFp4djFFTEhCSjVSaG1wQjNNanZVYUpkVGpWTC1h?oc=5",
-      "originallink": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFBVa0FKRU1RS2l4NjF5WDN5ME9xNFRXZm9MaHBYN0IzQnZjUHBTM296QTByeXZ2aTYxTkM0THNkTFp4djFFTEhCSjVSaG1wQjNNanZVYUpkVGpWTC1h?oc=5",
-      "press": "뉴스핌",
-      "pubDate": "2026-09-11 02:15",
+      "title": "LG전자, 도심 한복판서 100℃ 스팀 ‘로니’ 이색 옥외광고",
+      "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5tbHp5a0VrejJaeWVXeTNxZXNMZ0dHR2JsWDlTMjJGNUp0RXZRNVZFdTY3cERxallKQ1NzQTBGa3lnQjZPdUt6cFpxX3lxLXo1VkZVVWx5YlFfQWRKSHdQSkh4bExiSnprTlE?oc=5",
+      "originallink": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5tbHp5a0VrejJaeWVXeTNxZXNMZ0dHR2JsWDlTMjJGNUp0RXZRNVZFdTY3cERxallKQ1NzQTBGa3lnQjZPdUt6cFpxX3lxLXo1VkZVVWx5YlFfQWRKSHdQSkh4bExiSnprTlE?oc=5",
+      "press": "뉴스티앤티",
+      "pubDate": "2026-09-14 03:02",
       "category": "옥외광고·간판",
-      "description": "<a href=\"https://news.google.com/rss/articles/CBMiXEFVX3lxTFBVa0FKRU1RS2l4NjF5WDN5ME9xNFRXZm9MaHBYN0IzQnZjUHBTM296QTByeXZ2aTYxTkM0THNkTFp4djFFTEhCSjVSaG1wQjNNanZVYUpkVGpWTC1h?oc=5\" target=\"_blank\">대전시, 옥외광고대상전 24점 선정...대상에 '활자에 핀 꽃'</a>  <font color=\"#6f6f6f\">뉴스핌</font>"
+      "description": "<a href=\"https://news.google.com/rss/articles/CBMiakFVX3lxTE5tbHp5a0VrejJaeWVXeTNxZXNMZ0dHR2JsWDlTMjJGNUp0RXZRNVZFdTY3cERxallKQ1NzQTBGa3lnQjZPdUt6cFpxX3lxLXo1VkZVVWx5YlFfQWRKSHdQSkh4bExiSnprTlE?oc=5\" target=\"_blank\">LG전자, 도심 한복판서 100℃ 스팀 ‘로니’ 이색 옥외광고</a>  <font color=\"#6f6f6f\">뉴스티앤티</font>"
     }
   ]
 }
