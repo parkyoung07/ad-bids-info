@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-15T08:38:09.508Z",
+  "updatedAt": "2026-09-15T14:18:57.010Z",
   "totalCount": 25,
   "isLiveApi": true,
   "categories": [
@@ -78,6 +78,16 @@
     },
     {
       "id": "live-2",
+      "title": "거제시, 개학기·추석 앞두고 불법광고물 정비",
+      "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTFB0QXAwamF1SXBsSzk4UEdiTDVDMjIwbFE1RkgzLXZwQlVJSFRpdFM4dl9iMGhNTVJmWDBWR3cweFRTS0ZMYjlZemdiWlVCcFFfN2xua0lXRjY3RFcxb3FkWDgtTDcySGEzS0ZDSC1n?oc=5",
+      "originallink": "https://news.google.com/rss/articles/CBMibkFVX3lxTFB0QXAwamF1SXBsSzk4UEdiTDVDMjIwbFE1RkgzLXZwQlVJSFRpdFM4dl9iMGhNTVJmWDBWR3cweFRTS0ZMYjlZemdiWlVCcFFfN2xua0lXRjY3RFcxb3FkWDgtTDcySGEzS0ZDSC1n?oc=5",
+      "press": "거제신문",
+      "pubDate": "2026-09-15 08:40",
+      "category": "옥외광고·간판",
+      "description": "<a href=\"https://news.google.com/rss/articles/CBMibkFVX3lxTFB0QXAwamF1SXBsSzk4UEdiTDVDMjIwbFE1RkgzLXZwQlVJSFRpdFM4dl9iMGhNTVJmWDBWR3cweFRTS0ZMYjlZemdiWlVCcFFfN2xua0lXRjY3RFcxb3FkWDgtTDcySGEzS0ZDSC1n?oc=5\" target=\"_blank\">거제시, 개학기·추석 앞두고 불법광고물 정비</a>  <font color=\"#6f6f6f\">거제신문</font>"
+    },
+    {
+      "id": "live-3",
       "title": "‘옥외광고물 빛공해’ 개선되나?",
       "link": "https://news.google.com/rss/articles/CBMiREFVX3lxTE9PdXhMUmFZMnBrM29NeXZGNV8wRFRNSVA2NnJES3dnR3BYNHotZ0Y0VVVWMVNIQXpicXpCREtfWE9yN0VG?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMiREFVX3lxTE9PdXhMUmFZMnBrM29NeXZGNV8wRFRNSVA2NnJES3dnR3BYNHotZ0Y0VVVWMVNIQXpicXpCREtfWE9yN0VG?oc=5",
@@ -87,7 +97,7 @@
       "description": "<a href=\"https://news.google.com/rss/articles/CBMiREFVX3lxTE9PdXhMUmFZMnBrM29NeXZGNV8wRFRNSVA2NnJES3dnR3BYNHotZ0Y0VVVWMVNIQXpicXpCREtfWE9yN0VG?oc=5\" target=\"_blank\">‘옥외광고물 빛공해’ 개선되나?</a>  <font color=\"#6f6f6f\">시사코리아</font>"
     },
     {
-      "id": "live-3",
+      "id": "live-4",
       "title": "권익위, 옥외광고물 빛공해 규제 확대 권고…\"관리 사각지대 해소\"",
       "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTFBqUFdpTHNMMWliYnlRcW1FZmlsMVhabmFlUmhMaXF3NXJha1FDN3JpaUlVVmEtS2hjaXMtX0NUSWZGUUZVdWVTRng4VzNKYnJXNV90NllEYlo3OWdhMU1QbdIBeEFVX3lxTE1yZGtCeEU4Yjl1dlVpRGFkR3ZsMDNkcWJsOVU1X3RiRkNxcE9EdUNkS3lObm5MMUl6ci1ya2VxR1IzeVNuYjhXZHY5UGUyNzlTVHU4cnZkY1B0UkNvcWZyTGNtcFV1T0ZxTldGeWNmMmRjdUNUWldIdQ?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMiYEFVX3lxTFBqUFdpTHNMMWliYnlRcW1FZmlsMVhabmFlUmhMaXF3NXJha1FDN3JpaUlVVmEtS2hjaXMtX0NUSWZGUUZVdWVTRng4VzNKYnJXNV90NllEYlo3OWdhMU1QbdIBeEFVX3lxTE1yZGtCeEU4Yjl1dlVpRGFkR3ZsMDNkcWJsOVU1X3RiRkNxcE9EdUNkS3lObm5MMUl6ci1ya2VxR1IzeVNuYjhXZHY5UGUyNzlTVHU4cnZkY1B0UkNvcWZyTGNtcFV1T0ZxTldGeWNmMmRjdUNUWldIdQ?oc=5",
@@ -97,7 +107,7 @@
       "description": "<a href=\"https://news.google.com/rss/articles/CBMiYEFVX3lxTFBqUFdpTHNMMWliYnlRcW1FZmlsMVhabmFlUmhMaXF3NXJha1FDN3JpaUlVVmEtS2hjaXMtX0NUSWZGUUZVdWVTRng4VzNKYnJXNV90NllEYlo3OWdhMU1QbdIBeEFVX3lxTE1yZGtCeEU4Yjl1dlVpRGFkR3ZsMDNkcWJsOVU1X3RiRkNxcE9EdUNkS3lObm5MMUl6ci1ya2VxR1IzeVNuYjhXZHY5UGUyNzlTVHU4cnZkY1B0UkNvcWZyTGNtcFV1T0ZxTldGeWNmMmRjdUNUWldIdQ?oc=5\" target=\"_blank\">권익위, 옥외광고물 빛공해 규제 확대 권고…\"관리 사각지대 해소\"</a>  <font color=\"#6f6f6f\">뉴시스</font>"
     },
     {
-      "id": "live-4",
+      "id": "live-5",
       "title": "셀로라바이, 성수 옥외광고·약국 입점으로 오프라인 공략",
       "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE1JZHVpblJ0UEpfVEdPajhUenVRaUFBR2ZiQUIxdE1oYllnVlc2V2UxMTlRaWVCSzdQOWNjMk1GV0tIcjh2R3ZtVE1nRHEwck9iNmxzdzdtYlA2VVREZXpPMVhZU2FCc2dWcDROT1dCbw?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMib0FVX3lxTE1JZHVpblJ0UEpfVEdPajhUenVRaUFBR2ZiQUIxdE1oYllnVlc2V2UxMTlRaWVCSzdQOWNjMk1GV0tIcjh2R3ZtVE1nRHEwck9iNmxzdzdtYlA2VVREZXpPMVhZU2FCc2dWcDROT1dCbw?oc=5",
@@ -107,7 +117,7 @@
       "description": "<a href=\"https://news.google.com/rss/articles/CBMib0FVX3lxTE1JZHVpblJ0UEpfVEdPajhUenVRaUFBR2ZiQUIxdE1oYllnVlc2V2UxMTlRaWVCSzdQOWNjMk1GV0tIcjh2R3ZtVE1nRHEwck9iNmxzdzdtYlA2VVREZXpPMVhZU2FCc2dWcDROT1dCbw?oc=5\" target=\"_blank\">셀로라바이, 성수 옥외광고·약국 입점으로 오프라인 공략</a>  <font color=\"#6f6f6f\">비즈니스플러스</font>"
     },
     {
-      "id": "live-5",
+      "id": "live-6",
       "title": "중구의회 예결특위,2025 예산결산 부결·예비비 지출 가결…옥외광고기금 변경안도 부결",
       "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE9EYjZ6VmxMMDNkZlE2bkZxYzFPUEdsRll3TFgtcUR6OFZvbU5welRRTnlwckR0OTNXdU44SkZsUDRRcVg2MXI5Rk01N3NCZTRIVzFBY3lneWRBYTUyM09YXzdibURUQ2RSbmo1TA?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMibEFVX3lxTE9EYjZ6VmxMMDNkZlE2bkZxYzFPUEdsRll3TFgtcUR6OFZvbU5welRRTnlwckR0OTNXdU44SkZsUDRRcVg2MXI5Rk01N3NCZTRIVzFBY3lneWRBYTUyM09YXzdibURUQ2RSbmo1TA?oc=5",
@@ -117,27 +127,27 @@
       "description": "<a href=\"https://news.google.com/rss/articles/CBMibEFVX3lxTE9EYjZ6VmxMMDNkZlE2bkZxYzFPUEdsRll3TFgtcUR6OFZvbU5welRRTnlwckR0OTNXdU44SkZsUDRRcVg2MXI5Rk01N3NCZTRIVzFBY3lneWRBYTUyM09YXzdibURUQ2RSbmo1TA?oc=5\" target=\"_blank\">중구의회 예결특위,2025 예산결산 부결·예비비 지출 가결…옥외광고기금 변경안도 부결</a>  <font color=\"#6f6f6f\">중구신문</font>"
     },
     {
-      "id": "live-6",
-      "title": "국민권익위, 눈부신 간판 뒤에 그늘진 규제 공백… 제도개선으로 채우다",
-      "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE84SWRRSDJhdmR1emZHZ1NmejYtWW85R3RMaTN4Y0JYM0RUN0NOeVc1enpLWmxIMVhoTDRaZFIzS2FPaWlpUHdLMjB4QzFndjlYWWlIa1lBV2VOTVVMYVc5UkZxa24?oc=5",
-      "originallink": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE84SWRRSDJhdmR1emZHZ1NmejYtWW85R3RMaTN4Y0JYM0RUN0NOeVc1enpLWmxIMVhoTDRaZFIzS2FPaWlpUHdLMjB4QzFndjlYWWlIa1lBV2VOTVVMYVc5UkZxa24?oc=5",
-      "press": "정안뉴스",
-      "pubDate": "2026-09-15 04:11",
-      "category": "옥외광고·간판",
-      "description": "<a href=\"https://news.google.com/rss/articles/CBMiZEFVX3lxTE84SWRRSDJhdmR1emZHZ1NmejYtWW85R3RMaTN4Y0JYM0RUN0NOeVc1enpLWmxIMVhoTDRaZFIzS2FPaWlpUHdLMjB4QzFndjlYWWlIa1lBV2VOTVVMYVc5UkZxa24?oc=5\" target=\"_blank\">국민권익위, 눈부신 간판 뒤에 그늘진 규제 공백… 제도개선으로 채우다</a>  <font color=\"#6f6f6f\">정안뉴스</font>"
-    },
-    {
       "id": "live-7",
-      "title": "(사)경상남도옥외광고협회 통영시지부, 재해구호 성금 200만원 기탁",
-      "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTFB1ZHdrWTZ1dS1OZ0RKbE44Q2tEWEM3ZjBHODE2bGcwajBQMXpMRWxHX3V5WjJuQnYxNjdJVi04VjZRSXU1MUU5UUc1dkFveENkTE9hOURxb3pMRVRyMHhtMG04bVBjZTc5bHFtbG9B?oc=5",
-      "originallink": "https://news.google.com/rss/articles/CBMibkFVX3lxTFB1ZHdrWTZ1dS1OZ0RKbE44Q2tEWEM3ZjBHODE2bGcwajBQMXpMRWxHX3V5WjJuQnYxNjdJVi04VjZRSXU1MUU5UUc1dkFveENkTE9hOURxb3pMRVRyMHhtMG04bVBjZTc5bHFtbG9B?oc=5",
-      "press": "hansannews.com",
-      "pubDate": "2026-09-14 05:44",
+      "title": "거제시, 장평초 일원서 개학기·추석 맞아 불법광고물 일제정비",
+      "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTE1ydUtLcmNXZlZuN0w2UXNMMURlQ2U2dl9TdW83MDlSeEpmMXRPUXlPaWxYQy15WmV6aDA5dVd6WGJZVWpRalFxbDVPdGhUbVNtTVNWckNXai1rcURqcE82YnVaQ3o5U2hnMVFn?oc=5",
+      "originallink": "https://news.google.com/rss/articles/CBMia0FVX3lxTE1ydUtLcmNXZlZuN0w2UXNMMURlQ2U2dl9TdW83MDlSeEpmMXRPUXlPaWxYQy15WmV6aDA5dVd6WGJZVWpRalFxbDVPdGhUbVNtTVNWckNXai1rcURqcE82YnVaQ3o5U2hnMVFn?oc=5",
+      "press": "새거제신문",
+      "pubDate": "2026-09-15 09:06",
       "category": "옥외광고·간판",
-      "description": "<a href=\"https://news.google.com/rss/articles/CBMibkFVX3lxTFB1ZHdrWTZ1dS1OZ0RKbE44Q2tEWEM3ZjBHODE2bGcwajBQMXpMRWxHX3V5WjJuQnYxNjdJVi04VjZRSXU1MUU5UUc1dkFveENkTE9hOURxb3pMRVRyMHhtMG04bVBjZTc5bHFtbG9B?oc=5\" target=\"_blank\">(사)경상남도옥외광고협회 통영시지부, 재해구호 성금 200만원 기탁</a>  <font color=\"#6f6f6f\">hansannews.com</font>"
+      "description": "<a href=\"https://news.google.com/rss/articles/CBMia0FVX3lxTE1ydUtLcmNXZlZuN0w2UXNMMURlQ2U2dl9TdW83MDlSeEpmMXRPUXlPaWxYQy15WmV6aDA5dVd6WGJZVWpRalFxbDVPdGhUbVNtTVNWckNXai1rcURqcE82YnVaQ3o5U2hnMVFn?oc=5\" target=\"_blank\">거제시, 장평초 일원서 개학기·추석 맞아 불법광고물 일제정비</a>  <font color=\"#6f6f6f\">새거제신문</font>"
     },
     {
       "id": "live-8",
+      "title": "(사)경상남도옥외광고협회 통영시지부, 재해구호 성금 200만원 기탁",
+      "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTFB1ZHdrWTZ1dS1OZ0RKbE44Q2tEWEM3ZjBHODE2bGcwajBQMXpMRWxHX3V5WjJuQnYxNjdJVi04VjZRSXU1MUU5UUc1dkFveENkTE9hOURxb3pMRVRyMHhtMG04bVBjZTc5bHFtbG9B?oc=5",
+      "originallink": "https://news.google.com/rss/articles/CBMibkFVX3lxTFB1ZHdrWTZ1dS1OZ0RKbE44Q2tEWEM3ZjBHODE2bGcwajBQMXpMRWxHX3V5WjJuQnYxNjdJVi04VjZRSXU1MUU5UUc1dkFveENkTE9hOURxb3pMRVRyMHhtMG04bVBjZTc5bHFtbG9B?oc=5",
+      "press": "한산신문",
+      "pubDate": "2026-09-14 05:44",
+      "category": "옥외광고·간판",
+      "description": "<a href=\"https://news.google.com/rss/articles/CBMibkFVX3lxTFB1ZHdrWTZ1dS1OZ0RKbE44Q2tEWEM3ZjBHODE2bGcwajBQMXpMRWxHX3V5WjJuQnYxNjdJVi04VjZRSXU1MUU5UUc1dkFveENkTE9hOURxb3pMRVRyMHhtMG04bVBjZTc5bHFtbG9B?oc=5\" target=\"_blank\">(사)경상남도옥외광고협회 통영시지부, 재해구호 성금 200만원 기탁</a>  <font color=\"#6f6f6f\">한산신문</font>"
+    },
+    {
+      "id": "live-9",
       "title": "도심 빌딩 기름때를 스팀으로 싹…LG전자 이색 옥외광고",
       "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTE4xendQUG9CU0Vzc0xob2JHVnlVaHAxLURLSVk4aTN0ODlmLUs0UEZlVUgwaWVXQjJDdFpyOXp2SEtzSS1rY3BWLWpudm42c25ZSVFWWjhHaXVzeTZac0gyNUxmc2dfMnF3YjZV?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMia0FVX3lxTE4xendQUG9CU0Vzc0xob2JHVnlVaHAxLURLSVk4aTN0ODlmLUs0UEZlVUgwaWVXQjJDdFpyOXp2SEtzSS1rY3BWLWpudm42c25ZSVFWWjhHaXVzeTZac0gyNUxmc2dfMnF3YjZV?oc=5",
@@ -147,7 +157,17 @@
       "description": "<a href=\"https://news.google.com/rss/articles/CBMia0FVX3lxTE4xendQUG9CU0Vzc0xob2JHVnlVaHAxLURLSVk4aTN0ODlmLUs0UEZlVUgwaWVXQjJDdFpyOXp2SEtzSS1rY3BWLWpudm42c25ZSVFWWjhHaXVzeTZac0gyNUxmc2dfMnF3YjZV?oc=5\" target=\"_blank\">도심 빌딩 기름때를 스팀으로 싹…LG전자 이색 옥외광고</a>  <font color=\"#6f6f6f\">경남신문</font>"
     },
     {
-      "id": "live-9",
+      "id": "live-10",
+      "title": "국민권익위, 눈부신 간판 뒤에 그늘진 규제 공백… 제도개선으로 채우다",
+      "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE84SWRRSDJhdmR1emZHZ1NmejYtWW85R3RMaTN4Y0JYM0RUN0NOeVc1enpLWmxIMVhoTDRaZFIzS2FPaWlpUHdLMjB4QzFndjlYWWlIa1lBV2VOTVVMYVc5UkZxa24?oc=5",
+      "originallink": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE84SWRRSDJhdmR1emZHZ1NmejYtWW85R3RMaTN4Y0JYM0RUN0NOeVc1enpLWmxIMVhoTDRaZFIzS2FPaWlpUHdLMjB4QzFndjlYWWlIa1lBV2VOTVVMYVc5UkZxa24?oc=5",
+      "press": "정안뉴스",
+      "pubDate": "2026-09-15 04:11",
+      "category": "옥외광고·간판",
+      "description": "<a href=\"https://news.google.com/rss/articles/CBMiZEFVX3lxTE84SWRRSDJhdmR1emZHZ1NmejYtWW85R3RMaTN4Y0JYM0RUN0NOeVc1enpLWmxIMVhoTDRaZFIzS2FPaWlpUHdLMjB4QzFndjlYWWlIa1lBV2VOTVVMYVc5UkZxa24?oc=5\" target=\"_blank\">국민권익위, 눈부신 간판 뒤에 그늘진 규제 공백… 제도개선으로 채우다</a>  <font color=\"#6f6f6f\">정안뉴스</font>"
+    },
+    {
+      "id": "live-11",
       "title": "옥외광고 종합발전 방안 마련",
       "link": "https://news.google.com/rss/articles/CBMi_gFBVV95cUxOX2Fscm41RG1vNE1GUVhIREtHWVJlSnd2dkVUUzlpTXlDZWhUdUpZaElDaGs5Zy1aSkpTS2VsV2NDVVM1XzlXSWhiRmFCQzcwR1BSMHRtQUk3V1B2SE9SdmlNNi1tOWNtUElEbV9XeVluWHR4ZjQ2MFhTUUdQeS1EdHZHdjMxdDdWYTVPVEN5RFVfMTJ0cnd1aHVzeks3NXFiNjNBTHJJX2RhUFlDUWZfejFYVzVScUpPRkxuTUN5eU82T2hXcVBFZWp5aDh4bXVWZEVkMHFuQ0tiZGhPaTZsdTYwTUp1NkVIOVNWLWVjVjlMZDVtcm53S2R2Y1pndw?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMi_gFBVV95cUxOX2Fscm41RG1vNE1GUVhIREtHWVJlSnd2dkVUUzlpTXlDZWhUdUpZaElDaGs5Zy1aSkpTS2VsV2NDVVM1XzlXSWhiRmFCQzcwR1BSMHRtQUk3V1B2SE9SdmlNNi1tOWNtUElEbV9XeVluWHR4ZjQ2MFhTUUdQeS1EdHZHdjMxdDdWYTVPVEN5RFVfMTJ0cnd1aHVzeks3NXFiNjNBTHJJX2RhUFlDUWZfejFYVzVScUpPRkxuTUN5eU82T2hXcVBFZWp5aDh4bXVWZEVkMHFuQ0tiZGhPaTZsdTYwTUp1NkVIOVNWLWVjVjlMZDVtcm53S2R2Y1pndw?oc=5",
@@ -155,26 +175,6 @@
       "pubDate": "2026-09-12 14:12",
       "category": "옥외광고·간판",
       "description": "<a href=\"https://news.google.com/rss/articles/CBMi_gFBVV95cUxOX2Fscm41RG1vNE1GUVhIREtHWVJlSnd2dkVUUzlpTXlDZWhUdUpZaElDaGs5Zy1aSkpTS2VsV2NDVVM1XzlXSWhiRmFCQzcwR1BSMHRtQUk3V1B2SE9SdmlNNi1tOWNtUElEbV9XeVluWHR4ZjQ2MFhTUUdQeS1EdHZHdjMxdDdWYTVPVEN5RFVfMTJ0cnd1aHVzeks3NXFiNjNBTHJJX2RhUFlDUWZfejFYVzVScUpPRkxuTUN5eU82T2hXcVBFZWp5aDh4bXVWZEVkMHFuQ0tiZGhPaTZsdTYwTUp1NkVIOVNWLWVjVjlMZDVtcm53S2R2Y1pndw?oc=5\" target=\"_blank\">옥외광고 종합발전 방안 마련</a>  <font color=\"#6f6f6f\">데일리뉴스</font>"
-    },
-    {
-      "id": "live-10",
-      "title": "권익위 \"간판 빛공해 사각지대 줄인다…허용기준 적용 대상 확대\"",
-      "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE1fMlNKOVFSdTYybDJfNWJYdmZJcEJzYS1Pak5WYWg0amg2WWV5QmNaX25ndVFoWFJlSHF5Nm1IYWhTRDV4Rnk0cDRIeW11NmZMeF9uRzVvbzY3b21WdGfSAWNBVV95cUxQVzVlNWFBVkpCNGJDaTZleXVYWjhkVEtRQXMyTE5jY3labmVaYVptTHN0TWJjLUNQaXJ5TkFmdG9qVk56UFp5ajRTbmJSXzlpSUhYRWl3ZTZZOHQ0blhzMUx3c1k?oc=5",
-      "originallink": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE1fMlNKOVFSdTYybDJfNWJYdmZJcEJzYS1Pak5WYWg0amg2WWV5QmNaX25ndVFoWFJlSHF5Nm1IYWhTRDV4Rnk0cDRIeW11NmZMeF9uRzVvbzY3b21WdGfSAWNBVV95cUxQVzVlNWFBVkpCNGJDaTZleXVYWjhkVEtRQXMyTE5jY3labmVaYVptTHN0TWJjLUNQaXJ5TkFmdG9qVk56UFp5ajRTbmJSXzlpSUhYRWl3ZTZZOHQ0blhzMUx3c1k?oc=5",
-      "press": "뉴스1",
-      "pubDate": "2026-09-15 00:38",
-      "category": "옥외광고·간판",
-      "description": "<a href=\"https://news.google.com/rss/articles/CBMiXkFVX3lxTE1fMlNKOVFSdTYybDJfNWJYdmZJcEJzYS1Pak5WYWg0amg2WWV5QmNaX25ndVFoWFJlSHF5Nm1IYWhTRDV4Rnk0cDRIeW11NmZMeF9uRzVvbzY3b21WdGfSAWNBVV95cUxQVzVlNWFBVkpCNGJDaTZleXVYWjhkVEtRQXMyTE5jY3labmVaYVptTHN0TWJjLUNQaXJ5TkFmdG9qVk56UFp5ajRTbmJSXzlpSUhYRWl3ZTZZOHQ0blhzMUx3c1k?oc=5\" target=\"_blank\">권익위 \"간판 빛공해 사각지대 줄인다…허용기준 적용 대상 확대\"</a>  <font color=\"#6f6f6f\">뉴스1</font>"
-    },
-    {
-      "id": "live-11",
-      "title": "클래시스 광고 캠페인, 한 달 만에 누적 조회수 2000만 돌파",
-      "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBVRzQ1Zzkwc1N5VTdybGZXSHNBYUhlc1FXUURxX1lIcVdvOUxaa2o4Q21UZHF4SktzQzc0U1hrUnhoTmcwMmlvWi1hNjNDUFNhRTQySTlWdFdtdXJ5OFpNOHotazJWajVjcnVFZw?oc=5",
-      "originallink": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBVRzQ1Zzkwc1N5VTdybGZXSHNBYUhlc1FXUURxX1lIcVdvOUxaa2o4Q21UZHF4SktzQzc0U1hrUnhoTmcwMmlvWi1hNjNDUFNhRTQySTlWdFdtdXJ5OFpNOHotazJWajVjcnVFZw?oc=5",
-      "press": "스마트비즈",
-      "pubDate": "2026-09-15 01:22",
-      "category": "옥외광고·간판",
-      "description": "<a href=\"https://news.google.com/rss/articles/CBMibEFVX3lxTFBVRzQ1Zzkwc1N5VTdybGZXSHNBYUhlc1FXUURxX1lIcVdvOUxaa2o4Q21UZHF4SktzQzc0U1hrUnhoTmcwMmlvWi1hNjNDUFNhRTQySTlWdFdtdXJ5OFpNOHotazJWajVjcnVFZw?oc=5\" target=\"_blank\">클래시스 광고 캠페인, 한 달 만에 누적 조회수 2000만 돌파</a>  <font color=\"#6f6f6f\">스마트비즈</font>"
     },
     {
       "id": "live-12",
@@ -208,16 +208,36 @@
     },
     {
       "id": "live-15",
-      "title": "“도심 빌딩에 기름때?” …LG전자, 청소로봇 ‘로니’ 이색 옥외광고",
-      "link": "https://news.google.com/rss/articles/CBMifEFVX3lxTE56QWNsNUk5ZTBUelFaZHg0TF9aejF2d2Z0b2lKTlZNbVpuUnNXV2hxTXctblhWOC1LQVlSSldlYXF3b2xuaVpLQ2kxWURsdGpING9mZWVXODdLQ1duendMdlMyb3pnblRnaXJVZEttd1ZWQWtPQm1pUHdfaTA?oc=5",
-      "originallink": "https://news.google.com/rss/articles/CBMifEFVX3lxTE56QWNsNUk5ZTBUelFaZHg0TF9aejF2d2Z0b2lKTlZNbVpuUnNXV2hxTXctblhWOC1LQVlSSldlYXF3b2xuaVpLQ2kxWURsdGpING9mZWVXODdLQ1duendMdlMyb3pnblRnaXJVZEttd1ZWQWtPQm1pUHdfaTA?oc=5",
-      "press": "busan.com",
-      "pubDate": "2026-09-14 02:56",
+      "title": "권익위 \"간판 빛공해 사각지대 줄인다…허용기준 적용 대상 확대\"",
+      "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE5pajBzaVRFdDBtUHFBNEloQWVBWWhld1FJMUotSTdISTFpcmgtVXZNdnVObFZzc2F3WGpMODcybVE2NTZjMWN6aTFEeXdaUkk?oc=5",
+      "originallink": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE5pajBzaVRFdDBtUHFBNEloQWVBWWhld1FJMUotSTdISTFpcmgtVXZNdnVObFZzc2F3WGpMODcybVE2NTZjMWN6aTFEeXdaUkk?oc=5",
+      "press": "v.daum.net",
+      "pubDate": "2026-09-15 00:39",
       "category": "옥외광고·간판",
-      "description": "<a href=\"https://news.google.com/rss/articles/CBMifEFVX3lxTE56QWNsNUk5ZTBUelFaZHg0TF9aejF2d2Z0b2lKTlZNbVpuUnNXV2hxTXctblhWOC1LQVlSSldlYXF3b2xuaVpLQ2kxWURsdGpING9mZWVXODdLQ1duendMdlMyb3pnblRnaXJVZEttd1ZWQWtPQm1pUHdfaTA?oc=5\" target=\"_blank\">“도심 빌딩에 기름때?” …LG전자, 청소로봇 ‘로니’ 이색 옥외광고</a>  <font color=\"#6f6f6f\">busan.com</font>"
+      "description": "<a href=\"https://news.google.com/rss/articles/CBMiT0FVX3lxTE5pajBzaVRFdDBtUHFBNEloQWVBWWhld1FJMUotSTdISTFpcmgtVXZNdnVObFZzc2F3WGpMODcybVE2NTZjMWN6aTFEeXdaUkk?oc=5\" target=\"_blank\">권익위 \"간판 빛공해 사각지대 줄인다…허용기준 적용 대상 확대\"</a>  <font color=\"#6f6f6f\">v.daum.net</font>"
     },
     {
       "id": "live-16",
+      "title": "LG전자, 이색 옥외광고... \"빌딩에 딸기잼? 100℃ 투웨이 스팀으로 싹\"",
+      "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE96bzZiMTZPR25HVHgxbkU5QWNmbWJkUFhqSlE1Y2FOcWJ2dEtPWFhCZEtxa3I1Sk5laGV3ZkdvY0dwanl0bml6Y3RDTTFsNWZJZzRIbDhOWnNsV3E3enV1QTgtWkZWTVI2NkQxMg?oc=5",
+      "originallink": "https://news.google.com/rss/articles/CBMibEFVX3lxTE96bzZiMTZPR25HVHgxbkU5QWNmbWJkUFhqSlE1Y2FOcWJ2dEtPWFhCZEtxa3I1Sk5laGV3ZkdvY0dwanl0bml6Y3RDTTFsNWZJZzRIbDhOWnNsV3E3enV1QTgtWkZWTVI2NkQxMg?oc=5",
+      "press": "newslock.co.kr",
+      "pubDate": "2026-09-14 09:05",
+      "category": "옥외광고·간판",
+      "description": "<a href=\"https://news.google.com/rss/articles/CBMibEFVX3lxTE96bzZiMTZPR25HVHgxbkU5QWNmbWJkUFhqSlE1Y2FOcWJ2dEtPWFhCZEtxa3I1Sk5laGV3ZkdvY0dwanl0bml6Y3RDTTFsNWZJZzRIbDhOWnNsV3E3enV1QTgtWkZWTVI2NkQxMg?oc=5\" target=\"_blank\">LG전자, 이색 옥외광고... \"빌딩에 딸기잼? 100℃ 투웨이 스팀으로 싹\"</a>  <font color=\"#6f6f6f\">newslock.co.kr</font>"
+    },
+    {
+      "id": "live-17",
+      "title": "“도심 빌딩에 기름때?” …LG전자, 청소로봇 ‘로니’ 이색 옥외광고",
+      "link": "https://news.google.com/rss/articles/CBMifEFVX3lxTE56QWNsNUk5ZTBUelFaZHg0TF9aejF2d2Z0b2lKTlZNbVpuUnNXV2hxTXctblhWOC1LQVlSSldlYXF3b2xuaVpLQ2kxWURsdGpING9mZWVXODdLQ1duendMdlMyb3pnblRnaXJVZEttd1ZWQWtPQm1pUHdfaTA?oc=5",
+      "originallink": "https://news.google.com/rss/articles/CBMifEFVX3lxTE56QWNsNUk5ZTBUelFaZHg0TF9aejF2d2Z0b2lKTlZNbVpuUnNXV2hxTXctblhWOC1LQVlSSldlYXF3b2xuaVpLQ2kxWURsdGpING9mZWVXODdLQ1duendMdlMyb3pnblRnaXJVZEttd1ZWQWtPQm1pUHdfaTA?oc=5",
+      "press": "부산일보",
+      "pubDate": "2026-09-14 02:56",
+      "category": "옥외광고·간판",
+      "description": "<a href=\"https://news.google.com/rss/articles/CBMifEFVX3lxTE56QWNsNUk5ZTBUelFaZHg0TF9aejF2d2Z0b2lKTlZNbVpuUnNXV2hxTXctblhWOC1LQVlSSldlYXF3b2xuaVpLQ2kxWURsdGpING9mZWVXODdLQ1duendMdlMyb3pnblRnaXJVZEttd1ZWQWtPQm1pUHdfaTA?oc=5\" target=\"_blank\">“도심 빌딩에 기름때?” …LG전자, 청소로봇 ‘로니’ 이색 옥외광고</a>  <font color=\"#6f6f6f\">부산일보</font>"
+    },
+    {
+      "id": "live-18",
       "title": "아모레 이니스프리, 日 도쿄 시부야 옥외광고 캠페인…세븐틴 민규 앰배서더 등판",
       "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE9vWXpRM2pCd2UwMXQtZGR1c1BSU1RDc3FwUUlWWWZoMENfRTRId3ViVGVObUFjNVJjel93WGRJUUlTX2ZmZW5zYzUyWDJ3NEt2eW0wVC1PRm91SXg1dkE?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE9vWXpRM2pCd2UwMXQtZGR1c1BSU1RDc3FwUUlWWWZoMENfRTRId3ViVGVObUFjNVJjel93WGRJUUlTX2ZmZW5zYzUyWDJ3NEt2eW0wVC1PRm91SXg1dkE?oc=5",
@@ -227,7 +247,17 @@
       "description": "<a href=\"https://news.google.com/rss/articles/CBMiXkFVX3lxTE9vWXpRM2pCd2UwMXQtZGR1c1BSU1RDc3FwUUlWWWZoMENfRTRId3ViVGVObUFjNVJjel93WGRJUUlTX2ZmZW5zYzUyWDJ3NEt2eW0wVC1PRm91SXg1dkE?oc=5\" target=\"_blank\">아모레 이니스프리, 日 도쿄 시부야 옥외광고 캠페인…세븐틴 민규 앰배서더 등판</a>  <font color=\"#6f6f6f\">더구루</font>"
     },
     {
-      "id": "live-17",
+      "id": "live-19",
+      "title": "클래시스 광고 캠페인, 한 달 만에 누적 조회수 2000만 돌파",
+      "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBVRzQ1Zzkwc1N5VTdybGZXSHNBYUhlc1FXUURxX1lIcVdvOUxaa2o4Q21UZHF4SktzQzc0U1hrUnhoTmcwMmlvWi1hNjNDUFNhRTQySTlWdFdtdXJ5OFpNOHotazJWajVjcnVFZw?oc=5",
+      "originallink": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBVRzQ1Zzkwc1N5VTdybGZXSHNBYUhlc1FXUURxX1lIcVdvOUxaa2o4Q21UZHF4SktzQzc0U1hrUnhoTmcwMmlvWi1hNjNDUFNhRTQySTlWdFdtdXJ5OFpNOHotazJWajVjcnVFZw?oc=5",
+      "press": "smartbizn.com",
+      "pubDate": "2026-09-15 01:22",
+      "category": "옥외광고·간판",
+      "description": "<a href=\"https://news.google.com/rss/articles/CBMibEFVX3lxTFBVRzQ1Zzkwc1N5VTdybGZXSHNBYUhlc1FXUURxX1lIcVdvOUxaa2o4Q21UZHF4SktzQzc0U1hrUnhoTmcwMmlvWi1hNjNDUFNhRTQySTlWdFdtdXJ5OFpNOHotazJWajVjcnVFZw?oc=5\" target=\"_blank\">클래시스 광고 캠페인, 한 달 만에 누적 조회수 2000만 돌파</a>  <font color=\"#6f6f6f\">smartbizn.com</font>"
+    },
+    {
+      "id": "live-20",
       "title": "LG전자, 청소로봇 '로니' 이색 옥외광고 선봬...소비자 관심도 상승",
       "link": "https://news.google.com/rss/articles/CBMifEFVX3lxTE9ud3RLS2NfNTduSjZ0TmxpMndVeWsyckxsWldqQ1pCNE5MSkdtdHpFQVBsSV81amJ3SHdYczEwaFdEZ1JsbVpQRWY2T29waUUtVDBiSTZXWWZjY2UzUUhaancxaEZNUW9kY0hGaVEzT1Y3UFo4YTc5akJQWlk?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMifEFVX3lxTE9ud3RLS2NfNTduSjZ0TmxpMndVeWsyckxsWldqQ1pCNE5MSkdtdHpFQVBsSV81amJ3SHdYczEwaFdEZ1JsbVpQRWY2T29waUUtVDBiSTZXWWZjY2UzUUhaancxaEZNUW9kY0hGaVEzT1Y3UFo4YTc5akJQWlk?oc=5",
@@ -235,36 +265,6 @@
       "pubDate": "2026-09-14 04:58",
       "category": "옥외광고·간판",
       "description": "<a href=\"https://news.google.com/rss/articles/CBMifEFVX3lxTE9ud3RLS2NfNTduSjZ0TmxpMndVeWsyckxsWldqQ1pCNE5MSkdtdHpFQVBsSV81amJ3SHdYczEwaFdEZ1JsbVpQRWY2T29waUUtVDBiSTZXWWZjY2UzUUhaancxaEZNUW9kY0hGaVEzT1Y3UFo4YTc5akJQWlk?oc=5\" target=\"_blank\">LG전자, 청소로봇 '로니' 이색 옥외광고 선봬...소비자 관심도 상승</a>  <font color=\"#6f6f6f\">빅데이터뉴스</font>"
-    },
-    {
-      "id": "live-18",
-      "title": "대전시, 옥외광고대상전 24점 선정...대상에 '활자에 핀 꽃'",
-      "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFBVa0FKRU1RS2l4NjF5WDN5ME9xNFRXZm9MaHBYN0IzQnZjUHBTM296QTByeXZ2aTYxTkM0THNkTFp4djFFTEhCSjVSaG1wQjNNanZVYUpkVGpWTC1h?oc=5",
-      "originallink": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFBVa0FKRU1RS2l4NjF5WDN5ME9xNFRXZm9MaHBYN0IzQnZjUHBTM296QTByeXZ2aTYxTkM0THNkTFp4djFFTEhCSjVSaG1wQjNNanZVYUpkVGpWTC1h?oc=5",
-      "press": "뉴스핌",
-      "pubDate": "2026-09-11 02:15",
-      "category": "옥외광고·간판",
-      "description": "<a href=\"https://news.google.com/rss/articles/CBMiXEFVX3lxTFBVa0FKRU1RS2l4NjF5WDN5ME9xNFRXZm9MaHBYN0IzQnZjUHBTM296QTByeXZ2aTYxTkM0THNkTFp4djFFTEhCSjVSaG1wQjNNanZVYUpkVGpWTC1h?oc=5\" target=\"_blank\">대전시, 옥외광고대상전 24점 선정...대상에 '활자에 핀 꽃'</a>  <font color=\"#6f6f6f\">뉴스핌</font>"
-    },
-    {
-      "id": "live-19",
-      "title": "\"광화문에 등장한 로봇청소기\"…LG전자, '로니' 이색 옥외광고 시작",
-      "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTFBHTmlhRkRSSEdzOTRLZ1NpNkhFTV9sVi13X1M1WUljVi1qMldSOTZhbG1WRjV4ZXgtOXhYZ0ZEVDI5RHFBZHFBamhrMHFlV1VfV0ZkczVnakpXYlo3LWZBWm1UUEhvcUtuS1lrMkRxSmZzQVRJ?oc=5",
-      "originallink": "https://news.google.com/rss/articles/CBMidEFVX3lxTFBHTmlhRkRSSEdzOTRLZ1NpNkhFTV9sVi13X1M1WUljVi1qMldSOTZhbG1WRjV4ZXgtOXhYZ0ZEVDI5RHFBZHFBamhrMHFlV1VfV0ZkczVnakpXYlo3LWZBWm1UUEhvcUtuS1lrMkRxSmZzQVRJ?oc=5",
-      "press": "financialpost.co.kr",
-      "pubDate": "2026-09-14 06:47",
-      "category": "옥외광고·간판",
-      "description": "<a href=\"https://news.google.com/rss/articles/CBMidEFVX3lxTFBHTmlhRkRSSEdzOTRLZ1NpNkhFTV9sVi13X1M1WUljVi1qMldSOTZhbG1WRjV4ZXgtOXhYZ0ZEVDI5RHFBZHFBamhrMHFlV1VfV0ZkczVnakpXYlo3LWZBWm1UUEhvcUtuS1lrMkRxSmZzQVRJ?oc=5\" target=\"_blank\">\"광화문에 등장한 로봇청소기\"…LG전자, '로니' 이색 옥외광고 시작</a>  <font color=\"#6f6f6f\">financialpost.co.kr</font>"
-    },
-    {
-      "id": "live-20",
-      "title": "서울 도심 빌딩에 딸기잼?…LG전자 로청 '로니' 이색 옥외광고 눈길",
-      "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE1hbmFmX3BNNXlBQUZZVUFGSklYTUZBRGZuR0lTLVEtbkxTVUFScnR0QmswWXcwN2Z0UFA5ZXVTSkRic29zVFJZZmttb3pvN2h6LXMxZmwtNl9MMmZzWHl1ZXpHanLSAWpBVV95cUxQS2RBVWdyR3c0ODNQV1M2OXN4eVNBN3ZDM3VZTGZVREJZMmJ5RXpyVmlURXRtaWZkcUNBMVJfejdEczlXdTEzcjlWbWRnSmthSHVVZm1oNWs0TGRwaTZpazRIT05TN1dqVjhB?oc=5",
-      "originallink": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE1hbmFmX3BNNXlBQUZZVUFGSklYTUZBRGZuR0lTLVEtbkxTVUFScnR0QmswWXcwN2Z0UFA5ZXVTSkRic29zVFJZZmttb3pvN2h6LXMxZmwtNl9MMmZzWHl1ZXpHanLSAWpBVV95cUxQS2RBVWdyR3c0ODNQV1M2OXN4eVNBN3ZDM3VZTGZVREJZMmJ5RXpyVmlURXRtaWZkcUNBMVJfejdEczlXdTEzcjlWbWRnSmthSHVVZm1oNWs0TGRwaTZpazRIT05TN1dqVjhB?oc=5",
-      "press": "뉴스1",
-      "pubDate": "2026-09-14 00:41",
-      "category": "옥외광고·간판",
-      "description": "<a href=\"https://news.google.com/rss/articles/CBMiZEFVX3lxTE1hbmFmX3BNNXlBQUZZVUFGSklYTUZBRGZuR0lTLVEtbkxTVUFScnR0QmswWXcwN2Z0UFA5ZXVTSkRic29zVFJZZmttb3pvN2h6LXMxZmwtNl9MMmZzWHl1ZXpHanLSAWpBVV95cUxQS2RBVWdyR3c0ODNQV1M2OXN4eVNBN3ZDM3VZTGZVREJZMmJ5RXpyVmlURXRtaWZkcUNBMVJfejdEczlXdTEzcjlWbWRnSmthSHVVZm1oNWs0TGRwaTZpazRIT05TN1dqVjhB?oc=5\" target=\"_blank\">서울 도심 빌딩에 딸기잼?…LG전자 로청 '로니' 이색 옥외광고 눈길</a>  <font color=\"#6f6f6f\">뉴스1</font>"
     }
   ]
 }
