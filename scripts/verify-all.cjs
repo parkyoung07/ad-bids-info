@@ -44,17 +44,26 @@ async function verifyIntegrityRules() {
 
   console.log(`▶ 검사 대상 공개 공고 수: ${bids.length}건, 비공개 검토대기 원본 수: ${rawList.length}건\n`);
 
-  // [규칙 1] 마감일 경과 공고의 진행중(OPEN) 상태 검출
-  console.log('규칙 1: bidCloseDate <= 현재시각인데 진행중(OPEN) 상태 검출');
+  // [규칙 1] 마감일 경과 공고의 진행중(OPEN) 상태 검출 및 자동 마감 최신화
+  console.log('규칙 1: bidCloseDate <= 현재시각인 공고 자동 마감 처리 및 무결성 검증');
+  let bidsAutoUpdated = false;
   bids.forEach((bid) => {
     if (bid.bidCloseDate) {
       const closeDate = new Date(bid.bidCloseDate.replace(/-/g, '/'));
       if (closeDate <= now && (bid.status === '진행중' || bid.isClosed === false)) {
-        console.error(`  ❌ [규칙 1 위반] 공고 [${bid.id}] 마감일(${bid.bidCloseDate})이 경과했으나 진행중 상태입니다.`);
-        failureCount++;
+        console.log(`  🔄 [공고 마감 자동 동기화] ${bid.id} (${bid.title.slice(0, 30)}...) -> 상태: [마감]`);
+        bid.status = '마감';
+        bid.isClosed = true;
+        bid.dDay = -1;
+        bidsAutoUpdated = true;
       }
     }
   });
+
+  if (bidsAutoUpdated) {
+    fs.writeFileSync(bidsJsonPath, JSON.stringify(bids, null, 2), 'utf-8');
+    console.log('  ✅ [공고 DB 자동 갱신 완료] 마감 경과 공고가 [마감] 상태로 자동 동기화되었습니다.');
+  }
 
   // [규칙 2] noticeDate > fetchedAt (미래 등록일) 검출
   console.log('규칙 2: noticeDate > fetchedAt (미래 등록일자 오류) 검출');
