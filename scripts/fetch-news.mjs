@@ -25,15 +25,15 @@ const env = loadEnv();
 function cleanHtml(str) {
   if (!str) return '';
   return str
-    .replace(/<[^>]*>?/gm, '')
-    .replace(/&quot;/g, '"')
-    .replace(/&amp;/g, '&')
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
     .replace(/&apos;/g, "'")
-    .replace(/&nbsp;/g, ' ')
     .replace(/&#39;/g, "'")
+    .replace(/&nbsp;/g, ' ')
     .replace(/&middot;/g, '·')
+    .replace(/&amp;/g, '&')
+    .replace(/<[^>]*>?/gm, '')
     .trim();
 }
 
@@ -166,12 +166,16 @@ async function fetchLiveNews() {
     '옥외광고',
     '디지털사이니지',
     'LED 전광판',
-    '전자게시대',
-    '부산사인엑스포'
+    '간판개선 OR 간판정비',
+    '불법현수막',
+    '옥외광고대상전',
+    '부산사인엑스포',
+    '미디어아트 옥외'
   ];
 
   const liveArticles = [];
   const seenTitles = new Set();
+  const unrelatedFilter = /수영\s*간판|한국\s*수영|체육\s*간판|축구\s*간판|야구\s*간판|당권\s*주자|계파\s*갈등|원내대표|야당|여당|국회의원\s*출마|검찰\s*수사|탄핵|특검/;
 
   for (const q of queryList) {
     try {
@@ -195,6 +199,7 @@ async function fetchLiveNews() {
 
           const cleanedTitle = cleanHtml(rawTitle);
           if (!cleanedTitle || !rawLink) continue;
+          if (unrelatedFilter.test(cleanedTitle)) continue;
 
           // 중복 방지 키
           const titleKey = cleanedTitle.replace(/\s+/g, '').slice(0, 18);
@@ -206,8 +211,8 @@ async function fetchLiveNews() {
             const displayTitle = cleanedTitle.replace(new RegExp(`\\s*-\\s*${pressName}$`, 'i'), '').trim();
 
             let description = cleanHtml(rawDesc);
-            if (!description || description.length < 15 || description.includes(cleanedTitle)) {
-              description = `${pressName}에서 보도한 [${displayTitle}] 관련 소식입니다. 옥외광고, 디지털 사이니지, 미디어 파사드 및 공공조달 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 언론사 원문 기사에서 확인하실 수 있습니다.`;
+            if (!description || description.length < 35 || description.includes(cleanedTitle) || description.includes(pressName) || description.includes('&nbsp;')) {
+              description = `${pressName}에서 보도한 [${displayTitle}] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다.`;
             }
 
             liveArticles.push({
@@ -218,7 +223,8 @@ async function fetchLiveNews() {
               press: pressName,
               pubDate: formatDate(rawPubDate),
               category: categorizeNews(cleanedTitle, description),
-              description: description
+              description: description,
+              _rawDate: new Date(rawPubDate).getTime() || 0
             });
           }
         }
@@ -228,13 +234,20 @@ async function fetchLiveNews() {
     }
   }
 
+  // 실시간 기사 최신순(내림차순) 정렬
+  liveArticles.sort((a, b) => b._rawDate - a._rawDate);
+  liveArticles.forEach((art, idx) => {
+    art.id = `live-${idx + 1}`;
+    delete art._rawDate;
+  });
+
   // 전문지 엄선 리포트와 실시간 언론사 뉴스 결합
   const finalNewsList = [
     ...CURATED_SPECIALIZED_NEWS,
-    ...liveArticles.slice(0, 20)
+    ...liveArticles.slice(0, 25)
   ];
 
-  console.log(`✅ [뉴스 수집 완료] 총 ${finalNewsList.length}건 (전문지 엄선 ${CURATED_SPECIALIZED_NEWS.length}건 + 실시간 언론사 기사 ${Math.min(liveArticles.length, 20)}건)`);
+  console.log(`✅ [뉴스 수집 완료] 총 ${finalNewsList.length}건 (전문지 엄선 ${CURATED_SPECIALIZED_NEWS.length}건 + 실시간 언론사 기사 ${Math.min(liveArticles.length, 25)}건)`);
 
   // 결과 파일 저장 (public/data/news.json)
   const outputData = {
