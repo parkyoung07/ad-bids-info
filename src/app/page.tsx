@@ -190,6 +190,18 @@ export default function HomePage() {
     };
   }, [activeVerifiedBids]);
 
+  // 4대 핵심 비주얼 미디어 분야별 실시간 공고 수 집계
+  const coreCategoryCounts = useMemo(() => {
+    return {
+      all: activeVerifiedBids.length,
+      fusion: activeVerifiedBids.filter(b => b.category.includes("융합")).length,
+      print: activeVerifiedBids.filter(b => b.category.includes("인쇄") || b.category.includes("출판") || b.category.includes("홍보물")).length,
+      event: activeVerifiedBids.filter(b => b.category.includes("행사") || b.category.includes("축제") || b.category.includes("전시")).length,
+      outdoor: activeVerifiedBids.filter(b => b.category.includes("간판") || b.category.includes("조형물") || b.category.includes("현수막") || b.category.includes("표지판") || b.category.includes("안내판")).length,
+      signage: activeVerifiedBids.filter(b => b.category.includes("전광판") || b.category.includes("사이니지")).length,
+    };
+  }, [activeVerifiedBids]);
+
   return (
     <div className="flex-1 flex flex-col">
       {/* 히어로 섹션 */}
@@ -198,21 +210,21 @@ export default function HomePage() {
           {/* 상단 신뢰 배지 */}
           <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-slate-950 border border-slate-700 text-slate-300 text-xs font-semibold shadow-sm">
             <ShieldCheck className="w-3.5 h-3.5 text-cyan-400" />
-            <span>대한민국 8대 발주처 실시간 통합 연동 · 옥외광고 전문 입찰 알리미</span>
+            <span>대한민국 No.1 시각·미디어·공간 연출 전문 공공입찰 SaaS</span>
           </div>
 
           {/* 메인 헤드라인 */}
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-tight">
-            우리 회사가 참여할 수 있는{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">
-              옥외광고 입찰
+            시각 디자인부터 공간 연출까지,{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400">
+              옥외광고 · 인쇄출판 · 행사전시 입찰
             </span>
-            만 찾아드립니다
+            을 한곳에서
           </h1>
 
           {/* 보조 설명 */}
           <p className="text-xs sm:text-sm text-slate-300 max-w-2xl mx-auto leading-relaxed">
-            조달청 나라장터, 학교장터(S2B), K-apt 아파트, 온비드, 협회/LH 공고를 매일 실시간 수집·분석합니다.
+            간판·조형물·전광판부터 홍보물 인쇄, 축제·전시부스, 고수익 융합 패키지까지 나라장터·온비드·학교장터 공고를 실시간 수집·분석합니다.
           </p>
 
           {/* 통합 검색창 */}
@@ -381,6 +393,123 @@ export default function HomePage() {
             </div>
           </div>
         )}
+
+        {/* 4대 비주얼 미디어 카테고리 퀵 내비게이션 바 */}
+        <div className="bg-slate-900/90 rounded-2xl border border-slate-800 p-3 sm:p-4 shadow-md space-y-2.5">
+          <div className="flex items-center justify-between gap-2 px-1">
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-extrabold text-white flex items-center gap-1.5">
+                🎯 4대 핵심 비주얼 미디어 공고 바로가기
+              </span>
+              <span className="text-[11px] text-slate-400 hidden sm:inline">| 원클릭 업종별 맞춤 필터</span>
+            </div>
+            {filters.category !== "전체" && (
+              <button
+                onClick={() => setFilters({ ...filters, category: "전체" })}
+                className="text-[11px] text-blue-400 hover:text-blue-300 font-semibold cursor-pointer"
+              >
+                전체 보기로 초기화
+              </button>
+            )}
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+            {/* 전체 */}
+            <button
+              onClick={() => setFilters({ ...filters, category: "전체" })}
+              className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
+                filters.category === "전체"
+                  ? "bg-blue-600/20 border-blue-500 text-white shadow-sm"
+                  : "bg-slate-950/80 border-slate-800 text-slate-300 hover:border-slate-700 hover:text-white"
+              }`}
+            >
+              <div className="text-[11px] font-medium text-slate-400">전체 공고</div>
+              <div className="text-xs sm:text-sm font-black flex items-center justify-between mt-0.5">
+                <span>🌐 전체보기</span>
+                <span className="text-blue-400">{coreCategoryCounts.all}건</span>
+              </div>
+            </button>
+
+            {/* ⚡ 융합 패키지 */}
+            <button
+              onClick={() => setFilters({ ...filters, category: "융합 패키지" })}
+              className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
+                filters.category === "융합 패키지"
+                  ? "bg-gradient-to-br from-purple-900/60 to-pink-900/60 border-purple-400 text-white shadow-md shadow-purple-500/20"
+                  : "bg-slate-950/80 border-purple-500/30 text-purple-300 hover:border-purple-400 hover:text-white"
+              }`}
+            >
+              <div className="text-[11px] font-bold text-purple-400">인쇄+옥외+전시</div>
+              <div className="text-xs sm:text-sm font-black flex items-center justify-between mt-0.5">
+                <span>⚡ 융합 패키지</span>
+                <span className="text-purple-300">{coreCategoryCounts.fusion}건</span>
+              </div>
+            </button>
+
+            {/* 🖨️ 인쇄·출판·홍보물 */}
+            <button
+              onClick={() => setFilters({ ...filters, category: "인쇄·출판·홍보물" })}
+              className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
+                filters.category === "인쇄·출판·홍보물"
+                  ? "bg-emerald-900/40 border-emerald-500 text-white shadow-sm"
+                  : "bg-slate-950/80 border-slate-800 text-slate-300 hover:border-emerald-500/50 hover:text-white"
+              }`}
+            >
+              <div className="text-[11px] font-medium text-emerald-400">책자·리플릿·간행물</div>
+              <div className="text-xs sm:text-sm font-black flex items-center justify-between mt-0.5">
+                <span>🖨️ 인쇄·출판</span>
+                <span className="text-emerald-400">{coreCategoryCounts.print}건</span>
+              </div>
+            </button>
+
+            {/* 🎪 행사·축제·전시 */}
+            <button
+              onClick={() => setFilters({ ...filters, category: "행사·축제·전시" })}
+              className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
+                filters.category === "행사·축제·전시"
+                  ? "bg-fuchsia-900/40 border-fuchsia-500 text-white shadow-sm"
+                  : "bg-slate-950/80 border-slate-800 text-slate-300 hover:border-fuchsia-500/50 hover:text-white"
+              }`}
+            >
+              <div className="text-[11px] font-medium text-fuchsia-400">축제대행·전시부스</div>
+              <div className="text-xs sm:text-sm font-black flex items-center justify-between mt-0.5">
+                <span>🎪 행사·전시</span>
+                <span className="text-fuchsia-400">{coreCategoryCounts.event}건</span>
+              </div>
+            </button>
+
+            {/* 🏢 간판·조형물 */}
+            <button
+              onClick={() => setFilters({ ...filters, category: "간판·조형물" })}
+              className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
+                filters.category === "간판·조형물"
+                  ? "bg-blue-900/40 border-blue-500 text-white shadow-sm"
+                  : "bg-slate-950/80 border-slate-800 text-slate-300 hover:border-blue-500/50 hover:text-white"
+              }`}
+            >
+              <div className="text-[11px] font-medium text-blue-400">간판·안내판·조형물</div>
+              <div className="text-xs sm:text-sm font-black flex items-center justify-between mt-0.5">
+                <span>🏢 간판·조형물</span>
+                <span className="text-blue-400">{coreCategoryCounts.outdoor}건</span>
+              </div>
+            </button>
+
+            {/* 💡 디지털사이니지 */}
+            <button
+              onClick={() => setFilters({ ...filters, category: "디지털사이니지·전광판" })}
+              className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
+                filters.category === "디지털사이니지·전광판"
+                  ? "bg-cyan-900/40 border-cyan-500 text-white shadow-sm"
+                  : "bg-slate-950/80 border-slate-800 text-slate-300 hover:border-cyan-500/50 hover:text-white"
+              }`}
+            >
+              <div className="text-[11px] font-medium text-cyan-400">LED전광판·미디어월</div>
+              <div className="text-xs sm:text-sm font-black flex items-center justify-between mt-0.5">
+                <span>💡 전광판·사이니지</span>
+                <span className="text-cyan-400">{coreCategoryCounts.signage}건</span>
+              </div>
+            </button>
+          </div>
+        </div>
 
         {/* 검색 필터 컴포넌트 */}
         <BidFilter

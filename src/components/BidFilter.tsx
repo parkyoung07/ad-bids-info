@@ -27,14 +27,17 @@ interface BidFilterProps {
   onReset: () => void;
 }
 
-const CATEGORIES = [
+export const CATEGORIES = [
   "전체",
+  "융합 패키지",
+  "인쇄·출판·홍보물",
+  "행사·축제·전시",
   "간판·조형물",
   "디지털사이니지·전광판",
+  "현수막·배너",
   "초·중·고·대학교",
   "아파트·승강기광고",
   "온비드 공공매체권",
-  "현수막·배너",
   "차량랩핑·특수",
 ];
 

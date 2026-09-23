@@ -182,6 +182,51 @@ export default function BidCard({
     );
   };
 
+  // 업종별 차별화 배지 렌더링
+  const renderCategoryBadge = () => {
+    const cat = bid.category || "간판·조형물";
+    if (cat.includes("융합")) {
+      return (
+        <span className="inline-flex items-center gap-1 text-[11px] font-black text-purple-200 bg-gradient-to-r from-purple-900/70 to-pink-900/70 px-2.5 py-0.5 rounded border border-purple-400/60 shadow-sm shadow-purple-500/20">
+          ⚡ 융합 패키지
+        </span>
+      );
+    }
+    if (cat.includes("인쇄") || cat.includes("출판") || cat.includes("홍보물")) {
+      return (
+        <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-300 bg-emerald-950/70 px-2 py-0.5 rounded border border-emerald-500/40">
+          🖨️ {cat}
+        </span>
+      );
+    }
+    if (cat.includes("행사") || cat.includes("축제") || cat.includes("전시")) {
+      return (
+        <span className="inline-flex items-center gap-1 text-[11px] font-bold text-fuchsia-300 bg-fuchsia-950/70 px-2 py-0.5 rounded border border-fuchsia-500/40">
+          🎪 {cat}
+        </span>
+      );
+    }
+    if (cat.includes("전광판") || cat.includes("사이니지")) {
+      return (
+        <span className="inline-flex items-center gap-1 text-[11px] font-bold text-cyan-300 bg-cyan-950/70 px-2 py-0.5 rounded border border-cyan-500/40">
+          💡 {cat}
+        </span>
+      );
+    }
+    if (cat.includes("현수막") || cat.includes("배너")) {
+      return (
+        <span className="inline-flex items-center gap-1 text-[11px] font-bold text-teal-300 bg-teal-950/70 px-2 py-0.5 rounded border border-teal-500/40">
+          🚩 {cat}
+        </span>
+      );
+    }
+    return (
+      <span className="inline-flex items-center gap-1 text-[11px] font-bold text-blue-300 bg-blue-950/70 px-2 py-0.5 rounded border border-blue-500/40">
+        🏢 {cat}
+      </span>
+    );
+  };
+
   return (
     <div
       className={`bg-slate-900/90 hover:bg-slate-900 border rounded-xl p-4 sm:p-5 transition-all duration-200 shadow-sm hover:shadow-md flex flex-col justify-between group relative ${
@@ -198,9 +243,7 @@ export default function BidCard({
             {renderSourceBadge()}
 
             {/* SignBid 자체 업종 분류 명시 배지 */}
-            <span className="text-[11px] font-bold text-slate-300 bg-slate-800/90 px-2 py-0.5 rounded border border-slate-700/60">
-              {bid.category}
-            </span>
+            {renderCategoryBadge()}
 
             {/* 지역 */}
             <span className="inline-flex items-center gap-0.5 text-[11px] text-slate-300 bg-slate-800/80 px-2 py-0.5 rounded border border-slate-700/40">
