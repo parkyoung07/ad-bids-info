@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-24T00:29:07.676Z",
+  "updatedAt": "2026-09-24T08:24:23.151Z",
   "totalCount": 30,
   "isLiveApi": true,
   "categories": [
@@ -68,13 +68,13 @@
     },
     {
       "id": "live-1",
-      "title": "김포시, 추석맞이 불법광고물 일제정비 실시",
-      "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE8tYmFmbFpuOGJXZTdhVGVBSVpjRjRzOTBHbC05Rjk5THpzamNzNWFoTHo2NEFrYVAzbG5RcmNvTE92aGdKbk82eXBCdGlzWUZvZTZMeGJOZXhpTVd2?oc=5",
-      "originallink": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE8tYmFmbFpuOGJXZTdhVGVBSVpjRjRzOTBHbC05Rjk5THpzamNzNWFoTHo2NEFrYVAzbG5RcmNvTE92aGdKbk82eXBCdGlzWUZvZTZMeGJOZXhpTVd2?oc=5",
-      "press": "누리일보",
-      "pubDate": "2026-09-23 03:10",
+      "title": "‘불법 현수막’ 난립하는 천안 도심···지자체는 “게시자 특정 어려워” 난색",
+      "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE1qbXBiYlEtWGpiV3F4cVRJVFRVZUVaSmo2WU80eFpMSm43WW9TZzhCb3UxcUNCMXFNc0RMblNIdDBvYnR2Q1otcjl6bnBEbXZBclUtaWhPZU1zZjJSZTNZVnNzUTY3VXBU?oc=5",
+      "originallink": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE1qbXBiYlEtWGpiV3F4cVRJVFRVZUVaSmo2WU80eFpMSm43WW9TZzhCb3UxcUNCMXFNc0RMblNIdDBvYnR2Q1otcjl6bnBEbXZBclUtaWhPZU1zZjJSZTNZVnNzUTY3VXBU?oc=5",
+      "press": "한국NGO신문",
+      "pubDate": "2026-09-24 07:39",
       "category": "디지털사이니지",
-      "description": "누리일보에서 보도한 [김포시, 추석맞이 불법광고물 일제정비 실시] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
+      "description": "한국NGO신문에서 보도한 [‘불법 현수막’ 난립하는 천안 도심···지자체는 “게시자 특정 어려워” 난색] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
     },
     {
       "id": "live-2",
@@ -88,6 +88,16 @@
     },
     {
       "id": "live-3",
+      "title": "솔루엠, ‘그로서리샵 2026’서 ESL·전자종이 사이니지 등 리테일 혁신 솔루션 선보인다",
+      "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE90c01UekpkUGtqcjJoVWJVSmtqOE1tN3VfbWpFR0xQTGFiWWhveng0R2ZhaTBockN4NVViVjFaTGR2bWM0bEVvOHNVQkZHX2M?oc=5",
+      "originallink": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE90c01UekpkUGtqcjJoVWJVSmtqOE1tN3VfbWpFR0xQTGFiWWhveng0R2ZhaTBockN4NVViVjFaTGR2bWM0bEVvOHNVQkZHX2M?oc=5",
+      "press": "v.daum.net",
+      "pubDate": "2026-09-23 00:01",
+      "category": "디지털사이니지",
+      "description": "v.daum.net에서 보도한 [솔루엠, ‘그로서리샵 2026’서 ESL·전자종이 사이니지 등 리테일 혁신 솔루션 선보인다] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
+    },
+    {
+      "id": "live-4",
       "title": "솔루엠, '그로서리샵 2026'서 ESL·전자종이 사이니지 등 리테일 혁신 솔루션 선보인다",
       "link": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE5Ubm9uN3V0NDZCbU8xRThPLWpSbjZId2N3c0NoNTQ3Z0JyMXZsOFNqdDladTZITG5QOUxxYjdMeUFobm9QRDh2VE8zMk5zQQ?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE5Ubm9uN3V0NDZCbU8xRThPLWpSbjZId2N3c0NoNTQ3Z0JyMXZsOFNqdDladTZITG5QOUxxYjdMeUFobm9QRDh2VE8zMk5zQQ?oc=5",
@@ -97,7 +107,7 @@
       "description": "전자신문에서 보도한 [솔루엠, '그로서리샵 2026'서 ESL·전자종이 사이니지 등 리테일 혁신 솔루션 선보인다] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
     },
     {
-      "id": "live-4",
+      "id": "live-5",
       "title": "추석 맞아 불법현수막 집중단속",
       "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTE5UaS1ueDg1MDhub1hCNHJwM0w0aThfTHBJak9NbXg1cGZEZU9nNVhBbElteV9jMEI4VTE5eVhNWkVnMUhWeDA2SEE5U2hLd1JXSGczRVp1WHFUVmVYNS1MVFdGNHdZbC1nQVZF?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMia0FVX3lxTE5UaS1ueDg1MDhub1hCNHJwM0w0aThfTHBJak9NbXg1cGZEZU9nNVhBbElteV9jMEI4VTE5eVhNWkVnMUhWeDA2SEE5U2hLd1JXSGczRVp1WHFUVmVYNS1MVFdGNHdZbC1nQVZF?oc=5",
@@ -107,7 +117,7 @@
       "description": "시정일보에서 보도한 [추석 맞아 불법현수막 집중단속] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
     },
     {
-      "id": "live-5",
+      "id": "live-6",
       "title": "구미대-경북옥외광고협회, 현장 맞춤형 AI 인재 양성 맞손",
       "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTFAzMmRUVkFrcEVuWkw5S2lEZ2VYNFI2cjV0bWVXMUJGZ25oa3FCS2xPdWt6cmc2cEh5cTFDbmZtU0dCNXd3UFpFd0xCd3ZZV2MwQ0loT1BJSWZreklReHRfU1VjMDlDMVdFV0VhQ0xfTExBR2PSAXNBVV95cUxQMzJkVFZBa3BFblpMOUtpRGdlWDRSNnI1dG1lVzFCRmduaGtxQktsT3VrenJnNnBIeXExQ25mbVNHQjV3d1BaRXdMQnd2WVdjMENJaE9QSUlma3pJUXh0X1NVYzA5QzFXRVdFYUNMX0xMQUdj?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMic0FVX3lxTFAzMmRUVkFrcEVuWkw5S2lEZ2VYNFI2cjV0bWVXMUJGZ25oa3FCS2xPdWt6cmc2cEh5cTFDbmZtU0dCNXd3UFpFd0xCd3ZZV2MwQ0loT1BJSWZreklReHRfU1VjMDlDMVdFV0VhQ0xfTExBR2PSAXNBVV95cUxQMzJkVFZBa3BFblpMOUtpRGdlWDRSNnI1dG1lVzFCRmduaGtxQktsT3VrenJnNnBIeXExQ25mbVNHQjV3d1BaRXdMQnd2WVdjMENJaE9QSUlma3pJUXh0X1NVYzA5QzFXRVdFYUNMX0xMQUdj?oc=5",
@@ -117,7 +127,7 @@
       "description": "데일리한국에서 보도한 [구미대-경북옥외광고협회, 현장 맞춤형 AI 인재 양성 맞손] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
     },
     {
-      "id": "live-6",
+      "id": "live-7",
       "title": "추석 앞두고 불법현수막 인천 길병원 사거리… 단속은 '뒷전’",
       "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE04ZnBaZ2cxbzlGbU9CRnFOLWdYTkxMY0dUOUlURl9kNHY3d2RpUWh2TlBOOExBZlVZSS12bkhSaVBhaWxrcDIzTG9FRDQzOUoyRW16Y19FZmE0dnFBLVhzS1pmSVYzMmdSZkk2aHZNakfSAXRBVV95cUxNR2JUUENvNDFXQllyeGEzeHQxbzRwMzdvalk5cy1GY3M4NGVzNnF5bEstdGhncGpoelVTYmV4ZkttVEU4enV4QkhST2xqMmZqb3loNExoX3JSQUFZeFZteU5UMEZBa0RaMURMLUlBTUFXLWNrQg?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMicEFVX3lxTE04ZnBaZ2cxbzlGbU9CRnFOLWdYTkxMY0dUOUlURl9kNHY3d2RpUWh2TlBOOExBZlVZSS12bkhSaVBhaWxrcDIzTG9FRDQzOUoyRW16Y19FZmE0dnFBLVhzS1pmSVYzMmdSZkk2aHZNakfSAXRBVV95cUxNR2JUUENvNDFXQllyeGEzeHQxbzRwMzdvalk5cy1GY3M4NGVzNnF5bEstdGhncGpoelVTYmV4ZkttVEU4enV4QkhST2xqMmZqb3loNExoX3JSQUFZeFZteU5UMEZBa0RaMURMLUlBTUFXLWNrQg?oc=5",
@@ -127,17 +137,17 @@
       "description": "뉴스클레임에서 보도한 [추석 앞두고 불법현수막 인천 길병원 사거리… 단속은 '뒷전’] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
     },
     {
-      "id": "live-7",
+      "id": "live-8",
       "title": "‘갤럭시 S23 울트라’, 초소형 옥외광고 ‘갤럭시력표’ 프로젝트 진행",
       "link": "https://news.google.com/rss/articles/CBMieEFVX3lxTE5NWGpuMVVJUUxxNnV0aGVhbkFicE9TTnIzWTVMN3RnT2paUXREbFZtdGpnVTFteF9TVUQzeWg5ZUlNUkVBRXFadFVhQ0d3eUlWX0JGanlDc3k4U19SSmc4MGNGMG44eFN3a1ZGSEdWY0hMSS1hM3BseQ?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMieEFVX3lxTE5NWGpuMVVJUUxxNnV0aGVhbkFicE9TTnIzWTVMN3RnT2paUXREbFZtdGpnVTFteF9TVUQzeWg5ZUlNUkVBRXFadFVhQ0d3eUlWX0JGanlDc3k4U19SSmc4MGNGMG44eFN3a1ZGSEdWY0hMSS1hM3BseQ?oc=5",
-      "press": "news.samsung.com",
+      "press": "Samsung Global Newsroom",
       "pubDate": "2026-09-22 16:54",
       "category": "디지털사이니지",
-      "description": "news.samsung.com에서 보도한 [‘갤럭시 S23 울트라’, 초소형 옥외광고 ‘갤럭시력표’ 프로젝트 진행] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
+      "description": "Samsung Global Newsroom에서 보도한 [‘갤럭시 S23 울트라’, 초소형 옥외광고 ‘갤럭시력표’ 프로젝트 진행] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
     },
     {
-      "id": "live-8",
+      "id": "live-9",
       "title": "경산시, 추석맞이 및 개학기 불법광고물 합동정비 실시",
       "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTFBrcW5BQ2NIME5NUlRvQ0I4QzRIZktzQ2dZR1V1NHJtXy14WVplUUY0REtaRUFhRlFlblVTMzVfQXFFcDJnX2NGY0w3dnhYR0V1WFhXdl9wMkQ4SkM1WHc?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMiXkFVX3lxTFBrcW5BQ2NIME5NUlRvQ0I4QzRIZktzQ2dZR1V1NHJtXy14WVplUUY0REtaRUFhRlFlblVTMzVfQXFFcDJnX2NGY0w3dnhYR0V1WFhXdl9wMkQ4SkM1WHc?oc=5",
@@ -147,17 +157,17 @@
       "description": "한국방송뉴스에서 보도한 [경산시, 추석맞이 및 개학기 불법광고물 합동정비 실시] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
     },
     {
-      "id": "live-9",
+      "id": "live-10",
       "title": "군수는 예외? 함평군 ‘불법 현수막’ 이중 잣대 논란",
-      "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE90NlF6alZFazc1d21LN2ZTVWhmM3ZlUE5qakIyWXVuQm9TMUh1MTBSRTlDamhycEg2dUYtRTlYZlBvQ0szNmNVdGNidnIyNGM?oc=5",
-      "originallink": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE90NlF6alZFazc1d21LN2ZTVWhmM3ZlUE5qakIyWXVuQm9TMUh1MTBSRTlDamhycEg2dUYtRTlYZlBvQ0szNmNVdGNidnIyNGM?oc=5",
+      "link": "https://news.google.com/rss/articles/CBMiRkFVX3lxTE53ME5aRFR2TTJLZ3IwTXpJODhSLVpkOV9kWWN4RDVCeFdzV1dSNE9MNGl0QmtNNmxaaWlpQ1hHeXFJYnBUUmc?oc=5",
+      "originallink": "https://news.google.com/rss/articles/CBMiRkFVX3lxTE53ME5aRFR2TTJLZ3IwTXpJODhSLVpkOV9kWWN4RDVCeFdzV1dSNE9MNGl0QmtNNmxaaWlpQ1hHeXFJYnBUUmc?oc=5",
       "press": "v.daum.net",
       "pubDate": "2026-09-22 10:19",
       "category": "디지털사이니지",
       "description": "v.daum.net에서 보도한 [군수는 예외? 함평군 ‘불법 현수막’ 이중 잣대 논란] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
     },
     {
-      "id": "live-10",
+      "id": "live-11",
       "title": "\"군수가 게시하면 괜찮나\"…함평군, 불법 현수막 단속 '형평성 논란'",
       "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE9zdTRrZm13aFJPeXlocG1EYVh3WHlhZzdnMkVTaGNCbnFzVXVtOFlrQTM3NHhCRnhwWVdvdDQ3R0RFajU1TDdfb3I1OVpMS09aZ0dxMml0NTRhdjZ5cFhVUm5wc0I?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE9zdTRrZm13aFJPeXlocG1EYVh3WHlhZzdnMkVTaGNCbnFzVXVtOFlrQTM3NHhCRnhwWVdvdDQ3R0RFajU1TDdfb3I1OVpMS09aZ0dxMml0NTRhdjZ5cFhVUm5wc0I?oc=5",
@@ -167,7 +177,7 @@
       "description": "서울경제TV에서 보도한 [\"군수가 게시하면 괜찮나\"…함평군, 불법 현수막 단속 '형평성 논란'] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
     },
     {
-      "id": "live-11",
+      "id": "live-12",
       "title": "한국폴리텍대 대구캠퍼스 콘텐츠디자인과, 옥외광고 공모전 잇단 수상",
       "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE1jcnk3X2NCMFlPOWNLb3pVYjlfWDUxX2lIWVBpY3dldnVBdGZJRE9tdHd0UkhUSkUtWjk2eWlCODBpenFfZjlIbTFvRm1hbmpCeTRrT3pGd0ItbTBNWlQ0NDVwc0J6QjBP?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE1jcnk3X2NCMFlPOWNLb3pVYjlfWDUxX2lIWVBpY3dldnVBdGZJRE9tdHd0UkhUSkUtWjk2eWlCODBpenFfZjlIbTFvRm1hbmpCeTRrT3pGd0ItbTBNWlQ0NDVwc0J6QjBP?oc=5",
@@ -177,7 +187,7 @@
       "description": "대경일보에서 보도한 [한국폴리텍대 대구캠퍼스 콘텐츠디자인과, 옥외광고 공모전 잇단 수상] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
     },
     {
-      "id": "live-12",
+      "id": "live-13",
       "title": "옥외광고센터, 중소기업 특허 확보 지원…건당 최대 200만원",
       "link": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPb3JLVkZNT1lFUkN5c2dDbE41T2JCQzNpWHMtbFQ4Qk54MVBrXzU5WS1lYTBjdTRaRmpxdUZZSmowSlRzVlo1ZFN1aUtKaUNvRTQ1TGlleHhKZ0Z3X2ctOUgyaTR5ZnpGSFkwZHZ1VS1NUUliMGtpdGYycWlURmV4VQ?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPb3JLVkZNT1lFUkN5c2dDbE41T2JCQzNpWHMtbFQ4Qk54MVBrXzU5WS1lYTBjdTRaRmpxdUZZSmowSlRzVlo1ZFN1aUtKaUNvRTQ1TGlleHhKZ0Z3X2ctOUgyaTR5ZnpGSFkwZHZ1VS1NUUliMGtpdGYycWlURmV4VQ?oc=5",
@@ -187,7 +197,7 @@
       "description": "edaily.co.kr에서 보도한 [옥외광고센터, 중소기업 특허 확보 지원…건당 최대 200만원] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
     },
     {
-      "id": "live-13",
+      "id": "live-14",
       "title": "구미대-경북옥외광고협, AI 인재 양성 ‘맞손’",
       "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTE45Q1FXTDBhODB6TW9veGdrSUVZZ3dzXzZPTy1pdm5mZEo0czJkSnpoZ0xFbnFoZ3dCNks5dmYxbGh4NzNRajY4dDFFTV80T0xJN3l0OUlSTThrMXAxYnJFUXdCQkQ0RnBZdjl2WmN4QnM4VGV4?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMidEFVX3lxTE45Q1FXTDBhODB6TW9veGdrSUVZZ3dzXzZPTy1pdm5mZEo0czJkSnpoZ0xFbnFoZ3dCNks5dmYxbGh4NzNRajY4dDFFTV80T0xJN3l0OUlSTThrMXAxYnJFUXdCQkQ0RnBZdjl2WmN4QnM4VGV4?oc=5",
@@ -197,17 +207,17 @@
       "description": "구미뉴스에서 보도한 [구미대-경북옥외광고협, AI 인재 양성 ‘맞손’] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
     },
     {
-      "id": "live-14",
-      "title": "addd, 일본 옥외광고 시장 진출…오사카 ‘DIP Vision’에 AI 광고 데이터 플랫폼 구축",
+      "id": "live-15",
+      "title": "addd, 일본 옥외광고 시장 진출…오사카 ‘DIP Vision’에 AI 광고 데이터 플랫폼 구축 - 스타트업엔(StartupN)",
       "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE1aSGItRF9zUVpRZnZVcjRjS0R1cFVrNGVkbG9ZODJ4aUdhTjJUZlJlaTQ1a19YNUJ4RkVFNEp5N0JSWm52UGE1MG1RajEwR3RuSjVTUVlsYzd1VW5tbXNKSjZUQXdIeDBY0gFsQVVfeXFMTUlzdkdKaXZ1TkJ6U0h3NzRKT25mN21yVXA2alljbGlodnRtLTB2WHd4LWgwR3BsMmNxY1R5YjZab3JmeHNXcDVTQ1FYSEdMdFEtWk9WMjJhZ0xnNEJVMFg2WklQdjFNUnhPamtH?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE1aSGItRF9zUVpRZnZVcjRjS0R1cFVrNGVkbG9ZODJ4aUdhTjJUZlJlaTQ1a19YNUJ4RkVFNEp5N0JSWm52UGE1MG1RajEwR3RuSjVTUVlsYzd1VW5tbXNKSjZUQXdIeDBY0gFsQVVfeXFMTUlzdkdKaXZ1TkJ6U0h3NzRKT25mN21yVXA2alljbGlodnRtLTB2WHd4LWgwR3BsMmNxY1R5YjZab3JmeHNXcDVTQ1FYSEdMdFEtWk9WMjJhZ0xnNEJVMFg2WklQdjFNUnhPamtH?oc=5",
-      "press": "startupn.kr",
+      "press": "스타트업엔(StartupN)",
       "pubDate": "2026-09-22 06:58",
       "category": "디지털사이니지",
-      "description": "startupn.kr에서 보도한 [addd, 일본 옥외광고 시장 진출…오사카 ‘DIP Vision’에 AI 광고 데이터 플랫폼 구축] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
+      "description": "스타트업엔(StartupN)에서 보도한 [addd, 일본 옥외광고 시장 진출…오사카 ‘DIP Vision’에 AI 광고 데이터 플랫폼 구축 - 스타트업엔(StartupN)] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
     },
     {
-      "id": "live-15",
+      "id": "live-16",
       "title": "청원구, 추석 연휴 앞두고 불법 현수막 집중 정비",
       "link": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE5zcGhYUHBRM0RGeDEwbHNzYVR3RFNuTnBISUstX2hqY3FaNTVOYTl0WFQ5dU5uempOR3FSMWd4YU5remZObkY3enFza1N2eko0U3ZKcA?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE5zcGhYUHBRM0RGeDEwbHNzYVR3RFNuTnBISUstX2hqY3FaNTVOYTl0WFQ5dU5uempOR3FSMWd4YU5remZObkY3enFza1N2eko0U3ZKcA?oc=5",
@@ -217,7 +227,7 @@
       "description": "타임뉴스에서 보도한 [청원구, 추석 연휴 앞두고 불법 현수막 집중 정비] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
     },
     {
-      "id": "live-16",
+      "id": "live-17",
       "title": "옥외광고센터, 옥외광고 기업 위한 특허 출원비용 지원 신사업 공고",
       "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTFBWSG5ERHJaTWx6QTVDNDhhblRFYlByakdMbjNITU9GUFlTRl9YZVAtUWdMOW15QXVJQ1RJWVdxR010VHQ4RjFfM0VjOWJ2TkMzN01nM21RejAwb2xWSU5qeDl6ZEVJMUFJa203OHhMUQ?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMib0FVX3lxTFBWSG5ERHJaTWx6QTVDNDhhblRFYlByakdMbjNITU9GUFlTRl9YZVAtUWdMOW15QXVJQ1RJWVdxR010VHQ4RjFfM0VjOWJ2TkMzN01nM21RejAwb2xWSU5qeDl6ZEVJMUFJa203OHhMUQ?oc=5",
@@ -227,17 +237,17 @@
       "description": "브랜드브리프에서 보도한 [옥외광고센터, 옥외광고 기업 위한 특허 출원비용 지원 신사업 공고] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
     },
     {
-      "id": "live-17",
+      "id": "live-18",
       "title": "“불법 현수막이 장바구니로” 대구 서구, 깨끗한 거리 만들고 자원도 아끼고",
       "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE9LV0x1Q2ViRTd5N1MzYnJzY09iTG9ZODFnQ29USldqSEZhNnpDMURfa0J0YWRmUTdYM1hnQm9KRDBjQ2MxT2lhdXE0VFBUd1BtRkNiRzc2S3FRV1QzcjhtdF82bkJFWGdZ?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE9LV0x1Q2ViRTd5N1MzYnJzY09iTG9ZODFnQ29USldqSEZhNnpDMURfa0J0YWRmUTdYM1hnQm9KRDBjQ2MxT2lhdXE0VFBUd1BtRkNiRzc2S3FRV1QzcjhtdF82bkJFWGdZ?oc=5",
-      "press": "mhns.co.kr",
+      "press": "더쎈뉴스",
       "pubDate": "2026-09-22 04:13",
       "category": "디지털사이니지",
-      "description": "mhns.co.kr에서 보도한 [“불법 현수막이 장바구니로” 대구 서구, 깨끗한 거리 만들고 자원도 아끼고] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
+      "description": "더쎈뉴스에서 보도한 [“불법 현수막이 장바구니로” 대구 서구, 깨끗한 거리 만들고 자원도 아끼고] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
     },
     {
-      "id": "live-18",
+      "id": "live-19",
       "title": "한국지방재정공제회, ‘옥외광고 산업진흥 특허드림’ 참여기업 모집",
       "link": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE9STWdoOUUyaWpOMmltQmd3Y2JQS1Bxd05xQVJWWDN4c1hoYU0zbVJ0UGpOVUw1cHQ5QjVVcVRwUkN5TzVUWVhrRTA0MTN4M0hS?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE9STWdoOUUyaWpOMmltQmd3Y2JQS1Bxd05xQVJWWDN4c1hoYU0zbVJ0UGpOVUw1cHQ5QjVVcVRwUkN5TzVUWVhrRTA0MTN4M0hS?oc=5",
@@ -247,7 +257,17 @@
       "description": "문화일보에서 보도한 [한국지방재정공제회, ‘옥외광고 산업진흥 특허드림’ 참여기업 모집] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
     },
     {
-      "id": "live-19",
+      "id": "live-20",
+      "title": "영주시, 추석 연휴 앞두고 불법 현수막 일제 정비",
+      "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1COGZEc1BjQTBnQVlva1kwUDNnSzJuUDltbl9saHJla0IzTlBQVElaYU52Vk9tWHFLaGJOa3hZb1hWdHZzS0pJTDJHMFFoMVBFVDRKcVdqNVRUSS1FU05YN0oyV0VEbkFnQVE?oc=5",
+      "originallink": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1COGZEc1BjQTBnQVlva1kwUDNnSzJuUDltbl9saHJla0IzTlBQVElaYU52Vk9tWHFLaGJOa3hZb1hWdHZzS0pJTDJHMFFoMVBFVDRKcVdqNVRUSS1FU05YN0oyV0VEbkFnQVE?oc=5",
+      "press": "천지일보",
+      "pubDate": "2026-09-22 03:24",
+      "category": "디지털사이니지",
+      "description": "천지일보에서 보도한 [영주시, 추석 연휴 앞두고 불법 현수막 일제 정비] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
+    },
+    {
+      "id": "live-21",
       "title": "지방재정공제회, 옥외광고기업 특허 출원비용 지원",
       "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5RUjYwR1l1eEMtRWVvZFpOLUlnMXpNTjZOcXdSWDJ2WnpjWlJvNEZmTE5EUUYwVmJCUkhjSEVCcjhSR0FjZDZaVHI4dWh3dUREUmJaRHhlWDYxcU9SRzV5dmxjWjBlaHJfMGc?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5RUjYwR1l1eEMtRWVvZFpOLUlnMXpNTjZOcXdSWDJ2WnpjWlJvNEZmTE5EUUYwVmJCUkhjSEVCcjhSR0FjZDZaVHI4dWh3dUREUmJaRHhlWDYxcU9SRzV5dmxjWjBlaHJfMGc?oc=5",
@@ -257,7 +277,7 @@
       "description": "한국공제보험신문에서 보도한 [지방재정공제회, 옥외광고기업 특허 출원비용 지원] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
     },
     {
-      "id": "live-20",
+      "id": "live-22",
       "title": "한국지방재정공제회, 옥외광고 기업 위한 특허 출원비용 지원 신사업 공고",
       "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE1fbEJUXzZhZVZNdGx0ajV1d3BLandlYkh0MjRWZnI4dEZNcDNEdTFFdHd5TTVITTh4RXoxMXhKNk5EeGR5cjFtRDJpZkpCOHJ6eGNsSjlkQnVPUVNQNW9V?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE1fbEJUXzZhZVZNdGx0ajV1d3BLandlYkh0MjRWZnI4dEZNcDNEdTFFdHd5TTVITTh4RXoxMXhKNk5EeGR5cjFtRDJpZkpCOHJ6eGNsSjlkQnVPUVNQNW9V?oc=5",
@@ -267,17 +287,17 @@
       "description": "뉴스와이어에서 보도한 [한국지방재정공제회, 옥외광고 기업 위한 특허 출원비용 지원 신사업 공고] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
     },
     {
-      "id": "live-21",
+      "id": "live-23",
       "title": "제니가 쓴 ‘루비 렌즈’…트랜지션스, 레이밴과 10월까지 캠페인",
       "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE1VVUtMSU9QSm94Z1p6ZGtpWmtxMjM3SzZONVdCYXJ3ZWluSGxQMlR0ZDJMZGVuZmFXN3U0d19SNUJVRHJ0Mlpxc1VpQ1Z4STlrMmtONTF0MnBaNzdIYXE1NkhqRWV3eWZZN3VVRA?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMibEFVX3lxTE1VVUtMSU9QSm94Z1p6ZGtpWmtxMjM3SzZONVdCYXJ3ZWluSGxQMlR0ZDJMZGVuZmFXN3U0d19SNUJVRHJ0Mlpxc1VpQ1Z4STlrMmtONTF0MnBaNzdIYXE1NkhqRWV3eWZZN3VVRA?oc=5",
-      "press": "newstap.co.kr",
+      "press": "뉴스탭",
       "pubDate": "2026-09-22 00:07",
       "category": "디지털사이니지",
-      "description": "newstap.co.kr에서 보도한 [제니가 쓴 ‘루비 렌즈’…트랜지션스, 레이밴과 10월까지 캠페인] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
+      "description": "뉴스탭에서 보도한 [제니가 쓴 ‘루비 렌즈’…트랜지션스, 레이밴과 10월까지 캠페인] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
     },
     {
-      "id": "live-22",
+      "id": "live-24",
       "title": "남동구, 전통시장 LED 전광판으로 어르신 보행안전 집중 홍보",
       "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE5sbnh4ZUgxbGRJRHNBZFl2MVpGdy1pV3c5UF9QdFVaLUpsNUI0aXdvbVFqY280NWpFelJFakpIdm94eUx1ZHIyUy1fSFRKQTMtdy1CU1YtcDNyZnJOUW5rdkZoa2pDYTljaFEyby1HWdIBckFVX3lxTFAzRHVLYkZyNUowVE5Xbno5U3hHeURKa0xUWF8zM2VPR0Q2UHpIUFBlQ0VQYjJuUkRab0M4SzZWQWJUT0xXMWtIUncwbm83Z1BnX3pXMzFwbXFocDlvT0FPMmFPN2xNRXZfb2NWbG5hMjdHdw?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMib0FVX3lxTE5sbnh4ZUgxbGRJRHNBZFl2MVpGdy1pV3c5UF9QdFVaLUpsNUI0aXdvbVFqY280NWpFelJFakpIdm94eUx1ZHIyUy1fSFRKQTMtdy1CU1YtcDNyZnJOUW5rdkZoa2pDYTljaFEyby1HWdIBckFVX3lxTFAzRHVLYkZyNUowVE5Xbno5U3hHeURKa0xUWF8zM2VPR0Q2UHpIUFBlQ0VQYjJuUkRab0M4SzZWQWJUT0xXMWtIUncwbm83Z1BnX3pXMzFwbXFocDlvT0FPMmFPN2xNRXZfb2NWbG5hMjdHdw?oc=5",
@@ -287,7 +307,7 @@
       "description": "포커스인천에서 보도한 [남동구, 전통시장 LED 전광판으로 어르신 보행안전 집중 홍보] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
     },
     {
-      "id": "live-23",
+      "id": "live-25",
       "title": "폴리텍 진주캠퍼스, 디자인 공모전 휩쓸어",
       "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE9FOFFKM19Fck80cndNZDQwaDhabjFYenJUVHdqajFhNWhjTTBsSXIwNUNsV3NCMGd3dUpWNE4xbkF0M25NazFSMlhPem5taDRhMzNlV2NFMkltaUYxWlJ5Tmo5dVpoRUVuc0dSeFNB0gFuQVVfeXFMT0U4UUozX0VyTzRyd01kNDBoOFpuMVh6clRUd2pqMWE1aGNNMGxJcjA1Q2xXc0IwZ3d1SlY0TjFuQXQzbk1rMVIyWE96bm1oNGEzM2VXY0UySW1pRjFaUnlOajl1WmhFRW5zR1J4U0E?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMibkFVX3lxTE9FOFFKM19Fck80cndNZDQwaDhabjFYenJUVHdqajFhNWhjTTBsSXIwNUNsV3NCMGd3dUpWNE4xbkF0M25NazFSMlhPem5taDRhMzNlV2NFMkltaUYxWlJ5Tmo5dVpoRUVuc0dSeFNB0gFuQVVfeXFMT0U4UUozX0VyTzRyd01kNDBoOFpuMVh6clRUd2pqMWE1aGNNMGxJcjA1Q2xXc0IwZ3d1SlY0TjFuQXQzbk1rMVIyWE96bm1oNGEzM2VXY0UySW1pRjFaUnlOajl1WmhFRW5zR1J4U0E?oc=5",
@@ -295,26 +315,6 @@
       "pubDate": "2026-09-21 09:49",
       "category": "디지털사이니지",
       "description": "경남탑뉴스에서 보도한 [폴리텍 진주캠퍼스, 디자인 공모전 휩쓸어] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
-    },
-    {
-      "id": "live-24",
-      "title": "평창군, 불법 현수막 일제 점검 추진",
-      "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE8yOV9wOXVaNldfcHJPSjE1MnY3UXRJal83aEd4SzB6Y1hsWENtdHhTTGpobm1ZdkFFVUZwRHVIT3V6RlNYbzRndjhvUXdoYVlrLWdlT0twMGRKMXp3WkI4S3BScEg?oc=5",
-      "originallink": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE8yOV9wOXVaNldfcHJPSjE1MnY3UXRJal83aEd4SzB6Y1hsWENtdHhTTGpobm1ZdkFFVUZwRHVIT3V6RlNYbzRndjhvUXdoYVlrLWdlT0twMGRKMXp3WkI4S3BScEg?oc=5",
-      "press": "G1방송",
-      "pubDate": "2026-09-21 08:15",
-      "category": "디지털사이니지",
-      "description": "G1방송에서 보도한 [평창군, 불법 현수막 일제 점검 추진] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
-    },
-    {
-      "id": "live-25",
-      "title": "남원시 불법 현수막 일제 정비 실시",
-      "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBHbThxQjA4TER3bElYcFg3cnpURVdVMFBMcDhodTVDeWxuSC0xWGF3ZmpqR0tVbWdSWWJJZ2FnOUkxNmVVcFJpcVRxZzRjSENLUWhzeTVuSXdSUFVKUUtyN0t4VV9rN3M0WkR30gFrQVVfeXFMUEdtOHFCMDhMRHdsSVhwWDdyelRFV1UwUExwOGh1NUN5bG5ILTFYYXdmampHS1VtZ1JZYklnYWc5STE2ZVVwUmlxVHFnNGNIQ0tRaHN5NW5Jd1JQVUpRS3I3S3hVX2s3czRaRHc?oc=5",
-      "originallink": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBHbThxQjA4TER3bElYcFg3cnpURVdVMFBMcDhodTVDeWxuSC0xWGF3ZmpqR0tVbWdSWWJJZ2FnOUkxNmVVcFJpcVRxZzRjSENLUWhzeTVuSXdSUFVKUUtyN0t4VV9rN3M0WkR30gFrQVVfeXFMUEdtOHFCMDhMRHdsSVhwWDdyelRFV1UwUExwOGh1NUN5bG5ILTFYYXdmampHS1VtZ1JZYklnYWc5STE2ZVVwUmlxVHFnNGNIQ0tRaHN5NW5Jd1JQVUpRS3I3S3hVX2s3czRaRHc?oc=5",
-      "press": "전북중앙",
-      "pubDate": "2026-09-21 08:00",
-      "category": "디지털사이니지",
-      "description": "전북중앙에서 보도한 [남원시 불법 현수막 일제 정비 실시] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
     }
   ]
 }
