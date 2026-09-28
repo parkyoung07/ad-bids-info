@@ -226,31 +226,30 @@ export default function HomePage() {
 
   return (
     <div className="flex-1 flex flex-col">
-      {/* 히어로 섹션 */}
-      <section className="relative overflow-hidden bg-slate-900 border-b border-slate-800 py-10 sm:py-14 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto text-center space-y-4 relative z-10">
+      {/* 히어로 섹션 (모바일 초슬림 & PC 황금 균형 최적화) */}
+      <section className="relative overflow-hidden bg-slate-900 border-b border-slate-800 py-5 sm:py-9 px-3 sm:px-6 lg:px-8">
+        <div className="max-w-3xl mx-auto text-center space-y-2.5 sm:space-y-3.5 relative z-10">
           {/* 상단 신뢰 배지 */}
-          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-slate-950 border border-slate-700 text-slate-300 text-xs font-semibold shadow-sm">
+          <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-slate-950 border border-slate-800 text-slate-300 text-[11px] sm:text-xs font-semibold shadow-sm">
             <ShieldCheck className="w-3.5 h-3.5 text-cyan-400" />
-            <span>옥외광고·인쇄·행사전시 사업자를 위한 공공입찰 정보 서비스</span>
+            <span>실시간 조달청·공공기관 검증 공고</span>
           </div>
 
-          {/* 메인 헤드라인 */}
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-tight">
-            시각 디자인부터 공간 연출까지,{" "}
+          {/* 메인 헤드라인 (간결하고 직관적인 타이틀) */}
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-white tracking-tight leading-snug">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400">
-              옥외광고 · 인쇄출판 · 행사전시 입찰
-            </span>
-            을 한곳에서
+              옥외광고 · 인쇄 · 행사전시
+            </span>{" "}
+            공공입찰
           </h1>
 
-          {/* 보조 설명 */}
-          <p className="text-xs sm:text-sm text-slate-300 max-w-2xl mx-auto leading-relaxed">
-            간판·조형물·전광판부터 홍보물 인쇄, 축제·전시부스, 고수익 융합 패키지까지 나라장터·온비드·학교장터 공고를 실시간 수집·분석합니다.
+          {/* 보조 설명 (간결화) */}
+          <p className="text-xs sm:text-sm text-slate-400 max-w-xl mx-auto">
+            나라장터 · 온비드 · 학교장터 실시간 맞춤 수집 및 분석
           </p>
 
           {/* 통합 검색창 */}
-          <div className="pt-2 max-w-xl mx-auto">
+          <div className="pt-1 max-w-xl mx-auto">
             <div className="relative flex items-center shadow-lg">
               <Search className="absolute left-3.5 w-4 h-4 text-slate-400" />
               <input
@@ -258,7 +257,7 @@ export default function HomePage() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="공고명, 발주처, 지역, 품목을 검색하세요"
-                className="w-full pl-10 pr-16 py-3.5 bg-slate-950 border border-slate-700 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm shadow-inner transition-all min-h-[44px]"
+                className="w-full pl-10 pr-16 py-2.5 sm:py-3 bg-slate-950 border border-slate-700/80 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm shadow-inner transition-all min-h-[42px]"
               />
               {searchQuery && (
                 <button
@@ -271,18 +270,22 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* 대표 3대 행동 버튼 */}
-          <div className="pt-2 flex flex-wrap items-center justify-center gap-2.5">
+          {/* 대표 3대 행동 버튼 (진행공고 · 마감임박 · 카톡알림 1줄 완벽 정렬) */}
+          <div className="pt-1 max-w-xl mx-auto grid grid-cols-3 gap-1.5 sm:gap-2.5">
             <button
               onClick={() => {
                 setViewTab("active");
                 setFilters(INITIAL_FILTERS);
                 setSearchQuery("");
               }}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer min-h-[40px]"
+              className={`flex items-center justify-center gap-1 sm:gap-1.5 py-2 px-1 sm:px-3 rounded-xl font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer min-h-[40px] ${
+                viewTab === "active" && filters.deadline !== "d3"
+                  ? "bg-blue-600 text-white ring-1 ring-blue-400 shadow-blue-500/20"
+                  : "bg-slate-950/90 hover:bg-slate-800 text-slate-300 border border-slate-800"
+              }`}
             >
-              <Sparkles className="w-4 h-4 text-cyan-300" />
-              <span>진행 공고 ({activeVerifiedBids.length})</span>
+              <Sparkles className="w-3.5 h-3.5 text-cyan-300 shrink-0" />
+              <span className="truncate">진행 ({activeVerifiedBids.length})</span>
             </button>
 
             <button
@@ -290,23 +293,27 @@ export default function HomePage() {
                 setViewTab("active");
                 setFilters({ ...INITIAL_FILTERS, deadline: "d3" });
               }}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white font-bold text-xs sm:text-sm border border-slate-700 transition-all cursor-pointer min-h-[40px]"
+              className={`flex items-center justify-center gap-1 sm:gap-1.5 py-2 px-1 sm:px-3 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer min-h-[40px] ${
+                filters.deadline === "d3"
+                  ? "bg-rose-600 text-white ring-1 ring-rose-400 shadow-rose-500/20"
+                  : "bg-slate-950/90 hover:bg-slate-800 text-slate-300 border border-slate-800"
+              }`}
             >
-              <Flame className="w-4 h-4 text-rose-400" />
-              <span>마감 임박 (D-3) ({todayUrgentCount}건)</span>
+              <Flame className="w-3.5 h-3.5 text-rose-400 shrink-0" />
+              <span className="truncate">마감임박 ({todayUrgentCount})</span>
             </button>
 
             <button
               onClick={() => setIsSubscribeModalOpen(true)}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#FEE500] hover:bg-[#FDD800] text-[#191919] font-black text-xs sm:text-sm shadow-md transition-all hover:scale-105 active:scale-95 cursor-pointer min-h-[40px]"
+              className="flex items-center justify-center gap-1 sm:gap-1.5 py-2 px-1 sm:px-3 rounded-xl bg-[#FEE500] hover:bg-[#FDD800] text-[#191919] font-black text-xs sm:text-sm shadow-md transition-all hover:scale-[1.02] active:scale-95 cursor-pointer min-h-[40px]"
             >
-              <MessageCircle className="w-4 h-4 fill-[#191919] text-[#191919]" />
-              <span>카톡 무료 알림</span>
+              <MessageCircle className="w-3.5 h-3.5 fill-[#191919] text-[#191919] shrink-0" />
+              <span className="truncate">카톡 알림</span>
             </button>
           </div>
 
           {/* 🎯 4대 핵심 분야 원클릭 공고 탐색 (슬림하고 깔끔한 원라인 알약형 탭) */}
-          <div className="pt-2.5 max-w-4xl mx-auto">
+          <div className="pt-1.5 max-w-4xl mx-auto">
             <div className="flex items-center justify-start sm:justify-center gap-1.5 overflow-x-auto no-scrollbar py-1">
               {/* 전체 */}
               <button

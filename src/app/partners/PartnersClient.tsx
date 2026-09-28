@@ -19,12 +19,23 @@ import {
   Award,
   Info,
   Calendar,
-  ExternalLink
+  ExternalLink,
+  Trophy,
+  TrendingUp,
+  Briefcase
 } from "lucide-react";
 import RegionalMapViewer from "@/components/RegionalMapViewer";
 import registeredData from "../../../public/data/registered-businesses.json";
 
-interface RegisteredBusiness {
+export interface AwardRecord {
+  title: string;
+  client: string;
+  openedDate: string;
+  winningBidText: string;
+  rate: number;
+}
+
+export interface RegisteredBusiness {
   id: string;
   companyName: string;
   regNumber: string;
@@ -39,6 +50,8 @@ interface RegisteredBusiness {
   status: string;
   industry?: string;
   websiteUrl?: string;
+  awardCount?: number;
+  awardHistory?: AwardRecord[];
 }
 
 interface RegionalStat {
@@ -168,6 +181,7 @@ export default function PartnersClient() {
   const [selectedRegion, setSelectedRegion] = useState<string>("전체");
   const [selectedCategory, setSelectedCategory] = useState<string>("전체");
   const [onlyDirectProduction, setOnlyDirectProduction] = useState<boolean>(false);
+  const [onlyAwardHolders, setOnlyAwardHolders] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   // Pagination
@@ -177,6 +191,7 @@ export default function PartnersClient() {
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [isApplyModalOpen, setIsApplyModalOpen] = useState<boolean>(false);
   const [inquiryTargetCompany, setInquiryTargetCompany] = useState<RegisteredBusiness | null>(null);
+  const [selectedAwardCompany, setSelectedAwardCompany] = useState<RegisteredBusiness | null>(null);
 
   // Partner Application Form State
   const [applyForm, setApplyForm] = useState({
@@ -215,7 +230,12 @@ export default function PartnersClient() {
         return false;
       }
 
-      // 5. 품목 카테고리 필터
+      // 5. 공공입찰 낙찰실적 보유 필터
+      if (onlyAwardHolders && (!item.awardCount || item.awardCount === 0)) {
+        return false;
+      }
+
+      // 6. 품목 카테고리 필터
       if (selectedCategory !== "전체") {
         const matchesCategory = item.mainItems.some((tag) =>
           tag.toLowerCase().includes(selectedCategory.toLowerCase())
@@ -223,7 +243,7 @@ export default function PartnersClient() {
         if (!matchesCategory) return false;
       }
 
-      // 6. 검색어 (업체명, 대표자, 등록번호, 주소, 품목)
+      // 7. 검색어 (업체명, 대표자, 등록번호, 주소, 품목)
       if (searchQuery.trim()) {
         const query = searchQuery.trim().toLowerCase();
         const matchName = item.companyName.toLowerCase().includes(query);
@@ -240,7 +260,7 @@ export default function PartnersClient() {
 
       return true;
     });
-  }, [businesses, selectedIndustry, selectedRegion, selectedCategory, onlyDirectProduction, searchQuery]);
+  }, [businesses, selectedIndustry, selectedRegion, selectedCategory, onlyDirectProduction, onlyAwardHolders, searchQuery]);
 
   const displayedList = useMemo(() => {
     return filteredBusinesses.slice(0, displayLimit);
@@ -433,22 +453,42 @@ export default function PartnersClient() {
             )}
           </div>
 
-          {/* 직접생산확인 토글 버튼 */}
-          <button
-            onClick={() => {
-              setOnlyDirectProduction(!onlyDirectProduction);
-              setDisplayLimit(24);
-            }}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border text-xs sm:text-sm font-bold transition-all cursor-pointer shrink-0 min-h-[44px] ${
-              onlyDirectProduction
-                ? "bg-emerald-500/20 text-emerald-300 border-emerald-500/50 shadow-md shadow-emerald-500/20"
-                : "bg-slate-950/80 text-slate-400 border-slate-700/80 hover:text-slate-200"
-            }`}
-          >
-            <Factory className={`w-4 h-4 ${onlyDirectProduction ? "text-emerald-400" : "text-slate-500"}`} />
-            <span>직접생산확인(공장보유) 업체만</span>
-            {onlyDirectProduction && <Check className="w-3.5 h-3.5 text-emerald-400" />}
-          </button>
+          {/* 토글 버튼 그룹: 직접생산 & 낙찰실적 */}
+          <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap shrink-0">
+            {/* 직접생산확인 토글 버튼 */}
+            <button
+              onClick={() => {
+                setOnlyDirectProduction(!onlyDirectProduction);
+                setDisplayLimit(24);
+              }}
+              className={`flex items-center gap-2 px-3.5 py-2.5 rounded-xl border text-xs sm:text-sm font-bold transition-all cursor-pointer min-h-[44px] ${
+                onlyDirectProduction
+                  ? "bg-emerald-500/20 text-emerald-300 border-emerald-500/50 shadow-md shadow-emerald-500/20"
+                  : "bg-slate-950/80 text-slate-400 border-slate-700/80 hover:text-slate-200"
+              }`}
+            >
+              <Factory className={`w-4 h-4 ${onlyDirectProduction ? "text-emerald-400" : "text-slate-500"}`} />
+              <span>직접생산</span>
+              {onlyDirectProduction && <Check className="w-3.5 h-3.5 text-emerald-400" />}
+            </button>
+
+            {/* 공공입찰 낙찰실적 토글 버튼 */}
+            <button
+              onClick={() => {
+                setOnlyAwardHolders(!onlyAwardHolders);
+                setDisplayLimit(24);
+              }}
+              className={`flex items-center gap-2 px-3.5 py-2.5 rounded-xl border text-xs sm:text-sm font-bold transition-all cursor-pointer min-h-[44px] ${
+                onlyAwardHolders
+                  ? "bg-amber-500/20 text-amber-300 border-amber-500/50 shadow-md shadow-amber-500/20"
+                  : "bg-slate-950/80 text-slate-400 border-slate-700/80 hover:text-slate-200"
+              }`}
+            >
+              <Trophy className={`w-4 h-4 ${onlyAwardHolders ? "text-amber-400" : "text-slate-500"}`} />
+              <span>🏆 낙찰실적 보유</span>
+              {onlyAwardHolders && <Check className="w-3.5 h-3.5 text-amber-400" />}
+            </button>
+          </div>
         </div>
 
         {/* 하단 3단계: 품목 카테고리 태그 칩 (모바일 가로 스와이프 지원) */}
@@ -478,13 +518,14 @@ export default function PartnersClient() {
           })}
 
           {/* 필터 초기화 */}
-          {(selectedIndustry !== "all" || selectedRegion !== "전체" || selectedCategory !== "전체" || onlyDirectProduction || searchQuery) && (
+          {(selectedIndustry !== "all" || selectedRegion !== "전체" || selectedCategory !== "전체" || onlyDirectProduction || onlyAwardHolders || searchQuery) && (
             <button
               onClick={() => {
                 setSelectedIndustry("all");
                 setSelectedRegion("전체");
                 setSelectedCategory("전체");
                 setOnlyDirectProduction(false);
+                setOnlyAwardHolders(false);
                 setSearchQuery("");
                 setDisplayLimit(24);
               }}
@@ -508,6 +549,7 @@ export default function PartnersClient() {
           {selectedRegion !== "전체" && <strong className="text-blue-400 font-bold">[{selectedRegion}] </strong>}
           {selectedCategory !== "전체" && <strong className="text-indigo-400 font-bold">[{selectedCategory}] </strong>}
           {onlyDirectProduction && <strong className="text-emerald-400 font-bold">[직접생산] </strong>}
+          {onlyAwardHolders && <strong className="text-amber-400 font-bold">[낙찰실적 보유] </strong>}
           검색된 업체: 총 <strong className="text-white font-bold">{filteredBusinesses.length.toLocaleString()}</strong>개사
         </p>
         <span className="text-xs text-slate-500">
@@ -568,6 +610,18 @@ export default function PartnersClient() {
                         옥외광고 검증
                       </span>
                     )}
+
+                    {/* 낙찰 실적 보유 뱃지 */}
+                    {item.awardCount && item.awardCount > 0 ? (
+                      <button
+                        onClick={() => setSelectedAwardCompany(item)}
+                        className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-400/40 transition-all cursor-pointer shadow-sm"
+                        title="조달청·공공기관 낙찰 실적 상세 조회"
+                      >
+                        <Trophy className="w-3 h-3 text-amber-400" />
+                        <span>낙찰실적 {item.awardCount}건</span>
+                      </button>
+                    ) : null}
 
                     {item.hasDirectProduction && (
                       <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-400/30">
@@ -930,6 +984,132 @@ export default function PartnersClient() {
           </div>
         </div>
       )}
+
+      {/* 9. 공공입찰 수주·낙찰 실적 상세 조회 모달 */}
+      {selectedAwardCompany && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-slate-900 border border-slate-700 rounded-2xl max-w-2xl w-full p-6 space-y-5 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+            {/* 닫기 버튼 */}
+            <button
+              onClick={() => setSelectedAwardCompany(null)}
+              className="absolute right-4 top-4 text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition-colors cursor-pointer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            {/* 모달 헤더 */}
+            <div className="space-y-1">
+              <div className="flex items-center gap-2">
+                <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 border border-amber-400/40">
+                  <Trophy className="w-3 h-3 text-amber-400" />
+                  조달청·공공기관 낙찰 실적 검증
+                </span>
+                <span className="text-xs text-slate-400">
+                  {selectedAwardCompany.region} · {selectedAwardCompany.industry === "print" ? "인쇄·출판" : selectedAwardCompany.industry === "event" ? "전시·축제" : "옥외광고"}
+                </span>
+              </div>
+              <h2 className="text-xl font-black text-white flex items-center gap-2">
+                <Building2 className="w-5 h-5 text-blue-400" />
+                <span>{selectedAwardCompany.companyName}</span>
+              </h2>
+              <p className="text-xs text-slate-400">
+                조달청 나라장터 및 17개 시·도 지자체 개찰 데이터를 역추적하여 검증한 실제 수주·낙찰 이력입니다.
+              </p>
+            </div>
+
+            {/* 기업 핵심 지표 요약 */}
+            <div className="grid grid-cols-3 gap-2 bg-slate-950 p-3 rounded-xl border border-slate-800 text-center">
+              <div>
+                <span className="text-[10px] text-slate-500 block">최근 검증 낙찰</span>
+                <strong className="text-sm font-bold text-amber-400">{selectedAwardCompany.awardCount || 0}건</strong>
+              </div>
+              <div>
+                <span className="text-[10px] text-slate-500 block">직접생산 공장</span>
+                <strong className={`text-sm font-bold ${selectedAwardCompany.hasDirectProduction ? "text-emerald-400" : "text-slate-400"}`}>
+                  {selectedAwardCompany.hasDirectProduction ? "보유 (인증)" : "일반"}
+                </strong>
+              </div>
+              <div>
+                <span className="text-[10px] text-slate-500 block">대표자</span>
+                <strong className="text-sm font-bold text-slate-200">{selectedAwardCompany.representative}</strong>
+              </div>
+            </div>
+
+            {/* 낙찰 이력 리스트 */}
+            <div className="space-y-3">
+              <h3 className="text-xs font-bold text-slate-300 flex items-center gap-1.5">
+                <TrendingUp className="w-3.5 h-3.5 text-blue-400" />
+                <span>주요 공공입찰 수주 프로젝트 내역</span>
+              </h3>
+
+              {selectedAwardCompany.awardHistory && selectedAwardCompany.awardHistory.length > 0 ? (
+                <div className="space-y-2.5">
+                  {selectedAwardCompany.awardHistory.map((award, idx) => (
+                    <div
+                      key={idx}
+                      className="p-3.5 rounded-xl bg-slate-950/90 border border-slate-800 space-y-2 hover:border-slate-700 transition-colors"
+                    >
+                      <div className="flex items-start justify-between gap-2">
+                        <h4 className="text-xs sm:text-sm font-bold text-white leading-snug">
+                          {award.title}
+                        </h4>
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 shrink-0">
+                          낙찰 1순위
+                        </span>
+                      </div>
+
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-[11px] text-slate-400 pt-1 border-t border-slate-800/80">
+                        <div>
+                          <span className="text-slate-500">발주기관: </span>
+                          <strong className="text-slate-300">{award.client}</strong>
+                        </div>
+                        <div>
+                          <span className="text-slate-500">수주금액: </span>
+                          <strong className="text-amber-300">{award.winningBidText}</strong>
+                        </div>
+                        <div>
+                          <span className="text-slate-500">투찰률: </span>
+                          <strong className="text-blue-300">{award.rate}%</strong>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="p-6 text-center bg-slate-950 rounded-xl border border-slate-800 text-xs text-slate-400">
+                  등록된 대표 실적 데이터가 정리 중입니다.
+                </div>
+              )}
+            </div>
+
+            {/* 하단 버튼 */}
+            <div className="pt-2 flex items-center gap-2.5 border-t border-slate-800">
+              {selectedAwardCompany.phone && (
+                <a
+                  href={`tel:${selectedAwardCompany.phone}`}
+                  className="flex-1 py-2.5 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold border border-slate-700 transition-colors text-center inline-flex items-center justify-center gap-1.5"
+                >
+                  <Phone className="w-3.5 h-3.5 text-blue-400" />
+                  <span>전화 상담 ({selectedAwardCompany.phone})</span>
+                </a>
+              )}
+
+              <button
+                onClick={() => {
+                  setInquiryTargetCompany(selectedAwardCompany);
+                  setSelectedAwardCompany(null);
+                  setIsApplyModalOpen(true);
+                }}
+                className="flex-1 py-2.5 px-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-bold shadow-md shadow-blue-500/25 transition-all cursor-pointer inline-flex items-center justify-center gap-1.5"
+              >
+                <Send className="w-3.5 h-3.5" />
+                <span>공동도급·제휴 문의하기</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
+

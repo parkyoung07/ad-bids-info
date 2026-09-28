@@ -2098,6 +2098,62 @@
   },
   {
     "type": "award",
+    "id": "AWARD-PRINT-001",
+    "title": "[낙찰결과] 2026년 정부 주요 정책보고서 및 공공간행물 긴급 POD 디지털 인쇄 용역",
+    "description": "낙찰사: undefined | 낙찰률: undefined% | 낙찰금액: undefined (발주: 한국정보화진흥원)",
+    "content": "2026년 정부 주요 정책보고서 및 공공간행물 긴급 POD 디지털 인쇄 용역 한국정보화진흥원 undefined undefined% undefined",
+    "category": "인쇄·출판",
+    "tags": [
+      "낙찰결과",
+      "개찰",
+      null
+    ],
+    "url": "/results"
+  },
+  {
+    "type": "award",
+    "id": "AWARD-PRINT-002",
+    "title": "[낙찰결과] 2026년 전국 시·도 관광안내 다국어 리플릿 및 홍보 지도 대량 옵셋 인쇄",
+    "description": "낙찰사: undefined | 낙찰률: undefined% | 낙찰금액: undefined (발주: 한국관광공사)",
+    "content": "2026년 전국 시·도 관광안내 다국어 리플릿 및 홍보 지도 대량 옵셋 인쇄 한국관광공사 undefined undefined% undefined",
+    "category": "인쇄·출판",
+    "tags": [
+      "낙찰결과",
+      "개찰",
+      null
+    ],
+    "url": "/results"
+  },
+  {
+    "type": "award",
+    "id": "AWARD-EVENT-001",
+    "title": "[낙찰결과] 2026 대한민국 공공조달 우수제품 박람회 총괄 대행 및 전시관 설치",
+    "description": "낙찰사: undefined | 낙찰률: undefined% | 낙찰금액: undefined (발주: 조달청)",
+    "content": "2026 대한민국 공공조달 우수제품 박람회 총괄 대행 및 전시관 설치 조달청 undefined undefined% undefined",
+    "category": "전시·축제·행사",
+    "tags": [
+      "낙찰결과",
+      "개찰",
+      null
+    ],
+    "url": "/results"
+  },
+  {
+    "type": "award",
+    "id": "AWARD-EVENT-002",
+    "title": "[낙찰결과] 2026 대구국제미래모빌리티엑스포(DIFA) 독립부스 및 특화존 시공",
+    "description": "낙찰사: undefined | 낙찰률: undefined% | 낙찰금액: undefined (발주: 대구광역시청)",
+    "content": "2026 대구국제미래모빌리티엑스포(DIFA) 독립부스 및 특화존 시공 대구광역시청 undefined undefined% undefined",
+    "category": "전시·축제·행사",
+    "tags": [
+      "낙찰결과",
+      "개찰",
+      null
+    ],
+    "url": "/results"
+  },
+  {
+    "type": "award",
     "id": "DEMO-AWARD-001",
     "title": "[낙찰결과] [DEMO 예시] 공공병원 종합 안내 사인물(LED 채널간판) 제작·설치 (시뮬레이션 표본)",
     "description": "낙찰사: undefined | 낙찰률: undefined% | 낙찰금액: undefined (발주: 전북대학교병원 (예시))",
