@@ -211,52 +211,35 @@ export default function Header() {
               })}
             </nav>
 
-            {/* 우측 퀵 액션 (카톡 알림 신청 + 관심공고 + 맞춤공고) */}
+            {/* 우측 퀵 액션 (PC 전용: 관심공고 + 맞춤공고) */}
             <div className="hidden lg:flex items-center gap-2">
-              <button
-                onClick={() => setIsSubscribeModalOpen(true)}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black bg-gradient-to-r from-amber-500 to-yellow-400 text-slate-950 shadow-md hover:from-amber-400 hover:to-yellow-300 transition-all cursor-pointer"
-              >
-                <MessageCircle className="w-3.5 h-3.5 fill-slate-950" />
-                <span>카톡 맞춤 알림</span>
-                <span className="text-[9px] bg-slate-950 text-amber-300 px-1 py-0.2 rounded font-bold">
-                  무료
-                </span>
-              </button>
-
               <Link
                 href="/#bookmarks"
-                className="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-800 border border-slate-700 transition-colors"
+                className="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-800 border border-slate-700 transition-colors"
               >
-                관심공고
+                ⭐ 관심공고
               </Link>
               <Link
                 href="/"
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white shadow-sm shadow-blue-600/20 transition-all"
+                className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white shadow-sm shadow-blue-600/20 transition-all"
               >
                 <Sparkles className="w-3.5 h-3.5 text-cyan-300" />
                 <span>맞춤 공고</span>
               </Link>
             </div>
 
-            {/* 모바일 햄버거 메뉴 및 퀵 액션 */}
-            <div className="lg:hidden flex items-center gap-2">
-              <button
-                onClick={() => setIsSubscribeModalOpen(true)}
-                className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-black bg-gradient-to-r from-amber-500 to-yellow-400 text-slate-950 shadow-sm transition-all"
-              >
-                <MessageCircle className="w-3.5 h-3.5 fill-slate-950" />
-                <span>카톡 알림</span>
-              </button>
+            {/* 모바일 햄버거 메뉴 및 깔끔한 아이콘 버튼 (줄깨짐 원천 방지) */}
+            <div className="lg:hidden flex items-center gap-1">
               <Link
                 href="/#bookmarks"
-                className="px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-300 bg-slate-800/90 border border-slate-700 hover:text-white transition-colors"
+                className="p-2 rounded-lg text-xs font-semibold text-amber-300 hover:text-white bg-slate-800/80 border border-slate-700 flex items-center justify-center min-h-[40px] min-w-[40px]"
+                aria-label="관심공고 바로가기"
               >
-                관심공고
+                ⭐
               </Link>
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="p-2.5 min-h-[44px] min-w-[44px] rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 focus:outline-none flex items-center justify-center cursor-pointer"
+                className="p-2 min-h-[40px] min-w-[40px] rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 focus:outline-none flex items-center justify-center cursor-pointer"
                 aria-label="메뉴 열기"
               >
                 {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}

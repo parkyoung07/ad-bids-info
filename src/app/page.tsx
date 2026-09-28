@@ -279,10 +279,10 @@ export default function HomePage() {
                 setFilters(INITIAL_FILTERS);
                 setSearchQuery("");
               }}
-              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs sm:text-sm shadow-md shadow-blue-600/30 transition-all cursor-pointer min-h-[44px]"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer min-h-[40px]"
             >
               <Sparkles className="w-4 h-4 text-cyan-300" />
-              <span>진행 공고 보기</span>
+              <span>진행 공고 ({activeVerifiedBids.length})</span>
             </button>
 
             <button
@@ -290,138 +290,113 @@ export default function HomePage() {
                 setViewTab("active");
                 setFilters({ ...INITIAL_FILTERS, deadline: "d3" });
               }}
-              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white font-bold text-xs sm:text-sm border border-slate-700 transition-all cursor-pointer min-h-[44px]"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white font-bold text-xs sm:text-sm border border-slate-700 transition-all cursor-pointer min-h-[40px]"
             >
               <Flame className="w-4 h-4 text-rose-400" />
-              <span>마감 임박 (D-3 이내) ({todayUrgentCount}건)</span>
+              <span>마감 임박 (D-3) ({todayUrgentCount}건)</span>
             </button>
 
             <button
               onClick={() => setIsSubscribeModalOpen(true)}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#FEE500] hover:bg-[#FDD800] text-[#191919] font-black text-xs sm:text-sm shadow-xl shadow-amber-500/25 hover:scale-[1.03] transition-all cursor-pointer min-h-[44px] ring-2 ring-amber-400"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#FEE500] hover:bg-[#FDD800] text-[#191919] font-black text-xs sm:text-sm shadow-md transition-all hover:scale-105 active:scale-95 cursor-pointer min-h-[40px]"
             >
               <MessageCircle className="w-4 h-4 fill-[#191919] text-[#191919]" />
-              <span>📱 카톡 무료 맞춤 알림 신청</span>
+              <span>카톡 무료 알림</span>
             </button>
           </div>
 
-          {/* 🎯 4대 핵심 비주얼 미디어 카테고리 퀵 내비게이션 바 (첫 화면에 즉시 노출) */}
-          <div className="pt-3 max-w-5xl mx-auto text-left">
-            <div className="bg-slate-950/80 backdrop-blur-md rounded-2xl border border-slate-800 p-3 sm:p-4 shadow-xl space-y-2.5">
-              <div className="flex items-center justify-between gap-2 px-1">
-                <div className="flex items-center gap-2">
-                  <span className="text-xs sm:text-sm font-extrabold text-white flex items-center gap-1.5">
-                    🎯 4대 핵심 분야 원클릭 공고 탐색
-                  </span>
-                  <span className="text-[11px] text-slate-400 hidden sm:inline">| 업종별 실시간 분류</span>
-                  <span className="text-[10px] text-amber-400 font-medium sm:hidden">👉 좌우 스와이프</span>
-                </div>
-                {filters.category !== "전체" && (
-                  <button
-                    onClick={() => setFilters({ ...filters, category: "전체" })}
-                    className="text-[11px] text-blue-400 hover:text-blue-300 font-semibold cursor-pointer"
-                  >
-                    전체 보기로 초기화
-                  </button>
-                )}
-              </div>
-              <div className="flex sm:grid flex-nowrap sm:grid-cols-3 lg:grid-cols-6 overflow-x-auto no-scrollbar gap-2 pb-1">
-                {/* 전체 */}
-                <button
-                  onClick={() => setFilters({ ...filters, category: "전체" })}
-                  className={`shrink-0 min-w-[130px] sm:min-w-0 flex-1 p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
-                    filters.category === "전체"
-                      ? "bg-blue-600/25 border-blue-500 text-white shadow-md ring-1 ring-blue-400"
-                      : "bg-slate-900/90 border-slate-800 text-slate-300 hover:border-slate-700 hover:text-white"
-                  }`}
-                >
-                  <div className="text-[10px] font-medium text-slate-400">전체 공고</div>
-                  <div className="text-xs sm:text-sm font-black flex items-center justify-between mt-0.5">
-                    <span>🌐 전체보기</span>
-                    <span className="text-blue-400">{coreCategoryCounts.all}건</span>
-                  </div>
-                </button>
+          {/* 🎯 4대 핵심 분야 원클릭 공고 탐색 (슬림하고 깔끔한 원라인 알약형 탭) */}
+          <div className="pt-2.5 max-w-4xl mx-auto">
+            <div className="flex items-center justify-start sm:justify-center gap-1.5 overflow-x-auto no-scrollbar py-1">
+              {/* 전체 */}
+              <button
+                onClick={() => setFilters({ ...filters, category: "전체" })}
+                className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap min-h-[36px] ${
+                  filters.category === "전체"
+                    ? "bg-blue-600 text-white shadow-sm ring-1 ring-blue-400"
+                    : "bg-slate-950/80 hover:bg-slate-800 text-slate-300 border border-slate-800"
+                }`}
+              >
+                <span>🌐 전체보기</span>
+                <span className="text-[10px] font-extrabold px-1.5 py-0.5 rounded bg-slate-900/90 text-blue-300">
+                  {coreCategoryCounts.all}
+                </span>
+              </button>
 
-                {/* ⚡ 융합 패키지 */}
-                <button
-                  onClick={() => setFilters({ ...filters, category: "융합 패키지" })}
-                  className={`shrink-0 min-w-[130px] sm:min-w-0 flex-1 p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
-                    filters.category === "융합 패키지"
-                      ? "bg-gradient-to-br from-purple-900/80 to-pink-900/80 border-purple-400 text-white shadow-md shadow-purple-500/20 ring-1 ring-purple-400"
-                      : "bg-slate-900/90 border-purple-500/30 text-purple-300 hover:border-purple-400 hover:text-white"
-                  }`}
-                >
-                  <div className="text-[10px] font-bold text-purple-400">인쇄+옥외+전시</div>
-                  <div className="text-xs sm:text-sm font-black flex items-center justify-between mt-0.5">
-                    <span>⚡ 융합 패키지</span>
-                    <span className="text-purple-300">{coreCategoryCounts.fusion}건</span>
-                  </div>
-                </button>
+              {/* 🖨️ 인쇄·출판 */}
+              <button
+                onClick={() => setFilters({ ...filters, category: "인쇄·출판·홍보물" })}
+                className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap min-h-[36px] ${
+                  filters.category === "인쇄·출판·홍보물"
+                    ? "bg-emerald-600 text-white shadow-sm ring-1 ring-emerald-400"
+                    : "bg-slate-950/80 hover:bg-slate-800 text-slate-300 border border-slate-800"
+                }`}
+              >
+                <span>🖨️ 인쇄·출판</span>
+                <span className="text-[10px] font-extrabold px-1.5 py-0.5 rounded bg-slate-900/90 text-emerald-300">
+                  {coreCategoryCounts.print}
+                </span>
+              </button>
 
-                {/* 🖨️ 인쇄·출판·홍보물 */}
-                <button
-                  onClick={() => setFilters({ ...filters, category: "인쇄·출판·홍보물" })}
-                  className={`shrink-0 min-w-[130px] sm:min-w-0 flex-1 p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
-                    filters.category === "인쇄·출판·홍보물"
-                      ? "bg-emerald-900/50 border-emerald-400 text-white shadow-md ring-1 ring-emerald-400"
-                      : "bg-slate-900/90 border-slate-800 text-slate-300 hover:border-emerald-500/50 hover:text-white"
-                  }`}
-                >
-                  <div className="text-[10px] font-medium text-emerald-400">책자·리플릿·간행물</div>
-                  <div className="text-xs sm:text-sm font-black flex items-center justify-between mt-0.5">
-                    <span>🖨️ 인쇄·출판</span>
-                    <span className="text-emerald-400">{coreCategoryCounts.print}건</span>
-                  </div>
-                </button>
+              {/* 🎪 행사·전시 */}
+              <button
+                onClick={() => setFilters({ ...filters, category: "행사·축제·전시" })}
+                className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap min-h-[36px] ${
+                  filters.category === "행사·축제·전시"
+                    ? "bg-fuchsia-600 text-white shadow-sm ring-1 ring-fuchsia-400"
+                    : "bg-slate-950/80 hover:bg-slate-800 text-slate-300 border border-slate-800"
+                }`}
+              >
+                <span>🎪 행사·전시</span>
+                <span className="text-[10px] font-extrabold px-1.5 py-0.5 rounded bg-slate-900/90 text-fuchsia-300">
+                  {coreCategoryCounts.event}
+                </span>
+              </button>
 
-                {/* 🎪 행사·축제·전시 */}
-                <button
-                  onClick={() => setFilters({ ...filters, category: "행사·축제·전시" })}
-                  className={`shrink-0 min-w-[130px] sm:min-w-0 flex-1 p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
-                    filters.category === "행사·축제·전시"
-                      ? "bg-fuchsia-900/50 border-fuchsia-400 text-white shadow-md ring-1 ring-fuchsia-400"
-                      : "bg-slate-900/90 border-slate-800 text-slate-300 hover:border-fuchsia-500/50 hover:text-white"
-                  }`}
-                >
-                  <div className="text-[10px] font-medium text-fuchsia-400">축제대행·전시부스</div>
-                  <div className="text-xs sm:text-sm font-black flex items-center justify-between mt-0.5">
-                    <span>🎪 행사·전시</span>
-                    <span className="text-fuchsia-400">{coreCategoryCounts.event}건</span>
-                  </div>
-                </button>
+              {/* 🏢 간판·조형물 */}
+              <button
+                onClick={() => setFilters({ ...filters, category: "간판·조형물" })}
+                className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap min-h-[36px] ${
+                  filters.category === "간판·조형물"
+                    ? "bg-blue-600 text-white shadow-sm ring-1 ring-blue-400"
+                    : "bg-slate-950/80 hover:bg-slate-800 text-slate-300 border border-slate-800"
+                }`}
+              >
+                <span>🏢 간판·조형</span>
+                <span className="text-[10px] font-extrabold px-1.5 py-0.5 rounded bg-slate-900/90 text-blue-300">
+                  {coreCategoryCounts.outdoor}
+                </span>
+              </button>
 
-                {/* 🏢 간판·조형물 */}
-                <button
-                  onClick={() => setFilters({ ...filters, category: "간판·조형물" })}
-                  className={`shrink-0 min-w-[130px] sm:min-w-0 flex-1 p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
-                    filters.category === "간판·조형물"
-                      ? "bg-blue-900/50 border-blue-400 text-white shadow-md ring-1 ring-blue-400"
-                      : "bg-slate-900/90 border-slate-800 text-slate-300 hover:border-blue-500/50 hover:text-white"
-                  }`}
-                >
-                  <div className="text-[10px] font-medium text-blue-400">간판·안내판·조형물</div>
-                  <div className="text-xs sm:text-sm font-black flex items-center justify-between mt-0.5">
-                    <span>🏢 간판·조형물</span>
-                    <span className="text-blue-400">{coreCategoryCounts.outdoor}건</span>
-                  </div>
-                </button>
+              {/* 💡 디지털사이니지 */}
+              <button
+                onClick={() => setFilters({ ...filters, category: "디지털사이니지·전광판" })}
+                className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap min-h-[36px] ${
+                  filters.category === "디지털사이니지·전광판"
+                    ? "bg-cyan-600 text-white shadow-sm ring-1 ring-cyan-400"
+                    : "bg-slate-950/80 hover:bg-slate-800 text-slate-300 border border-slate-800"
+                }`}
+              >
+                <span>💡 전광판</span>
+                <span className="text-[10px] font-extrabold px-1.5 py-0.5 rounded bg-slate-900/90 text-cyan-300">
+                  {coreCategoryCounts.signage}
+                </span>
+              </button>
 
-                {/* 💡 디지털사이니지 */}
-                <button
-                  onClick={() => setFilters({ ...filters, category: "디지털사이니지·전광판" })}
-                  className={`shrink-0 min-w-[130px] sm:min-w-0 flex-1 p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
-                    filters.category === "디지털사이니지·전광판"
-                      ? "bg-cyan-900/50 border-cyan-400 text-white shadow-md ring-1 ring-cyan-400"
-                      : "bg-slate-900/90 border-slate-800 text-slate-300 hover:border-cyan-500/50 hover:text-white"
-                  }`}
-                >
-                  <div className="text-[10px] font-medium text-cyan-400">LED전광판·미디어월</div>
-                  <div className="text-xs sm:text-sm font-black flex items-center justify-between mt-0.5">
-                    <span>💡 전광판·사이니지</span>
-                    <span className="text-cyan-400">{coreCategoryCounts.signage}건</span>
-                  </div>
-                </button>
-              </div>
+              {/* ⚡ 융합 패키지 */}
+              <button
+                onClick={() => setFilters({ ...filters, category: "융합 패키지" })}
+                className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap min-h-[36px] ${
+                  filters.category === "융합 패키지"
+                    ? "bg-purple-600 text-white shadow-sm ring-1 ring-purple-400"
+                    : "bg-slate-950/80 hover:bg-slate-800 text-slate-300 border border-slate-800"
+                }`}
+              >
+                <span>⚡ 융합</span>
+                <span className="text-[10px] font-extrabold px-1.5 py-0.5 rounded bg-slate-900/90 text-purple-300">
+                  {coreCategoryCounts.fusion}
+                </span>
+              </button>
             </div>
           </div>
 
@@ -556,35 +531,6 @@ export default function HomePage() {
             </div>
           </div>
         )}
-
-        {/* 카카오톡 맞춤 알림 전용 와이드 배너 */}
-        <div className="bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-400 rounded-2xl p-4 sm:p-5 text-slate-950 shadow-xl shadow-amber-500/15 border border-amber-300 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3.5 text-center sm:text-left">
-            <div className="w-12 h-12 rounded-2xl bg-slate-950 text-amber-400 flex items-center justify-center shrink-0 shadow-md">
-              <MessageCircle className="w-7 h-7 fill-amber-400" />
-            </div>
-            <div>
-              <div className="flex items-center justify-center sm:justify-start gap-1.5 mb-1">
-                <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded bg-slate-950 text-amber-300">
-                  100% 무료 알림 서비스
-                </span>
-                <span className="text-xs font-black text-slate-950">
-                  매일 아침 8시 카톡 맞춤 공고 발송
-                </span>
-              </div>
-              <p className="text-xs sm:text-sm font-bold text-slate-900 leading-tight">
-                내 희망 지역의 <strong>옥외광고 · 인쇄출판 · 행사전시</strong> 신규 공고를 카카오톡으로 편하게 받아보세요!
-              </p>
-            </div>
-          </div>
-          <button
-            onClick={() => setIsSubscribeModalOpen(true)}
-            className="w-full sm:w-auto px-6 py-3 bg-slate-950 hover:bg-slate-900 text-white rounded-xl text-xs sm:text-sm font-black flex items-center justify-center gap-2 shadow-lg transition-all hover:scale-105 active:scale-95 shrink-0 cursor-pointer min-h-[44px]"
-          >
-            <Sparkles className="w-4 h-4 text-amber-400" />
-            <span>지금 무료 알림 신청하기</span>
-          </button>
-        </div>
 
         {/* 검색 필터 컴포넌트 */}
         <BidFilter

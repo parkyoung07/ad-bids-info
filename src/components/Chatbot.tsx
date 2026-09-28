@@ -338,10 +338,10 @@ DEMO 분석 예시: 실제 공고문을 업로드하면 해당 문구와 위치�
         </div>
       )}
 
-      {/* 우측 하단 기본 플로팅 버튼 (기본 닫힘 유지) */}
+      {/* PC 전용 우측 하단 플로팅 버튼 (모바일은 하단 네비게이션 'AI비서' 탭으로 깔끔하게 통합) */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-lg shadow-blue-600/30 border border-blue-400/40 transition-all cursor-pointer transform hover:scale-105 active:scale-95 min-h-[44px]"
+        className="hidden lg:flex items-center gap-2 px-4 py-2.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-lg shadow-blue-600/30 border border-blue-400/40 transition-all cursor-pointer transform hover:scale-105 active:scale-95 min-h-[44px]"
       >
         <MessageSquare className="w-4 h-4 text-cyan-300" />
         <span>{currentBid ? "이 공고에 대해 AI에게 질문" : "AI 입찰비서 질문"}</span>
