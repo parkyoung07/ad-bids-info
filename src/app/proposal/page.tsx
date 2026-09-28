@@ -18,9 +18,14 @@ export default function ProposalPage() {
       {/* 히어로 섹션 */}
       <section className="relative overflow-hidden bg-slate-900 border-b border-slate-800 py-8 sm:py-12 px-4 sm:px-6 lg:px-8 shadow-md">
         <div className="max-w-4xl mx-auto space-y-3 text-center">
-          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-slate-950 border border-slate-700 text-slate-300 text-xs font-semibold">
-            <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
-            <span>AI 입찰 제안서 & 과업기획서 작성 보조 스튜디오</span>
+          <div className="flex flex-wrap items-center justify-center gap-2">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-400/50 text-xs font-bold shadow-sm">
+              <span>⚠️ 기능 체험용 DEMO 가상 시뮬레이션</span>
+            </span>
+            <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-slate-950 border border-slate-700 text-slate-300 text-xs font-semibold">
+              <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
+              <span>AI 입찰 제안서 작성 보조 스튜디오</span>
+            </div>
           </div>
 
           <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight">

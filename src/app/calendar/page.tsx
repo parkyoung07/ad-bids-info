@@ -19,6 +19,8 @@ import bidsData from "../../../public/data/bids.json";
 import prespecData from "../../../public/data/prespec-bids.json";
 import awardData from "../../../public/data/award-results.json";
 
+import { getKSTToday, computeBidTimeStatus } from "@/utils/dateUtils";
+
 interface RawBidItem {
   id: string;
   title: string;
@@ -75,10 +77,11 @@ interface CalendarEvent {
 }
 
 export default function CalendarPage() {
-  // 2026년 8월/9월 기준 캘린더 초기값
-  const [currentYear, setCurrentYear] = useState(2026);
-  const [currentMonth, setCurrentMonth] = useState(8); // 8월 (1-indexed: 8, 9)
-  const [selectedDate, setSelectedDate] = useState<string>("2026-08-30");
+  // 한국 표준시(KST) 기준 현재 연월일 자동 초기화 (동적 자동 이동)
+  const todayInfo = useMemo(() => getKSTToday(), []);
+  const [currentYear, setCurrentYear] = useState(todayInfo.year);
+  const [currentMonth, setCurrentMonth] = useState(todayInfo.monthNum);
+  const [selectedDate, setSelectedDate] = useState<string>(todayInfo.dateStr);
 
   // 알림 모달 상태
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -91,8 +94,9 @@ export default function CalendarPage() {
   const allEvents: CalendarEvent[] = useMemo(() => {
     const list: CalendarEvent[] = [];
 
-    // 1. 입찰공고 마감일 (deadline)
+    // 1. 입찰공고 마감일 (deadline) - 실시간 KST 마감시간 계산 적용
     ((bidsData as unknown as RawBidItem[]) || []).forEach((b) => {
+      const timeStatus = computeBidTimeStatus(b.endDate, b.endDate, false, "");
       const datePart = (b.endDate || "").split(" ")[0];
       const timePart = (b.endDate || "").split(" ")[1] || "";
       if (datePart) {
@@ -107,9 +111,9 @@ export default function CalendarPage() {
           date: datePart,
           time: timePart,
           type: "deadline",
-          typeLabel: "마감",
+          typeLabel: timeStatus.isExpired ? "마감완료" : "마감",
           linkUrl: b.linkUrl || "https://www.g2b.go.kr",
-          dDay: b.dDay,
+          dDay: timeStatus.dDay ?? b.dDay,
         });
       }
     });
@@ -346,13 +350,14 @@ export default function CalendarPage() {
               </button>
               <button
                 onClick={() => {
-                  setCurrentYear(2026);
-                  setCurrentMonth(8);
-                  setSelectedDate("2026-08-30");
+                  const t = getKSTToday();
+                  setCurrentYear(t.year);
+                  setCurrentMonth(t.monthNum);
+                  setSelectedDate(t.dateStr);
                 }}
                 className="px-2.5 py-1 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors cursor-pointer"
               >
-                오늘
+                오늘 ({todayInfo.monthNum}월 {todayInfo.dayNum}일)
               </button>
               <button
                 onClick={handleNextMonth}
@@ -405,7 +410,7 @@ export default function CalendarPage() {
 
               const dateEvs = eventsByDate[d.dateStr] || [];
               const isSelected = selectedDate === d.dateStr;
-              const isToday = d.dateStr === "2026-08-30";
+              const isToday = d.dateStr === todayInfo.dateStr;
               const dayOfWeek = (idx % 7);
 
               const hasDeadline = dateEvs.some((e) => e.type === "deadline");

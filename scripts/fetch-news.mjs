@@ -84,13 +84,19 @@ function extractPress(title, source, link) {
 // 카테고리 태그 분류
 function categorizeNews(title, description) {
   const text = (title + ' ' + description).toLowerCase();
+  if (text.includes('인쇄') || text.includes('출판') || text.includes('패키지') || text.includes('간행물') || text.includes('pod') || text.includes('옵셋')) {
+    return '인쇄·출판';
+  }
+  if (text.includes('전시') || text.includes('박람회') || text.includes('부스') || text.includes('축제') || text.includes('페스티벌') || text.includes('컨벤션') || text.includes('mice')) {
+    return '전시·축제';
+  }
   if (text.includes('사이니지') || text.includes('디스플레이') || text.includes('미디어월') || text.includes('키오스크') || text.includes('pdooh')) {
     return '디지털사이니지';
   }
-  if (text.includes('전광판') || text.includes('led') || text.includes('장비') || text.includes('출력') || text.includes('프린터')) {
+  if (text.includes('전광판') || text.includes('led') || text.includes('장비') || text.includes('실사출력')) {
     return 'LED전광판';
   }
-  if (text.includes('지자체') || text.includes('공공디자인') || text.includes('도시재생') || text.includes('간판거리') || text.includes('엑스포') || text.includes('자유표시')) {
+  if (text.includes('지자체') || text.includes('공공디자인') || text.includes('도시재생') || text.includes('간판거리') || text.includes('자유표시')) {
     return '지자체·공공디자인';
   }
   if (text.includes('입찰') || text.includes('나라장터') || text.includes('조달') || text.includes('발주') || text.includes('직접생산')) {
@@ -155,6 +161,26 @@ const CURATED_SPECIALIZED_NEWS = [
     pubDate: '2026-09-11 08:30',
     category: '디지털사이니지',
     description: '세계옥외광고협회(WOO) 2026 글로벌 리포트 분석! 타임스스퀘어와 피카딜리 서커스를 달군 3D 아나몰픽 착시 미디어아트와 실시간 프로그래매틱 DOOH(pDOOH) 성공 사례를 총정리합니다. (SignBid 전문 심층 분석 리포트 제공)'
+  },
+  {
+    id: 'news-print-1',
+    title: '[대한인쇄문화협회 기획] 공공기관 친환경 인쇄(콩기름 잉크·FSC 용지) 납품 기준과 스마트 디지털 POD 전환 전략',
+    link: 'http://www.printingkorea.or.kr',
+    originallink: 'http://www.printingkorea.or.kr',
+    press: '대한인쇄문화협회',
+    pubDate: '2026-09-28 09:00',
+    category: '인쇄·출판',
+    description: '정부 공공기관 간행물 및 브로슈어 발주 시 필수 평가 요소로 부상한 친환경 무알코올 인쇄 인증, 콩기름(Soy) 잉크 배합 기준 및 소량 다품종 디지털 프레스(POD) 공공입찰 납품 규격을 총정리합니다.'
+  },
+  {
+    id: 'news-exhibit-1',
+    title: '[한국전시산업진흥회 전시저널] 하반기 전국 지자체 박람회 홍보관 부스 장치공사 및 축제 기획대행 입찰 트렌드',
+    link: 'https://www.akei.or.kr',
+    originallink: 'https://www.akei.or.kr',
+    press: '한국전시산업진흥회',
+    pubDate: '2026-09-28 09:30',
+    category: '전시·축제',
+    description: '코엑스·킨텍스 박람회 및 지자체 축제 시즌을 맞아 친환경 모듈러 조립부스 시공, 야간 미디어파사드·포토존 조형물 연출 및 조달청 행사대행 제안서 평가 고득점 전략을 집중 분석합니다.'
   }
 ];
 
@@ -167,10 +193,10 @@ async function fetchLiveNews() {
     '디지털사이니지',
     'LED 전광판',
     '간판개선 OR 간판정비',
-    '불법현수막',
-    '옥외광고대상전',
-    '부산사인엑스포',
-    '미디어아트 옥외'
+    '인쇄문화 OR 디지털인쇄',
+    '친환경 인쇄 OR 패키징인쇄',
+    '전시회 부스 OR 박람회 홍보관',
+    '지자체 축제 입찰 OR 행사대행'
   ];
 
   const liveArticles = [];
@@ -254,7 +280,7 @@ async function fetchLiveNews() {
     updatedAt: new Date().toISOString(),
     totalCount: finalNewsList.length,
     isLiveApi: true,
-    categories: ['전체', '옥외광고·간판', '디지털사이니지', 'LED전광판', '지자체·공공디자인', '입찰·정책'],
+    categories: ['전체', '옥외광고·간판', '디지털사이니지', 'LED전광판', '인쇄·출판', '전시·축제', '지자체·공공디자인', '입찰·정책'],
     articles: finalNewsList,
   };
 

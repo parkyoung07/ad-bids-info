@@ -14,7 +14,9 @@ import {
   Sparkles,
   Info,
   HelpCircle,
+  MessageCircle,
 } from "lucide-react";
+import SubscribeModal from "@/components/SubscribeModal";
 import { BID_TERMINOLOGY, BidTerminology } from "@/lib/bid-analysis";
 
 interface BidItem {
@@ -58,6 +60,7 @@ export default function CalculatorStudioClient({
   const [rateAdjustment, setRateAdjustment] = useState<number>(0.0);
 
   const [copiedType, setCopiedType] = useState<string | null>(null);
+  const [isSubscribeOpen, setIsSubscribeOpen] = useState<boolean>(false);
 
   // 공고 변경 시 기초금액 자동 연동
   const handleBidSelect = (bidId: string) => {
@@ -382,9 +385,40 @@ export default function CalculatorStudioClient({
                 ₩{floorPrice.toLocaleString()}원
               </strong>
             </div>
+
+            {/* 💬 카카오톡 마감 D-1 알림 및 맞춤공고 유도 배너 */}
+            <div className="p-4 rounded-xl bg-gradient-to-r from-amber-500/15 via-yellow-500/10 to-transparent border border-amber-400/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-lg">
+              <div className="space-y-0.5">
+                <div className="flex items-center gap-1.5 text-xs font-black text-amber-300">
+                  <MessageCircle className="w-4 h-4 fill-amber-400 text-amber-400" />
+                  <span>이 공고 마감 놓치지 마세요!</span>
+                  <span className="text-[9px] px-1.5 py-0.2 rounded bg-amber-400 text-slate-950 font-bold">
+                    무료 알림톡
+                  </span>
+                </div>
+                <p className="text-[11px] text-slate-300">
+                  마감 24시간 전(D-1) 리마인더와 내 지역 신규 공고를 카톡으로 받아보세요.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setIsSubscribeOpen(true)}
+                className="w-full sm:w-auto px-4 py-2 bg-gradient-to-r from-amber-400 to-yellow-400 hover:from-amber-300 hover:to-yellow-300 text-slate-950 text-xs font-black rounded-lg shadow-md transition-all active:scale-[0.98] cursor-pointer shrink-0"
+              >
+                카톡 맞춤 알림 신청
+              </button>
+            </div>
           </div>
         </div>
       </div>
+
+      {/* 구독 모달 */}
+      <SubscribeModal
+        isOpen={isSubscribeOpen}
+        onClose={() => setIsSubscribeOpen(false)}
+        defaultBidTitle={selectedBidId !== "custom" ? (initialBids.find(b => b.id === selectedBidId)?.title || customTitle) : customTitle}
+      />
     </div>
   );
 }

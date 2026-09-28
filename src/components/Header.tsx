@@ -15,7 +15,9 @@ import {
   BookOpen,
   Sparkles,
   ShieldCheck,
+  MessageCircle,
 } from "lucide-react";
+import SubscribeModal from "@/components/SubscribeModal";
 
 interface MenuItem {
   title: string;
@@ -85,6 +87,7 @@ export default function Header() {
   const pathname = usePathname();
   const [openDropdown, setOpenDropdown] = useState<number | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isSubscribeModalOpen, setIsSubscribeModalOpen] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleMouseEnter = (idx: number) => {
@@ -106,192 +109,239 @@ export default function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 bg-slate-900/98 backdrop-blur-md border-b border-slate-800 shadow-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* 좌측 로고 및 서브타이틀 */}
-          <Link href="/" className="flex items-center space-x-3 group shrink-0">
-            <div className="w-9 h-9 rounded-lg bg-gradient-to-tr from-blue-700 to-indigo-600 flex items-center justify-center shadow-md shadow-blue-600/20 ring-1 ring-white/15 group-hover:scale-105 transition-transform">
-              <Layers className="w-5 h-5 text-white" />
-            </div>
-            <div className="flex flex-col">
-              <div className="flex items-center gap-1.5">
-                <span className="font-extrabold text-base sm:text-lg tracking-tight text-white group-hover:text-blue-400 transition-colors">
-                  SignBid AI
-                </span>
-                <span className="inline-flex items-center gap-0.5 text-[9px] font-bold px-1.5 py-0.5 rounded bg-blue-500/15 text-blue-300 border border-blue-400/30">
-                  <ShieldCheck className="w-2.5 h-2.5 text-cyan-400" />
-                  검증 데이터
+    <>
+      <header className="sticky top-0 z-50 bg-slate-900/98 backdrop-blur-md border-b border-slate-800 shadow-md">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            {/* 좌측 로고 및 서브타이틀 */}
+            <Link href="/" className="flex items-center space-x-3 group shrink-0">
+              <div className="w-9 h-9 rounded-lg bg-gradient-to-tr from-blue-700 to-indigo-600 flex items-center justify-center shadow-md shadow-blue-600/20 ring-1 ring-white/15 group-hover:scale-105 transition-transform">
+                <Layers className="w-5 h-5 text-white" />
+              </div>
+              <div className="flex flex-col">
+                <div className="flex items-center gap-1.5">
+                  <span className="font-extrabold text-base sm:text-lg tracking-tight text-white group-hover:text-blue-400 transition-colors">
+                    SignBid AI
+                  </span>
+                  <span className="inline-flex items-center gap-0.5 text-[9px] font-bold px-1.5 py-0.5 rounded bg-blue-500/15 text-blue-300 border border-blue-400/30">
+                    <ShieldCheck className="w-2.5 h-2.5 text-cyan-400" />
+                    검증 데이터
+                  </span>
+                </div>
+                <span className="text-[11px] text-slate-400 font-medium">
+                  옥외광고 전문 AI 입찰비서
                 </span>
               </div>
-              <span className="text-[11px] text-slate-400 font-medium">
-                옥외광고 전문 AI 입찰비서
-              </span>
-            </div>
-          </Link>
+            </Link>
 
-          {/* PC 드롭다운 네비게이션 (5대 상위 메뉴) */}
-          <nav className="hidden lg:flex items-center gap-1">
-            {NAV_SECTIONS.map((section, idx) => {
-              const isSectionActive = section.items.some(
-                (item) => item.href === pathname || (item.href !== "/" && pathname.startsWith(item.href))
-              );
+            {/* PC 드롭다운 네비게이션 (5대 상위 메뉴) */}
+            <nav className="hidden lg:flex items-center gap-1">
+              {NAV_SECTIONS.map((section, idx) => {
+                const isSectionActive = section.items.some(
+                  (item) => item.href === pathname || (item.href !== "/" && pathname.startsWith(item.href))
+                );
 
-              return (
-                <div
-                  key={section.title}
-                  className="relative"
-                  onMouseEnter={() => handleMouseEnter(idx)}
-                  onMouseLeave={handleMouseLeave}
-                >
-                  <button
-                    className={`flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-semibold transition-colors cursor-pointer ${
-                      openDropdown === idx || isSectionActive
-                        ? "bg-slate-800 text-blue-400"
-                        : "text-slate-300 hover:text-white hover:bg-slate-800/60"
-                    }`}
-                    onClick={() => setOpenDropdown(openDropdown === idx ? null : idx)}
-                    aria-expanded={openDropdown === idx}
+                return (
+                  <div
+                    key={section.title}
+                    className="relative"
+                    onMouseEnter={() => handleMouseEnter(idx)}
+                    onMouseLeave={handleMouseLeave}
                   >
-                    <span>{section.title}</span>
-                    <ChevronDown
-                      className={`w-3.5 h-3.5 transition-transform duration-200 ${
-                        openDropdown === idx ? "rotate-180 text-blue-400" : "text-slate-500"
+                    <button
+                      className={`flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-semibold transition-colors cursor-pointer ${
+                        openDropdown === idx || isSectionActive
+                          ? "bg-slate-800 text-blue-400"
+                          : "text-slate-300 hover:text-white hover:bg-slate-800/60"
                       }`}
-                    />
-                  </button>
+                      onClick={() => setOpenDropdown(openDropdown === idx ? null : idx)}
+                      aria-expanded={openDropdown === idx}
+                    >
+                      <span>{section.title}</span>
+                      <ChevronDown
+                        className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                          openDropdown === idx ? "rotate-180 text-blue-400" : "text-slate-500"
+                        }`}
+                      />
+                    </button>
 
-                  {/* 드롭다운 서브메뉴 */}
-                  {openDropdown === idx && (
-                    <div className="absolute top-full left-0 w-64 pt-2 z-50">
-                      <div className="bg-slate-900 border border-slate-700/80 rounded-xl p-2 shadow-2xl shadow-black/60 ring-1 ring-white/10 backdrop-blur-xl animate-in fade-in slide-in-from-top-1 duration-150">
-                        <div className="px-3 py-1.5 border-b border-slate-800 flex items-center gap-1.5 text-xs font-bold text-slate-400">
-                          {section.icon}
-                          <span>{section.title}</span>
-                        </div>
-                        <div className="py-1 space-y-0.5">
-                          {section.items.map((item) => {
-                            const isCurrent = pathname === item.href;
-                            return (
-                              <Link
-                                key={item.title}
-                                href={item.href}
-                                className={`block px-3 py-2 rounded-lg transition-colors ${
-                                  isCurrent
-                                    ? "bg-blue-600/20 text-blue-300 font-bold border border-blue-500/30"
-                                    : "hover:bg-slate-800/80 text-slate-200"
-                                }`}
-                              >
-                                <div className="text-xs font-semibold flex items-center justify-between">
-                                  <span>{item.title}</span>
-                                  {item.isNew && (
-                                    <span className="text-[9px] px-1 py-0.2 rounded bg-amber-500/20 text-amber-300 font-bold">
-                                      NEW
-                                    </span>
+                    {/* 드롭다운 서브메뉴 */}
+                    {openDropdown === idx && (
+                      <div className="absolute top-full left-0 w-64 pt-2 z-50">
+                        <div className="bg-slate-900 border border-slate-700/80 rounded-xl p-2 shadow-2xl shadow-black/60 ring-1 ring-white/10 backdrop-blur-xl animate-in fade-in slide-in-from-top-1 duration-150">
+                          <div className="px-3 py-1.5 border-b border-slate-800 flex items-center gap-1.5 text-xs font-bold text-slate-400">
+                            {section.icon}
+                            <span>{section.title}</span>
+                          </div>
+                          <div className="py-1 space-y-0.5">
+                            {section.items.map((item) => {
+                              const isCurrent = pathname === item.href;
+                              return (
+                                <Link
+                                  key={item.title}
+                                  href={item.href}
+                                  className={`block px-3 py-2 rounded-lg transition-colors ${
+                                    isCurrent
+                                      ? "bg-blue-600/20 text-blue-300 font-bold border border-blue-500/30"
+                                      : "hover:bg-slate-800/80 text-slate-200"
+                                  }`}
+                                >
+                                  <div className="text-xs font-semibold flex items-center justify-between">
+                                    <span>{item.title}</span>
+                                    {item.isNew && (
+                                      <span className="text-[9px] px-1 py-0.2 rounded bg-amber-500/20 text-amber-300 font-bold">
+                                        NEW
+                                      </span>
+                                    )}
+                                  </div>
+                                  {item.desc && (
+                                    <p className="text-[10px] text-slate-400 mt-0.5 truncate">
+                                      {item.desc}
+                                    </p>
                                   )}
-                                </div>
-                                {item.desc && (
-                                  <p className="text-[10px] text-slate-400 mt-0.5 truncate">
-                                    {item.desc}
-                                  </p>
-                                )}
-                              </Link>
-                            );
-                          })}
+                                </Link>
+                              );
+                            })}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </nav>
+                    )}
+                  </div>
+                );
+              })}
+            </nav>
 
-          {/* 우측 퀵 액션 (관심공고 / 맞춤공고) */}
-          <div className="hidden lg:flex items-center gap-2">
-            <Link
-              href="/#bookmarks"
-              className="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-800 border border-slate-700 transition-colors"
-            >
-              관심공고
-            </Link>
-            <Link
-              href="/"
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white shadow-sm shadow-blue-600/20 transition-all"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-cyan-300" />
-              <span>맞춤 공고</span>
-            </Link>
-          </div>
+            {/* 우측 퀵 액션 (카톡 알림 신청 + 관심공고 + 맞춤공고) */}
+            <div className="hidden lg:flex items-center gap-2">
+              <button
+                onClick={() => setIsSubscribeModalOpen(true)}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black bg-gradient-to-r from-amber-500 to-yellow-400 text-slate-950 shadow-md hover:from-amber-400 hover:to-yellow-300 transition-all cursor-pointer"
+              >
+                <MessageCircle className="w-3.5 h-3.5 fill-slate-950" />
+                <span>카톡 맞춤 알림</span>
+                <span className="text-[9px] bg-slate-950 text-amber-300 px-1 py-0.2 rounded font-bold">
+                  무료
+                </span>
+              </button>
 
-          {/* 모바일 햄버거 메뉴 및 퀵 액션 */}
-          <div className="lg:hidden flex items-center gap-2">
-            <Link
-              href="/#bookmarks"
-              className="px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-300 bg-slate-800/90 border border-slate-700 hover:text-white transition-colors"
-            >
-              관심공고
-            </Link>
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2.5 min-h-[44px] min-w-[44px] rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 focus:outline-none flex items-center justify-center cursor-pointer"
-              aria-label="메뉴 열기"
-            >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
+              <Link
+                href="/#bookmarks"
+                className="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-800 border border-slate-700 transition-colors"
+              >
+                관심공고
+              </Link>
+              <Link
+                href="/"
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white shadow-sm shadow-blue-600/20 transition-all"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-cyan-300" />
+                <span>맞춤 공고</span>
+              </Link>
+            </div>
+
+            {/* 모바일 햄버거 메뉴 및 퀵 액션 */}
+            <div className="lg:hidden flex items-center gap-2">
+              <button
+                onClick={() => setIsSubscribeModalOpen(true)}
+                className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-black bg-gradient-to-r from-amber-500 to-yellow-400 text-slate-950 shadow-sm transition-all"
+              >
+                <MessageCircle className="w-3.5 h-3.5 fill-slate-950" />
+                <span>카톡 알림</span>
+              </button>
+              <Link
+                href="/#bookmarks"
+                className="px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-300 bg-slate-800/90 border border-slate-700 hover:text-white transition-colors"
+              >
+                관심공고
+              </Link>
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="p-2.5 min-h-[44px] min-w-[44px] rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 focus:outline-none flex items-center justify-center cursor-pointer"
+                aria-label="메뉴 열기"
+              >
+                {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </button>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* 모바일 슬라이드다운 햄버거 메뉴 */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden bg-slate-900 border-b border-slate-800 max-h-[calc(100vh-4rem)] overflow-y-auto px-4 py-4 space-y-4">
-          <div className="space-y-4">
-            {NAV_SECTIONS.map((section) => (
-              <div key={section.title} className="bg-slate-950/60 rounded-xl p-3 border border-slate-800/80">
-                <div className="flex items-center gap-2 pb-2 mb-2 border-b border-slate-800 text-xs font-bold text-slate-300">
-                  {section.icon}
-                  <span>{section.title}</span>
-                </div>
-                <div className="grid grid-cols-1 gap-1">
-                  {section.items.map((item) => {
-                    const isCurrent = pathname === item.href;
-                    return (
-                      <Link
-                        key={item.title}
-                        href={item.href}
-                        onClick={() => setMobileMenuOpen(false)}
-                        className={`flex items-center justify-between p-2 rounded-lg text-xs min-h-[40px] ${
-                          isCurrent
-                            ? "bg-blue-600/20 text-blue-300 font-bold border border-blue-500/30"
-                            : "text-slate-300 hover:bg-slate-800 hover:text-white"
-                        }`}
-                      >
-                        <div>
-                          <span className="font-semibold block">{item.title}</span>
-                          {item.desc && (
-                            <span className="text-[10px] text-slate-400 block">{item.desc}</span>
-                          )}
-                        </div>
-                      </Link>
-                    );
-                  })}
+        {/* 모바일 슬라이드다운 햄버거 메뉴 */}
+        {mobileMenuOpen && (
+          <div className="lg:hidden bg-slate-900 border-b border-slate-800 max-h-[calc(100vh-4rem)] overflow-y-auto px-4 py-4 space-y-4">
+            <div className="p-3 rounded-xl bg-gradient-to-r from-amber-500/20 via-yellow-500/10 to-transparent border border-amber-400/30 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <MessageCircle className="w-5 h-5 text-amber-400 fill-amber-400" />
+                <div>
+                  <div className="text-xs font-black text-white">매일 아침 8시 카톡 알림톡</div>
+                  <div className="text-[10px] text-slate-300">내 지역 맞춤 공고 무료 수신</div>
                 </div>
               </div>
-            ))}
-          </div>
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  setIsSubscribeModalOpen(true);
+                }}
+                className="px-3 py-1.5 bg-amber-400 text-slate-950 font-black text-xs rounded-lg shadow-md"
+              >
+                신청하기
+              </button>
+            </div>
 
-          <div className="pt-2 flex gap-2">
-            <Link
-              href="/"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex-1 py-2.5 text-center rounded-xl bg-blue-600 text-white font-bold text-xs min-h-[44px] flex items-center justify-center shadow-md"
-            >
-              맞춤 공고 찾기
-            </Link>
+            <div className="space-y-4">
+              {NAV_SECTIONS.map((section) => (
+                <div key={section.title} className="bg-slate-950/60 rounded-xl p-3 border border-slate-800/80">
+                  <div className="flex items-center gap-2 pb-2 mb-2 border-b border-slate-800 text-xs font-bold text-slate-300">
+                    {section.icon}
+                    <span>{section.title}</span>
+                  </div>
+                  <div className="grid grid-cols-1 gap-1">
+                    {section.items.map((item) => {
+                      const isCurrent = pathname === item.href;
+                      return (
+                        <Link
+                          key={item.title}
+                          href={item.href}
+                          onClick={() => setMobileMenuOpen(false)}
+                          className={`flex items-center justify-between p-2 rounded-lg text-xs min-h-[40px] ${
+                            isCurrent
+                              ? "bg-blue-600/20 text-blue-300 font-bold border border-blue-500/30"
+                              : "text-slate-300 hover:bg-slate-800 hover:text-white"
+                          }`}
+                        >
+                          <div>
+                            <span className="font-semibold block">{item.title}</span>
+                            {item.desc && (
+                              <span className="text-[10px] text-slate-400 block">{item.desc}</span>
+                            )}
+                          </div>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="pt-2 flex gap-2">
+              <Link
+                href="/"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex-1 py-2.5 text-center rounded-xl bg-blue-600 text-white font-bold text-xs min-h-[44px] flex items-center justify-center shadow-md"
+              >
+                맞춤 공고 찾기
+              </Link>
+            </div>
           </div>
-        </div>
-      )}
-    </header>
+        )}
+      </header>
+
+      {/* 헤더 연동 구독 모달 */}
+      <SubscribeModal
+        isOpen={isSubscribeModalOpen}
+        onClose={() => setIsSubscribeModalOpen(false)}
+        defaultBidTitle="전국 옥외광고 맞춤 알림"
+      />
+    </>
   );
 }
+

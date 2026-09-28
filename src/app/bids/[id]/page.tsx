@@ -32,6 +32,8 @@ export async function generateStaticParams() {
   }));
 }
 
+import { computeBidTimeStatus } from "@/utils/dateUtils";
+
 interface PageProps {
   params: Promise<{ id: string }>;
 }
@@ -45,9 +47,17 @@ export default async function BidDetailPage({ params }: PageProps) {
     notFound();
   }
 
+  // 한국 표준시(Asia/Seoul) 기준 실시간 마감 상태 및 D-Day 동적 계산 (화면 렌더링 시점 계산)
+  const timeStatus = computeBidTimeStatus(
+    bid.bidCloseDate,
+    bid.endDate,
+    bid.isClosed,
+    bid.status
+  );
+
   const isDemo = bid.isDemo || bid.status === "DEMO 예시";
-  const isExpired = (bid.dDay !== null && bid.dDay < 0) || bid.isClosed || bid.status === "마감";
-  const isUrgent = !isExpired && bid.dDay !== null && bid.dDay <= 3 && bid.dDay >= 0;
+  const isExpired = timeStatus.isExpired;
+  const isUrgent = timeStatus.isUrgent;
 
   const noticeDateStr = bid.noticeDate || bid.startDate?.substring(0, 10) || "미확인";
   const beginDateStr = bid.bidBeginDate || bid.startDate || "미확인";
@@ -116,20 +126,25 @@ export default async function BidDetailPage({ params }: PageProps) {
               <span className="px-2.5 py-0.5 rounded-md text-xs font-bold bg-rose-950/60 text-rose-300 border border-rose-800/60">
                 🔴 입찰 마감
               </span>
-            ) : bid.dDay === null ? (
+            ) : !timeStatus.isValidDate || timeStatus.dDay === null ? (
               <span className="inline-flex items-center gap-1 px-3 py-1 rounded-md text-xs font-bold bg-slate-800 text-amber-300 border border-amber-500/40">
                 <Clock className="w-3.5 h-3.5 text-amber-400" />
-                공고문 마감일 확인
+                마감일 원문 확인
+              </span>
+            ) : timeStatus.isTodayClose ? (
+              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-md text-xs font-black bg-rose-600 text-white shadow-md animate-pulse">
+                <Flame className="w-3.5 h-3.5 fill-white" />
+                오늘 마감 (D-Day)
               </span>
             ) : isUrgent ? (
               <span className="inline-flex items-center gap-1 px-3 py-1 rounded-md text-xs font-black bg-rose-500 text-white shadow-md animate-pulse">
                 <Flame className="w-3.5 h-3.5 fill-white" />
-                마감 D-{bid.dDay}
+                마감 {timeStatus.dDayText}
               </span>
             ) : (
               <span className="inline-flex items-center gap-1 px-3 py-1 rounded-md text-xs font-bold bg-slate-800 text-blue-300 border border-slate-700">
                 <Clock className="w-3.5 h-3.5 text-blue-400" />
-                진행중 (D-{bid.dDay})
+                진행중 ({timeStatus.dDayText})
               </span>
             )}
 

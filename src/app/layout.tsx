@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Chatbot from "@/components/Chatbot";
+import KakaoFloatingBanner from "@/components/KakaoFloatingBanner";
+import MobileBottomNav from "@/components/MobileBottomNav";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -40,12 +42,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className="min-h-screen bg-slate-950 text-slate-100 antialiased flex flex-col selection:bg-blue-600 selection:text-white">
+      <body className="min-h-screen bg-slate-950 text-slate-100 antialiased flex flex-col selection:bg-blue-600 selection:text-white pb-16 lg:pb-0">
         <Header />
         <div className="flex-1 flex flex-col">{children}</div>
         <Footer />
         <Chatbot />
+        <KakaoFloatingBanner />
+        <MobileBottomNav />
       </body>
     </html>
   );
 }
+

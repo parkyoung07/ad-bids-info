@@ -4,7 +4,9 @@ date: "2026-09-11"
 summary: "한국옥외광고신문에 게재된 옥외광고물 손해배상책임 단체보험(공제) 의무 가입 기준, 보장 한도, 미가입 시 과태료 규정 및 전국 17개 시·도 협회 대표 연락처를 총정리하여 안내합니다."
 category: "입찰·정책"
 tags: ["옥외광고물배상책임보험", "한국옥외광고신문", "한국옥외광고협회", "시도협회연락처", "공공입찰자격", "손해배상책임공제"]
-coverImage: ""
+coverImage: "https://images.pexels.com/photos/1036657/pexels-photo-1036657.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+coverImageCredit: "Pexels License (무료 상업용 라이선스)"
+coverImageCreditUrl: "https://www.pexels.com"
 source: "한국옥외광고신문 및 한국옥외광고협회중앙회 공식 고시"
 sourceUrl: "https://www.koaa.or.kr"
 ---

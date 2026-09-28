@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { getPostBySlug, getAllPostSlugs } from "@/lib/posts";
+import BlogKakaoCTA from "@/components/BlogKakaoCTA";
 import {
   Layers,
   Calendar,
@@ -197,13 +198,52 @@ export default async function BlogPostDetailPage({ params }: PageProps) {
 
         {/* 아티클 본문 (Markdown 렌더링) */}
         <article className="prose prose-invert prose-slate max-w-none prose-headings:font-bold prose-headings:text-white prose-h2:text-xl sm:prose-h2:text-2xl prose-h2:border-b prose-h2:border-slate-800 prose-h2:pb-2 prose-h3:text-lg sm:prose-h3:text-xl prose-p:text-slate-300 prose-p:leading-relaxed prose-p:text-sm sm:prose-p:text-base prose-strong:text-white prose-code:text-blue-300 prose-code:bg-slate-900 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-blockquote:border-l-blue-500 prose-blockquote:bg-slate-900/50 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:rounded-r-xl prose-blockquote:text-slate-300 prose-blockquote:not-italic prose-li:text-slate-300 prose-img:rounded-xl prose-img:border prose-img:border-slate-800">
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            components={{
+              table: ({ ...props }) => (
+                <div className="my-6 rounded-2xl border border-slate-800 bg-slate-900/60 overflow-hidden shadow-lg not-prose">
+                  {/* 모바일 가로 스크롤 안내 힌트 바 */}
+                  <div className="flex items-center justify-between px-4 py-2.5 bg-slate-950/90 border-b border-slate-800 text-xs">
+                    <span className="flex items-center gap-1.5 font-bold text-slate-300">
+                      <span className="text-blue-400">📊</span>
+                      <span>데이터 분석 및 요약 비교표</span>
+                    </span>
+                    <span className="text-[11px] text-amber-400/90 font-medium sm:hidden">
+                      👉 표를 좌우로 스크롤하여 전체 내용 확인
+                    </span>
+                  </div>
+                  <div className="overflow-x-auto no-scrollbar p-1">
+                    <table className="w-full text-left border-collapse" {...props} />
+                  </div>
+                </div>
+              ),
+              th: ({ ...props }) => (
+                <th
+                  className="px-4 py-3 bg-slate-950/70 text-xs font-bold text-slate-200 border-b border-slate-700/80 whitespace-nowrap"
+                  {...props}
+                />
+              ),
+              td: ({ ...props }) => (
+                <td
+                  className="px-4 py-2.5 text-xs text-slate-300 border-b border-slate-800/60 whitespace-nowrap sm:whitespace-normal"
+                  {...props}
+                />
+              ),
+            }}
+          >
             {cleanContent}
           </ReactMarkdown>
         </article>
 
+        {/* 💬 카카오톡 맞춤 알림 신청 CTA */}
+        <BlogKakaoCTA
+          title={`${post.title} (관련 공고 알림)`}
+          category={post.tags?.[0] || "간판·조형물"}
+        />
+
         {/* 공식 출처 및 데이터 신뢰성 안내 섹션 */}
-        <section className="mt-12 space-y-4">
+        <section className="mt-8 space-y-4">
           <div className="p-6 rounded-2xl bg-gradient-to-br from-slate-900 via-slate-900 to-blue-950/30 border border-blue-500/30 shadow-lg">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="space-y-1.5 flex-1">

@@ -46,8 +46,8 @@ export default function ProposalStudioClient({
   const [selectedBidId, setSelectedBidId] = useState<string>(
     initialBids[0]?.id || "custom"
   );
-  const customTitle = "2026년도 시가지 옥외 간판개선 및 LED 조형물 제작설치 사업";
-  const customClient = "경상북도 김천시청";
+  const customTitle = "[DEMO 가상 예시] 2026년도 시가지 옥외 간판개선 및 LED 조형물 제작설치 사업";
+  const customClient = "[DEMO 가상 발주처] 경상북도 김천시청 (예시)";
   const customBudget = 85000000;
   const customCategory = "간판·조형물";
   const customLocation = "경북 김천시";
@@ -201,15 +201,21 @@ export default function ProposalStudioClient({
 
   return (
     <div className="space-y-6">
-      {/* ⚠️ 상단 고정 안전 경고 안내문 (요구사항 1-9) */}
-      <div className="bg-slate-900 border border-slate-700 rounded-2xl p-4 sm:p-5 shadow-sm space-y-2">
-        <div className="flex items-center gap-2 text-amber-400 font-bold text-xs sm:text-sm">
-          <AlertCircle className="w-4 h-4 shrink-0" />
-          <span>AI 제안서 안전 대조 안내</span>
+      {/* ⚠️ 상단 고정 DEMO 가상 시뮬레이션 및 원문 대조 경고 안내문 */}
+      <div className="bg-amber-950/30 border-2 border-amber-500/50 rounded-2xl p-4 sm:p-5 shadow-lg space-y-2.5">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-400/50 text-xs font-black uppercase tracking-wider">
+            <AlertCircle className="w-3.5 h-3.5 text-amber-400" />
+            <span>DEMO 가상 시뮬레이션 예시</span>
+          </span>
+          <span className="text-xs font-bold text-amber-300">
+            | 실제 입찰 참여 시 각 발주처 공식 제안요청서(RFP) 원문 확인 필수
+          </span>
         </div>
-        <p className="text-xs text-slate-300 leading-relaxed">
-          AI 제안서에는 <strong>확인되지 않은 내용이 포함될 수 있습니다.</strong> 제출 전 회사의 실제 보유 자격, 실적, 인력, 장비 및 공고 요구사항과 반드시 대조하십시오.
-          검증되지 않은 항목은 <strong className="text-amber-300 font-mono">[회사 확인 필요]</strong>로 표시됩니다.
+        <p className="text-xs text-amber-200/90 leading-relaxed">
+          본 제안서 작성 스튜디오는 AI 기능 시연을 위한 <strong>가상 DEMO 예시</strong>입니다.
+          화면에 표시된 발주기관(예: 김천시청 등), 사업명, 예산, 필수 자격, 하자보증 기간은 시뮬레이션을 위한 가상 데이터이며 실제 입찰 공고가 아닙니다.
+          실제 입찰 참여 시 각 발주기관(조달청 나라장터 등)의 공식 공고문 및 제안요청서 원문을 반드시 확인하십시오.
         </p>
       </div>
 
@@ -231,7 +237,7 @@ export default function ProposalStudioClient({
               onChange={(e) => setSelectedBidId(e.target.value)}
               className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white"
             >
-              <option value="custom">직접 과업명 입력</option>
+              <option value="custom">💡 [DEMO] 가상 과업 예시 (간판·조형물)</option>
               {initialBids.map((b) => (
                 <option key={b.id} value={b.id}>
                   {b.title.substring(0, 24)}...

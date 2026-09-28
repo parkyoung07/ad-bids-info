@@ -13,7 +13,9 @@ import {
   ExternalLink,
   AlertCircle,
   Bot,
+  Flag,
 } from "lucide-react";
+import { computeBidTimeStatus } from "@/utils/dateUtils";
 
 export interface BidItem {
   id: string;
@@ -33,6 +35,12 @@ export interface BidItem {
   endDate: string;
   openDate?: string;
   dDay: number | null;
+  realtimeDDay?: number | null;
+  realtimeIsExpired?: boolean;
+  realtimeIsUrgent?: boolean;
+  realtimeIsTodayClose?: boolean;
+  realtimeDDayText?: string;
+  realtimeBadgeText?: string;
   bidType: string;
   linkUrl?: string;
   source?: string;
@@ -82,6 +90,7 @@ export default function BidCard({
   onToggleBookmark,
 }: BidCardProps) {
   const [saved, setSaved] = useState(isBookmarked);
+  const [isReported, setIsReported] = useState(false);
 
   const handleBookmarkClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -92,9 +101,31 @@ export default function BidCard({
     }
   };
 
+  const handleReportClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsReported(true);
+    try {
+      const prev = JSON.parse(localStorage.getItem("signbid_reported_bids") || "[]");
+      if (!prev.includes(bid.id)) {
+        localStorage.setItem("signbid_reported_bids", JSON.stringify([...prev, bid.id]));
+      }
+    } catch {}
+  };
+
+  // 한국 표준시(Asia/Seoul) 기준 실시간 마감 상태 및 D-Day 동적 계산 (화면 표시 시점 재계산)
+  const timeStatus = React.useMemo(() => {
+    return computeBidTimeStatus(
+      bid.bidCloseDate,
+      bid.endDate,
+      bid.isClosed,
+      bid.status
+    );
+  }, [bid.bidCloseDate, bid.endDate, bid.isClosed, bid.status]);
+
   const isDemo = bid.isDemo || bid.status === "DEMO 예시";
-  const isExpired = (bid.dDay !== null && bid.dDay < 0) || bid.isClosed || bid.status === "마감";
-  const isUrgent = !isExpired && bid.dDay !== null && bid.dDay <= 3 && bid.dDay >= 0;
+  const isExpired = timeStatus.isExpired;
+  const isUrgent = timeStatus.isUrgent;
 
   // 상태 배지 렌더링
   const renderStatusBadge = () => {
@@ -113,11 +144,19 @@ export default function BidCard({
         </span>
       );
     }
-    if (bid.dDay === null) {
+    if (!timeStatus.isValidDate || timeStatus.dDay === null) {
       return (
         <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-bold bg-slate-800 text-amber-300 border border-amber-500/40">
           <Clock className="w-3 h-3 text-amber-400" />
-          공고문 마감일 확인
+          마감일 원문 확인
+        </span>
+      );
+    }
+    if (timeStatus.isTodayClose) {
+      return (
+        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-black bg-rose-600 text-white shadow-sm shadow-rose-600/30 animate-pulse">
+          <Flame className="w-3 h-3 fill-white" />
+          오늘 마감 (D-Day)
         </span>
       );
     }
@@ -125,14 +164,14 @@ export default function BidCard({
       return (
         <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-black bg-rose-500 text-white shadow-sm shadow-rose-500/30 animate-pulse">
           <Flame className="w-3 h-3 fill-white" />
-          마감 D-{bid.dDay}
+          마감 {timeStatus.dDayText}
         </span>
       );
     }
     return (
       <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-bold bg-slate-800 text-blue-300 border border-slate-700">
         <Clock className="w-3 h-3 text-blue-400" />
-        진행중 (D-{bid.dDay})
+        진행중 ({timeStatus.dDayText})
       </span>
     );
   };
@@ -309,9 +348,22 @@ export default function BidCard({
 
       {/* 하단 액션 버튼 바 */}
       <div className="pt-3 mt-3 flex items-center justify-between gap-2 border-t border-slate-800/50">
-        <span className="text-[10px] text-slate-500 font-mono">
-          {bid.id}
-        </span>
+        <div className="flex items-center gap-2">
+          <span className="text-[10px] text-slate-500 font-mono">
+            {bid.id}
+          </span>
+          <button
+            type="button"
+            onClick={handleReportClick}
+            className={`text-[10px] inline-flex items-center gap-0.5 transition-colors cursor-pointer ${
+              isReported ? "text-emerald-400 font-bold" : "text-slate-500 hover:text-rose-400"
+            }`}
+            title="이 공고가 옥외광고·인쇄·행사전시와 무관한 경우 신고해주세요"
+          >
+            <Flag className="w-2.5 h-2.5" />
+            <span>{isReported ? "신고접수" : "오분류 신고"}</span>
+          </button>
+        </div>
 
         <div className="flex items-center gap-1.5">
           {/* DEMO 공고 안내 or 발주시스템 링크 */}

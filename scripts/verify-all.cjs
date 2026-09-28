@@ -274,13 +274,30 @@ async function verifyIntegrityRules() {
     });
   }
 
-  // [규칙 18] 블로그 포스트 출처 URL 및 이미지 무결성 검증
-  console.log('규칙 18: 블로그 포스트 출처 URL 및 마크다운 링크 무결성 검증');
+  // [규칙 18] 블로그 포스트 이미지 3중 무결성 및 출처(Credit) 필수 표기 검증
+  console.log('규칙 18: 블로그 포스트 이미지 3중 무결성 (URL/출처표기/SSL) 검증');
   const postsDir = path.join(__dirname, '../src/content/posts');
   if (fs.existsSync(postsDir)) {
     const postFiles = fs.readdirSync(postsDir).filter(f => f.endsWith('.md'));
     postFiles.forEach(file => {
       const content = fs.readFileSync(path.join(postsDir, file), 'utf-8');
+      
+      // 1중 검증: 커버 이미지 존재 및 올바른 URL 형식
+      const coverMatch = content.match(/coverImage:\s*"([^"]+)"/);
+      if (!coverMatch || !coverMatch[1] || (!coverMatch[1].startsWith('http://') && !coverMatch[1].startsWith('https://'))) {
+        console.error(`  ❌ [규칙 18 위반] 포스트 [${file}]에 올바른 커버 이미지 URL이 없습니다.`);
+        failureCount++;
+      }
+
+      // 2중 검증: 이미지 출처(Credit) 및 출처 URL 필수 표기 전수 확인 (회장님 엄명)
+      const creditMatch = content.match(/coverImageCredit:\s*"([^"]+)"/);
+      const creditUrlMatch = content.match(/coverImageCreditUrl:\s*"([^"]+)"/);
+      if (!creditMatch || !creditMatch[1] || !creditUrlMatch || !creditUrlMatch[1]) {
+        console.error(`  ❌ [규칙 18 위반] 포스트 [${file}]에 이미지 출처(coverImageCredit 또는 coverImageCreditUrl)가 누락되었습니다.`);
+        failureCount++;
+      }
+
+      // 3중 검증: SSL 미지원 링크 및 깨진 프로토콜 차단
       if (content.includes('https://popsign.co.kr')) {
         console.error(`  ❌ [규칙 18 위반] 포스트 [${file}]에 SSL 미지원 popsign https 링크가 포함되어 있습니다.`);
         failureCount++;
@@ -288,12 +305,42 @@ async function verifyIntegrityRules() {
     });
   }
 
+  // [규칙 19] 실시간 무결성 검증 (캘린더 과거월 고정 차단, 무관 공고 원천 배제, 과장 문구 금지)
+  console.log('규칙 19: 실시간 무결성 (캘린더 과거월 고정 차단 / 토목·콘크리트 무관 공고 차단 / 과장 문구 금지) 검증');
+  const calendarPath = path.join(__dirname, '../src/app/calendar/page.tsx');
+  if (fs.existsSync(calendarPath)) {
+    const calContent = fs.readFileSync(calendarPath, 'utf-8');
+    if (calContent.includes('"2026-08-30"') || calContent.includes('setCurrentMonth(8)')) {
+      console.error('  ❌ [규칙 19 위반] 캘린더 페이지에 과거 월(2026-08)이 하드코딩되어 있습니다.');
+      failureCount++;
+    }
+  }
+
+  // 무관 공고(콘크리트, 전단성능 등) 혼입 전수 차단 검증
+  bids.forEach((bid) => {
+    const text = (bid.title + ' ' + (bid.officialTitle || '')).toLowerCase();
+    if (/무시멘트|콘크리트\s*보|전단\s*성능|전단\s*응력/.test(text)) {
+      console.error(`  ❌ [규칙 19 위반] 무관 공고 [${bid.id}] ${bid.title} 가 공개 공고에 혼입되었습니다.`);
+      failureCount++;
+    }
+  });
+
+  // 메인 페이지 과장 문구(대한민국 No.1) 잔존 검증
+  const pagePath = path.join(__dirname, '../src/app/page.tsx');
+  if (fs.existsSync(pagePath)) {
+    const pContent = fs.readFileSync(pagePath, 'utf-8');
+    if (pContent.includes('대한민국 No.1')) {
+      console.error('  ❌ [규칙 19 위반] 메인 페이지에 객관적 근거 없는 과장 문구(대한민국 No.1)가 남아 있습니다.');
+      failureCount++;
+    }
+  }
+
   console.log('================================================================================');
   if (failureCount > 0) {
     console.error(`❌ [검증 실패] 총 ${failureCount}건의 무결성 규칙 위반이 검출되어 빌드를 즉시 중단합니다.\n`);
     process.exit(1);
   } else {
-    console.log('✅ [검증 통과] 전체 18대 데이터 무결성 규칙 100% 통과 (위반 0건)\n');
+    console.log('✅ [검증 통과] 전체 19대 데이터 무결성 규칙 100% 통과 (위반 0건)\n');
   }
 }
 

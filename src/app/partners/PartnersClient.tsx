@@ -37,6 +37,8 @@ interface RegisteredBusiness {
   hasDirectProduction: boolean;
   regDate: string;
   status: string;
+  industry?: string;
+  websiteUrl?: string;
 }
 
 interface RegionalStat {
@@ -47,16 +49,57 @@ interface RegionalStat {
   areaCode: string;
 }
 
-const CATEGORY_TAGS = [
-  "전체",
-  "LED채널간판",
-  "LED전광판",
-  "표찰·안내판",
-  "실사출력",
-  "공공조형물",
-  "금속가공",
-  "디지털사이니지",
+const INDUSTRY_TABS = [
+  { id: "all", label: "전체 업종", icon: "🏢" },
+  { id: "sign", label: "옥외광고·간판", icon: "🪧" },
+  { id: "print", label: "인쇄·출판", icon: "🖨️" },
+  { id: "event", label: "전시·축제·행사", icon: "🎪" },
 ];
+
+const INDUSTRY_CATEGORIES: Record<string, string[]> = {
+  all: [
+    "전체",
+    "LED채널간판",
+    "LED전광판",
+    "표찰·안내판",
+    "실사출력",
+    "공공조형물",
+    "옵셋인쇄",
+    "디지털소량(POD)",
+    "전시부스장치",
+    "지자체축제대행",
+  ],
+  sign: [
+    "전체",
+    "LED채널간판",
+    "LED전광판",
+    "표찰·안내판",
+    "실사출력",
+    "공공조형물",
+    "금속가공",
+    "디지털사이니지",
+  ],
+  print: [
+    "전체",
+    "옵셋인쇄",
+    "디지털소량(POD)",
+    "간행물·책자",
+    "리플렛·브로슈어",
+    "패키지·박스",
+    "친환경콩기름인쇄",
+    "선거공보물",
+  ],
+  event: [
+    "전체",
+    "전시부스장치",
+    "지자체축제대행",
+    "무대·음향·조명",
+    "포토존·조형물",
+    "박람회홍보관",
+    "행사용홍보물",
+    "컨벤션·MICE",
+  ],
+};
 
 const CERTIFICATION_LEVELS = [
   {
@@ -121,6 +164,7 @@ export default function PartnersClient() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // Filters
+  const [selectedIndustry, setSelectedIndustry] = useState<string>("all");
   const [selectedRegion, setSelectedRegion] = useState<string>("전체");
   const [selectedCategory, setSelectedCategory] = useState<string>("전체");
   const [onlyDirectProduction, setOnlyDirectProduction] = useState<boolean>(false);
@@ -153,17 +197,25 @@ export default function PartnersClient() {
       // 1. 휴폐업 엄격 배제 (정상영업만 통과)
       if (item.status !== "정상영업") return false;
 
-      // 2. 지역 필터
+      // 2. 업종 대분류 필터 (옥외광고 / 인쇄 / 전시축제)
+      if (selectedIndustry !== "all") {
+        const itemIndustry = item.industry || "sign";
+        if (itemIndustry !== selectedIndustry) {
+          return false;
+        }
+      }
+
+      // 3. 지역 필터
       if (selectedRegion !== "전체" && item.region !== selectedRegion) {
         return false;
       }
 
-      // 3. 직접생산 필터
+      // 4. 직접생산 필터
       if (onlyDirectProduction && !item.hasDirectProduction) {
         return false;
       }
 
-      // 4. 품목 카테고리 필터
+      // 5. 품목 카테고리 필터
       if (selectedCategory !== "전체") {
         const matchesCategory = item.mainItems.some((tag) =>
           tag.toLowerCase().includes(selectedCategory.toLowerCase())
@@ -171,7 +223,7 @@ export default function PartnersClient() {
         if (!matchesCategory) return false;
       }
 
-      // 5. 검색어 (업체명, 대표자, 등록번호, 주소, 품목)
+      // 6. 검색어 (업체명, 대표자, 등록번호, 주소, 품목)
       if (searchQuery.trim()) {
         const query = searchQuery.trim().toLowerCase();
         const matchName = item.companyName.toLowerCase().includes(query);
@@ -188,7 +240,7 @@ export default function PartnersClient() {
 
       return true;
     });
-  }, [businesses, selectedRegion, selectedCategory, onlyDirectProduction, searchQuery]);
+  }, [businesses, selectedIndustry, selectedRegion, selectedCategory, onlyDirectProduction, searchQuery]);
 
   const displayedList = useMemo(() => {
     return filteredBusinesses.slice(0, displayLimit);
@@ -256,10 +308,10 @@ export default function PartnersClient() {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
             <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-              전국 옥외광고 협력사 및 공동수급 파트너
+              전국 옥외광고·인쇄·전시축제 협력사 및 파트너
             </h1>
             <p className="text-xs sm:text-sm text-slate-400 mt-1">
-              행정안전부 및 17개 시·도 지자체 옥외광고사업 등록대장을 기반으로 검증된 전국 공식 등록업체 디렉토리입니다.
+              행정안전부 및 17개 시·도 지자체 인허가 등록대장과 공공구매망을 기반으로 검증된 전국 공식 등록업체 디렉토리입니다.
             </p>
           </div>
 
@@ -294,10 +346,10 @@ export default function PartnersClient() {
             <div className="space-y-1 bg-slate-950/60 p-3 rounded-xl border border-slate-800">
               <p className="text-slate-200 font-semibold flex items-center gap-1.5">
                 <ShieldCheck className="w-3.5 h-3.5 text-blue-400" />
-                <span>전화번호 미게재 사유 및 온라인 제휴 창구</span>
+                <span>정확한 공인 정보 원칙 및 온라인 제휴 창구</span>
               </p>
               <p>
-                개인정보보호법에 따라 공공데이터 포털 상의 대표자 유선번호는 비공개 처리되어 제공됩니다. 당사는 불확실한 가상 번호나 무의미한 검색 링크를 게재하지 않으며, 제휴 및 공동수급 견적은 <strong>[온라인 제휴·견적 문의]</strong>를 통해 안전하게 접수·연결해 드립니다.
+                개인정보보호법 및 신뢰 원칙에 따라 불확실한 개인 휴대폰이나 미검증 번호는 <strong>전면 배제</strong>하며, 공인 기관 및 확인된 공식 대표번호만 게시합니다. 연락처 미기재 업체는 <strong>[온라인 제휴·견적 문의]</strong>를 통해 안전하고 신뢰할 수 있게 연결해 드립니다.
               </p>
             </div>
           </div>
@@ -315,10 +367,49 @@ export default function PartnersClient() {
         totalCount={totalCount}
       />
 
-      {/* 3. 검색 및 필터 컨트롤 바 */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4 shadow-xl">
-        {/* 상단: 검색창 & 직접생산 필터 토글 */}
-        <div className="flex flex-col md:flex-row items-center gap-3">
+      {/* 3. 검색 및 필터 컨트롤 바 (PC 상단 Sticky 고정 & 모바일 가로 스와이프 최적화) */}
+      <div className="sticky top-14 sm:top-16 z-20 bg-slate-900/95 backdrop-blur-md border border-slate-800 rounded-2xl p-4 sm:p-5 space-y-4 shadow-xl">
+        {/* 상단 1단계: 3대 산업군 업종 탭 스위처 (모바일 가로 스와이프 지원) */}
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <span className="text-xs text-slate-400 font-bold flex items-center gap-1.5">
+              <Building2 className="w-3.5 h-3.5 text-blue-400" />
+              업종 대분류 선택:
+            </span>
+          </div>
+          <div className="flex sm:grid flex-nowrap sm:grid-cols-4 overflow-x-auto no-scrollbar gap-2 bg-slate-950/80 p-1.5 rounded-2xl border border-slate-800 pb-1">
+            {INDUSTRY_TABS.map((tab) => {
+              const isTabActive = selectedIndustry === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => {
+                    setSelectedIndustry(tab.id);
+                    setSelectedCategory("전체");
+                    setDisplayLimit(24);
+                  }}
+                  className={`flex-1 shrink-0 sm:shrink min-w-[125px] sm:min-w-0 flex items-center justify-center gap-2 py-2 px-3 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer whitespace-nowrap ${
+                    isTabActive
+                      ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/25 border border-blue-400/40"
+                      : "text-slate-400 hover:text-slate-200 hover:bg-slate-900/90 border border-transparent"
+                  }`}
+                >
+                  <span className="text-base">{tab.icon}</span>
+                  <span>{tab.label}</span>
+                  {tab.id === "print" && (
+                    <span className="text-[10px] bg-indigo-500/30 text-indigo-300 px-1.5 py-0.5 rounded-md font-semibold">신설</span>
+                  )}
+                  {tab.id === "event" && (
+                    <span className="text-[10px] bg-pink-500/30 text-pink-300 px-1.5 py-0.5 rounded-md font-semibold">신설</span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* 중단 2단계: 검색창 & 직접생산 필터 토글 */}
+        <div className="flex flex-col md:flex-row items-center gap-3 pt-2 border-t border-slate-800/60">
           {/* 검색 입력창 */}
           <div className="relative flex-1 w-full">
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
@@ -329,13 +420,13 @@ export default function PartnersClient() {
                 setSearchQuery(e.target.value);
                 setDisplayLimit(24);
               }}
-              placeholder="업체명, 대표자명, 등록번호, 시·군·구, 품목(LED, 전광판, 표찰 등) 검색"
-              className="w-full pl-10 pr-4 py-2.5 bg-slate-950/80 border border-slate-700/80 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
+              placeholder="업체명, 대표자명, 등록번호, 시·군·구, 품목(인쇄, 부스, 전광판, 표찰 등) 검색"
+              className="w-full pl-10 pr-4 py-2.5 bg-slate-950/80 border border-slate-700/80 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all min-h-[44px]"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-xs cursor-pointer"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-xs cursor-pointer p-1"
               >
                 ✕
               </button>
@@ -348,7 +439,7 @@ export default function PartnersClient() {
               setOnlyDirectProduction(!onlyDirectProduction);
               setDisplayLimit(24);
             }}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border text-xs sm:text-sm font-bold transition-all cursor-pointer shrink-0 ${
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border text-xs sm:text-sm font-bold transition-all cursor-pointer shrink-0 min-h-[44px] ${
               onlyDirectProduction
                 ? "bg-emerald-500/20 text-emerald-300 border-emerald-500/50 shadow-md shadow-emerald-500/20"
                 : "bg-slate-950/80 text-slate-400 border-slate-700/80 hover:text-slate-200"
@@ -360,13 +451,13 @@ export default function PartnersClient() {
           </button>
         </div>
 
-        {/* 하단: 품목 카테고리 태그 칩 */}
-        <div className="flex flex-wrap items-center gap-1.5 pt-2 border-t border-slate-800/80">
-          <span className="text-xs text-slate-400 font-semibold mr-1.5 flex items-center gap-1">
+        {/* 하단 3단계: 품목 카테고리 태그 칩 (모바일 가로 스와이프 지원) */}
+        <div className="flex items-center gap-1.5 pt-2 border-t border-slate-800/80 overflow-x-auto no-scrollbar pb-1">
+          <span className="text-xs text-slate-400 font-semibold mr-1 flex items-center gap-1 shrink-0">
             <Filter className="w-3 h-3 text-blue-400" />
-            품목별:
+            세부품목:
           </span>
-          {CATEGORY_TAGS.map((tag) => {
+          {(INDUSTRY_CATEGORIES[selectedIndustry] || INDUSTRY_CATEGORIES.all).map((tag) => {
             const isSelected = selectedCategory === tag;
             return (
               <button
@@ -375,7 +466,7 @@ export default function PartnersClient() {
                   setSelectedCategory(tag);
                   setDisplayLimit(24);
                 }}
-                className={`px-3 py-1 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer shrink-0 whitespace-nowrap min-h-[36px] flex items-center ${
                   isSelected
                     ? "bg-blue-600 text-white font-bold shadow-md shadow-blue-500/20"
                     : "bg-slate-950 text-slate-400 hover:bg-slate-800 hover:text-slate-200 border border-slate-800"
@@ -387,16 +478,17 @@ export default function PartnersClient() {
           })}
 
           {/* 필터 초기화 */}
-          {(selectedRegion !== "전체" || selectedCategory !== "전체" || onlyDirectProduction || searchQuery) && (
+          {(selectedIndustry !== "all" || selectedRegion !== "전체" || selectedCategory !== "전체" || onlyDirectProduction || searchQuery) && (
             <button
               onClick={() => {
+                setSelectedIndustry("all");
                 setSelectedRegion("전체");
                 setSelectedCategory("전체");
                 setOnlyDirectProduction(false);
                 setSearchQuery("");
                 setDisplayLimit(24);
               }}
-              className="ml-auto flex items-center gap-1 text-xs text-slate-400 hover:text-indigo-300 transition-colors cursor-pointer py-1"
+              className="ml-auto flex items-center gap-1 text-xs text-slate-400 hover:text-indigo-300 transition-colors cursor-pointer py-1 shrink-0 whitespace-nowrap pl-2"
             >
               <RefreshCw className="w-3 h-3" />
               <span>초기화</span>
@@ -408,6 +500,11 @@ export default function PartnersClient() {
       {/* 4. 검색 결과 카운터 */}
       <div className="flex items-center justify-between px-1">
         <p className="text-xs sm:text-sm text-slate-400">
+          {selectedIndustry !== "all" && (
+            <strong className="text-blue-400 font-bold">
+              [{INDUSTRY_TABS.find(t => t.id === selectedIndustry)?.label}] 
+            </strong>
+          )}
           {selectedRegion !== "전체" && <strong className="text-blue-400 font-bold">[{selectedRegion}] </strong>}
           {selectedCategory !== "전체" && <strong className="text-indigo-400 font-bold">[{selectedCategory}] </strong>}
           {onlyDirectProduction && <strong className="text-emerald-400 font-bold">[직접생산] </strong>}
@@ -455,17 +552,41 @@ export default function PartnersClient() {
               >
                 {/* 상단 뱃지 및 등록정보 */}
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded bg-blue-500/15 text-blue-300 border border-blue-400/30">
-                      <CheckCircle2 className="w-3 h-3 text-blue-400" />
-                      공공등록 검증
-                    </span>
+                  <div className="flex items-center justify-between gap-1.5 flex-wrap">
+                    {/* 업종 구분 뱃지 */}
+                    {item.industry === "print" ? (
+                      <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-500/15 text-indigo-300 border border-indigo-400/30">
+                        🖨️ 인쇄·출판
+                      </span>
+                    ) : item.industry === "event" ? (
+                      <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded bg-pink-500/15 text-pink-300 border border-pink-400/30">
+                        🎪 전시·축제
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded bg-blue-500/15 text-blue-300 border border-blue-400/30">
+                        <CheckCircle2 className="w-3 h-3 text-blue-400" />
+                        옥외광고 검증
+                      </span>
+                    )}
 
                     {item.hasDirectProduction && (
                       <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-400/30">
                         <Factory className="w-3 h-3 text-emerald-400" />
                         직접생산 팩토리
                       </span>
+                    )}
+
+                    {item.websiteUrl && (
+                      <a
+                        href={item.websiteUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-cyan-300 hover:text-white border border-slate-700 transition-colors"
+                        title="공식 홈페이지 바로가기"
+                      >
+                        <span>홈페이지</span>
+                        <ExternalLink className="w-2.5 h-2.5" />
+                      </a>
                     )}
 
                     <span className="text-[10px] font-mono text-slate-500 ml-auto">
@@ -521,7 +642,7 @@ export default function PartnersClient() {
 
                 {/* 하단 액션 버튼 (신뢰 최우선: 제휴·견적 문의 연결) */}
                 <div className="pt-3 border-t border-slate-800">
-                  {item.phone ? (
+                  {item.phone && item.phone.trim().length > 0 ? (
                     <div className="flex items-center gap-2">
                       <a
                         href={`tel:${item.phone}`}

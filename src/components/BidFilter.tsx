@@ -80,11 +80,11 @@ const CONTRACT_TYPES = [
 
 const SOURCE_CHANNELS = [
   { label: "전체 발주처", value: "all", icon: "🌐" },
-  { label: "조달청 나라장터", value: "g2b", icon: "🏛️" },
-  { label: "학교장터(S2B)", value: "s2b", icon: "🏫" },
-  { label: "K-apt 아파트", value: "kapt", icon: "🏢" },
-  { label: "캠코 온비드", value: "onbid", icon: "💎" },
-  { label: "협회 · LH", value: "assoc_lh", icon: "📢" },
+  { label: "조달청 나라장터 (운영중)", value: "g2b", icon: "🏛️" },
+  { label: "학교장터(S2B) [준비중]", value: "s2b", icon: "🏫" },
+  { label: "K-apt 아파트 [준비중]", value: "kapt", icon: "🏢" },
+  { label: "캠코 온비드 [준비중]", value: "onbid", icon: "💎" },
+  { label: "협회 · LH [준비중]", value: "assoc_lh", icon: "📢" },
 ];
 
 export default function BidFilter({ filters, onChange, onReset }: BidFilterProps) {
@@ -134,9 +134,9 @@ export default function BidFilter({ filters, onChange, onReset }: BidFilterProps
       {/* 🚀 발주 채널 바로선택 탭 버튼바 */}
       <div>
         <label className="block text-[11px] font-bold text-slate-400 mb-2">
-          🏢 대한민국 8대 입찰 발주 채널 바로가기
+          🏢 발주 채널 필터 (조달청 나라장터 운영 중 / 기타 채널 연동 준비중)
         </label>
-        <div className="flex items-center gap-1.5 overflow-x-auto pb-1.5 scrollbar-thin">
+        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1.5">
           {SOURCE_CHANNELS.map((ch) => {
             const isSelected = (filters.sourceOrigin || "all") === ch.value;
             return (
@@ -144,7 +144,7 @@ export default function BidFilter({ filters, onChange, onReset }: BidFilterProps
                 key={ch.value}
                 type="button"
                 onClick={() => onChange({ ...filters, sourceOrigin: ch.value })}
-                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all duration-150 cursor-pointer ${
+                className={`shrink-0 inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all duration-150 cursor-pointer min-h-[40px] ${
                   isSelected
                     ? "bg-blue-600 text-white shadow-md shadow-blue-600/30 border border-blue-500 scale-[1.02]"
                     : "bg-slate-950 text-slate-300 hover:text-white hover:bg-slate-800 border border-slate-800"
@@ -294,14 +294,14 @@ export default function BidFilter({ filters, onChange, onReset }: BidFilterProps
         </div>
       )}
 
-      {/* 선택된 조건 태그 칩 표시 */}
+      {/* 선택된 조건 태그 칩 표시 (모바일 가로 스와이프 지원) */}
       {activeTags.length > 0 && (
-        <div className="pt-2 flex flex-wrap items-center gap-1.5 border-t border-slate-800/60">
-          <span className="text-[11px] text-slate-500 font-medium mr-1">선택 조건:</span>
+        <div className="pt-2 flex flex-nowrap sm:flex-wrap items-center gap-1.5 border-t border-slate-800/60 overflow-x-auto no-scrollbar pb-1 max-w-full">
+          <span className="text-[11px] text-slate-500 font-medium mr-1 shrink-0">선택 조건:</span>
           {activeTags.map((tag) => (
             <span
               key={tag.key}
-              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold bg-blue-600/15 text-blue-300 border border-blue-500/30"
+              className="shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold bg-blue-600/15 text-blue-300 border border-blue-500/30"
             >
               <span>{tag.value}</span>
               <button

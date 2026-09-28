@@ -22,9 +22,11 @@ import {
   Download,
   CheckCircle2,
   Trash2,
+  MessageCircle,
 } from "lucide-react";
 import Link from "next/link";
 import initialSubscribers from "../../../public/data/subscribers.json";
+import DirectReplyModal from "@/components/DirectReplyModal";
 
 interface ChatMessage {
   id: string;
@@ -66,6 +68,8 @@ export default function AdminDashboardPage() {
   // 알림 신청자 상태
   const [subscribers, setSubscribers] = useState<Subscriber[]>([]);
   const [sendSuccessMsg, setSendSuccessMsg] = useState("");
+  const [replyModalTarget, setReplyModalTarget] = useState<Subscriber | null>(null);
+  const [isReplyModalOpen, setIsReplyModalOpen] = useState(false);
 
   const formatTime = (ts: number) => {
     if (!ts) return "";
@@ -473,7 +477,7 @@ export default function AdminDashboardPage() {
                     <th className="p-3">희망 지역</th>
                     <th className="p-3">관심 업종</th>
                     <th className="p-3">신청 일시</th>
-                    <th className="p-3 text-right">테스트 발송</th>
+                    <th className="p-3 text-right">원클릭 즉시 답장 & 발송</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-800/60">
@@ -504,13 +508,37 @@ export default function AdminDashboardPage() {
                         {sub.subscribedAt ? new Date(sub.subscribedAt).toLocaleDateString("ko-KR") : "-"}
                       </td>
                       <td className="p-3 text-right">
-                        <button
-                          onClick={() => handleTestSendKakao(sub.phone)}
-                          className="px-2.5 py-1 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-400/30 rounded text-[11px] font-bold transition-all cursor-pointer inline-flex items-center gap-1"
-                        >
-                          <Send className="w-3 h-3" />
-                          <span>알림톡 테스트</span>
-                        </button>
+                        <div className="flex items-center justify-end gap-1.5">
+                          <button
+                            onClick={() => {
+                              setReplyModalTarget(sub);
+                              setIsReplyModalOpen(true);
+                            }}
+                            className="px-2.5 py-1.5 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-400/30 rounded-lg text-[11px] font-bold transition-all cursor-pointer inline-flex items-center gap-1 shadow-sm"
+                          >
+                            <MessageCircle className="w-3.5 h-3.5 fill-amber-400" />
+                            <span>카톡 답장</span>
+                          </button>
+
+                          <button
+                            onClick={() => {
+                              setReplyModalTarget(sub);
+                              setIsReplyModalOpen(true);
+                            }}
+                            className="px-2.5 py-1.5 bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-300 border border-indigo-400/30 rounded-lg text-[11px] font-bold transition-all cursor-pointer inline-flex items-center gap-1 shadow-sm"
+                          >
+                            <Mail className="w-3.5 h-3.5" />
+                            <span>메일 답장</span>
+                          </button>
+
+                          <button
+                            onClick={() => handleTestSendKakao(sub.phone)}
+                            className="px-2 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 rounded-lg text-[10px] font-medium transition-all cursor-pointer"
+                            title="기본 테스트 알림톡 발송"
+                          >
+                            <Send className="w-3 h-3" />
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -671,6 +699,13 @@ export default function AdminDashboardPage() {
           </div>
         )}
       </main>
+
+      {/* 1:1 고객 즉시 답장 모달 (카톡/이메일) */}
+      <DirectReplyModal
+        isOpen={isReplyModalOpen}
+        onClose={() => setIsReplyModalOpen(false)}
+        targetUser={replyModalTarget}
+      />
     </div>
   );
 }

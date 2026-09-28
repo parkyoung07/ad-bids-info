@@ -4,7 +4,9 @@ date: "2026-09-11"
 summary: "전국 초·중·고·대학교(조달청 나라장터, 학교장터 S2B)와 공동주택(국토교통부 K-apt)에서 발주되는 간판, 교실 표찰, 승강기 TV 광고, 단지 종합안내판의 공식 발주 체계와 최신 실공고를 심층 분석합니다."
 category: "입찰·정책"
 tags: ["학교입찰", "학교장터S2B", "K-apt", "아파트승강기광고", "나라장터", "교육기관사인물", "공동주택입찰"]
-coverImage: ""
+coverImage: "https://images.pexels.com/photos/2089698/pexels-photo-2089698.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+coverImageCredit: "Pexels License (무료 상업용 라이선스)"
+coverImageCreditUrl: "https://www.pexels.com"
 source: "조달청 나라장터(G2B), 한국교직원공제회 학교장터(S2B), 국토교통부 K-apt 공식 데이터"
 sourceUrl: "https://www.g2b.go.kr"
 ---

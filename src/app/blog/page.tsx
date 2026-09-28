@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getAllPosts } from "@/lib/posts";
+import BlogKakaoCTA from "@/components/BlogKakaoCTA";
 import {
   Layers,
   Calendar,
@@ -70,7 +71,12 @@ export default function BlogListPage() {
       </section>
 
       {/* 블로그 포스트 목록 메인 영역 */}
-      <main className="flex-1 max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
+      <main className="flex-1 max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        {/* 💬 카카오톡 알림 신청 배너 */}
+        <BlogKakaoCTA
+          title="옥외광고 트렌드 분석 & 실시간 입찰 알림"
+          category="간판·조형물"
+        />
         {posts.length === 0 ? (
           <div className="bg-slate-900/60 rounded-3xl border border-slate-800 p-12 text-center my-8 shadow-xl max-w-2xl mx-auto">
             <div className="w-16 h-16 bg-slate-800/80 rounded-2xl flex items-center justify-center mx-auto mb-4 text-blue-400 border border-slate-700/60">

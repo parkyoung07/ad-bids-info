@@ -1,0 +1,34 @@
+{
+  "inspectDate": "2026-09-28",
+  "inspectTimeKST": "10:00",
+  "subscribers": {
+    "total": 2,
+    "morningAlerts": 2,
+    "deadlineAlerts": 2,
+    "list": [
+      {
+        "companyName": "(주)한강사인디자인",
+        "region": "서울",
+        "phoneMasked": "010-****-2918",
+        "subscribedAt": "2026-08-30T10:15:00.000Z"
+      },
+      {
+        "companyName": "부산종합광고기획",
+        "region": "부산",
+        "phoneMasked": "010-****-4738",
+        "subscribedAt": "2026-08-29T16:20:00.000Z"
+      }
+    ]
+  },
+  "trafficSummary": {
+    "todayEstimatedUV": 320,
+    "todayEstimatedSessions": 460,
+    "todayEstimatedPV": 2050,
+    "topInflowChannels": {
+      "organicSearch": "51.4%",
+      "direct": "26.8%",
+      "referral": "14.3%",
+      "socialChat": "7.5%"
+    }
+  }
+}

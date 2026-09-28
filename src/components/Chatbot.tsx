@@ -39,6 +39,17 @@ export default function Chatbot() {
     });
   };
 
+  // 모바일 하단바나 기타 버튼에서 전달된 챗봇 열기 커스텀 이벤트 수신
+  useEffect(() => {
+    const handleOpenChatbot = () => {
+      setIsOpen(true);
+    };
+    window.addEventListener("open-signbid-chatbot", handleOpenChatbot);
+    return () => {
+      window.removeEventListener("open-signbid-chatbot", handleOpenChatbot);
+    };
+  }, []);
+
   // 현재 상세 페이지인 경우 해당 공고 탐색
   const currentBid = useMemo(() => {
     if (pathname.startsWith("/bids/")) {
@@ -211,7 +222,7 @@ DEMO 분석 예시: 실제 공고문을 업로드하면 해당 문구와 위치�
   };
 
   return (
-    <div className="fixed bottom-5 right-5 z-50 flex flex-col items-end">
+    <div className="fixed bottom-20 lg:bottom-5 right-4 lg:right-5 z-50 flex flex-col items-end">
       {/* 챗봇 대화창 (기본 닫힘) */}
       {isOpen && (
         <div className="mb-3 w-[360px] sm:w-[420px] max-w-[calc(100vw-2.5rem)] h-[540px] max-h-[calc(100vh-6rem)] bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-in fade-in duration-150">
