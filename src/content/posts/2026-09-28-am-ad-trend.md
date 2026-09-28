@@ -1,12 +1,12 @@
 ---
-title: "2026년 지자체 간판개선사업 입찰 성공 전략: 옥외광고물법·조달청 직접생산확인부터 디지털사이니지 도입 실무까지"
+title: "[2026 지자체 간판개선사업] 아름다운 간판거리 입찰 및 조달청 직접생산확인 자격 총정리"
 date: "2026-09-28"
-summary: "2026년 행안부 정책 변화 및 지자체 아름다운 간판거리 공모 입찰에서 수주 확률을 높이는 법적·제도적 체크포인트와 조달청 직접생산확인증명서 발급 실무 가이드를 공개합니다."
+summary: "행안부 정책 및 지자체 아름다운 간판거리 공공입찰 성공 전략! 옥외광고사업자 필수 자격 요건과 조달청 직접생산확인 발급 팁을 공개합니다."
 category: "법규·정책 & 간판개선"
-tags: ["옥외광고입찰", "나라장터공고", "LED간판제작", "디지털사이니지", "공공디자인"]
-coverImage: "https://images.pexels.com/photos/18529821/pexels-photo-18529821.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-coverImageCredit: "Photo by Martii Tolentino on Pexels"
-coverImageCreditUrl: "https://www.pexels.com/photo/new-york-city-at-dusk-18529821/"
+tags: ["옥외광고입찰", "지자체간판개선", "아름다운간판거리", "조달청직접생산", "옥외광고물법", "LED간판제작", "공공디자인입찰"]
+coverImage: "https://images.pexels.com/photos/1838014/pexels-photo-1838014.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+coverImageCredit: "Photo by Vlad Chețan on Pexels"
+coverImageCreditUrl: "https://www.pexels.com/photo/new-york-timesquare-1838014/"
 source: "행정안전부, 월간 사인문화, 한국옥외광고신문, 조달청 나라장터"
 sourceUrl: "https://www.mois.go.kr"
 ---
@@ -66,11 +66,13 @@ sourceUrl: "https://www.mois.go.kr"
 
 ---
 
-📚 **자료 출처 및 공식 원문 링크 (Sources & References)**
+### 📚 자료 출처 및 공식 원문 링크 (Sources & References)
 * 🏛️ 조달청 나라장터: https://www.g2b.go.kr
 * 📰 월간 팝사인: http://www.popsign.co.kr
 * 📰 월간 사인문화: http://signmunhwa.cafe24.com
 * 📰 한국옥외광고신문: https://koaa.or.kr
 * 🌐 세계옥외광고협회(WOO): https://worldooh.org
+
+---
 
 > **※ 기사 및 리포트 안내:** 본 기사는 각 정부 부처, 공공기관 및 전문 언론사의 공식 보도자료와 공개 데이터를 바탕으로 작성된 분석 리포트입니다. 법령 개정 및 세부 정책 일정은 행정기관의 사정에 따라 변동될 수 있으므로, 관련 업무 추진 시 소관 부처의 공식 고시 및 원문 자료를 최종 확인하시기 바랍니다.
