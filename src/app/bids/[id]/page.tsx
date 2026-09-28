@@ -24,12 +24,75 @@ import RateAnalyticsChart from "@/components/RateAnalyticsChart";
 import BidSimulator from "@/components/BidSimulator";
 import SourceGuideCard from "@/components/SourceGuideCard";
 import { BidItem } from "@/components/BidCard";
+import type { Metadata } from "next";
 
 export async function generateStaticParams() {
   const bids = (bidsData as unknown as BidItem[]) || [];
   return bids.map((bid) => ({
     id: bid.id,
   }));
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { id } = await params;
+  const bids = (bidsData as unknown as BidItem[]) || [];
+  const bid = bids.find((item) => item.id === id);
+
+  if (!bid) {
+    return {
+      title: "공고를 찾을 수 없습니다 | SignBid AI",
+    };
+  }
+
+  const bidUrl = `https://signbidai.com/bids/${bid.id}`;
+  const keywordsList = [
+    bid.title,
+    bid.client,
+    bid.category,
+    bid.location,
+    bid.id,
+    "나라장터",
+    "조달청입찰",
+    "공공입찰",
+    "옥외광고입찰",
+    "SignBid AI",
+    `#${bid.category.replace(/[^a-zA-Z0-9가-힣]/g, '')}`,
+    `#${bid.location}`,
+    `#${bid.client}`,
+  ];
+
+  return {
+    title: `[${bid.location}] ${bid.title} (${bid.client}) | SignBid AI 입찰 분석`,
+    description: `[${bid.client} 발주] ${bid.title} (추정예산: ${bid.budgetText || '금액 미기재'}, 마감일: ${bid.endDate || '공고참조'}). 참가자격 및 AI 심층 분석 요약 제공.`,
+    keywords: keywordsList,
+    authors: [{ name: "SignBid AI 입찰분석팀" }],
+    metadataBase: new URL("https://signbidai.com"),
+    alternates: {
+      canonical: bidUrl,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-image-preview": "large",
+      },
+    },
+    openGraph: {
+      title: `[${bid.location}] ${bid.title}`,
+      description: `발주처: ${bid.client} | 예산: ${bid.budgetText || '미기재'} | 마감: ${bid.endDate || '상세확인'}`,
+      url: bidUrl,
+      siteName: "SignBid AI",
+      locale: "ko_KR",
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `[${bid.location}] ${bid.title}`,
+      description: `발주처: ${bid.client} | 예산: ${bid.budgetText || '미기재'} | 마감: ${bid.endDate || '상세확인'}`,
+    },
+  };
 }
 
 import { computeBidTimeStatus } from "@/utils/dateUtils";
@@ -78,9 +141,58 @@ export default async function BidDetailPage({ params }: PageProps) {
     : "조달청 나라장터(G2B)";
 
   const sourceLinkUrl = bid.sourceDetailUrl || bid.linkUrl || "";
+  const bidCanonicalUrl = `https://signbidai.com/bids/${bid.id}`;
+
+  const jsonLdBid = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "GovernmentService",
+        "@id": `${bidCanonicalUrl}#service`,
+        "name": bid.title,
+        "description": `발주처: ${bid.client}, 추정예산: ${bid.budgetText || '미기재'}, 마감일: ${bid.endDate || '상세확인'}`,
+        "provider": {
+          "@type": "GovernmentOrganization",
+          "name": bid.client,
+        },
+        "serviceType": bid.category,
+        "areaServed": bid.location,
+        "url": bidCanonicalUrl,
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "홈",
+            "item": "https://signbidai.com",
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": bid.category,
+            "item": "https://signbidai.com",
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": bid.title,
+            "item": bidCanonicalUrl,
+          },
+        ],
+      },
+    ],
+  };
 
   return (
     <div className="flex-1 max-w-5xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      {/* 검색엔진용 JSON-LD 구조화 데이터 */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBid) }}
+      />
+
       {/* 브레드크럼 및 뒤로가기 */}
       <div className="flex items-center justify-between gap-2 text-xs text-slate-400">
         <div className="flex items-center gap-2">

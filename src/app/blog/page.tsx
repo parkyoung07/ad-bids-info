@@ -15,9 +15,36 @@ import {
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "옥외광고 트렌드 & 정책 기사 분석 | 옥외광고 입찰정보 알리미",
+  title: "옥외광고 · 인쇄 · 전시 트렌드 & 정책 분석 리포트 | SignBid AI",
   description:
-    "디지털사이니지, 옥외광고 정책 변화, 공공 사인물 디자인 트렌드 및 산업 동향 심층 분석 리포트.",
+    "디지털사이니지, 옥외광고 정책 변화, 지자체 간판개선사업, 공공디자인, 친환경 인쇄, MICE 전시부스 트렌드 및 공공입찰 심층 분석 리포트 모음.",
+  keywords: [
+    "옥외광고트렌드",
+    "디지털사이니지",
+    "간판개선사업",
+    "아름다운간판",
+    "공공디자인",
+    "배리어프리",
+    "인쇄입찰",
+    "친환경인쇄",
+    "전시부스",
+    "축제대행",
+    "나라장터낙찰",
+    "SignBid AI",
+  ],
+  metadataBase: new URL("https://signbidai.com"),
+  alternates: {
+    canonical: "https://signbidai.com/blog",
+  },
+  openGraph: {
+    title: "옥외광고 · 인쇄 · 전시 트렌드 & 정책 분석 리포트 | SignBid AI",
+    description:
+      "디지털사이니지, 옥외광고 정책 변화, 지자체 간판개선사업, 인쇄·전시 트렌드 및 공공입찰 심층 분석 리포트.",
+    url: "https://signbidai.com/blog",
+    siteName: "SignBid AI",
+    locale: "ko_KR",
+    type: "website",
+  },
 };
 
 export default function BlogListPage() {
