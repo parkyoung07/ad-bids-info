@@ -44,29 +44,26 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
-  const keywordsList =
-    post.tags && post.tags.length > 0
-      ? [
-          ...post.tags,
-          ...post.tags.map((t) => `#${t}`),
-          "옥외광고",
-          "옥외광고입찰",
-          "조달청나라장터",
-          "입찰공고",
-          "공공입찰",
-          "SignBid AI",
-          "인쇄출판",
-          "전시행사",
-        ]
-      : [
-          "옥외광고",
-          "조달청나라장터",
-          "입찰공고",
-          "공공입찰",
-          "LED간판",
-          "디지털사이니지",
-          "SignBid AI",
-        ];
+  const coreSearchKeywords = [
+    "나라장터",
+    "광고입찰",
+    "인쇄입찰",
+    "전시행사입찰",
+    "축제용품입찰",
+    "간판제작입찰",
+    "공공입찰",
+    "직접생산확인",
+    "옥외광고입찰",
+    "조달청나라장터",
+    "SignBid AI"
+  ];
+
+  const keywordsList = [
+    ...coreSearchKeywords,
+    ...coreSearchKeywords.map((k) => `#${k}`),
+    ...(post.tags || []),
+    ...(post.tags || []).map((t) => `#${t}`),
+  ];
 
   const postUrl = `https://signbidai.com/blog/${slug}`;
   const coverImg =
@@ -349,51 +346,117 @@ export default async function BlogPostDetailPage({ params }: PageProps) {
           </ReactMarkdown>
         </article>
 
-        {/* 🏷️ 네이버 & 구글 검색 최적화 핵심 해시태그 섹션 (SEO & 색인 강화) */}
-        {post.tags && post.tags.length > 0 && (
-          <section className="mt-8 pt-6 border-t border-slate-800 space-y-3">
+        {/* 🏷️ 네이버 & 구글 검색 최적화 핵심 해시태그 섹션 (회장님 엄선 5대 공공입찰 검색어 반영) */}
+        <section className="mt-8 pt-6 border-t border-slate-800 space-y-4">
+          <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Hash className="w-4 h-4 text-cyan-400" />
               <h3 className="text-sm font-bold text-white">
-                네이버·구글 검색 추천 해시태그 (#Hashtags)
+                네이버·구글 공공입찰 핵심 추천 검색어 & 해시태그
               </h3>
             </div>
-            <div className="flex flex-wrap gap-2">
-              {post.tags.map((tag, idx) => (
+            <span className="text-[11px] text-slate-500 hidden sm:inline">
+              클릭 시 실시간 입찰공고 바로 검색
+            </span>
+          </div>
+
+          {/* 1. 핵심 공공입찰 키워드 칩 (나라장터, 광고입찰, 인쇄입찰, 전시행사입찰, 축제용품입찰 등) */}
+          <div className="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-3 shadow-inner">
+            <div className="space-y-1.5">
+              <span className="text-[11px] font-bold text-slate-400 flex items-center gap-1">
+                <Sparkles className="w-3 h-3 text-amber-400" />
+                <span>공공입찰 5대 핵심 검색어:</span>
+              </span>
+              <div className="flex flex-wrap gap-2">
                 <Link
-                  key={idx}
-                  href={`/?q=${encodeURIComponent(tag)}`}
-                  className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-cyan-300 hover:text-white border border-slate-800 hover:border-cyan-500/50 text-xs font-semibold transition-all shadow-sm"
-                  title={`'${tag}' 관련 입찰공고 검색`}
+                  href="/?q=나라장터"
+                  className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-blue-500/15 hover:bg-blue-500/25 text-blue-300 hover:text-white border border-blue-400/40 text-xs font-bold transition-all shadow-sm"
+                  title="'나라장터' 실시간 공고 검색"
+                >
+                  <span className="text-blue-400">#</span>
+                  <span>나라장터</span>
+                </Link>
+
+                <Link
+                  href="/?q=광고"
+                  className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-indigo-500/15 hover:bg-indigo-500/25 text-indigo-300 hover:text-white border border-indigo-400/40 text-xs font-bold transition-all shadow-sm"
+                  title="'광고입찰' 실시간 공고 검색"
+                >
+                  <span className="text-indigo-400">#</span>
+                  <span>광고입찰</span>
+                </Link>
+
+                <Link
+                  href="/?q=인쇄"
+                  className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 hover:text-white border border-emerald-400/40 text-xs font-bold transition-all shadow-sm"
+                  title="'인쇄입찰' 실시간 공고 검색"
+                >
+                  <span className="text-emerald-400">#</span>
+                  <span>인쇄입찰</span>
+                </Link>
+
+                <Link
+                  href="/?q=전시"
+                  className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-pink-500/15 hover:bg-pink-500/25 text-pink-300 hover:text-white border border-pink-400/40 text-xs font-bold transition-all shadow-sm"
+                  title="'전시 행사입찰' 실시간 공고 검색"
+                >
+                  <span className="text-pink-400">#</span>
+                  <span>전시 행사입찰</span>
+                </Link>
+
+                <Link
+                  href="/?q=축제"
+                  className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 hover:text-white border border-amber-400/40 text-xs font-bold transition-all shadow-sm"
+                  title="'축제용품입찰' 실시간 공고 검색"
+                >
+                  <span className="text-amber-400">#</span>
+                  <span>축제용품입찰</span>
+                </Link>
+
+                <Link
+                  href="/?q=간판"
+                  className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 hover:text-white border border-cyan-400/40 text-xs font-bold transition-all shadow-sm"
+                  title="'간판제작입찰' 실시간 공고 검색"
                 >
                   <span className="text-cyan-400">#</span>
-                  <span>{tag}</span>
+                  <span>간판제작입찰</span>
                 </Link>
-              ))}
-              <Link
-                href="/?q=나라장터"
-                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800 text-xs font-semibold transition-all"
-              >
-                <span className="text-blue-400">#</span>
-                <span>나라장터입찰</span>
-              </Link>
-              <Link
-                href="/?q=옥외광고"
-                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800 text-xs font-semibold transition-all"
-              >
-                <span className="text-indigo-400">#</span>
-                <span>옥외광고</span>
-              </Link>
-              <Link
-                href="/partners"
-                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800 text-xs font-semibold transition-all"
-              >
-                <span className="text-emerald-400">#</span>
-                <span>직접생산확인</span>
-              </Link>
+
+                <Link
+                  href="/partners"
+                  className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-teal-500/15 hover:bg-teal-500/25 text-teal-300 hover:text-white border border-teal-400/40 text-xs font-bold transition-all shadow-sm"
+                  title="'직접생산확인' 파트너 디렉토리 조회"
+                >
+                  <span className="text-teal-400">#</span>
+                  <span>직접생산확인</span>
+                </Link>
+              </div>
             </div>
-          </section>
-        )}
+
+            {/* 2. 본 기사 주제별 맞춤 해시태그 */}
+            {post.tags && post.tags.length > 0 && (
+              <div className="pt-2 border-t border-slate-800/80 space-y-1.5">
+                <span className="text-[11px] font-bold text-slate-400 flex items-center gap-1">
+                  <Tag className="w-3 h-3 text-cyan-400" />
+                  <span>본 리포트 연관 태그:</span>
+                </span>
+                <div className="flex flex-wrap gap-1.5">
+                  {post.tags.map((tag, idx) => (
+                    <Link
+                      key={idx}
+                      href={`/?q=${encodeURIComponent(tag)}`}
+                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-950 hover:bg-slate-800 text-slate-300 hover:text-cyan-300 border border-slate-800 text-xs transition-colors"
+                      title={`'${tag}' 관련 공고 검색`}
+                    >
+                      <span className="text-slate-500">#</span>
+                      <span>{tag}</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </section>
 
         {/* 💬 카카오톡 맞춤 알림 신청 CTA */}
         <BlogKakaoCTA
