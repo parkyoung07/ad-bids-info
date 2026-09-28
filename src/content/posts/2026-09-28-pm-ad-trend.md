@@ -4,9 +4,9 @@ date: "2026-09-28"
 summary: "월간 사인문화 2026년 9월호 탐방! 행안부 간판개선사업 지원 지침과 시각장애인 배려 점자 사인, 지역 고유의 스토리를 담은 명품 간판거리 수주 비결을 공개합니다."
 category: "간판·조형물 / 공공디자인"
 tags: ["사인문화","간판개선사업","아름다운간판","배리어프리","공공디자인","옥외광고입찰","지자체입찰"]
-coverImage: "https://images.pexels.com/photos/6195313/pexels-photo-6195313.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-coverImageCredit: "Photo by gianfranco marotta on Pexels"
-coverImageCreditUrl: "https://www.pexels.com/photo/advertisements-on-city-buildings-6195313/"
+coverImage: "https://images.pexels.com/photos/18498510/pexels-photo-18498510.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+coverImageCredit: "Photo by Holger J. Bub on Pexels"
+coverImageCreditUrl: "https://www.pexels.com/photo/times-square-in-new-york-18498510/"
 source: "공공데이터포털(data.go.kr) 및 조달청 나라장터(G2B) 옥외광고 입찰 분석 종합"
 sourceUrl: "https://www.g2b.go.kr"
 ---
