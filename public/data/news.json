@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "updatedAt": "2026-09-29T02:06:32.327Z",
+=======
+  "updatedAt": "2026-09-29T01:54:59.193Z",
+>>>>>>> 2865dbe8eb0ef62291f84207bab902b4dab73530
   "totalCount": 32,
   "isLiveApi": true,
   "categories": [
@@ -210,6 +214,16 @@
     },
     {
       "id": "live-13",
+      "title": "구미대, 경북옥외광고협와 AI 인재 양성 ‘맞손’",
+      "link": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE1jemVlWnZMUEJsVGZxU2JEVjQ4bDZRbWRvcDAtMUFzUXYyOGFYeUNOUjFScWEwQXdidzVoclBnZDJTdVNpRDZ0LTV5Znl4eUNJR3Z6MTdXT3VLSTZKSEZKNjlqTVBxZw?oc=5",
+      "originallink": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE1jemVlWnZMUEJsVGZxU2JEVjQ4bDZRbWRvcDAtMUFzUXYyOGFYeUNOUjFScWEwQXdidzVoclBnZDJTdVNpRDZ0LTV5Znl4eUNJR3Z6MTdXT3VLSTZKSEZKNjlqTVBxZw?oc=5",
+      "press": "데일리대구경북뉴스",
+      "pubDate": "2026-09-22 07:48",
+      "category": "디지털사이니지",
+      "description": "데일리대구경북뉴스에서 보도한 [구미대, 경북옥외광고협와 AI 인재 양성 ‘맞손’] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
+    },
+    {
+      "id": "live-14",
       "title": "옥외광고센터, 중소기업 특허 확보 지원…건당 최대 200만원",
       "link": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPb3JLVkZNT1lFUkN5c2dDbE41T2JCQzNpWHMtbFQ4Qk54MVBrXzU5WS1lYTBjdTRaRmpxdUZZSmowSlRzVlo1ZFN1aUtKaUNvRTQ1TGlleHhKZ0Z3X2ctOUgyaTR5ZnpGSFkwZHZ1VS1NUUliMGtpdGYycWlURmV4VQ?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPb3JLVkZNT1lFUkN5c2dDbE41T2JCQzNpWHMtbFQ4Qk54MVBrXzU5WS1lYTBjdTRaRmpxdUZZSmowSlRzVlo1ZFN1aUtKaUNvRTQ1TGlleHhKZ0Z3X2ctOUgyaTR5ZnpGSFkwZHZ1VS1NUUliMGtpdGYycWlURmV4VQ?oc=5",
@@ -219,7 +233,7 @@
       "description": "edaily.co.kr에서 보도한 [옥외광고센터, 중소기업 특허 확보 지원…건당 최대 200만원] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
     },
     {
-      "id": "live-14",
+      "id": "live-15",
       "title": "addd, 일본 옥외광고 시장 진출…오사카 ‘DIP Vision’에 AI 광고 데이터 플랫폼 구축 - 스타트업엔(StartupN)",
       "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE1aSGItRF9zUVpRZnZVcjRjS0R1cFVrNGVkbG9ZODJ4aUdhTjJUZlJlaTQ1a19YNUJ4RkVFNEp5N0JSWm52UGE1MG1RajEwR3RuSjVTUVlsYzd1VW5tbXNKSjZUQXdIeDBY0gFsQVVfeXFMTUlzdkdKaXZ1TkJ6U0h3NzRKT25mN21yVXA2alljbGlodnRtLTB2WHd4LWgwR3BsMmNxY1R5YjZab3JmeHNXcDVTQ1FYSEdMdFEtWk9WMjJhZ0xnNEJVMFg2WklQdjFNUnhPamtH?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE1aSGItRF9zUVpRZnZVcjRjS0R1cFVrNGVkbG9ZODJ4aUdhTjJUZlJlaTQ1a19YNUJ4RkVFNEp5N0JSWm52UGE1MG1RajEwR3RuSjVTUVlsYzd1VW5tbXNKSjZUQXdIeDBY0gFsQVVfeXFMTUlzdkdKaXZ1TkJ6U0h3NzRKT25mN21yVXA2alljbGlodnRtLTB2WHd4LWgwR3BsMmNxY1R5YjZab3JmeHNXcDVTQ1FYSEdMdFEtWk9WMjJhZ0xnNEJVMFg2WklQdjFNUnhPamtH?oc=5",
@@ -229,17 +243,22 @@
       "description": "스타트업엔(StartupN)에서 보도한 [addd, 일본 옥외광고 시장 진출…오사카 ‘DIP Vision’에 AI 광고 데이터 플랫폼 구축 - 스타트업엔(StartupN)] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
     },
     {
-      "id": "live-15",
+      "id": "live-16",
       "title": "옥외광고센터, 옥외광고 기업 위한 특허 출원비용 지원 신사업 공고",
       "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTFBWSG5ERHJaTWx6QTVDNDhhblRFYlByakdMbjNITU9GUFlTRl9YZVAtUWdMOW15QXVJQ1RJWVdxR010VHQ4RjFfM0VjOWJ2TkMzN01nM21RejAwb2xWSU5qeDl6ZEVJMUFJa203OHhMUQ?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMib0FVX3lxTFBWSG5ERHJaTWx6QTVDNDhhblRFYlByakdMbjNITU9GUFlTRl9YZVAtUWdMOW15QXVJQ1RJWVdxR010VHQ4RjFfM0VjOWJ2TkMzN01nM21RejAwb2xWSU5qeDl6ZEVJMUFJa203OHhMUQ?oc=5",
+<<<<<<< HEAD
       "press": "브랜드브리프",
       "pubDate": "2026-09-22 14:53",
+=======
+      "press": "brandbrief.co.kr",
+      "pubDate": "2026-09-22 05:53",
+>>>>>>> 2865dbe8eb0ef62291f84207bab902b4dab73530
       "category": "디지털사이니지",
-      "description": "브랜드브리프에서 보도한 [옥외광고센터, 옥외광고 기업 위한 특허 출원비용 지원 신사업 공고] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
+      "description": "brandbrief.co.kr에서 보도한 [옥외광고센터, 옥외광고 기업 위한 특허 출원비용 지원 신사업 공고] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
     },
     {
-      "id": "live-16",
+      "id": "live-17",
       "title": "한국지방재정공제회, ‘옥외광고 산업진흥 특허드림’ 참여기업 모집",
       "link": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE9STWdoOUUyaWpOMmltQmd3Y2JQS1Bxd05xQVJWWDN4c1hoYU0zbVJ0UGpOVUw1cHQ5QjVVcVRwUkN5TzVUWVhrRTA0MTN4M0hS?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE9STWdoOUUyaWpOMmltQmd3Y2JQS1Bxd05xQVJWWDN4c1hoYU0zbVJ0UGpOVUw1cHQ5QjVVcVRwUkN5TzVUWVhrRTA0MTN4M0hS?oc=5",
@@ -249,17 +268,22 @@
       "description": "문화일보에서 보도한 [한국지방재정공제회, ‘옥외광고 산업진흥 특허드림’ 참여기업 모집] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
     },
     {
-      "id": "live-17",
+      "id": "live-18",
       "title": "지방재정공제회, 옥외광고기업 특허 출원비용 지원",
       "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5RUjYwR1l1eEMtRWVvZFpOLUlnMXpNTjZOcXdSWDJ2WnpjWlJvNEZmTE5EUUYwVmJCUkhjSEVCcjhSR0FjZDZaVHI4dWh3dUREUmJaRHhlWDYxcU9SRzV5dmxjWjBlaHJfMGc?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5RUjYwR1l1eEMtRWVvZFpOLUlnMXpNTjZOcXdSWDJ2WnpjWlJvNEZmTE5EUUYwVmJCUkhjSEVCcjhSR0FjZDZaVHI4dWh3dUREUmJaRHhlWDYxcU9SRzV5dmxjWjBlaHJfMGc?oc=5",
+<<<<<<< HEAD
       "press": "한국공제보험신문",
       "pubDate": "2026-09-22 12:04",
+=======
+      "press": "kongje.or.kr",
+      "pubDate": "2026-09-22 03:04",
+>>>>>>> 2865dbe8eb0ef62291f84207bab902b4dab73530
       "category": "디지털사이니지",
-      "description": "한국공제보험신문에서 보도한 [지방재정공제회, 옥외광고기업 특허 출원비용 지원] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
+      "description": "kongje.or.kr에서 보도한 [지방재정공제회, 옥외광고기업 특허 출원비용 지원] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
     },
     {
-      "id": "live-18",
+      "id": "live-19",
       "title": "남동구, 전통시장 LED 전광판으로 어르신 보행안전 집중 홍보",
       "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE5sbnh4ZUgxbGRJRHNBZFl2MVpGdy1pV3c5UF9QdFVaLUpsNUI0aXdvbVFqY280NWpFelJFakpIdm94eUx1ZHIyUy1fSFRKQTMtdy1CU1YtcDNyZnJOUW5rdkZoa2pDYTljaFEyby1HWdIBckFVX3lxTFAzRHVLYkZyNUowVE5Xbno5U3hHeURKa0xUWF8zM2VPR0Q2UHpIUFBlQ0VQYjJuUkRab0M4SzZWQWJUT0xXMWtIUncwbm83Z1BnX3pXMzFwbXFocDlvT0FPMmFPN2xNRXZfb2NWbG5hMjdHdw?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMib0FVX3lxTE5sbnh4ZUgxbGRJRHNBZFl2MVpGdy1pV3c5UF9QdFVaLUpsNUI0aXdvbVFqY280NWpFelJFakpIdm94eUx1ZHIyUy1fSFRKQTMtdy1CU1YtcDNyZnJOUW5rdkZoa2pDYTljaFEyby1HWdIBckFVX3lxTFAzRHVLYkZyNUowVE5Xbno5U3hHeURKa0xUWF8zM2VPR0Q2UHpIUFBlQ0VQYjJuUkRab0M4SzZWQWJUT0xXMWtIUncwbm83Z1BnX3pXMzFwbXFocDlvT0FPMmFPN2xNRXZfb2NWbG5hMjdHdw?oc=5",
@@ -269,7 +293,7 @@
       "description": "포커스인천에서 보도한 [남동구, 전통시장 LED 전광판으로 어르신 보행안전 집중 홍보] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
     },
     {
-      "id": "live-19",
+      "id": "live-20",
       "title": "디지털 인쇄 어디까지 진화했나…후지필름BI ‘IPA 2026 APJ’ 39개 수상작 선정",
       "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE45MW5GQnlMQ0pzZWVHQkxhanhZRmpvckRNcXhtSDl1M0JaNWNpWmwydVE2ZVhaZGNndjlmU3FMWm5OX200VXowRmtObjZfRFp3TlIwSkdHQkk5VU55dWZTWEZvVm8xUlN4Rms3Wg?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMibEFVX3lxTE45MW5GQnlMQ0pzZWVHQkxhanhZRmpvckRNcXhtSDl1M0JaNWNpWmwydVE2ZVhaZGNndjlmU3FMWm5OX200VXowRmtObjZfRFp3TlIwSkdHQkk5VU55dWZTWEZvVm8xUlN4Rms3Wg?oc=5",
@@ -279,7 +303,7 @@
       "description": "뉴스탭에서 보도한 [디지털 인쇄 어디까지 진화했나…후지필름BI ‘IPA 2026 APJ’ 39개 수상작 선정] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
     },
     {
-      "id": "live-20",
+      "id": "live-21",
       "title": "대전과기대 광고홍보디자인학과, 대전옥외광고대상전 금상 수상",
       "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE9PUjBsc3NjaUtxVkFzOERZeEVjWUpWVk5OcFdKdjJmTEhvRS13dnJhaENQREVnU0QyRGJzNFV4dE9zcU55YnFuS1B5b29GR0Yyek1XRTZqMlBqOUVsTnY1ek9aUldocVNKc1E?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMiakFVX3lxTE9PUjBsc3NjaUtxVkFzOERZeEVjWUpWVk5OcFdKdjJmTEhvRS13dnJhaENQREVnU0QyRGJzNFV4dE9zcU55YnFuS1B5b29GR0Yyek1XRTZqMlBqOUVsTnY1ek9aUldocVNKc1E?oc=5",
@@ -289,6 +313,7 @@
       "description": "금강일보에서 보도한 [대전과기대 광고홍보디자인학과, 대전옥외광고대상전 금상 수상] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
     },
     {
+<<<<<<< HEAD
       "id": "live-21",
       "title": "인천남동구, 전통시장 전광판 활용해 고령자 보행안전 홍보",
       "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTE9OZUhLa0RySzZReFRhNi1PS0l2MGhsbmU0N3B5U2tYaUhYVHU5VGhOWVpLcDdkUlBLQ3hTdGxrWEhGenhQSkxhSGVLek9ZNGZ4QXp6SHk5XzdsX0pMSkpVRU93R24zazR1b3Q1MTEtR1UzeW5X?oc=5",
@@ -299,6 +324,8 @@
       "description": "세계뉴스통신에서 보도한 [인천남동구, 전통시장 전광판 활용해 고령자 보행안전 홍보] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
     },
     {
+=======
+>>>>>>> 2865dbe8eb0ef62291f84207bab902b4dab73530
       "id": "live-22",
       "title": "대전과기대 정연아 학생, 대전옥외광고대상전서 '금상'",
       "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE9SaEdJcFJKeENNRFlRMjJFcGtNQUo4UnowREdQOUEzZ01XemNuOEdXdndkOEVmekNOaTJrcmE1LWlrM2tEcEdOa3RuaV8xNGUxYmNKd1hSa3RYTW0wZFpHd01XVy1JQkp0ajF1NQ?oc=5",
