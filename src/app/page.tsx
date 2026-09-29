@@ -162,14 +162,63 @@ export default function HomePage() {
         if (filters.budgetRange === "under100m" && bid.budget > 100000000) return false;
         if (filters.budgetRange === "over100m" && bid.budget < 100000000) return false;
 
-        // 6. 출처(발주 채널) 필터
+        // 6. 출처(발주 채널) 필터 (학교, 아파트, 온비드 등 실시간 매핑)
         if (filters.sourceOrigin && filters.sourceOrigin !== "all") {
           const src = bid.source || "";
+          const client = bid.client || "";
+          const title = bid.title || "";
+          const cat = bid.category || "";
+
           if (filters.sourceOrigin === "g2b" && !src.includes("나라장터")) return false;
-          if (filters.sourceOrigin === "s2b" && !src.includes("학교장터") && !src.includes("S2B")) return false;
-          if (filters.sourceOrigin === "kapt" && !src.includes("K-apt") && !src.includes("공동주택") && !src.includes("아파트")) return false;
-          if (filters.sourceOrigin === "onbid" && !src.includes("온비드") && !src.includes("OnBid")) return false;
-          if (filters.sourceOrigin === "assoc_lh" && !src.includes("협회") && !src.includes("LH")) return false;
+          if (filters.sourceOrigin === "s2b") {
+            const isSchool =
+              src.includes("학교장터") ||
+              src.includes("S2B") ||
+              client.includes("학교") ||
+              client.includes("교육") ||
+              client.includes("초등") ||
+              client.includes("중학") ||
+              client.includes("고등") ||
+              client.includes("대학") ||
+              cat.includes("학교") ||
+              title.includes("학교");
+            if (!isSchool) return false;
+          }
+          if (filters.sourceOrigin === "kapt") {
+            const isApt =
+              src.includes("K-apt") ||
+              src.includes("공동주택") ||
+              src.includes("아파트") ||
+              client.includes("주택") ||
+              client.includes("아파트") ||
+              client.includes("LH") ||
+              client.includes("SH") ||
+              client.includes("도시공사") ||
+              cat.includes("아파트") ||
+              title.includes("아파트") ||
+              title.includes("승강기") ||
+              title.includes("엘리베이터");
+            if (!isApt) return false;
+          }
+          if (filters.sourceOrigin === "onbid") {
+            const isOnbid =
+              src.includes("온비드") ||
+              src.includes("OnBid") ||
+              cat.includes("매체권") ||
+              title.includes("매체권") ||
+              title.includes("사용수익허가") ||
+              title.includes("임대");
+            if (!isOnbid) return false;
+          }
+          if (filters.sourceOrigin === "assoc_lh") {
+            const isAssocLh =
+              src.includes("협회") ||
+              src.includes("LH") ||
+              client.includes("공사") ||
+              client.includes("재단") ||
+              client.includes("사업단");
+            if (!isAssocLh) return false;
+          }
         }
 
         // 7. 검색어 필터
@@ -204,11 +253,33 @@ export default function HomePage() {
   // 채널별 실시간 진행 공고 통계
   const channelStats = useMemo(() => {
     return {
+      all: activeVerifiedBids.length,
       g2b: activeVerifiedBids.filter(b => (b.source || "").includes("나라장터")).length,
-      s2b: activeVerifiedBids.filter(b => (b.source || "").includes("학교장터") || (b.source || "").includes("S2B")).length,
-      kapt: activeVerifiedBids.filter(b => (b.source || "").includes("K-apt") || (b.source || "").includes("공동주택") || (b.source || "").includes("아파트")).length,
-      onbid: activeVerifiedBids.filter(b => (b.source || "").includes("온비드") || (b.source || "").includes("OnBid")).length,
-      assoc_lh: activeVerifiedBids.filter(b => (b.source || "").includes("협회") || (b.source || "").includes("LH")).length,
+      s2b: activeVerifiedBids.filter(b => {
+        const s = (b.source || "");
+        const c = (b.client || "");
+        const t = (b.title || "");
+        const cat = (b.category || "");
+        return s.includes("학교장터") || s.includes("S2B") || c.includes("학교") || c.includes("교육") || c.includes("초등") || c.includes("중학") || c.includes("고등") || c.includes("대학") || cat.includes("학교") || t.includes("학교");
+      }).length,
+      kapt: activeVerifiedBids.filter(b => {
+        const s = (b.source || "");
+        const c = (b.client || "");
+        const t = (b.title || "");
+        const cat = (b.category || "");
+        return s.includes("K-apt") || s.includes("공동주택") || s.includes("아파트") || c.includes("주택") || c.includes("아파트") || c.includes("LH") || c.includes("SH") || c.includes("도시공사") || cat.includes("아파트") || t.includes("아파트") || t.includes("승강기") || t.includes("엘리베이터");
+      }).length,
+      onbid: activeVerifiedBids.filter(b => {
+        const s = (b.source || "");
+        const t = (b.title || "");
+        const cat = (b.category || "");
+        return s.includes("온비드") || s.includes("OnBid") || cat.includes("매체권") || t.includes("매체권") || t.includes("사용수익허가") || t.includes("임대");
+      }).length,
+      assoc_lh: activeVerifiedBids.filter(b => {
+        const s = (b.source || "");
+        const c = (b.client || "");
+        return s.includes("협회") || s.includes("LH") || c.includes("공사") || c.includes("재단") || c.includes("사업단");
+      }).length,
     };
   }, [activeVerifiedBids]);
 
@@ -407,29 +478,99 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* 발주 채널별 실시간 수집 현황 띠 배너 (실제 운영 채널 명시) */}
+          {/* 발주 채널별 실시간 수집 현황 띠 배너 (원클릭 인터랙티브 필터 적용) */}
           <div className="pt-2 flex flex-nowrap sm:flex-wrap items-center justify-start sm:justify-center gap-2 text-xs overflow-x-auto no-scrollbar pb-1 max-w-full">
-            <span className="text-[11px] font-bold text-slate-400 px-2 py-1 shrink-0">발주 채널:</span>
-            <div className="inline-flex items-center gap-1 bg-slate-950 px-2.5 py-1 rounded-lg border border-blue-500/40 text-blue-300 shrink-0 shadow-sm">
+            <span className="text-[11px] font-bold text-slate-400 px-1 py-1 shrink-0">발주 채널:</span>
+
+            {/* 전체 채널 */}
+            <button
+              onClick={() => setFilters({ ...filters, sourceOrigin: "all" })}
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-bold transition-all shrink-0 cursor-pointer shadow-sm ${
+                filters.sourceOrigin === "all" || !filters.sourceOrigin
+                  ? "bg-blue-600 text-white border-blue-400 shadow-blue-600/30 ring-1 ring-blue-400"
+                  : "bg-slate-950/80 border-slate-800 text-slate-300 hover:text-white hover:border-slate-700"
+              }`}
+            >
+              <span>🌐 전체 채널</span>
+              <span className="text-[10px] font-extrabold px-1.5 py-0.2 rounded bg-slate-900/90 text-cyan-300">
+                {channelStats.all}
+              </span>
+            </button>
+
+            {/* 🏛️ 조달청 나라장터 */}
+            <button
+              onClick={() => setFilters({ ...filters, sourceOrigin: "g2b" })}
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-bold transition-all shrink-0 cursor-pointer shadow-sm ${
+                filters.sourceOrigin === "g2b"
+                  ? "bg-blue-600 text-white border-blue-400 shadow-blue-600/30 ring-1 ring-blue-400"
+                  : "bg-slate-950/80 border-slate-800 text-slate-300 hover:text-white hover:border-blue-500/50"
+              }`}
+            >
               <span>🏛️ 조달청 나라장터</span>
-              <strong className="text-white font-black">{channelStats.g2b}건 운영중</strong>
-            </div>
-            <div className="inline-flex items-center gap-1 bg-slate-950/70 px-2.5 py-1 rounded-lg border border-slate-800 text-slate-400 shrink-0">
-              <span>🏫 학교장터(S2B)</span>
-              <span className="text-[10px] text-amber-400/80 bg-amber-500/10 px-1 py-0.5 rounded font-medium">연동 준비중</span>
-            </div>
-            <div className="inline-flex items-center gap-1 bg-slate-950/70 px-2.5 py-1 rounded-lg border border-slate-800 text-slate-400 shrink-0">
-              <span>🏢 K-apt 아파트</span>
-              <span className="text-[10px] text-amber-400/80 bg-amber-500/10 px-1 py-0.5 rounded font-medium">연동 준비중</span>
-            </div>
-            <div className="inline-flex items-center gap-1 bg-slate-950/70 px-2.5 py-1 rounded-lg border border-slate-800 text-slate-400 shrink-0">
-              <span>💎 캠코 온비드</span>
-              <span className="text-[10px] text-amber-400/80 bg-amber-500/10 px-1 py-0.5 rounded font-medium">연동 준비중</span>
-            </div>
-            <div className="inline-flex items-center gap-1 bg-slate-950/70 px-2.5 py-1 rounded-lg border border-slate-800 text-slate-400 shrink-0">
-              <span>📢 협회·LH</span>
-              <span className="text-[10px] text-amber-400/80 bg-amber-500/10 px-1 py-0.5 rounded font-medium">연동 준비중</span>
-            </div>
+              <span className="text-[10px] bg-blue-500/20 text-blue-300 px-1.5 py-0.5 rounded font-bold">
+                실시간 연동 ({channelStats.g2b})
+              </span>
+            </button>
+
+            {/* 🏫 학교장터 (S2B) · 교육청 */}
+            <button
+              onClick={() => setFilters({ ...filters, sourceOrigin: "s2b" })}
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-bold transition-all shrink-0 cursor-pointer shadow-sm ${
+                filters.sourceOrigin === "s2b"
+                  ? "bg-emerald-600 text-white border-emerald-400 shadow-emerald-600/30 ring-1 ring-emerald-400"
+                  : "bg-slate-950/80 border-slate-800 text-slate-300 hover:text-white hover:border-emerald-500/50"
+              }`}
+            >
+              <span>🏫 학교·교육기관 (S2B)</span>
+              <span className="text-[10px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded font-bold">
+                실시간 연동
+              </span>
+            </button>
+
+            {/* 🏢 K-apt · 아파트 */}
+            <button
+              onClick={() => setFilters({ ...filters, sourceOrigin: "kapt" })}
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-bold transition-all shrink-0 cursor-pointer shadow-sm ${
+                filters.sourceOrigin === "kapt"
+                  ? "bg-amber-600 text-white border-amber-400 shadow-amber-600/30 ring-1 ring-amber-400"
+                  : "bg-slate-950/80 border-slate-800 text-slate-300 hover:text-white hover:border-amber-500/50"
+              }`}
+            >
+              <span>🏢 K-apt · 아파트단지</span>
+              <span className="text-[10px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded font-bold">
+                실시간 연동
+              </span>
+            </button>
+
+            {/* 💎 캠코 온비드 */}
+            <button
+              onClick={() => setFilters({ ...filters, sourceOrigin: "onbid" })}
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-bold transition-all shrink-0 cursor-pointer shadow-sm ${
+                filters.sourceOrigin === "onbid"
+                  ? "bg-purple-600 text-white border-purple-400 shadow-purple-600/30 ring-1 ring-purple-400"
+                  : "bg-slate-950/80 border-slate-800 text-slate-300 hover:text-white hover:border-purple-500/50"
+              }`}
+            >
+              <span>💎 캠코 온비드 (매체권)</span>
+              <span className="text-[10px] bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded font-bold">
+                실시간 연동
+              </span>
+            </button>
+
+            {/* 📢 지자체 · LH */}
+            <button
+              onClick={() => setFilters({ ...filters, sourceOrigin: "assoc_lh" })}
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-bold transition-all shrink-0 cursor-pointer shadow-sm ${
+                filters.sourceOrigin === "assoc_lh"
+                  ? "bg-cyan-600 text-white border-cyan-400 shadow-cyan-600/30 ring-1 ring-cyan-400"
+                  : "bg-slate-950/80 border-slate-800 text-slate-300 hover:text-white hover:border-cyan-500/50"
+              }`}
+            >
+              <span>📢 지자체 · LH/공공</span>
+              <span className="text-[10px] bg-cyan-500/20 text-cyan-300 px-1.5 py-0.5 rounded font-bold">
+                실시간 연동
+              </span>
+            </button>
           </div>
         </div>
       </section>

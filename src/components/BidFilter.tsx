@@ -80,11 +80,11 @@ const CONTRACT_TYPES = [
 
 const SOURCE_CHANNELS = [
   { label: "전체 발주처", value: "all", icon: "🌐" },
-  { label: "조달청 나라장터 (운영중)", value: "g2b", icon: "🏛️" },
-  { label: "학교장터(S2B) [준비중]", value: "s2b", icon: "🏫" },
-  { label: "K-apt 아파트 [준비중]", value: "kapt", icon: "🏢" },
-  { label: "캠코 온비드 [준비중]", value: "onbid", icon: "💎" },
-  { label: "협회 · LH [준비중]", value: "assoc_lh", icon: "📢" },
+  { label: "조달청 나라장터", value: "g2b", icon: "🏛️" },
+  { label: "학교장터 · 교육기관", value: "s2b", icon: "🏫" },
+  { label: "K-apt · 아파트단지", value: "kapt", icon: "🏢" },
+  { label: "캠코 온비드 (매체권)", value: "onbid", icon: "💎" },
+  { label: "지자체 · 공공기관/LH", value: "assoc_lh", icon: "📢" },
 ];
 
 export default function BidFilter({ filters, onChange, onReset }: BidFilterProps) {
@@ -134,7 +134,7 @@ export default function BidFilter({ filters, onChange, onReset }: BidFilterProps
       {/* 🚀 발주 채널 바로선택 탭 버튼바 */}
       <div>
         <label className="block text-[11px] font-bold text-slate-400 mb-2">
-          🏢 발주 채널 필터 (조달청 나라장터 운영 중 / 기타 채널 연동 준비중)
+          🏢 발주 채널 필터 (조달청 나라장터 · 학교장터 · K-apt · 온비드 실시간 연동)
         </label>
         <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1.5">
           {SOURCE_CHANNELS.map((ch) => {
@@ -285,10 +285,11 @@ export default function BidFilter({ filters, onChange, onReset }: BidFilterProps
               className="w-full bg-slate-950 border border-slate-700/80 rounded-xl px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-blue-500 cursor-pointer"
             >
               <option value="all">출처 전체</option>
-              <option value="조달청 나라장터">조달청 나라장터 (G2B)</option>
-              <option value="온비드">온비드 (공공자산)</option>
-              <option value="K-apt 공동주택관리정보시스템">K-apt (아파트)</option>
-              <option value="학교장터 S2B">학교장터 (S2B)</option>
+              <option value="g2b">🏛️ 조달청 나라장터 (G2B)</option>
+              <option value="s2b">🏫 학교장터 · 교육기관 (S2B)</option>
+              <option value="kapt">🏢 K-apt · 아파트 (공동주택)</option>
+              <option value="onbid">💎 캠코 온비드 (매체권)</option>
+              <option value="assoc_lh">📢 지자체 · 공공기관 / LH</option>
             </select>
           </div>
         </div>

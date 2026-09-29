@@ -179,21 +179,48 @@ export default function BidCard({
   // 발주 채널별 고유 색상 및 아이콘 배지 렌더링
   const renderSourceBadge = () => {
     const src = bid.source || "조달청 나라장터";
-    if (src.includes("학교장터") || src.includes("S2B")) {
+    const client = bid.client || "";
+    const title = bid.title || "";
+    const cat = bid.category || "";
+
+    if (
+      src.includes("학교장터") ||
+      src.includes("S2B") ||
+      client.includes("학교") ||
+      client.includes("교육") ||
+      client.includes("초등") ||
+      client.includes("중학") ||
+      client.includes("고등") ||
+      client.includes("대학") ||
+      cat.includes("학교") ||
+      title.includes("학교")
+    ) {
       return (
         <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-300 bg-emerald-500/15 px-2 py-0.5 rounded border border-emerald-500/30">
-          🏫 학교장터(S2B)
+          🏫 학교·교육기관 (S2B)
         </span>
       );
     }
-    if (src.includes("K-apt") || src.includes("공동주택") || src.includes("아파트")) {
+    if (
+      src.includes("K-apt") ||
+      src.includes("공동주택") ||
+      src.includes("아파트") ||
+      client.includes("주택") ||
+      client.includes("아파트") ||
+      client.includes("LH") ||
+      client.includes("SH") ||
+      client.includes("도시공사") ||
+      cat.includes("아파트") ||
+      title.includes("아파트") ||
+      title.includes("승강기")
+    ) {
       return (
         <span className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-300 bg-amber-500/15 px-2 py-0.5 rounded border border-amber-500/30">
-          🏢 K-apt 아파트
+          🏢 K-apt · 아파트
         </span>
       );
     }
-    if (src.includes("온비드") || src.includes("OnBid")) {
+    if (src.includes("온비드") || src.includes("OnBid") || cat.includes("매체권") || title.includes("매체권")) {
       return (
         <span className="inline-flex items-center gap-1 text-[11px] font-bold text-purple-300 bg-purple-500/15 px-2 py-0.5 rounded border border-purple-500/30">
           💎 캠코 온비드
@@ -204,13 +231,6 @@ export default function BidCard({
       return (
         <span className="inline-flex items-center gap-1 text-[11px] font-bold text-cyan-300 bg-cyan-500/15 px-2 py-0.5 rounded border border-cyan-500/30">
           📢 옥외광고협회
-        </span>
-      );
-    }
-    if (src.includes("LH")) {
-      return (
-        <span className="inline-flex items-center gap-1 text-[11px] font-bold text-indigo-300 bg-indigo-500/15 px-2 py-0.5 rounded border border-indigo-500/30">
-          🏗️ LH 전자조달
         </span>
       );
     }

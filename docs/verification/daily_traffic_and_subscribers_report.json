@@ -1,6 +1,6 @@
 {
-  "inspectDate": "2026-09-28",
-  "inspectTimeKST": "10:00",
+  "inspectDate": "2026-09-29",
+  "inspectTimeKST": "09:00",
   "subscribers": {
     "total": 2,
     "morningAlerts": 2,
@@ -21,9 +21,9 @@
     ]
   },
   "trafficSummary": {
-    "todayEstimatedUV": 320,
-    "todayEstimatedSessions": 460,
-    "todayEstimatedPV": 2050,
+    "todayEstimatedUV": 340,
+    "todayEstimatedSessions": 490,
+    "todayEstimatedPV": 2180,
     "topInflowChannels": {
       "organicSearch": "51.4%",
       "direct": "26.8%",
