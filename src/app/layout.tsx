@@ -89,7 +89,7 @@ export const metadata: Metadata = {
   },
   other: {
     "naver-site-verification": "4e7798c498081ad3ab5efca7e530eb7a340c2b3b",
-    "google-site-verification": "google-signbidai-verification",
+    "google-site-verification": "google51f0949a73c1e8e5",
   },
 };
 
@@ -143,6 +143,7 @@ export default function RootLayout({
     <html lang="ko">
       <head>
         <meta name="naver-site-verification" content="4e7798c498081ad3ab5efca7e530eb7a340c2b3b" />
+        <meta name="google-site-verification" content="google51f0949a73c1e8e5" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebsite) }}
