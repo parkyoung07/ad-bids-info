@@ -130,36 +130,9 @@ export default function BidFilter({ filters, onChange, onReset }: BidFilterProps
   };
 
   return (
-    <div className="bg-slate-900/90 rounded-2xl border border-slate-800 p-4 sm:p-5 shadow-lg space-y-4">
-      {/* 🚀 발주 채널 바로선택 탭 버튼바 */}
-      <div>
-        <label className="block text-[11px] font-bold text-slate-400 mb-2">
-          🏢 발주 채널 필터 (조달청 나라장터 · 학교장터 · K-apt · 온비드 실시간 연동)
-        </label>
-        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1.5">
-          {SOURCE_CHANNELS.map((ch) => {
-            const isSelected = (filters.sourceOrigin || "all") === ch.value;
-            return (
-              <button
-                key={ch.value}
-                type="button"
-                onClick={() => onChange({ ...filters, sourceOrigin: ch.value })}
-                className={`shrink-0 inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all duration-150 cursor-pointer min-h-[40px] ${
-                  isSelected
-                    ? "bg-blue-600 text-white shadow-md shadow-blue-600/30 border border-blue-500 scale-[1.02]"
-                    : "bg-slate-950 text-slate-300 hover:text-white hover:bg-slate-800 border border-slate-800"
-                }`}
-              >
-                <span>{ch.icon}</span>
-                <span>{ch.label}</span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* 4대 기본 필터 행 */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+    <div className="bg-slate-900/90 rounded-2xl border border-slate-800 p-3.5 sm:p-4 shadow-md space-y-3">
+      {/* 4대 핵심 필터 행 (모바일 2x2, PC 4x1 컴팩트 그리드) */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
         {/* 1. 업종 필터 */}
         <div>
           <label className="block text-[11px] font-semibold text-slate-400 mb-1">

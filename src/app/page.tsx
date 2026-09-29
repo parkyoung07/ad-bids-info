@@ -319,72 +319,38 @@ export default function HomePage() {
             나라장터 · 온비드 · 학교장터 실시간 맞춤 수집 및 분석
           </p>
 
-          {/* 통합 검색창 */}
-          <div className="pt-1 max-w-xl mx-auto">
-            <div className="relative flex items-center shadow-lg">
+          {/* 통합 검색창 & 카톡 알림 원라인/컴팩트 구성 */}
+          <div className="pt-1 max-w-xl mx-auto flex flex-col sm:flex-row items-center gap-2">
+            <div className="relative flex-1 w-full flex items-center shadow-lg">
               <Search className="absolute left-3.5 w-4 h-4 text-slate-400" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="공고명, 발주처, 지역, 품목을 검색하세요"
-                className="w-full pl-10 pr-16 py-2.5 sm:py-3 bg-slate-950 border border-slate-700/80 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm shadow-inner transition-all min-h-[42px]"
+                placeholder="공고명, 발주처, 지역, 품목 검색..."
+                className="w-full pl-10 pr-16 py-2.5 bg-slate-950 border border-slate-700/80 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm shadow-inner transition-all min-h-[42px]"
               />
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery("")}
-                  className="absolute right-3 text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-2.5 py-1 rounded-md border border-slate-700 transition-colors"
+                  className="absolute right-3 text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-2 py-0.5 rounded-md border border-slate-700 transition-colors cursor-pointer"
                 >
                   지우기
                 </button>
               )}
             </div>
-          </div>
-
-          {/* 대표 3대 행동 버튼 (진행공고 · 마감임박 · 카톡알림 1줄 완벽 정렬) */}
-          <div className="pt-1 max-w-xl mx-auto grid grid-cols-3 gap-1.5 sm:gap-2.5">
-            <button
-              onClick={() => {
-                setViewTab("active");
-                setFilters(INITIAL_FILTERS);
-                setSearchQuery("");
-              }}
-              className={`flex items-center justify-center gap-1 sm:gap-1.5 py-2 px-1 sm:px-3 rounded-xl font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer min-h-[40px] ${
-                viewTab === "active" && filters.deadline !== "d3"
-                  ? "bg-blue-600 text-white ring-1 ring-blue-400 shadow-blue-500/20"
-                  : "bg-slate-950/90 hover:bg-slate-800 text-slate-300 border border-slate-800"
-              }`}
-            >
-              <Sparkles className="w-3.5 h-3.5 text-cyan-300 shrink-0" />
-              <span className="truncate">진행 ({activeVerifiedBids.length})</span>
-            </button>
-
-            <button
-              onClick={() => {
-                setViewTab("active");
-                setFilters({ ...INITIAL_FILTERS, deadline: "d3" });
-              }}
-              className={`flex items-center justify-center gap-1 sm:gap-1.5 py-2 px-1 sm:px-3 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer min-h-[40px] ${
-                filters.deadline === "d3"
-                  ? "bg-rose-600 text-white ring-1 ring-rose-400 shadow-rose-500/20"
-                  : "bg-slate-950/90 hover:bg-slate-800 text-slate-300 border border-slate-800"
-              }`}
-            >
-              <Flame className="w-3.5 h-3.5 text-rose-400 shrink-0" />
-              <span className="truncate">마감임박 ({todayUrgentCount})</span>
-            </button>
 
             <button
               onClick={() => setIsSubscribeModalOpen(true)}
-              className="flex items-center justify-center gap-1 sm:gap-1.5 py-2 px-1 sm:px-3 rounded-xl bg-[#FEE500] hover:bg-[#FDD800] text-[#191919] font-black text-xs sm:text-sm shadow-md transition-all hover:scale-[1.02] active:scale-95 cursor-pointer min-h-[40px]"
+              className="w-full sm:w-auto shrink-0 flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-xl bg-[#FEE500] hover:bg-[#FDD800] text-[#191919] font-black text-xs sm:text-sm shadow-md transition-all hover:scale-[1.02] active:scale-95 cursor-pointer min-h-[42px]"
             >
-              <MessageCircle className="w-3.5 h-3.5 fill-[#191919] text-[#191919] shrink-0" />
-              <span className="truncate">카톡 알림</span>
+              <MessageCircle className="w-4 h-4 fill-[#191919] text-[#191919] shrink-0" />
+              <span className="whitespace-nowrap">카톡 무료 알림</span>
             </button>
           </div>
 
-          {/* 🎯 4대 핵심 분야 원클릭 공고 탐색 (슬림하고 깔끔한 원라인 알약형 탭) */}
-          <div className="pt-1.5 max-w-4xl mx-auto">
+          {/* 🎯 4대 핵심 분야 원클릭 퀵 필터 칩 (가로 스와이프 지원) */}
+          <div className="pt-1 max-w-4xl mx-auto">
             <div className="flex items-center justify-start sm:justify-center gap-1.5 overflow-x-auto no-scrollbar py-1">
               {/* 전체 */}
               <button
@@ -478,8 +444,8 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* 발주 채널별 실시간 수집 현황 띠 배너 (원클릭 인터랙티브 필터 적용) */}
-          <div className="pt-2 flex flex-nowrap sm:flex-wrap items-center justify-start sm:justify-center gap-2 text-xs overflow-x-auto no-scrollbar pb-1 max-w-full">
+          {/* 📡 발주 채널별 실시간 수집 현황 칩 바 */}
+          <div className="pt-1.5 flex flex-nowrap sm:flex-wrap items-center justify-start sm:justify-center gap-1.5 text-xs overflow-x-auto no-scrollbar pb-1 max-w-full">
             <span className="text-[11px] font-bold text-slate-400 px-1 py-1 shrink-0">발주 채널:</span>
 
             {/* 전체 채널 */}
@@ -491,10 +457,7 @@ export default function HomePage() {
                   : "bg-slate-950/80 border-slate-800 text-slate-300 hover:text-white hover:border-slate-700"
               }`}
             >
-              <span>🌐 전체 채널</span>
-              <span className="text-[10px] font-extrabold px-1.5 py-0.2 rounded bg-slate-900/90 text-cyan-300">
-                {channelStats.all}
-              </span>
+              <span>🌐 전체 ({channelStats.all})</span>
             </button>
 
             {/* 🏛️ 조달청 나라장터 */}
@@ -506,10 +469,7 @@ export default function HomePage() {
                   : "bg-slate-950/80 border-slate-800 text-slate-300 hover:text-white hover:border-blue-500/50"
               }`}
             >
-              <span>🏛️ 조달청 나라장터</span>
-              <span className="text-[10px] bg-blue-500/20 text-blue-300 px-1.5 py-0.5 rounded font-bold">
-                실시간 연동 ({channelStats.g2b})
-              </span>
+              <span>🏛️ 나라장터 ({channelStats.g2b})</span>
             </button>
 
             {/* 🏫 학교장터 (S2B) · 교육청 */}
@@ -522,9 +482,6 @@ export default function HomePage() {
               }`}
             >
               <span>🏫 학교·교육기관 (S2B)</span>
-              <span className="text-[10px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded font-bold">
-                실시간 연동
-              </span>
             </button>
 
             {/* 🏢 K-apt · 아파트 */}
@@ -536,10 +493,7 @@ export default function HomePage() {
                   : "bg-slate-950/80 border-slate-800 text-slate-300 hover:text-white hover:border-amber-500/50"
               }`}
             >
-              <span>🏢 K-apt · 아파트단지</span>
-              <span className="text-[10px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded font-bold">
-                실시간 연동
-              </span>
+              <span>🏢 K-apt · 아파트</span>
             </button>
 
             {/* 💎 캠코 온비드 */}
@@ -551,10 +505,7 @@ export default function HomePage() {
                   : "bg-slate-950/80 border-slate-800 text-slate-300 hover:text-white hover:border-purple-500/50"
               }`}
             >
-              <span>💎 캠코 온비드 (매체권)</span>
-              <span className="text-[10px] bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded font-bold">
-                실시간 연동
-              </span>
+              <span>💎 캠코 온비드</span>
             </button>
 
             {/* 📢 지자체 · LH */}
@@ -566,96 +517,75 @@ export default function HomePage() {
                   : "bg-slate-950/80 border-slate-800 text-slate-300 hover:text-white hover:border-cyan-500/50"
               }`}
             >
-              <span>📢 지자체 · LH/공공</span>
-              <span className="text-[10px] bg-cyan-500/20 text-cyan-300 px-1.5 py-0.5 rounded font-bold">
-                실시간 연동
-              </span>
+              <span>📢 지자체 · LH</span>
             </button>
           </div>
         </div>
       </section>
 
       {/* 메인 컨텐츠 영역 */}
-      <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+      <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 space-y-4 sm:space-y-5">
         {/* 공고 구분 탭 & 상단 컨트롤 바 (PC 상단 Sticky 고정 & 모바일 가로 스와이프 최적화) */}
-        <div className="sticky top-14 sm:top-16 z-20 bg-slate-900/95 backdrop-blur-md border border-slate-800 rounded-2xl p-3 sm:p-4 shadow-xl">
-          <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
-            {/* 공고 구분 탭 버튼 (모바일 가로 스와이프) */}
-            <div className="flex flex-nowrap sm:flex-wrap items-center gap-2 overflow-x-auto no-scrollbar pb-1 sm:pb-0">
+        <div className="sticky top-14 sm:top-16 z-20 bg-slate-900/95 backdrop-blur-md border border-slate-800 rounded-2xl p-2.5 sm:p-3 shadow-xl">
+          <div className="flex items-center justify-between gap-2">
+            {/* 공고 구분 탭 버튼 */}
+            <div className="flex flex-nowrap items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
               <button
                 onClick={() => setViewTab("active")}
-                className={`shrink-0 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-1.5 min-h-[40px] whitespace-nowrap ${
+                className={`shrink-0 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-1.5 min-h-[38px] whitespace-nowrap ${
                   viewTab === "active"
                     ? "bg-blue-600 text-white shadow-md shadow-blue-600/20"
                     : "bg-slate-950 text-slate-400 hover:text-white border border-slate-800"
                 }`}
               >
-                <CheckCircle2 className="w-4 h-4 text-cyan-300" />
-                <span>진행 공고 ({activeVerifiedBids.length})</span>
+                <CheckCircle2 className="w-3.5 h-3.5 text-cyan-300" />
+                <span>진행 ({activeVerifiedBids.length})</span>
               </button>
 
               <button
                 onClick={() => setViewTab("closed")}
-                className={`shrink-0 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-1.5 min-h-[40px] whitespace-nowrap ${
+                className={`shrink-0 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-1.5 min-h-[38px] whitespace-nowrap ${
                   viewTab === "closed"
                     ? "bg-slate-800 text-rose-300 border border-rose-600/50"
                     : "bg-slate-950 text-slate-400 hover:text-white border border-slate-800"
                 }`}
               >
-                <Clock className="w-4 h-4 text-slate-400" />
-                <span>마감 공고 ({closedVerifiedBids.length})</span>
-              </button>
-
-              <button
-                onClick={() => setViewTab("demo")}
-                className={`shrink-0 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-1.5 min-h-[40px] whitespace-nowrap ${
-                  viewTab === "demo"
-                    ? "bg-amber-600 text-white shadow-md shadow-amber-600/20"
-                    : "bg-slate-950 text-slate-400 hover:text-white border border-slate-800"
-                }`}
-              >
-                <AlertCircle className="w-4 h-4 text-amber-300" />
-                <span>기능 미리보기 DEMO ({demoBids.length})</span>
+                <Clock className="w-3.5 h-3.5 text-slate-400" />
+                <span>마감 ({closedVerifiedBids.length})</span>
               </button>
 
               <button
                 id="bookmarks"
                 onClick={() => setViewTab("bookmarks")}
-                className={`shrink-0 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-1.5 min-h-[40px] whitespace-nowrap ${
+                className={`shrink-0 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-1.5 min-h-[38px] whitespace-nowrap ${
                   viewTab === "bookmarks"
                     ? "bg-slate-800 text-amber-300 border border-amber-500/40"
                     : "bg-slate-950 text-slate-400 hover:text-white border border-slate-800"
                 }`}
               >
-                <span>⭐ 관심공고 ({bookmarkedIds.length})</span>
+                <span>⭐ 관심 ({bookmarkedIds.length})</span>
               </button>
+
+              {demoBids.length > 0 && (
+                <button
+                  onClick={() => setViewTab("demo")}
+                  className={`shrink-0 px-2.5 py-1.5 rounded-xl text-xs font-medium transition-all cursor-pointer flex items-center gap-1 min-h-[38px] whitespace-nowrap ${
+                    viewTab === "demo"
+                      ? "bg-amber-600 text-white shadow-md"
+                      : "bg-slate-950 text-slate-500 hover:text-slate-300 border border-slate-800"
+                  }`}
+                >
+                  <span>DEMO ({demoBids.length})</span>
+                </button>
+              )}
             </div>
 
-            {/* 우측 PC/모바일 즉시 필터링 검색창 & 정렬 옵션 */}
+            {/* 우측 정렬 옵션 */}
             <div className="flex items-center gap-2 shrink-0">
-              <div className="relative flex-1 sm:w-44 md:w-52">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="공고 즉시 필터링..."
-                  className="w-full pl-8 pr-7 py-1.5 bg-slate-950 border border-slate-700/80 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 min-h-[38px]"
-                />
-                {searchQuery && (
-                  <button
-                    onClick={() => setSearchQuery("")}
-                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-white"
-                  >
-                    ✕
-                  </button>
-                )}
-              </div>
-
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as "dDay" | "budgetDesc" | "budgetAsc" | "newest")}
-                className="bg-slate-950 border border-slate-700/80 rounded-xl px-2.5 py-1.5 text-xs text-slate-300 focus:outline-none focus:border-blue-500 cursor-pointer min-h-[38px] shrink-0"
+                className="bg-slate-950 border border-slate-700/80 rounded-xl px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-blue-500 cursor-pointer min-h-[38px] shrink-0 font-medium"
               >
                 <option value="dDay">⏱️ 마감순</option>
                 <option value="budgetDesc">💰 높은금액</option>

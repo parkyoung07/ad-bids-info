@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-29T02:09:19.095Z",
+  "updatedAt": "2026-09-29T02:23:26.064Z",
   "totalCount": 32,
   "isLiveApi": true,
   "categories": [
@@ -234,7 +234,7 @@
       "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTFBWSG5ERHJaTWx6QTVDNDhhblRFYlByakdMbjNITU9GUFlTRl9YZVAtUWdMOW15QXVJQ1RJWVdxR010VHQ4RjFfM0VjOWJ2TkMzN01nM21RejAwb2xWSU5qeDl6ZEVJMUFJa203OHhMUQ?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMib0FVX3lxTFBWSG5ERHJaTWx6QTVDNDhhblRFYlByakdMbjNITU9GUFlTRl9YZVAtUWdMOW15QXVJQ1RJWVdxR010VHQ4RjFfM0VjOWJ2TkMzN01nM21RejAwb2xWSU5qeDl6ZEVJMUFJa203OHhMUQ?oc=5",
       "press": "브랜드브리프",
-      "pubDate": "2026-09-22 05:53",
+      "pubDate": "2026-09-22 14:53",
       "category": "디지털사이니지",
       "description": "브랜드브리프에서 보도한 [옥외광고센터, 옥외광고 기업 위한 특허 출원비용 지원 신사업 공고] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
     },
@@ -254,7 +254,7 @@
       "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5RUjYwR1l1eEMtRWVvZFpOLUlnMXpNTjZOcXdSWDJ2WnpjWlJvNEZmTE5EUUYwVmJCUkhjSEVCcjhSR0FjZDZaVHI4dWh3dUREUmJaRHhlWDYxcU9SRzV5dmxjWjBlaHJfMGc?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5RUjYwR1l1eEMtRWVvZFpOLUlnMXpNTjZOcXdSWDJ2WnpjWlJvNEZmTE5EUUYwVmJCUkhjSEVCcjhSR0FjZDZaVHI4dWh3dUREUmJaRHhlWDYxcU9SRzV5dmxjWjBlaHJfMGc?oc=5",
       "press": "한국공제보험신문",
-      "pubDate": "2026-09-22 03:04",
+      "pubDate": "2026-09-22 12:04",
       "category": "디지털사이니지",
       "description": "한국공제보험신문에서 보도한 [지방재정공제회, 옥외광고기업 특허 출원비용 지원] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
     },
@@ -290,16 +290,6 @@
     },
     {
       "id": "live-21",
-      "title": "인천남동구, 전통시장 전광판 활용해 고령자 보행안전 홍보",
-      "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTE9OZUhLa0RySzZReFRhNi1PS0l2MGhsbmU0N3B5U2tYaUhYVHU5VGhOWVpLcDdkUlBLQ3hTdGxrWEhGenhQSkxhSGVLek9ZNGZ4QXp6SHk5XzdsX0pMSkpVRU93R24zazR1b3Q1MTEtR1UzeW5X?oc=5",
-      "originallink": "https://news.google.com/rss/articles/CBMidEFVX3lxTE9OZUhLa0RySzZReFRhNi1PS0l2MGhsbmU0N3B5U2tYaUhYVHU5VGhOWVpLcDdkUlBLQ3hTdGxrWEhGenhQSkxhSGVLek9ZNGZ4QXp6SHk5XzdsX0pMSkpVRU93R24zazR1b3Q1MTEtR1UzeW5X?oc=5",
-      "press": "세계뉴스통신",
-      "pubDate": "2026-09-18 23:40",
-      "category": "디지털사이니지",
-      "description": "세계뉴스통신에서 보도한 [인천남동구, 전통시장 전광판 활용해 고령자 보행안전 홍보] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
-    },
-    {
-      "id": "live-22",
       "title": "대전과기대 정연아 학생, 대전옥외광고대상전서 '금상'",
       "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE9SaEdJcFJKeENNRFlRMjJFcGtNQUo4UnowREdQOUEzZ01XemNuOEdXdndkOEVmekNOaTJrcmE1LWlrM2tEcEdOa3RuaV8xNGUxYmNKd1hSa3RYTW0wZFpHd01XVy1JQkp0ajF1NQ?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMibEFVX3lxTE9SaEdJcFJKeENNRFlRMjJFcGtNQUo4UnowREdQOUEzZ01XemNuOEdXdndkOEVmekNOaTJrcmE1LWlrM2tEcEdOa3RuaV8xNGUxYmNKd1hSa3RYTW0wZFpHd01XVy1JQkp0ajF1NQ?oc=5",
@@ -309,7 +299,7 @@
       "description": "충청뉴스에서 보도한 [대전과기대 정연아 학생, 대전옥외광고대상전서 '금상'] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
     },
     {
-      "id": "live-23",
+      "id": "live-22",
       "title": "인천 남동구, 전통시장 LED 전광판으로 고령자 보행안전 홍보",
       "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE9LbG5jOWE1bTI0eDdiOWN1LTEtV0trZV9aUTNpejNUMEVrd3RRSm1rdWZIWVVsMl9ZOXJkdnRXSEN0Yl9TdjdIWkFnN1VrSXVkZW1waW1ZYW94bHlTS2l3QUpYSUk?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE9LbG5jOWE1bTI0eDdiOWN1LTEtV0trZV9aUTNpejNUMEVrd3RRSm1rdWZIWVVsMl9ZOXJkdnRXSEN0Yl9TdjdIWkFnN1VrSXVkZW1waW1ZYW94bHlTS2l3QUpYSUk?oc=5",
@@ -319,7 +309,7 @@
       "description": "서울경제TV에서 보도한 [인천 남동구, 전통시장 LED 전광판으로 고령자 보행안전 홍보] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
     },
     {
-      "id": "live-24",
+      "id": "live-23",
       "title": "옥외 LED 디스플레이 시장 규모, 점유율, 성장률, 분석 (2034년)",
       "link": "https://news.google.com/rss/articles/CBMickFVX3lxTFAxTll3SUdISEFCNjdleVhVM3NCc1NnNUZVcExwME56bkh0NTRqNVhBYzA1RVFvRzlXUWRLRTQ5TnQ1c0lId3QyRV9EYVphcTd2WlQ4VDc3ZVVSREF1TlV5elFBdmtla2E4REk3UDdka05KZw?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMickFVX3lxTFAxTll3SUdISEFCNjdleVhVM3NCc1NnNUZVcExwME56bkh0NTRqNVhBYzA1RVFvRzlXUWRLRTQ5TnQ1c0lId3QyRV9EYVphcTd2WlQ4VDc3ZVVSREF1TlV5elFBdmtla2E4REk3UDdka05KZw?oc=5",
@@ -329,14 +319,24 @@
       "description": "Straits Research에서 보도한 [옥외 LED 디스플레이 시장 규모, 점유율, 성장률, 분석 (2034년)] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
     },
     {
-      "id": "live-25",
+      "id": "live-24",
       "title": "인천 남동구, 전통시장 3곳 LED 전광판으로 고령자 보행안전 홍보",
       "link": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE1QeFVSRnppMkNHSDZhS0lGWkZ1aWI1Z1ZxZWhvd0JnMFoxbXFqZ19DT20xVFdvWlU0RVNFbkVoTTZaVDFyU0tkTVotWk9HUWFjSWsydmRXVF9KZw?oc=5",
       "originallink": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE1QeFVSRnppMkNHSDZhS0lGWkZ1aWI1Z1ZxZWhvd0JnMFoxbXFqZ19DT20xVFdvWlU0RVNFbkVoTTZaVDFyU0tkTVotWk9HUWFjSWsydmRXVF9KZw?oc=5",
       "press": "여성종합뉴스",
       "pubDate": "2026-09-18 06:16",
       "category": "디지털사이니지",
-      "description": "여성종합뉴스에서 보도한 [인천 남동구, 전통시장 3곳 LED 전광판으로 고령자 보행안전 홍보] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
+      "description": "womannews.net에서 보도한 [인천 남동구, 전통시장 3곳 LED 전광판으로 고령자 보행안전 홍보] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
+    },
+    {
+      "id": "live-25",
+      "title": "추미애 ‘21억 컨설팅’ 논란 반박…선거장부 최대는 LED전광판 8억3668만원",
+      "link": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE9CeURKVExjLUFmZ2Q0ZmR1b3REUk9RNTJaTFY2QThIdkg5XzhSbGtJZHYzVzdieDZ6bmNIT1JRSU5LbW5rRTUxNVJRRlJLWEU4T1FYcA?oc=5",
+      "originallink": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE9CeURKVExjLUFmZ2Q0ZmR1b3REUk9RNTJaTFY2QThIdkg5XzhSbGtJZHYzVzdieDZ6bmNIT1JRSU5LbW5rRTUxNVJRRlJLWEU4T1FYcA?oc=5",
+      "press": "이투데이",
+      "pubDate": "2026-09-18 12:31",
+      "category": "디지털사이니지",
+      "description": "이투데이에서 보도한 [추미애 ‘21억 컨설팅’ 논란 반박…선거장부 최대는 LED전광판 8억3668만원] 관련 소식입니다. 옥외광고, 디지털 사이니지, LED 전광판 및 지자체 공공디자인 정책과 직결된 최신 업계 동향을 담고 있습니다. 상세 내용은 공식 언론사 기사 원문에서 확인하실 수 있습니다."
     }
   ]
 }
