@@ -10,13 +10,13 @@
  */
 
 const SALT_HEX = 'a8f9c2d1e4b703659218d6e3f4a5c7b8';
-const DEFAULT_REVIEWER_HASH = '9673c9bee068695d606d8ff53bc3fc371554eaba82475a0ebb1cc5e2962fc7f6bf0b22fb5d12fce3a0e4cb9ab9ff2c9285b92d6a39d79eacf911a2d86b61b746';
-const DEFAULT_ADMIN_HASH = '2bf1c050f536e9d8dbabf0421de7009ffad1179a558e2f62bd6df5e413d5ff404236aec8b4f6accfd036b3eaea6344864864f304dca9de786d937b84becae467';
+const DEFAULT_REVIEWER_HASH = '9b08753980d8c38bf2a41e56a42c6a4441f8adc28a2af6373cf157fda351f7f805774201fd2cb0d42983fd8e8eaaa2a330912fe5d87b80683cada85961ea89d8';
+const DEFAULT_ADMIN_HASH = 'c93bc2613d9dc7fad7e23a8bfd10a6b257d5b868e4d1196a746bc63e1f158770f638e917a833f4ca4beabef8010246340d5eb5c51925a9000d1a384872e72977';
 
 // 메모리 기반 로그인 시도 캐시 (D1 미연결 시 백업)
 const memoryRateLimit = new Map();
 
-async function verifyPBKDF2(password, saltHex, targetHashHex, iterations = 100000) {
+async function verifyPBKDF2(password, saltHex, targetHashHex, iterations = 220000) {
   if (!password || !targetHashHex) return false;
   try {
     const enc = new TextEncoder();

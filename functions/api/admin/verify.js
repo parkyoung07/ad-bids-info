@@ -18,6 +18,53 @@ async function generateHmacSha256(dataStr, secretKey) {
   );
   const signature = await crypto.subtle.sign('HMAC', key, enc.encode(dataStr));
   return Array.from(new Uint8Array(signature)).map(b => b.toString(16).padStart(2, '0')).join('');
+/**
+ * 공고 검수 목록 조회 (GET /api/admin/verify)
+ */
+export async function onRequestGet(context) {
+  const { env } = context;
+  const adminUser = context.data.adminUser;
+
+  if (!['SUPER_ADMIN', 'VERIFIER'].includes(adminUser?.role)) {
+    return new Response(JSON.stringify({
+      error: 'FORBIDDEN',
+      message: '공고 검수 조회 권한이 없습니다.'
+    }), {
+      status: 403,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
+  // D1 DB에서 조회하거나, 기본 정규화 공고 템플릿 반환
+  let bids = [];
+  if (env.DB) {
+    try {
+      const rows = await env.DB.prepare(
+        'SELECT * FROM raw_bids ORDER BY created_at DESC LIMIT 50'
+      ).all();
+      if (rows && rows.results) {
+        bids = rows.results.map(r => ({
+          bidKey: r.bid_key,
+          verificationStatus: r.verification_status || 'PENDING_MANUAL_CHECK',
+          verificationTier: r.verification_tier || 1,
+          verifiedAt: r.verified_at || null,
+          verifierId: r.verifier_id || null,
+          isPublicLocked: true,
+          raw: JSON.parse(r.raw_json || '{}'),
+          normalized: JSON.parse(r.normalized_json || '{}'),
+          ai: JSON.parse(r.ai_json || '{}')
+        }));
+      }
+    } catch (e) {}
+  }
+
+  return new Response(JSON.stringify({
+    success: true,
+    bids: bids
+  }), {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' }
+  });
 }
 
 export async function onRequestPost(context) {

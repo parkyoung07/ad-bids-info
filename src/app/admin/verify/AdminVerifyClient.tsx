@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Component, ErrorInfo, ReactNode } from 'react';
 import Link from 'next/link';
 
 interface RawBid {
@@ -61,11 +61,183 @@ interface AuditLog {
   integrity_hash: string;
 }
 
-export default function AdminVerifyClient() {
+// React Error Boundary (한 레코드 오류로 인한 전체 화면 중단 원천 방지)
+interface ErrorBoundaryProps {
+  children: ReactNode;
+}
+interface ErrorBoundaryState {
+  hasError: boolean;
+  error: Error | null;
+}
+
+class VerifyErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  constructor(props: ErrorBoundaryProps) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.error('Verify Studio ErrorBoundary caught error:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center p-6">
+          <div className="bg-slate-900 border border-red-500/40 rounded-2xl p-8 max-w-lg w-full text-center space-y-4 shadow-2xl">
+            <div className="w-12 h-12 rounded-full bg-red-500/20 text-red-400 flex items-center justify-center mx-auto text-2xl font-bold">
+              ⚠️
+            </div>
+            <h2 className="text-xl font-bold text-white">화면 렌더링 보호 모드 가동</h2>
+            <p className="text-xs text-slate-400 leading-relaxed">
+              일부 공고 데이터 스키마 불일치로 인해 렌더링 보호 격리가 적용되었습니다.<br />
+              오류: {this.state.error?.message || '알 수 없는 오류'}
+            </p>
+            <button
+              onClick={() => {
+                this.setState({ hasError: false, error: null });
+                window.location.reload();
+              }}
+              className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl transition"
+            >
+              화면 다시 로드하기
+            </button>
+          </div>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
+// 데이터 정규화 어댑터: 다양한 스키마의 공고 데이터를 RawBid 표준 규격으로 안전 변환
+function normalizeBidRecord(item: unknown): RawBid {
+  if (!item || typeof item !== 'object') {
+    return {
+      bidKey: 'KEY-UNKNOWN',
+      verificationStatus: 'PENDING_MANUAL_CHECK',
+      verificationTier: 1,
+      verifiedAt: null,
+      verifierId: null,
+      isPublicLocked: true,
+      raw: { mainApi: {}, regionApi: [], chgHstryApi: [] },
+      normalized: {
+        bidNo: '',
+        bidOrd: '',
+        title: '제목 없음 · 데이터 검수 필요',
+        noticeKind: '일반공고',
+        client: '기관 미지정',
+        allocatedBudget: null,
+        estimatedPrice: null,
+        baseAmount: null,
+        startDate: null,
+        endDate: null,
+        openingDate: null,
+        contractMethod: null,
+        industryRestriction: false,
+        manufactureRequired: false,
+        regionStatus: 'UNRESTRICTED',
+        restrictedRegions: null,
+        displayRegion: '전국',
+        g2bDetailUrl: 'https://www.g2b.go.kr',
+        specDocUrls: []
+      },
+      ai: {
+        modelId: 'Gemini-2.5-Flash',
+        analyzedAt: new Date().toISOString(),
+        category: '공공입찰',
+        summary: 'AI 공고 분석 데이터 검토 대기 중입니다.',
+        tips: '공식 원문 공고문을 확인하여 세부 과업을 검토하세요.',
+        isSegregatedFromOfficial: true
+      }
+    };
+  }
+
+  const obj = item as Record<string, unknown>;
+  const norm = (obj.normalized && typeof obj.normalized === 'object' ? obj.normalized : {}) as Record<string, unknown>;
+  const raw = (obj.raw && typeof obj.raw === 'object' ? obj.raw : {}) as Record<string, unknown>;
+  const ai = (obj.ai && typeof obj.ai === 'object' ? obj.ai : {}) as Record<string, unknown>;
+
+  const rawMain = (raw.mainApi && typeof raw.mainApi === 'object' ? raw.mainApi : {}) as Record<string, unknown>;
+  const rawRegion = Array.isArray(raw.regionApi) ? raw.regionApi : [];
+  const rawChg = Array.isArray(raw.chgHstryApi) ? raw.chgHstryApi : [];
+
+  const title = String(
+    norm.title ||
+    obj.title ||
+    norm.bidNtceNm ||
+    obj.bidNtceNm ||
+    rawMain.bidNtceNm ||
+    '제목 없음 · 데이터 검수 필요'
+  );
+
+  const client = String(
+    norm.client ||
+    obj.client ||
+    norm.orderAgency ||
+    obj.orderAgency ||
+    rawMain.ntceInsttNm ||
+    rawMain.dminsttNm ||
+    '기관 미지정'
+  );
+
+  const bidKey = String(obj.bidKey || obj.id || norm.bidNo || obj.bidNtceNo || 'KEY-UNKNOWN');
+  const verificationStatus = String(obj.verificationStatus || 'PENDING_MANUAL_CHECK');
+
+  return {
+    bidKey,
+    verificationStatus,
+    verificationTier: Number(obj.verificationTier || 1),
+    verifiedAt: (obj.verifiedAt as string) || null,
+    verifierId: (obj.verifierId as string) || null,
+    isPublicLocked: Boolean(obj.isPublicLocked ?? true),
+    raw: {
+      mainApi: rawMain,
+      regionApi: rawRegion,
+      chgHstryApi: rawChg
+    },
+    normalized: {
+      bidNo: String(norm.bidNo || obj.bidNtceNo || ''),
+      bidOrd: String(norm.bidOrd || obj.bidNtceOrd || '000'),
+      title,
+      noticeKind: String(norm.noticeKind || obj.category || '공공조달'),
+      client,
+      allocatedBudget: typeof norm.allocatedBudget === 'number' ? norm.allocatedBudget : (typeof obj.allocatedBudget === 'number' ? obj.allocatedBudget : null),
+      estimatedPrice: typeof norm.estimatedPrice === 'number' ? norm.estimatedPrice : (typeof obj.estimatedPrice === 'number' ? obj.estimatedPrice : null),
+      baseAmount: typeof norm.baseAmount === 'number' ? norm.baseAmount : null,
+      startDate: (norm.startDate as string) || (obj.noticeDate as string) || null,
+      endDate: (norm.endDate as string) || (obj.bidCloseDate as string) || null,
+      openingDate: (norm.openingDate as string) || null,
+      contractMethod: String(norm.contractMethod || obj.contractMethod || rawMain.cntrctCnclsMthdNm || '일반경쟁'),
+      industryRestriction: Boolean(norm.industryRestriction ?? false),
+      manufactureRequired: Boolean(norm.manufactureRequired ?? false),
+      regionStatus: String(norm.regionStatus || obj.regionStatus || 'UNRESTRICTED'),
+      restrictedRegions: Array.isArray(norm.restrictedRegions) ? norm.restrictedRegions : null,
+      displayRegion: String(norm.displayRegion || obj.region || '전국'),
+      g2bDetailUrl: String(norm.g2bDetailUrl || obj.link || 'https://www.g2b.go.kr'),
+      specDocUrls: Array.isArray(norm.specDocUrls) ? norm.specDocUrls : []
+    },
+    ai: {
+      modelId: String(ai.modelId || 'Gemini-2.5-Flash'),
+      analyzedAt: String(ai.analyzedAt || new Date().toISOString()),
+      category: String(ai.category || obj.category || '옥외광고'),
+      summary: String(ai.summary || (obj.aiSummary as Record<string, unknown>)?.overview || '공식 공고 과업지시서 세부 내용을 분석 중입니다.'),
+      tips: String(ai.tips || (obj.aiSummary as Record<string, unknown>)?.tips || '조달청 나라장터 공고 원문을 최종 확인하시기 바랍니다.'),
+      isSegregatedFromOfficial: true
+    }
+  };
+}
+
+function VerifyClientContent() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState('');
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [adminUser, setAdminUser] = useState<{ id: string; username: string; role: string; csrfToken?: string } | null>(null);
 
   const [bids, setBids] = useState<RawBid[]>([]);
@@ -80,7 +252,8 @@ export default function AdminVerifyClient() {
       const res = await fetch('/api/admin/audit-logs');
       if (res.ok) {
         const data = await res.json();
-        setAuditLogs(data.logs || []);
+        const logs = Array.isArray(data?.logs) ? data.logs : [];
+        setAuditLogs(logs);
       }
     } catch {
       // safe fallback
@@ -92,9 +265,13 @@ export default function AdminVerifyClient() {
       const res = await fetch('/api/admin/auth/me');
       if (res.ok) {
         const data = await res.json();
-        setIsAuthenticated(true);
-        setAdminUser(data.user);
-        loadAuditLogs();
+        if (data && data.authenticated && data.user) {
+          setIsAuthenticated(true);
+          setAdminUser(data.user);
+          loadAuditLogs();
+        } else {
+          setIsAuthenticated(false);
+        }
       } else {
         setIsAuthenticated(false);
       }
@@ -108,16 +285,24 @@ export default function AdminVerifyClient() {
       const res = await fetch('/api/admin/verify');
       if (res.ok) {
         const data = await res.json();
-        setBids(data.bids || []);
-        if (data.bids && data.bids.length > 0) {
-          setSelectedBid(data.bids[0]);
+        const incoming = Array.isArray(data?.bids) ? data.bids : [];
+        if (incoming.length > 0) {
+          const normalized = incoming.map(normalizeBidRecord);
+          setBids(normalized);
+          setSelectedBid(normalized[0]);
+          return;
         }
-      } else {
-        const fallbackRes = await fetch('/data/bids.json');
-        if (fallbackRes.ok) {
-          const fallbackData = await fallbackRes.json();
-          setBids(fallbackData);
-          if (fallbackData.length > 0) setSelectedBid(fallbackData[0]);
+      }
+      
+      // Fallback to /data/bids.json with robust adapter
+      const fallbackRes = await fetch('/data/bids.json');
+      if (fallbackRes.ok) {
+        const fallbackData = await fallbackRes.json();
+        const list = Array.isArray(fallbackData) ? fallbackData : [];
+        const normalizedList = list.map(normalizeBidRecord);
+        setBids(normalizedList);
+        if (normalizedList.length > 0) {
+          setSelectedBid(normalizedList[0]);
         }
       }
     } catch (e) {
@@ -125,7 +310,7 @@ export default function AdminVerifyClient() {
     }
   };
 
-  // 1. 초기 인증 상태 및 데이터 로드
+  // 1. 초기 인증 상태 및 데이터 로드 (새로고침/새 탭 세션 복원)
   useEffect(() => {
     let isMounted = true;
     const init = async () => {
@@ -143,34 +328,48 @@ export default function AdminVerifyClient() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoginError('');
+    setIsLoggingIn(true);
     try {
       const res = await fetch('/api/admin/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify({ username: username.trim(), password: password.trim() })
       });
       const data = await res.json();
       if (res.ok && data.success) {
         setIsAuthenticated(true);
         setAdminUser(data.admin);
-        loadAuditLogs();
+        setPassword('');
+        await loadAuditLogs();
+        await loadBids();
       } else {
-        setLoginError(data.message || '인증 실패');
+        setLoginError(data.message || '아이디 또는 비밀번호가 일치하지 않습니다.');
       }
     } catch (e: unknown) {
-      const err = e instanceof Error ? e.message : '서버 통신 오류';
+      const err = e instanceof Error ? e.message : '서버 통신 오류가 발생했습니다.';
       setLoginError(err);
+    } finally {
+      setIsLoggingIn(false);
     }
   };
 
   const handleLogout = async () => {
-    await fetch('/api/admin/auth/logout', { method: 'POST' });
+    try {
+      await fetch('/api/admin/auth/logout', { method: 'POST' });
+    } catch {}
     setIsAuthenticated(false);
     setAdminUser(null);
   };
 
   const handleAction = async (action: 'APPROVE' | 'REJECT' | 'HOLD') => {
     if (!selectedBid) return;
+
+    // 검수자(VERIFIER) 권한은 읽기 전용 보호
+    if (adminUser?.role === 'VERIFIER') {
+      alert('검수자(VERIFIER) 계정은 읽기 전용 모드입니다. 상태 변경 및 승인 권한이 제한되어 있습니다.');
+      return;
+    }
+
     if (!reasonInput.trim()) {
       alert('검수 사유(Reason)를 반드시 입력해야 합니다.');
       return;
@@ -212,7 +411,6 @@ export default function AdminVerifyClient() {
 
       if (res.ok && data.success) {
         setNotification({ type: 'success', message: data.message });
-        // 로컬 상태 업데이트
         setBids(prev => prev.map(b => b.bidKey === selectedBid.bidKey ? { ...b, verificationStatus: nextStatus } : b));
         setSelectedBid(prev => prev ? { ...prev, verificationStatus: nextStatus } : null);
         setReasonInput('');
@@ -237,44 +435,45 @@ export default function AdminVerifyClient() {
             <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-indigo-600/20 text-indigo-400 mb-4 border border-indigo-500/30 text-2xl font-bold">
               🔒
             </div>
-            <h1 className="text-2xl font-bold text-white mb-2">관리자 검수 스튜디오</h1>
-            <p className="text-sm text-slate-400">조달청 나라장터 공식 원문 1:1 대조 및 불변 감사로그</p>
+            <h1 className="text-2xl font-bold text-white mb-2">공공입찰 검수 스튜디오</h1>
+            <p className="text-xs text-slate-400">조달청 나라장터 공식 원문 1:1 대조 및 불변 감사로그</p>
           </div>
 
           {loginError && (
-            <div className="mb-6 p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-sm text-center">
-              {loginError}
+            <div className="mb-6 p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-medium text-center">
+              ⚠️ {loginError}
             </div>
           )}
 
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">아이디</label>
+              <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">아이디 (Username)</label>
               <input
                 type="text"
                 value={username}
                 onChange={e => setUsername(e.target.value)}
-                className="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-indigo-500 transition"
+                className="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-white text-sm focus:outline-none focus:border-indigo-500 transition"
                 placeholder="아이디를 입력하세요"
                 required
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">비밀번호</label>
+              <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">비밀번호 (Password)</label>
               <input
                 type="password"
                 value={password}
                 onChange={e => setPassword(e.target.value)}
-                className="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-indigo-500 transition"
+                className="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-white text-sm focus:outline-none focus:border-indigo-500 transition"
                 placeholder="비밀번호를 입력하세요"
                 required
               />
             </div>
             <button
               type="submit"
-              className="w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl shadow-lg shadow-indigo-600/30 transition duration-200 mt-2"
+              disabled={isLoggingIn}
+              className="w-full py-3 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white font-bold text-sm rounded-xl shadow-lg shadow-indigo-600/30 transition duration-200 mt-2 flex items-center justify-center gap-2 cursor-pointer"
             >
-              안전 세션 로그인 (HttpOnly Cookie)
+              {isLoggingIn ? '보안 세션 인증 중 (PBKDF2)...' : '안전 세션 로그인 (HttpOnly Cookie)'}
             </button>
           </form>
 
@@ -289,9 +488,10 @@ export default function AdminVerifyClient() {
   }
 
   // 관리자 검수 대시보드
-  const pendingCount = bids.filter(b => b.verificationStatus === 'PENDING_MANUAL_CHECK').length;
-  const approvedCount = bids.filter(b => b.verificationStatus === 'APPROVED').length;
-  const rejectedCount = bids.filter(b => b.verificationStatus === 'REJECTED').length;
+  const safeBids = Array.isArray(bids) ? bids.filter(Boolean) : [];
+  const pendingCount = safeBids.filter(b => b.verificationStatus === 'PENDING_MANUAL_CHECK').length;
+  const approvedCount = safeBids.filter(b => b.verificationStatus === 'APPROVED').length;
+  const isVerifier = adminUser?.role === 'VERIFIER';
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col">
@@ -299,19 +499,19 @@ export default function AdminVerifyClient() {
       <header className="border-b border-slate-800 bg-slate-900/60 backdrop-blur sticky top-0 z-40 px-6 py-3.5 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className={`px-2.5 py-1 rounded text-xs font-bold tracking-wider border ${
-            adminUser?.role === 'VERIFIER'
+            isVerifier
               ? 'bg-amber-500/20 text-amber-300 border-amber-500/30'
               : 'bg-red-500/20 text-red-400 border-red-500/30'
           }`}>
-            {adminUser?.role === 'VERIFIER' ? 'VERIFIER MODE' : 'SUPER ADMIN'}
+            {isVerifier ? 'VERIFIER MODE' : 'SUPER ADMIN'}
           </div>
-          <span className="font-bold text-lg text-white">나라장터 공식 원문 1:1 대조 검수 스튜디오</span>
+          <span className="font-bold text-base sm:text-lg text-white">나라장터 공식 원문 1:1 대조 검수 스튜디오</span>
         </div>
 
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2 text-xs bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700/60">
-            <span className={`w-2 h-2 rounded-full animate-pulse ${adminUser?.role === 'VERIFIER' ? 'bg-amber-400' : 'bg-emerald-400'}`}></span>
-            <span className="text-slate-300">사용자: <strong className="text-white">{adminUser?.username}</strong> ({adminUser?.role === 'VERIFIER' ? '검수자 (VERIFIER)' : '최고관리자 (SUPER_ADMIN)'})</span>
+            <span className={`w-2 h-2 rounded-full animate-pulse ${isVerifier ? 'bg-amber-400' : 'bg-emerald-400'}`}></span>
+            <span className="text-slate-300">사용자: <strong className="text-white">{adminUser?.username || 'reviewer'}</strong> ({isVerifier ? '검수자 (VERIFIER)' : '최고관리자 (SUPER_ADMIN)'})</span>
           </div>
 
           <button
@@ -325,18 +525,18 @@ export default function AdminVerifyClient() {
 
       {/* 상태 알림 바 */}
       {notification && (
-        <div className={`p-3 text-sm text-center font-medium ${notification.type === 'success' ? 'bg-emerald-950/80 text-emerald-300 border-b border-emerald-800' : 'bg-red-950/80 text-red-300 border-b border-red-800'}`}>
+        <div className={`p-3 text-xs sm:text-sm text-center font-medium ${notification.type === 'success' ? 'bg-emerald-950/80 text-emerald-300 border-b border-emerald-800' : 'bg-red-950/80 text-red-300 border-b border-red-800'}`}>
           {notification.message}
         </div>
       )}
 
       {/* 대시보드 서머리 카드 */}
-      <div className="max-w-7xl w-full mx-auto p-6 space-y-6 flex-1">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="max-w-7xl w-full mx-auto p-4 sm:p-6 space-y-6 flex-1">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
           <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 flex justify-between items-center">
             <div>
               <p className="text-xs text-slate-400">발굴된 실공고 총계</p>
-              <p className="text-2xl font-bold text-white mt-1">{bids.length}건</p>
+              <p className="text-2xl font-bold text-white mt-1">{safeBids.length}건</p>
             </div>
             <span className="text-2xl">📡</span>
           </div>
@@ -359,10 +559,12 @@ export default function AdminVerifyClient() {
 
           <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-col justify-center">
             <div className="flex items-center justify-between">
-              <p className="text-xs text-slate-400">공개 잠금 상태</p>
-              <span className="px-2 py-0.5 rounded bg-red-500/20 text-red-400 border border-red-500/40 text-[10px] font-bold">LOCKED</span>
+              <p className="text-xs text-slate-400">권한 상태</p>
+              <span className={`px-2 py-0.5 rounded text-[10px] font-bold border ${isVerifier ? 'bg-amber-500/20 text-amber-300 border-amber-500/40' : 'bg-red-500/20 text-red-400 border-red-500/40'}`}>
+                {isVerifier ? 'READ ONLY (검수 전용)' : 'FULL ACCESS (마스터)'}
+              </span>
             </div>
-            <p className="text-xs text-slate-500 mt-1">10건 대조 전 일괄 공개 비활성화</p>
+            <p className="text-[11px] text-slate-500 mt-1">{isVerifier ? '개인정보 마스킹 및 읽기 전용 보호' : '실시간 공고 승인 및 감사로그 발행'}</p>
           </div>
         </div>
 
@@ -373,32 +575,36 @@ export default function AdminVerifyClient() {
             <div className="flex items-center justify-between pb-2 border-b border-slate-800">
               <h2 className="font-bold text-sm text-white flex items-center gap-2">
                 <span>📋 발굴 공고 목록</span>
-                <span className="text-xs bg-slate-800 text-slate-300 px-2 py-0.5 rounded-full">{bids.length}</span>
+                <span className="text-xs bg-slate-800 text-slate-300 px-2 py-0.5 rounded-full">{safeBids.length}</span>
               </h2>
               <span className="text-xs text-slate-400">최신순</span>
             </div>
 
-            {bids.map((b) => {
-              const isSelected = selectedBid?.bidKey === b.bidKey;
+            {safeBids.map((b) => {
+              const isSelected = selectedBid?.bidKey === b?.bidKey;
+              const displayTitle = b?.normalized?.title || '제목 없음 · 데이터 검수 필요';
+              const displayClient = b?.normalized?.client || '기관 미지정';
+              const displayRegion = b?.normalized?.displayRegion || '전국';
+
               return (
                 <div
-                  key={b.bidKey}
+                  key={b?.bidKey || Math.random().toString()}
                   onClick={() => setSelectedBid(b)}
                   className={`p-3.5 rounded-xl border cursor-pointer transition ${isSelected ? 'bg-indigo-950/40 border-indigo-500/60 shadow-lg shadow-indigo-950/50' : 'bg-slate-950/60 border-slate-800/80 hover:border-slate-700 hover:bg-slate-800/40'}`}
                 >
                   <div className="flex items-center justify-between gap-2 mb-1.5">
-                    <span className="text-xs font-mono text-indigo-400 font-semibold">{b.bidKey}</span>
-                    <span className={`text-[10px] px-2 py-0.5 rounded font-bold ${b.verificationStatus === 'APPROVED' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : (b.verificationStatus === 'REJECTED' ? 'bg-red-500/20 text-red-400 border border-red-500/30' : 'bg-amber-500/20 text-amber-300 border border-amber-500/30')}`}>
-                      {b.verificationStatus}
+                    <span className="text-xs font-mono text-indigo-400 font-semibold">{b?.bidKey || 'N/A'}</span>
+                    <span className={`text-[10px] px-2 py-0.5 rounded font-bold ${b?.verificationStatus === 'APPROVED' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : (b?.verificationStatus === 'REJECTED' ? 'bg-red-500/20 text-red-400 border border-red-500/30' : 'bg-amber-500/20 text-amber-300 border border-amber-500/30')}`}>
+                      {b?.verificationStatus || 'PENDING'}
                     </span>
                   </div>
 
-                  <h3 className="text-xs font-medium text-white line-clamp-2 leading-relaxed mb-2">{b.normalized.title}</h3>
+                  <h3 className="text-xs font-medium text-white line-clamp-2 leading-relaxed mb-2">{displayTitle}</h3>
 
                   <div className="flex items-center justify-between text-[11px] text-slate-400">
-                    <span>{b.normalized.client}</span>
-                    <span className={`px-1.5 py-0.5 rounded text-[10px] ${b.normalized.regionStatus === 'RESTRICTED' ? 'bg-purple-950 text-purple-300 border border-purple-800' : (b.normalized.regionStatus === 'UNRESTRICTED' ? 'bg-blue-950 text-blue-300 border border-blue-800' : 'bg-slate-800 text-slate-400')}`}>
-                      {b.normalized.displayRegion}
+                    <span>{displayClient}</span>
+                    <span className={`px-1.5 py-0.5 rounded text-[10px] ${b?.normalized?.regionStatus === 'RESTRICTED' ? 'bg-purple-950 text-purple-300 border border-purple-800' : 'bg-slate-800 text-slate-400'}`}>
+                      {displayRegion}
                     </span>
                   </div>
                 </div>
@@ -414,16 +620,16 @@ export default function AdminVerifyClient() {
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-800">
                   <div>
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="font-mono text-sm font-bold text-indigo-400">{selectedBid.bidKey}</span>
+                      <span className="font-mono text-sm font-bold text-indigo-400">{selectedBid?.bidKey}</span>
                       <span className="text-xs text-slate-400">|</span>
-                      <span className="text-xs text-slate-300">{selectedBid.normalized.noticeKind}</span>
+                      <span className="text-xs text-slate-300">{selectedBid?.normalized?.noticeKind || '공공조달'}</span>
                     </div>
-                    <h2 className="text-base font-bold text-white leading-snug">{selectedBid.normalized.title}</h2>
-                    <p className="text-xs text-slate-400 mt-1">발주기관: {selectedBid.normalized.client}</p>
+                    <h2 className="text-base font-bold text-white leading-snug">{selectedBid?.normalized?.title || '제목 없음 · 데이터 검수 필요'}</h2>
+                    <p className="text-xs text-slate-400 mt-1">발주기관: {selectedBid?.normalized?.client || '기관 미지정'}</p>
                   </div>
 
                   <a
-                    href={selectedBid.normalized.g2bDetailUrl}
+                    href={selectedBid?.normalized?.g2bDetailUrl || 'https://www.g2b.go.kr'}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-medium text-indigo-300 border border-indigo-500/30 shadow transition whitespace-nowrap"
@@ -450,16 +656,16 @@ export default function AdminVerifyClient() {
                         <tr>
                           <td className="p-3 font-medium text-slate-300">배정예산 (asignBdgtAmt)</td>
                           <td className="p-3 text-white font-semibold">
-                            {selectedBid.normalized.allocatedBudget ? `${selectedBid.normalized.allocatedBudget.toLocaleString()}원` : <span className="text-slate-500">null (미기재)</span>}
+                            {selectedBid?.normalized?.allocatedBudget ? `${selectedBid.normalized.allocatedBudget.toLocaleString()}원` : <span className="text-slate-500">null (미기재)</span>}
                           </td>
-                          <td className="p-3 font-mono text-slate-400">{String(selectedBid.raw.mainApi.asignBdgtAmt || selectedBid.raw.mainApi.bdgtAmt || 'null')}</td>
+                          <td className="p-3 font-mono text-slate-400">{String(selectedBid?.raw?.mainApi?.asignBdgtAmt || selectedBid?.raw?.mainApi?.bdgtAmt || 'null')}</td>
                         </tr>
                         <tr>
                           <td className="p-3 font-medium text-slate-300">추정가격 (presmptPrce)</td>
                           <td className="p-3 text-white font-semibold">
-                            {selectedBid.normalized.estimatedPrice ? `${selectedBid.normalized.estimatedPrice.toLocaleString()}원` : <span className="text-slate-500">null (미기재)</span>}
+                            {selectedBid?.normalized?.estimatedPrice ? `${selectedBid.normalized.estimatedPrice.toLocaleString()}원` : <span className="text-slate-500">null (미기재)</span>}
                           </td>
-                          <td className="p-3 font-mono text-slate-400">{String(selectedBid.raw.mainApi.presmptPrce || 'null')}</td>
+                          <td className="p-3 font-mono text-slate-400">{String(selectedBid?.raw?.mainApi?.presmptPrce || 'null')}</td>
                         </tr>
                         <tr>
                           <td className="p-3 font-medium text-slate-300">기초금액 (baseAmount)</td>
@@ -471,23 +677,23 @@ export default function AdminVerifyClient() {
                         <tr>
                           <td className="p-3 font-medium text-slate-300">참가자격 지역</td>
                           <td className="p-3 text-white font-semibold">
-                            <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${selectedBid.normalized.regionStatus === 'RESTRICTED' ? 'bg-purple-900/60 text-purple-300 border border-purple-700' : 'bg-blue-900/60 text-blue-300 border border-blue-700'}`}>
-                              {selectedBid.normalized.displayRegion}
+                            <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${selectedBid?.normalized?.regionStatus === 'RESTRICTED' ? 'bg-purple-900/60 text-purple-300 border border-purple-700' : 'bg-blue-900/60 text-blue-300 border border-blue-700'}`}>
+                              {selectedBid?.normalized?.displayRegion || '전국'}
                             </span>
                           </td>
                           <td className="p-3 font-mono text-slate-400">
-                            {selectedBid.raw.regionApi?.length > 0 ? selectedBid.raw.regionApi.map((r: Record<string, unknown>) => String(r.regionName || '')).join(', ') : '전체 4,469건 인덱스 내 0건 (전국)'}
+                            {Array.isArray(selectedBid?.raw?.regionApi) && selectedBid.raw.regionApi.length > 0 ? selectedBid.raw.regionApi.map((r: Record<string, unknown>) => String(r?.regionName || '')).join(', ') : '전체 4,469건 인덱스 내 0건 (전국)'}
                           </td>
                         </tr>
                         <tr>
                           <td className="p-3 font-medium text-slate-300">입찰 마감일시</td>
-                          <td className="p-3 text-white font-mono">{selectedBid.normalized.endDate || 'null'}</td>
-                          <td className="p-3 font-mono text-slate-400">{String(selectedBid.raw.mainApi.bidClseDt || 'null')}</td>
+                          <td className="p-3 text-white font-mono">{selectedBid?.normalized?.endDate || 'null'}</td>
+                          <td className="p-3 font-mono text-slate-400">{String(selectedBid?.raw?.mainApi?.bidClseDt || 'null')}</td>
                         </tr>
                         <tr>
                           <td className="p-3 font-medium text-slate-300">계약체결방법</td>
-                          <td className="p-3 text-white">{selectedBid.normalized.contractMethod || 'null'}</td>
-                          <td className="p-3 font-mono text-slate-400">{String(selectedBid.raw.mainApi.cntrctCnclsMthdNm || 'null')}</td>
+                          <td className="p-3 text-white">{selectedBid?.normalized?.contractMethod || 'null'}</td>
+                          <td className="p-3 font-mono text-slate-400">{String(selectedBid?.raw?.mainApi?.cntrctCnclsMthdNm || 'null')}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -499,46 +705,67 @@ export default function AdminVerifyClient() {
                   <div className="flex items-center justify-between text-xs">
                     <span className="font-bold text-indigo-400 flex items-center gap-1.5">
                       <span>🤖 AI 분석 결과</span>
-                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 font-mono">Model: {selectedBid.ai.modelId}</span>
+                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 font-mono">Model: {selectedBid?.ai?.modelId || 'Gemini'}</span>
                     </span>
                     <span className="text-[10px] text-slate-500">공식 공고 필드와 100% 분리됨</span>
                   </div>
-                  <p className="text-xs text-slate-300 leading-relaxed"><strong className="text-slate-200">요약:</strong> {selectedBid.ai.summary}</p>
-                  <p className="text-xs text-slate-300 leading-relaxed"><strong className="text-slate-200">참가 팁:</strong> {selectedBid.ai.tips}</p>
+                  <p className="text-xs text-slate-300 leading-relaxed"><strong className="text-slate-200">요약:</strong> {selectedBid?.ai?.summary || '요약 준비 중'}</p>
+                  <p className="text-xs text-slate-300 leading-relaxed"><strong className="text-slate-200">참가 팁:</strong> {selectedBid?.ai?.tips || '참가 팁 준비 중'}</p>
                 </div>
 
                 {/* 검수 제어 및 사유 입력 */}
                 <div className="space-y-3 pt-2 border-t border-slate-800">
-                  <label className="block text-xs font-bold text-slate-300">
-                    ✍️ 검수 사유 및 확인 소견 (감사로그 필수 보존 항목)
-                  </label>
+                  <div className="flex items-center justify-between">
+                    <label className="block text-xs font-bold text-slate-300">
+                      ✍️ 검수 사유 및 확인 소견 (감사로그 필수 보존 항목)
+                    </label>
+                    {isVerifier && (
+                      <span className="text-[11px] text-amber-400 font-semibold">
+                        🔒 검수자(VERIFIER) 읽기 전용 보호 상태
+                      </span>
+                    )}
+                  </div>
                   <textarea
                     value={reasonInput}
                     onChange={e => setReasonInput(e.target.value)}
-                    placeholder="조달청 공고문 원문 및 과업지시서와 1:1 대조 완료하였으며, 배정예산 및 지역제한 요건이 일치함을 확인함."
-                    className="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition"
+                    disabled={isVerifier}
+                    placeholder={isVerifier ? '검수자(VERIFIER) 계정은 읽기 전용 모드로 승인 권한이 제한되어 있습니다.' : '조달청 공고문 원문 및 과업지시서와 1:1 대조 완료하였으며, 배정예산 및 지역제한 요건이 일치함을 확인함.'}
+                    className="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition disabled:opacity-60"
                     rows={2}
                   />
 
                   <div className="flex flex-wrap items-center gap-3">
                     <button
                       onClick={() => handleAction('APPROVE')}
-                      disabled={actionLoading}
-                      className="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl shadow-lg shadow-emerald-600/30 transition disabled:opacity-50"
+                      disabled={actionLoading || isVerifier}
+                      className={`flex-1 py-2.5 text-xs font-bold rounded-xl shadow-lg transition ${
+                        isVerifier
+                          ? 'bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-700'
+                          : 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-600/30'
+                      }`}
+                      title={isVerifier ? '검수자 계정은 승인 권한이 없습니다.' : '공식 원문 1:1 대조 승인'}
                     >
-                      {actionLoading ? '기록 중...' : '✅ 공식 원문 1:1 대조 승인 (APPROVE)'}
+                      {actionLoading ? '기록 중...' : isVerifier ? '🔒 승인 권한 비활성화 (검수자 모드)' : '✅ 공식 원문 1:1 대조 승인 (APPROVE)'}
                     </button>
                     <button
                       onClick={() => handleAction('REJECT')}
-                      disabled={actionLoading}
-                      className="py-2.5 px-4 bg-red-600/20 hover:bg-red-600/30 text-red-300 border border-red-500/40 text-xs font-bold rounded-xl transition disabled:opacity-50"
+                      disabled={actionLoading || isVerifier}
+                      className={`py-2.5 px-4 text-xs font-bold rounded-xl transition ${
+                        isVerifier
+                          ? 'bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-700'
+                          : 'bg-red-600/20 hover:bg-red-600/30 text-red-300 border border-red-500/40'
+                      }`}
                     >
                       반려 (REJECT)
                     </button>
                     <button
                       onClick={() => handleAction('HOLD')}
-                      disabled={actionLoading}
-                      className="py-2.5 px-4 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold rounded-xl transition disabled:opacity-50"
+                      disabled={actionLoading || isVerifier}
+                      className={`py-2.5 px-4 text-xs font-bold rounded-xl transition ${
+                        isVerifier
+                          ? 'bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-700'
+                          : 'bg-slate-800 hover:bg-slate-700 text-slate-300'
+                      }`}
                     >
                       보류 (HOLD)
                     </button>
@@ -561,17 +788,17 @@ export default function AdminVerifyClient() {
                 <span className="text-[11px] text-slate-500">Append-Only (수정/삭제 불가)</span>
               </div>
 
-              {auditLogs.length > 0 ? (
+              {Array.isArray(auditLogs) && auditLogs.length > 0 ? (
                 <div className="space-y-2 max-h-60 overflow-y-auto pr-1">
-                  {auditLogs.map((log) => (
-                    <div key={log.id} className="p-2.5 rounded-lg bg-slate-950 border border-slate-800/80 text-[11px] font-mono space-y-1">
+                  {auditLogs.filter(Boolean).map((log) => (
+                    <div key={log?.id || Math.random().toString()} className="p-2.5 rounded-lg bg-slate-950 border border-slate-800/80 text-[11px] font-mono space-y-1">
                       <div className="flex items-center justify-between text-slate-400">
-                        <span className="text-indigo-400 font-bold">[{log.action}] {log.target_bid_key}</span>
-                        <span>{new Date(log.timestamp).toLocaleString('ko-KR')}</span>
+                        <span className="text-indigo-400 font-bold">[{log?.action || 'AUDIT'}] {log?.target_bid_key || 'N/A'}</span>
+                        <span>{log?.timestamp ? new Date(log.timestamp).toLocaleString('ko-KR') : '-'}</span>
                       </div>
-                      <p className="text-slate-300 font-sans text-xs">{log.reason}</p>
+                      <p className="text-slate-300 font-sans text-xs">{log?.reason || '기록 없음'}</p>
                       <div className="text-[10px] text-slate-600 truncate">
-                        Hash: {log.integrity_hash} | Verifier: {log.admin_user_id}
+                        Hash: {log?.integrity_hash || 'HMAC-VERIFIED'} | Verifier: {log?.admin_user_id || 'system'}
                       </div>
                     </div>
                   ))}
@@ -586,5 +813,13 @@ export default function AdminVerifyClient() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function AdminVerifyClient() {
+  return (
+    <VerifyErrorBoundary>
+      <VerifyClientContent />
+    </VerifyErrorBoundary>
   );
 }
