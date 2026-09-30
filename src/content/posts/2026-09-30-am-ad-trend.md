@@ -4,9 +4,9 @@ date: "2026-09-30"
 summary: "지자체 현수막 지정게시대의 디지털 전환 및 청사 대형 미디어월 공공입찰 참여 시 필수 점검 사항과 제안서 평가 고득점 전략을 공개합니다."
 category: "디지털사이니지 / 옥외광고 트렌드"
 tags: ["옥외광고입찰","나라장터공고","디지털사이니지","LED전광판","전자게시대","미디어월","스마트시티","공공입찰팁"]
-coverImage: "https://images.pexels.com/photos/5888921/pexels-photo-5888921.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-coverImageCredit: "Photo by Stanislav Kondratiev on Pexels"
-coverImageCreditUrl: "https://www.pexels.com/photo/people-wearing-hoodie-jackets-walking-on-a-street-5888921/"
+coverImage: "https://images.pexels.com/photos/29114746/pexels-photo-29114746.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+coverImageCredit: "Photo by Bastian Riccardi on Pexels"
+coverImageCreditUrl: "https://www.pexels.com/photo/tram-stop-in-munich-at-night-with-advertisement-29114746/"
 source: "공공데이터포털(data.go.kr) 및 조달청 나라장터(G2B) 옥외광고 입찰 분석 종합"
 sourceUrl: "https://www.g2b.go.kr"
 ---
