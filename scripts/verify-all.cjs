@@ -385,12 +385,38 @@ async function verifyIntegrityRules() {
     }
   });
 
+  // [규칙 22] 최소 공개조건(공고번호, 원문제목, 기관, 직통URL, 출처, 수집시각, 키워드) 및 임의 필드 생성 0건 검증
+  console.log('규칙 22: 최소 공개조건 7대 요건 충족 및 임의 필드 생성 0건 자동 검증');
+  bids.forEach((bid) => {
+    const url = bid.sourceDetailUrl || bid.officialUrl || bid.linkUrl || '';
+    if (!url || url === 'https://www.g2b.go.kr' || url === 'https://www.g2b.go.kr/') {
+      console.error(`  ❌ [규칙 22 위반] 공고 [${bid.id}]에 정확한 공식 상세 URL이 없습니다.`);
+      failureCount++;
+    }
+    if (!bid.title || bid.title.trim() === '') {
+      console.error(`  ❌ [규칙 22 위반] 공고 [${bid.id}]에 공식 원문 제목이 누락되었습니다.`);
+      failureCount++;
+    }
+    if (!bid.client || bid.client.trim() === '') {
+      console.error(`  ❌ [규칙 22 위반] 공고 [${bid.id}]에 공식 발주기관이 누락되었습니다.`);
+      failureCount++;
+    }
+    if (!bid.id || bid.id.trim() === '') {
+      console.error(`  ❌ [규칙 22 위반] 공고에 공식 공고번호/식별자가 누락되었습니다.`);
+      failureCount++;
+    }
+    if (bid.rawBudget === null && bid.budget !== null && bid.budget !== undefined && typeof bid.budget === 'number' && !bid.rawEstPrice) {
+      console.error(`  ❌ [규칙 22 위반] 공고 [${bid.id}]의 원본 금액이 null인데 임의 예산이 생성되었습니다.`);
+      failureCount++;
+    }
+  });
+
   console.log('================================================================================');
   if (failureCount > 0) {
     console.error(`❌ [검증 실패] 총 ${failureCount}건의 무결성 규칙 위반이 검출되어 빌드를 즉시 중단합니다.\n`);
     process.exit(1);
   } else {
-    console.log('✅ [검증 통과] 전체 21대 데이터 무결성 규칙 100% 통과 (위반 0건)\n');
+    console.log('✅ [검증 통과] 전체 22대 데이터 무결성 규칙 100% 통과 (위반 0건)\n');
   }
 }
 

@@ -248,7 +248,7 @@ export default async function BidDetailPage({ params }: PageProps) {
               </span>
             ) : isExpired ? (
               <span className="px-2.5 py-0.5 rounded-md text-xs font-bold bg-rose-950/60 text-rose-300 border border-rose-800/60">
-                🔴 입찰 마감
+                🔴 마감된 후보
               </span>
             ) : !timeStatus.isValidDate || timeStatus.dDay === null ? (
               <span className="inline-flex items-center gap-1 px-3 py-1 rounded-md text-xs font-bold bg-slate-800 text-amber-300 border border-amber-500/40">
@@ -266,9 +266,9 @@ export default async function BidDetailPage({ params }: PageProps) {
                 마감 {timeStatus.dDayText}
               </span>
             ) : (
-              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-md text-xs font-bold bg-slate-800 text-blue-300 border border-slate-700">
-                <Clock className="w-3.5 h-3.5 text-blue-400" />
-                진행중 ({timeStatus.dDayText})
+              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-md text-xs font-bold bg-cyan-950/80 text-cyan-300 border border-cyan-700/50">
+                <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+                자동수집 후보 ({timeStatus.dDayText})
               </span>
             )}
 
@@ -278,7 +278,7 @@ export default async function BidDetailPage({ params }: PageProps) {
 
             <span className="inline-flex items-center gap-1 text-xs text-slate-300 bg-slate-800 px-2.5 py-0.5 rounded-md border border-slate-700">
               <MapPin className="w-3 h-3 text-slate-400" />
-              {bid.location || "전국"}
+              {bid.location || "지역조건 원문 확인"}
             </span>
           </div>
 
@@ -299,10 +299,10 @@ export default async function BidDetailPage({ params }: PageProps) {
         </div>
 
         {/* 🛡️ 원문 공고 확인 필수 안내 배너 */}
-        <div className="bg-blue-950/40 border border-blue-500/30 rounded-xl p-3.5 flex items-start gap-2.5 text-xs text-blue-200">
-          <AlertCircle className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
+        <div className="bg-slate-950/80 border border-slate-800 rounded-xl p-3.5 flex items-start gap-2.5 text-xs text-slate-300 shadow-inner">
+          <AlertCircle className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
           <p className="leading-relaxed">
-            <strong>※ 입찰 공고 안내:</strong> 모든 입찰 공고는 시스템 연동 과정상 시차나 세부 조건 변경이 있을 수 있으므로, 입찰 참가 전 반드시 각 발주처(조달청 나라장터 등)의 공식 원문 공고를 최종 확인하시기 바랍니다.
+            <strong className="text-cyan-400 font-bold">※ SignBid 안내:</strong> SignBid의 자동분류는 입찰기회 탐색을 위한 참고정보입니다. 참가자격, 금액, 일정과 제출서류는 연결된 <span className="text-cyan-300 font-semibold underline underline-offset-2">공식 공고 원문</span>에서 최종 확인해 주세요.
           </p>
         </div>
 
@@ -329,13 +329,13 @@ export default async function BidDetailPage({ params }: PageProps) {
           </div>
 
           <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800">
-            <span className="text-slate-500 block mb-1">데이터 구분</span>
-            <strong className="text-blue-300 font-semibold text-sm block">{isDemo ? "DEMO 가상 예시" : (bid.source || "조달청 나라장터")}</strong>
+            <span className="text-slate-500 block mb-1">데이터 출처</span>
+            <strong className="text-cyan-300 font-semibold text-sm block">{isDemo ? "DEMO 가상 예시" : (bid.source || "조달청 나라장터")}</strong>
           </div>
 
           <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800">
             <span className="text-slate-500 block mb-1">사업예산 (배정금액)</span>
-            <strong className="text-blue-400 font-bold text-sm block">{bid.budgetText || `${Number(bid.budget || 0).toLocaleString()}원`}</strong>
+            <strong className="text-cyan-400 font-bold text-sm block">{(bid.budget && bid.budget > 0 && bid.budgetText) ? bid.budgetText : "원문 확인 필요"}</strong>
           </div>
 
           <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800">
@@ -350,7 +350,7 @@ export default async function BidDetailPage({ params }: PageProps) {
 
           <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800">
             <span className="text-slate-500 block mb-1">계약방법</span>
-            <strong className="text-slate-200 font-medium block truncate">{bid.bidType || "제한경쟁 (원문 확인)"}</strong>
+            <strong className="text-slate-200 font-medium block truncate">{bid.bidType || "계약방법 원문 확인"}</strong>
           </div>
         </div>
 

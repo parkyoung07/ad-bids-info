@@ -320,18 +320,19 @@ export default function HomePage() {
             <span>몰랐으면 지나쳤을 숨은 알짜 입찰공고 발굴 AI</span>
           </div>
 
-          {/* 메인 헤드라인 (간결하고 직관적인 타이틀) */}
+          {/* 메인 헤드라인 (가볍고 직관적인 타이틀) */}
           <h1 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-white tracking-tight leading-snug">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-300 to-indigo-400">
-              광고 · 인쇄업 맞춤 공공입찰
-            </span>{" "}
-            발굴 서비스
+              광고 · 인쇄 · 행사 관련 입찰 가능성
+            </span>을 빠르게 찾아드립니다.
           </h1>
 
-          {/* 보조 설명 (새로운 2번째 도약 목표점 반영) */}
-          <p className="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto leading-relaxed">
-            조달청 나라장터 · 학교장터(S2B) · 온비드 복합 공고 속 <span className="text-cyan-300 font-semibold">간판·현수막·인쇄·사이니지</span> 알짜 발주를 3초 만에 발견하세요.
-          </p>
+          {/* 공식 원문 확인 필수 안내문 */}
+          <div className="bg-slate-950/80 border border-slate-800 rounded-xl p-3 text-left max-w-2xl mx-auto shadow-inner">
+            <p className="text-[11px] sm:text-xs text-slate-300 leading-relaxed">
+              <strong className="text-cyan-400 font-bold">※ SignBid 안내:</strong> SignBid의 자동분류는 입찰기회 탐색을 위한 참고정보입니다. 참가자격, 금액, 일정과 제출서류는 연결된 <span className="text-cyan-300 font-semibold underline underline-offset-2">공식 공고 원문</span>에서 최종 확인해 주세요.
+            </p>
+          </div>
 
           {/* 통합 검색창 & 카톡 알림 원라인/컴팩트 구성 */}
           <div className="pt-1 max-w-xl mx-auto flex flex-col sm:flex-row items-center gap-2">
@@ -552,8 +553,8 @@ export default function HomePage() {
                     : "bg-slate-950 text-slate-400 hover:text-white border border-slate-800"
                 }`}
               >
-                <CheckCircle2 className="w-3.5 h-3.5 text-cyan-300" />
-                <span>진행 ({activeVerifiedBids.length})</span>
+                <Sparkles className="w-3.5 h-3.5 text-cyan-300" />
+                <span>새로 발견한 후보 ({activeVerifiedBids.length})</span>
               </button>
 
               <button
@@ -565,7 +566,7 @@ export default function HomePage() {
                 }`}
               >
                 <Clock className="w-3.5 h-3.5 text-slate-400" />
-                <span>마감 ({closedVerifiedBids.length})</span>
+                <span>마감된 후보 ({closedVerifiedBids.length})</span>
               </button>
 
               <button
@@ -577,7 +578,7 @@ export default function HomePage() {
                     : "bg-slate-950 text-slate-400 hover:text-white border border-slate-800"
                 }`}
               >
-                <span>⭐ 관심 ({bookmarkedIds.length})</span>
+                <span>⭐ 관심공고 ({bookmarkedIds.length})</span>
               </button>
 
               {demoBids.length > 0 && (

@@ -239,6 +239,7 @@ function VerifyClientContent() {
   const [loginError, setLoginError] = useState('');
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [adminUser, setAdminUser] = useState<{ id: string; username: string; role: string; csrfToken?: string } | null>(null);
+  const [adminTab, setAdminTab] = useState<'NEEDS_REVIEW' | 'ALL' | 'APPROVED' | 'REJECTED'>('NEEDS_REVIEW');
 
   const [bids, setBids] = useState<RawBid[]>([]);
   const [selectedBid, setSelectedBid] = useState<RawBid | null>(null);
@@ -489,9 +490,30 @@ function VerifyClientContent() {
 
   // 관리자 검수 대시보드
   const safeBids = Array.isArray(bids) ? bids.filter(Boolean) : [];
-  const pendingCount = safeBids.filter(b => b.verificationStatus === 'PENDING_MANUAL_CHECK').length;
+  
+  // 예외검수 (NEEDS_REVIEW) 조건:
+  // 1. 상세 URL 없음 또는 홈페이지 첫 화면 (g2b.go.kr root)
+  // 2. 제목/기관/공고번호 누락
+  // 3. PENDING_MANUAL_CHECK 또는 NEEDS_REVIEW 상태
+  const needsReviewBids = safeBids.filter(b => {
+    const norm = b?.normalized;
+    const url = norm?.g2bDetailUrl || '';
+    const hasInvalidUrl = !url || url === 'https://www.g2b.go.kr' || url === 'https://www.g2b.go.kr/';
+    const hasMissingField = !norm?.title || !norm?.client || !norm?.bidNo;
+    const isPending = b?.verificationStatus === 'PENDING_MANUAL_CHECK' || b?.verificationStatus === 'NEEDS_REVIEW';
+    return hasInvalidUrl || hasMissingField || isPending;
+  });
+
   const approvedCount = safeBids.filter(b => b.verificationStatus === 'APPROVED').length;
   const isVerifier = adminUser?.role === 'VERIFIER';
+
+  const displayedBids = adminTab === 'NEEDS_REVIEW'
+    ? needsReviewBids
+    : adminTab === 'APPROVED'
+    ? safeBids.filter(b => b.verificationStatus === 'APPROVED')
+    : adminTab === 'REJECTED'
+    ? safeBids.filter(b => b.verificationStatus === 'REJECTED' || b.verificationStatus === 'HELD')
+    : safeBids;
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col">
@@ -505,7 +527,7 @@ function VerifyClientContent() {
           }`}>
             {isVerifier ? 'VERIFIER MODE' : 'SUPER ADMIN'}
           </div>
-          <span className="font-bold text-base sm:text-lg text-white">나라장터 공식 원문 1:1 대조 검수 스튜디오</span>
+          <span className="font-bold text-base sm:text-lg text-white">SignBid 예외검수(NEEDS_REVIEW) 및 원문 1:1 대조 스튜디오</span>
         </div>
 
         <div className="flex items-center gap-4">
@@ -535,7 +557,7 @@ function VerifyClientContent() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
           <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 flex justify-between items-center">
             <div>
-              <p className="text-xs text-slate-400">발굴된 실공고 총계</p>
+              <p className="text-xs text-slate-400">발굴 공고 총계</p>
               <p className="text-2xl font-bold text-white mt-1">{safeBids.length}건</p>
             </div>
             <span className="text-2xl">📡</span>
@@ -543,15 +565,15 @@ function VerifyClientContent() {
 
           <div className="bg-slate-900 border border-amber-500/30 rounded-xl p-4 flex justify-between items-center">
             <div>
-              <p className="text-xs text-amber-400">원문 대조 대기 (PENDING)</p>
-              <p className="text-2xl font-bold text-amber-300 mt-1">{pendingCount}건</p>
+              <p className="text-xs text-amber-400">예외검수 대기 (NEEDS_REVIEW)</p>
+              <p className="text-2xl font-bold text-amber-300 mt-1">{needsReviewBids.length}건</p>
             </div>
-            <span className="text-2xl">⏳</span>
+            <span className="text-2xl">⚠️</span>
           </div>
 
           <div className="bg-slate-900 border border-emerald-500/30 rounded-xl p-4 flex justify-between items-center">
             <div>
-              <p className="text-xs text-emerald-400">수동 대조 승인 (APPROVED)</p>
+              <p className="text-xs text-emerald-400">자동수집 / 승인 (APPROVED)</p>
               <p className="text-2xl font-bold text-emerald-300 mt-1">{approvedCount}건</p>
             </div>
             <span className="text-2xl">✅</span>
@@ -572,44 +594,64 @@ function VerifyClientContent() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           {/* 좌측 공고 목록 */}
           <div className="lg:col-span-5 bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3 max-h-[750px] overflow-y-auto">
-            <div className="flex items-center justify-between pb-2 border-b border-slate-800">
-              <h2 className="font-bold text-sm text-white flex items-center gap-2">
-                <span>📋 발굴 공고 목록</span>
-                <span className="text-xs bg-slate-800 text-slate-300 px-2 py-0.5 rounded-full">{safeBids.length}</span>
-              </h2>
-              <span className="text-xs text-slate-400">최신순</span>
+            {/* 탭 버튼 바 */}
+            <div className="flex items-center gap-1.5 pb-3 border-b border-slate-800">
+              <button
+                onClick={() => setAdminTab('NEEDS_REVIEW')}
+                className={`px-2.5 py-1 rounded-lg text-xs font-bold transition ${adminTab === 'NEEDS_REVIEW' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40' : 'text-slate-400 hover:text-slate-200'}`}
+              >
+                ⚠️ 예외검수 ({needsReviewBids.length})
+              </button>
+              <button
+                onClick={() => setAdminTab('APPROVED')}
+                className={`px-2.5 py-1 rounded-lg text-xs font-bold transition ${adminTab === 'APPROVED' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'text-slate-400 hover:text-slate-200'}`}
+              >
+                ✅ 승인 ({approvedCount})
+              </button>
+              <button
+                onClick={() => setAdminTab('ALL')}
+                className={`px-2.5 py-1 rounded-lg text-xs font-bold transition ${adminTab === 'ALL' ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/40' : 'text-slate-400 hover:text-slate-200'}`}
+              >
+                🌐 전체 ({safeBids.length})
+              </button>
             </div>
 
-            {safeBids.map((b) => {
-              const isSelected = selectedBid?.bidKey === b?.bidKey;
-              const displayTitle = b?.normalized?.title || '제목 없음 · 데이터 검수 필요';
-              const displayClient = b?.normalized?.client || '기관 미지정';
-              const displayRegion = b?.normalized?.displayRegion || '전국';
+            {displayedBids.length === 0 ? (
+              <div className="py-12 text-center text-slate-500 text-xs">
+                {adminTab === 'NEEDS_REVIEW' ? '🎉 현재 예외검수 대기 공고가 없습니다 (모두 정상 연동됨).' : '해당 조건의 공고가 없습니다.'}
+              </div>
+            ) : (
+              displayedBids.map((b) => {
+                const isSelected = selectedBid?.bidKey === b?.bidKey;
+                const displayTitle = b?.normalized?.title || '제목 없음 · 데이터 검수 필요';
+                const displayClient = b?.normalized?.client || '기관 미지정';
+                const displayRegion = b?.normalized?.displayRegion || '지역조건 원문 확인';
 
-              return (
-                <div
-                  key={b?.bidKey || Math.random().toString()}
-                  onClick={() => setSelectedBid(b)}
-                  className={`p-3.5 rounded-xl border cursor-pointer transition ${isSelected ? 'bg-indigo-950/40 border-indigo-500/60 shadow-lg shadow-indigo-950/50' : 'bg-slate-950/60 border-slate-800/80 hover:border-slate-700 hover:bg-slate-800/40'}`}
-                >
-                  <div className="flex items-center justify-between gap-2 mb-1.5">
-                    <span className="text-xs font-mono text-indigo-400 font-semibold">{b?.bidKey || 'N/A'}</span>
-                    <span className={`text-[10px] px-2 py-0.5 rounded font-bold ${b?.verificationStatus === 'APPROVED' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : (b?.verificationStatus === 'REJECTED' ? 'bg-red-500/20 text-red-400 border border-red-500/30' : 'bg-amber-500/20 text-amber-300 border border-amber-500/30')}`}>
-                      {b?.verificationStatus || 'PENDING'}
-                    </span>
+                return (
+                  <div
+                    key={b?.bidKey || Math.random().toString()}
+                    onClick={() => setSelectedBid(b)}
+                    className={`p-3.5 rounded-xl border cursor-pointer transition ${isSelected ? 'bg-indigo-950/40 border-indigo-500/60 shadow-lg shadow-indigo-950/50' : 'bg-slate-950/60 border-slate-800/80 hover:border-slate-700 hover:bg-slate-800/40'}`}
+                  >
+                    <div className="flex items-center justify-between gap-2 mb-1.5">
+                      <span className="text-xs font-mono text-indigo-400 font-semibold">{b?.bidKey || 'N/A'}</span>
+                      <span className={`text-[10px] px-2 py-0.5 rounded font-bold ${b?.verificationStatus === 'APPROVED' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : (b?.verificationStatus === 'REJECTED' ? 'bg-red-500/20 text-red-400 border border-red-500/30' : 'bg-amber-500/20 text-amber-300 border border-amber-500/30')}`}>
+                        {b?.verificationStatus || 'NEEDS_REVIEW'}
+                      </span>
+                    </div>
+
+                    <h3 className="text-xs font-medium text-white line-clamp-2 leading-relaxed mb-2">{displayTitle}</h3>
+
+                    <div className="flex items-center justify-between text-[11px] text-slate-400">
+                      <span>{displayClient}</span>
+                      <span className={`px-1.5 py-0.5 rounded text-[10px] ${b?.normalized?.regionStatus === 'RESTRICTED' ? 'bg-purple-950 text-purple-300 border border-purple-800' : 'bg-slate-800 text-slate-400'}`}>
+                        {displayRegion}
+                      </span>
+                    </div>
                   </div>
-
-                  <h3 className="text-xs font-medium text-white line-clamp-2 leading-relaxed mb-2">{displayTitle}</h3>
-
-                  <div className="flex items-center justify-between text-[11px] text-slate-400">
-                    <span>{displayClient}</span>
-                    <span className={`px-1.5 py-0.5 rounded text-[10px] ${b?.normalized?.regionStatus === 'RESTRICTED' ? 'bg-purple-950 text-purple-300 border border-purple-800' : 'bg-slate-800 text-slate-400'}`}>
-                      {displayRegion}
-                    </span>
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })
+            )}
           </div>
 
           {/* 우측 1:1 대조 및 승인/반려 제어 패널 */}
