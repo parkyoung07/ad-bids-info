@@ -70,16 +70,19 @@ export default function HomePage() {
 
   const allBids = useMemo(() => {
     const raw = (bidsData as unknown as BidItem[]) || [];
-    // 지침 1 & 2: 승인(APPROVED) 및 검증(isVerified) 완료된 정식 공고만 공개 통과
+    // 지침 1 & 2: 승인(APPROVED) 및 검증(isVerified) 완료된 정식 공고만 공개 통과 (Zero-Trust Gatekeeping)
     return raw.filter((b: any) => {
       const isApproved =
+        (b.validation && b.validation.status === "APPROVED") ||
         b.validationStatus === "APPROVED" ||
         b.verificationStatus === "APPROVED" ||
-        b.status === "APPROVED" ||
-        b.isVerified === true;
-      const isVerified = b.isVerified === true;
+        b.status === "APPROVED";
+      const isVerified = (b.validation && b.validation.isVerified === true) || b.isVerified === true;
       const isPublished = Boolean(b.publishedAt || b.approvedAt);
-      return isApproved && isVerified && isPublished;
+      const isPendingOrRejected = ["PENDING_MANUAL_CHECK", "REVIEW_REQUIRED", "REJECTED", "CANCELLED", "HELD"].includes(
+        b.validation?.status || b.verificationStatus || b.validationStatus
+      );
+      return isApproved && isVerified && isPublished && !isPendingOrRejected;
     });
   }, []);
 

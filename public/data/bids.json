@@ -63,7 +63,13 @@
     "contractMethod": "계약방법 확인 필요",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-29T00:55:00.000Z"
+    "publishedAt": "2026-09-29T00:55:00.000Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-29T00:55:00.000Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01718920-000",
@@ -129,7 +135,13 @@
     "contractMethod": "소액수의",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-29T00:55:00.000Z"
+    "publishedAt": "2026-09-29T00:55:00.000Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-29T00:55:00.000Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01737767-000",
@@ -194,7 +206,13 @@
     "contractMethod": "제한경쟁",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-21T03:00:00.000Z"
+    "publishedAt": "2026-09-21T03:00:00.000Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-21T03:00:00.000Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01710037-000",
@@ -259,7 +277,13 @@
     "contractMethod": "제한경쟁",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-04T10:20:00.000Z"
+    "publishedAt": "2026-09-04T10:20:00.000Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-11T00:22:10.722Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01711670-001",
@@ -332,7 +356,13 @@
     "contractMethod": "제한경쟁",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-04T10:20:00.000Z"
+    "publishedAt": "2026-09-04T10:20:00.000Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-11T00:22:10.723Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01712005-000",
@@ -397,7 +427,13 @@
     "contractMethod": "수의계약",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-04T10:20:00.000Z"
+    "publishedAt": "2026-09-04T10:20:00.000Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-11T00:22:10.723Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01710609-000",
@@ -462,7 +498,13 @@
     "contractMethod": "수의계약",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-04T10:20:00.000Z"
+    "publishedAt": "2026-09-04T10:20:00.000Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-11T00:22:10.723Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01710868-000",
@@ -527,7 +569,13 @@
     "contractMethod": "수의계약",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-04T10:20:00.000Z"
+    "publishedAt": "2026-09-04T10:20:00.000Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-11T00:22:10.723Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01709472-000",
@@ -592,7 +640,13 @@
     "contractMethod": "수의계약",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-04T10:20:00.000Z"
+    "publishedAt": "2026-09-04T10:20:00.000Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-11T00:22:10.722Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01708010-000",
@@ -657,7 +711,13 @@
     "contractMethod": "수의계약",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-04T10:20:00.000Z"
+    "publishedAt": "2026-09-04T10:20:00.000Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-11T00:22:10.722Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01712388-000",
@@ -722,7 +782,13 @@
     "contractMethod": "수의계약",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-04T10:20:00.000Z"
+    "publishedAt": "2026-09-04T10:20:00.000Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-11T00:22:10.722Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01711571-000",
@@ -787,7 +853,13 @@
     "contractMethod": "수의계약",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-04T10:20:00.000Z"
+    "publishedAt": "2026-09-04T10:20:00.000Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-11T00:22:10.723Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01709285-000",
@@ -852,7 +924,13 @@
     "contractMethod": "수의계약",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-04T10:20:00.000Z"
+    "publishedAt": "2026-09-04T10:20:00.000Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-11T00:22:10.722Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01704985-000",
@@ -917,7 +995,13 @@
     "contractMethod": "수의계약",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-04T10:20:00.000Z"
+    "publishedAt": "2026-09-04T10:20:00.000Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-11T00:22:10.723Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01706337-000",
@@ -982,7 +1066,13 @@
     "contractMethod": "수의계약",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-04T10:20:00.000Z"
+    "publishedAt": "2026-09-04T10:20:00.000Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-11T00:22:10.723Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01707749-000",
@@ -1047,7 +1137,13 @@
     "contractMethod": "수의계약",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-04T10:20:00.000Z"
+    "publishedAt": "2026-09-04T10:20:00.000Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-11T00:22:10.723Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01726732-000",
@@ -1112,7 +1208,13 @@
     "contractMethod": "제한경쟁",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-21T07:59:52.332Z"
+    "publishedAt": "2026-09-21T07:59:52.332Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-21T07:59:52.332Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01726730-000",
@@ -1177,7 +1279,13 @@
     "contractMethod": "계약방법 확인 필요",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-21T07:59:52.342Z"
+    "publishedAt": "2026-09-21T07:59:52.342Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-21T07:59:52.342Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01726939-000",
@@ -1242,7 +1350,13 @@
     "contractMethod": "수의계약",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-21T07:59:52.342Z"
+    "publishedAt": "2026-09-21T07:59:52.342Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-21T07:59:52.342Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01726622-000",
@@ -1307,7 +1421,13 @@
     "contractMethod": "계약방법 확인 필요",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-21T07:59:52.342Z"
+    "publishedAt": "2026-09-21T07:59:52.342Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-21T07:59:52.342Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01727076-000",
@@ -1372,7 +1492,13 @@
     "contractMethod": "수의계약",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-21T07:59:52.342Z"
+    "publishedAt": "2026-09-21T07:59:52.342Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-21T07:59:52.342Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01727176-000",
@@ -1437,7 +1563,13 @@
     "contractMethod": "제한경쟁",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-21T07:59:52.342Z"
+    "publishedAt": "2026-09-21T07:59:52.342Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-21T07:59:52.342Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01726883-000",
@@ -1502,7 +1634,13 @@
     "contractMethod": "수의계약",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-21T07:59:52.342Z"
+    "publishedAt": "2026-09-21T07:59:52.342Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-21T07:59:52.342Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01726818-000",
@@ -1567,7 +1705,13 @@
     "contractMethod": "제한경쟁",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-21T07:59:52.342Z"
+    "publishedAt": "2026-09-21T07:59:52.342Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-21T07:59:52.342Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01727466-000",
@@ -1632,7 +1776,13 @@
     "contractMethod": "제한경쟁",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-21T07:59:52.342Z"
+    "publishedAt": "2026-09-21T07:59:52.342Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-21T07:59:52.342Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01727736-000",
@@ -1697,7 +1847,13 @@
     "contractMethod": "수의계약",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-21T07:59:52.342Z"
+    "publishedAt": "2026-09-21T07:59:52.342Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-21T07:59:52.342Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01727286-000",
@@ -1762,7 +1918,13 @@
     "contractMethod": "제한경쟁",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-21T07:59:53.565Z"
+    "publishedAt": "2026-09-21T07:59:53.565Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-21T07:59:53.565Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01727940-000",
@@ -1827,7 +1989,13 @@
     "contractMethod": "수의계약",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-21T07:59:53.565Z"
+    "publishedAt": "2026-09-21T07:59:53.565Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-21T07:59:53.565Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01724551-000",
@@ -1892,7 +2060,13 @@
     "contractMethod": "계약방법 확인 필요",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-21T07:59:53.565Z"
+    "publishedAt": "2026-09-21T07:59:53.565Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-21T07:59:53.565Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01728381-000",
@@ -1957,7 +2131,13 @@
     "contractMethod": "수의계약",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-21T07:59:53.565Z"
+    "publishedAt": "2026-09-21T07:59:53.565Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-21T07:59:53.565Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01728543-000",
@@ -2022,7 +2202,13 @@
     "contractMethod": "제한경쟁",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-21T07:59:53.565Z"
+    "publishedAt": "2026-09-21T07:59:53.565Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-21T07:59:53.565Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01729699-000",
@@ -2087,7 +2273,13 @@
     "contractMethod": "수의계약",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-21T07:59:57.069Z"
+    "publishedAt": "2026-09-21T07:59:57.069Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-21T07:59:57.069Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01730265-000",
@@ -2152,7 +2344,13 @@
     "contractMethod": "제한경쟁",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-21T07:59:57.069Z"
+    "publishedAt": "2026-09-21T07:59:57.069Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-21T07:59:57.069Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01727188-000",
@@ -2217,7 +2415,13 @@
     "contractMethod": "수의계약",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-21T07:59:57.069Z"
+    "publishedAt": "2026-09-21T07:59:57.069Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-21T07:59:57.069Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01730675-000",
@@ -2282,7 +2486,13 @@
     "contractMethod": "제한경쟁",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-21T07:59:57.069Z"
+    "publishedAt": "2026-09-21T07:59:57.069Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-21T07:59:57.069Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01721254-000",
@@ -2347,7 +2557,13 @@
     "contractMethod": "수의계약",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-21T07:59:58.402Z"
+    "publishedAt": "2026-09-21T07:59:58.402Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-21T07:59:58.402Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01726976-000",
@@ -2412,7 +2628,13 @@
     "contractMethod": "계약방법 확인 필요",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-21T07:59:58.402Z"
+    "publishedAt": "2026-09-21T07:59:58.402Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-21T07:59:58.402Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01724733-000",
@@ -2477,7 +2699,13 @@
     "contractMethod": "수의계약",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-21T08:00:00.091Z"
+    "publishedAt": "2026-09-21T08:00:00.091Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-21T08:00:00.091Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01726873-000",
@@ -2542,7 +2770,13 @@
     "contractMethod": "제한경쟁",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-21T08:00:00.091Z"
+    "publishedAt": "2026-09-21T08:00:00.091Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-21T08:00:00.091Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01726861-000",
@@ -2607,7 +2841,13 @@
     "contractMethod": "수의계약",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-21T08:00:10.575Z"
+    "publishedAt": "2026-09-21T08:00:10.575Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-21T08:00:10.575Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01729007-000",
@@ -2672,7 +2912,13 @@
     "contractMethod": "지명경쟁",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-21T08:00:10.575Z"
+    "publishedAt": "2026-09-21T08:00:10.575Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-21T08:00:10.575Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01725510-000",
@@ -2737,7 +2983,13 @@
     "contractMethod": "제한경쟁",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-21T08:00:00.000Z"
+    "publishedAt": "2026-09-21T08:00:00.000Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-21T08:00:00.000Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01726880-000",
@@ -2802,7 +3054,13 @@
     "contractMethod": "계약방법 확인 필요",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-21T08:00:00.000Z"
+    "publishedAt": "2026-09-21T08:00:00.000Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-21T08:00:00.000Z",
+      "verifiedBy": "master_admin_alex"
+    }
   },
   {
     "id": "R26BK01727995-000",
@@ -2867,6 +3125,12 @@
     "contractMethod": "제한경쟁",
     "verificationStatus": "APPROVED",
     "validationStatus": "APPROVED",
-    "publishedAt": "2026-09-21T08:00:00.000Z"
+    "publishedAt": "2026-09-21T08:00:00.000Z",
+    "validation": {
+      "status": "APPROVED",
+      "isVerified": true,
+      "verifiedAt": "2026-09-21T08:00:00.000Z",
+      "verifiedBy": "master_admin_alex"
+    }
   }
 ]

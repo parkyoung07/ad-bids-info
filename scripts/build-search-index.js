@@ -68,6 +68,16 @@ function buildSearchIndex() {
     try {
       const bids = JSON.parse(fs.readFileSync(bidsPath, "utf-8"));
       bids.forEach((bid) => {
+        // Zero-Trust Gatekeeping Filter
+        const isApproved = (bid.validation && bid.validation.status === "APPROVED") || bid.validationStatus === "APPROVED" || bid.verificationStatus === "APPROVED";
+        const isVerified = (bid.validation && bid.validation.isVerified === true) || bid.isVerified === true;
+        const isPublished = Boolean(bid.publishedAt || bid.approvedAt);
+        const isPendingOrRejected = ["PENDING_MANUAL_CHECK", "REVIEW_REQUIRED", "REJECTED", "CANCELLED", "HELD"].includes(
+          bid.validation?.status || bid.verificationStatus || bid.validationStatus || ""
+        );
+        if (!isApproved || !isVerified || !isPublished || isPendingOrRejected) {
+          return;
+        }
         searchIndex.push({
           type: "bid",
           id: bid.id,

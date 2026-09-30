@@ -106,8 +106,19 @@ export default async function BidDetailPage({ params }: PageProps) {
   const bids = (bidsData as unknown as BidItem[]) || [];
   const bid = bids.find((item) => item.id === id);
 
-  // 지침 1 & 2: 승인되지 않은 공고는 공개 상세 페이지에서 404 notFound 반환
-  if (!bid || !bid.isVerified || !(bid.isVerified && Boolean((bid as any).publishedAt || (bid as any).approvedAt))) {
+  // 지침 1 & 2: 승인(APPROVED) 및 검증(isVerified) 완료되지 않은 공고는 공개 상세 페이지에서 404 notFound 반환
+  const isApproved =
+    (bid?.validation && bid.validation.status === "APPROVED") ||
+    bid?.validationStatus === "APPROVED" ||
+    bid?.verificationStatus === "APPROVED" ||
+    bid?.status === "APPROVED";
+  const isVerified = (bid?.validation && bid.validation.isVerified === true) || bid?.isVerified === true;
+  const isPublished = Boolean(bid?.publishedAt || bid?.approvedAt);
+  const isPendingOrRejected = ["PENDING_MANUAL_CHECK", "REVIEW_REQUIRED", "REJECTED", "CANCELLED", "HELD"].includes(
+    bid?.validation?.status || bid?.verificationStatus || bid?.validationStatus || ""
+  );
+
+  if (!bid || !isApproved || !isVerified || !isPublished || isPendingOrRejected) {
     notFound();
   }
 

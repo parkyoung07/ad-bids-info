@@ -83,9 +83,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     });
   });
 
-  // 3. 승인(APPROVED) 및 검증(isVerified) 완료된 정식 입찰 공고 상세 페이지 동적 추가
-  const bids = ((bidsData as unknown as { id: string; startDate?: string; isVerified?: boolean; publishedAt?: string; approvedAt?: string }[]) || [])
-    .filter(b => b.isVerified === true && Boolean(b.publishedAt || b.approvedAt));
+  // 3. 승인(APPROVED) 및 검증(isVerified) 완료된 정식 입찰 공고 상세 페이지 동적 추가 (Zero-Trust Gatekeeping)
+  const bids = ((bidsData as unknown as { id: string; startDate?: string; isVerified?: boolean; validationStatus?: string; verificationStatus?: string; validation?: { status?: string; isVerified?: boolean }; publishedAt?: string; approvedAt?: string }[]) || [])
+    .filter(b => {
+      const isApproved = (b.validation && b.validation.status === "APPROVED") || b.validationStatus === "APPROVED" || b.verificationStatus === "APPROVED";
+      const isVerified = (b.validation && b.validation.isVerified === true) || b.isVerified === true;
+      const isPublished = Boolean(b.publishedAt || b.approvedAt);
+      const isPendingOrRejected = ["PENDING_MANUAL_CHECK", "REVIEW_REQUIRED", "REJECTED", "CANCELLED", "HELD"].includes(
+        b.validation?.status || b.verificationStatus || b.validationStatus || ""
+      );
+      return isApproved && isVerified && isPublished && !isPendingOrRejected;
+    });
   bids.forEach((bid) => {
     routes.push({
       url: `${baseUrl}/bids/${bid.id}`,

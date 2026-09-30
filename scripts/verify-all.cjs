@@ -335,18 +335,41 @@ async function verifyIntegrityRules() {
     }
   }
 
-  // [규칙 20] 공개 공고 승인(APPROVED) 및 발행(publishedAt) 게이트키핑 100% 일치 검증
+  // [규칙 20] 공개 공고 승인(APPROVED) 및 발행(publishedAt) 게이트키핑 & 검색 인덱스 100% 일치 검증
   console.log('규칙 20: 공개 공고의 APPROVED 및 isVerified, publishedAt 게이트키핑 무결성 검증');
+  const searchIndexPath = path.resolve(__dirname, '../public/data/search-index.json');
+  let searchIndexBidCount = 0;
+  if (fs.existsSync(searchIndexPath)) {
+    const sIndex = JSON.parse(fs.readFileSync(searchIndexPath, 'utf-8'));
+    searchIndexBidCount = sIndex.filter((item) => item.type === 'bid').length;
+  }
+
+  let approvedCount = 0;
   bids.forEach((bid) => {
-    if (!bid.isVerified || (bid.verificationStatus !== 'APPROVED' && bid.validationStatus !== 'APPROVED' && bid.status !== 'APPROVED')) {
+    const isApproved =
+      (bid.validation && bid.validation.status === 'APPROVED') ||
+      bid.verificationStatus === 'APPROVED' ||
+      bid.validationStatus === 'APPROVED';
+    const isVerified = (bid.validation && bid.validation.isVerified === true) || bid.isVerified === true;
+    const isPublished = Boolean(bid.publishedAt || bid.approvedAt);
+
+    if (!isApproved || !isVerified) {
       console.error(`  ❌ [규칙 20 위반] 승인되지 않은 공고 [${bid.id}] ${bid.title} 가 공개 목록에 포함되어 있습니다.`);
       failureCount++;
+    } else {
+      approvedCount++;
     }
-    if (!bid.publishedAt && !bid.approvedAt) {
+
+    if (!isPublished) {
       console.error(`  ❌ [규칙 20 위반] 발행 승인 일시(publishedAt)가 없는 공고 [${bid.id}] 가 공개 목록에 포함되어 있습니다.`);
       failureCount++;
     }
   });
+
+  if (searchIndexBidCount !== approvedCount) {
+    console.error(`  ❌ [규칙 20 위반] 검색 인덱스 입찰 공고 수(${searchIndexBidCount})와 승인 공고 수(${approvedCount})가 일치하지 않습니다.`);
+    failureCount++;
+  }
 
   // [규칙 21] 출처 도메인 분류 정확성 및 K-apt 불완전 공고 배제 검증
   console.log('규칙 21: 출처 도메인(G2B/S2B/OnBid) 분류 일치 및 K-apt 불완전 공고 0건 검증');

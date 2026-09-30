@@ -70,6 +70,17 @@ export interface BidItem {
   }>;
   approvedBy?: string;
   approvedAt?: string;
+  publishedAt?: string;
+  validationStatus?: string;
+  verificationStatus?: string;
+  sourceApi?: string;
+  officialUrl?: string;
+  validation?: {
+    status?: string;
+    isVerified?: boolean;
+    verifiedAt?: string;
+    verifiedBy?: string;
+  };
   auditLogId?: string;
   sourceHash?: string;
   approvalReason?: string;
