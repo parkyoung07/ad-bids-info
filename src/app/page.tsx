@@ -315,22 +315,22 @@ export default function HomePage() {
       <section className="relative overflow-hidden bg-slate-900 border-b border-slate-800 py-5 sm:py-9 px-3 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center space-y-2.5 sm:space-y-3.5 relative z-10">
           {/* 상단 신뢰 배지 */}
-          <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-slate-950 border border-slate-800 text-slate-300 text-[11px] sm:text-xs font-semibold shadow-sm">
-            <ShieldCheck className="w-3.5 h-3.5 text-cyan-400" />
-            <span>실시간 조달청·공공기관 검증 공고</span>
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-950 border border-cyan-500/30 text-cyan-300 text-[11px] sm:text-xs font-semibold shadow-sm">
+            <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+            <span>몰랐으면 지나쳤을 숨은 알짜 입찰공고 발굴 AI</span>
           </div>
 
           {/* 메인 헤드라인 (간결하고 직관적인 타이틀) */}
           <h1 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-white tracking-tight leading-snug">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400">
-              옥외광고 · 인쇄 · 행사전시
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-300 to-indigo-400">
+              광고 · 인쇄업 맞춤 공공입찰
             </span>{" "}
-            공공입찰
+            발굴 서비스
           </h1>
 
-          {/* 보조 설명 (간결화) */}
-          <p className="text-xs sm:text-sm text-slate-400 max-w-xl mx-auto">
-            나라장터 · 온비드 · 학교장터 실시간 맞춤 수집 및 분석
+          {/* 보조 설명 (새로운 2번째 도약 목표점 반영) */}
+          <p className="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto leading-relaxed">
+            조달청 나라장터 · 학교장터(S2B) · 온비드 복합 공고 속 <span className="text-cyan-300 font-semibold">간판·현수막·인쇄·사이니지</span> 알짜 발주를 3초 만에 발견하세요.
           </p>
 
           {/* 통합 검색창 & 카톡 알림 원라인/컴팩트 구성 */}
