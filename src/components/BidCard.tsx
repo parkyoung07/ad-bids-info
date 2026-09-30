@@ -139,7 +139,7 @@ export default function BidCard({
   const isExpired = timeStatus.isExpired;
   const isUrgent = timeStatus.isUrgent;
 
-  // 상태 배지 렌더링 (새로운 표시 규칙 적용)
+  // 상태 배지 렌더링 (새로운 표시 규칙 적용: 사람이 승인한 공고가 아니므로 VERIFIED/APPROVED 배지 절대 미표시)
   const renderStatusBadge = () => {
     if (isDemo) {
       return (
@@ -152,7 +152,7 @@ export default function BidCard({
     if (isExpired) {
       return (
         <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-bold bg-rose-950/60 text-rose-300 border border-rose-800/60">
-          🔴 마감된 후보
+          🔴 공식 마감
         </span>
       );
     }
@@ -188,15 +188,29 @@ export default function BidCard({
     );
   };
 
-  // 발주 채널별 고유 색상 및 아이콘 배지 렌더링
+  // 발주 채널별 고유 색상 및 아이콘 배지 렌더링 (도메인 기반 엄격 판정: G2B 링크는 항상 조달청 나라장터)
   const renderSourceBadge = () => {
-    const src = bid.source || bid.sourceApi || "조달청 나라장터";
     const url = (bid.officialUrl || bid.sourceDetailUrl || bid.linkUrl || "").toLowerCase();
+    const src = bid.source || bid.sourceApi || "";
 
+    if (url.includes("g2b.go.kr")) {
+      return (
+        <span className="inline-flex items-center gap-1 text-[11px] font-medium text-blue-300 bg-blue-500/15 px-2 py-0.5 rounded border border-blue-500/30">
+          🏛️ 조달청 나라장터
+        </span>
+      );
+    }
     if (url.includes("s2b.kr") || src.includes("학교장터") || src.includes("S2B")) {
       return (
         <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-300 bg-emerald-500/15 px-2 py-0.5 rounded border border-emerald-500/30">
           🏫 학교장터 (S2B)
+        </span>
+      );
+    }
+    if (url.includes("k-apt.go.kr") || src.includes("K-apt") || src.includes("kapt")) {
+      return (
+        <span className="inline-flex items-center gap-1 text-[11px] font-bold text-orange-300 bg-orange-500/15 px-2 py-0.5 rounded border border-orange-500/30">
+          🏢 K-apt
         </span>
       );
     }
@@ -261,7 +275,7 @@ export default function BidCard({
 
   const officialDirectUrl = bid.sourceDetailUrl || bid.officialUrl || bid.linkUrl || "";
   const displayLocation = bid.location ? bid.location : "지역조건 원문 확인";
-  const displayBudget = (bid.budget && bid.budget > 0 && bid.budgetText) ? bid.budgetText : "원문 확인 필요";
+  const hasBudget = Boolean(bid.budget && bid.budget > 0 && bid.budgetText);
   const noticeDateText = bid.noticeDate || (bid.startDate ? bid.startDate.substring(0, 10) : "");
 
   return (
@@ -278,7 +292,7 @@ export default function BidCard({
             {renderSourceBadge()}
             {renderCategoryBadge()}
 
-            {/* 지역조건 (null 시 임의 '전국' 변환 금지) */}
+            {/* 지역조건 (null 시 임의 '전국' 변환 금지 -> 원문 확인) */}
             <span className="inline-flex items-center gap-0.5 text-[11px] text-slate-300 bg-slate-800/80 px-2 py-0.5 rounded border border-slate-700/40">
               <MapPin className="w-2.5 h-2.5 text-slate-400" />
               {displayLocation}
@@ -323,7 +337,7 @@ export default function BidCard({
         {/* 발견 키워드 태그 목록 */}
         {bid.tags && bid.tags.length > 0 && (
           <div className="flex flex-wrap items-center gap-1 mb-2.5">
-            <span className="text-[10px] text-slate-500">발견 키워드:</span>
+            <span className="text-[10px] text-slate-500">관련 키워드:</span>
             {bid.tags.slice(0, 3).map((tag, idx) => (
               <span key={idx} className="text-[10px] px-1.5 py-0.2 bg-slate-800/80 text-cyan-300 rounded border border-slate-700/60 font-mono">
                 #{tag}
@@ -332,8 +346,8 @@ export default function BidCard({
           </div>
         )}
 
-        {/* 핵심 제원: 발주기관, 배정예산, 마감일시, 공고번호/수집일 */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 py-2 border-t border-slate-800/80 text-xs text-slate-400">
+        {/* 핵심 제원: 발주기관, 마감일시, 배정예산(null 시 숨김) */}
+        <div className={`grid grid-cols-1 ${hasBudget ? "sm:grid-cols-3" : "sm:grid-cols-2"} gap-2 py-2 border-t border-slate-800/80 text-xs text-slate-400`}>
           <div className="flex items-center gap-1.5 truncate">
             <Building2 className="w-3.5 h-3.5 text-slate-500 shrink-0" />
             <span className="truncate">
@@ -344,19 +358,23 @@ export default function BidCard({
           <div className="flex items-center gap-1.5">
             <Calendar className="w-3.5 h-3.5 text-slate-500 shrink-0" />
             <span>
-              마감: <strong className={`${isExpired ? "text-slate-400" : "text-rose-400"} font-semibold`}>{bid.endDate ? bid.endDate.substring(0, 16) : "원문 확인 필요"}</strong>
+              마감: <strong className={`${isExpired ? "text-slate-400" : "text-rose-400"} font-semibold`}>
+                {bid.endDate ? bid.endDate.substring(0, 16) : "마감일 원문 확인"}
+              </strong>
             </span>
           </div>
 
-          <div className="flex items-center sm:justify-end gap-1 font-bold text-cyan-300">
-            <span className="text-slate-400 text-xs font-normal">예산:</span>
-            <span>{displayBudget}</span>
-          </div>
+          {hasBudget && (
+            <div className="flex items-center sm:justify-end gap-1 font-bold text-cyan-300">
+              <span className="text-slate-400 text-xs font-normal">예산:</span>
+              <span>{bid.budgetText}</span>
+            </div>
+          )}
         </div>
       </div>
 
       {/* 하단 액션 버튼 바 */}
-      <div className="pt-3 mt-3 flex items-center justify-between gap-2 border-t border-slate-800/50">
+      <div className="pt-3 mt-2 flex items-center justify-between gap-2 border-t border-slate-800/50">
         <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
           <span className="text-[10px] text-slate-500 font-mono">
             {bid.announcementNo || bid.id}
@@ -389,7 +407,7 @@ export default function BidCard({
               className="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1.5 rounded-md bg-cyan-950 hover:bg-cyan-900 text-cyan-300 hover:text-cyan-100 border border-cyan-700/60 transition-colors shadow-sm"
               title="해당 발주기관 공식 원문 공고 페이지로 직접 이동"
             >
-              <span>공식 원문 보기</span>
+              <span>공식 원문 바로가기</span>
               <ExternalLink className="w-3 h-3 text-cyan-400" />
             </a>
           ) : null}
@@ -404,6 +422,12 @@ export default function BidCard({
           </Link>
         </div>
       </div>
+
+      {/* 각 공고 카드 하단 안내문 (사용자 지침 필수 문구) */}
+      <div className="mt-2.5 pt-2 border-t border-slate-800/40 text-[10.5px] text-slate-400/90 leading-tight">
+        ※ 관련 키워드로 자동수집된 입찰 후보입니다. 실제 참여 전 공식 공고 원문을 확인하세요.
+      </div>
     </div>
   );
 }
+

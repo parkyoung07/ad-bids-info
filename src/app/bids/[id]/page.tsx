@@ -28,9 +28,24 @@ import type { Metadata } from "next";
 
 export async function generateStaticParams() {
   const bids = (bidsData as unknown as BidItem[]) || [];
-  return bids.map((bid) => ({
-    id: bid.id,
-  }));
+  return bids
+    .filter((bid) => {
+      const isCandidate =
+        bid.status === "AUTO_COLLECTED_CANDIDATE" ||
+        bid.validationStatus === "AUTO_COLLECTED_CANDIDATE" ||
+        (bid.validation && bid.validation.status === "AUTO_COLLECTED_CANDIDATE") ||
+        (bid.validation && bid.validation.status === "APPROVED") ||
+        bid.status === "APPROVED" ||
+        bid.isDemo === true;
+      const isIsolated = ["PENDING_MANUAL_CHECK", "NEEDS_REVIEW", "DATA_CONFLICT", "REVIEW_REQUIRED", "REJECTED", "CANCELLED", "HELD"].includes(
+        bid.validation?.status || bid.verificationStatus || bid.validationStatus || ""
+      );
+      const hasOfficialUrl = Boolean(bid.officialUrl || bid.sourceDetailUrl || bid.linkUrl);
+      return isCandidate && !isIsolated && hasOfficialUrl;
+    })
+    .map((bid) => ({
+      id: bid.id,
+    }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -106,19 +121,22 @@ export default async function BidDetailPage({ params }: PageProps) {
   const bids = (bidsData as unknown as BidItem[]) || [];
   const bid = bids.find((item) => item.id === id);
 
-  // 지침 1 & 2: 승인(APPROVED) 및 검증(isVerified) 완료되지 않은 공고는 공개 상세 페이지에서 404 notFound 반환
-  const isApproved =
+  // 지침 1 & 2: 8대 최소 공개조건을 충족한 자동수집 후보 공고 및 승인 공고만 공개 상세 페이지에서 허용 (미충족 격리 공고는 404)
+  const isCandidate =
+    bid?.status === "AUTO_COLLECTED_CANDIDATE" ||
+    bid?.validationStatus === "AUTO_COLLECTED_CANDIDATE" ||
+    (bid?.validation && bid.validation.status === "AUTO_COLLECTED_CANDIDATE") ||
     (bid?.validation && bid.validation.status === "APPROVED") ||
-    bid?.validationStatus === "APPROVED" ||
-    bid?.verificationStatus === "APPROVED" ||
-    bid?.status === "APPROVED";
-  const isVerified = (bid?.validation && bid.validation.isVerified === true) || bid?.isVerified === true;
-  const isPublished = Boolean(bid?.publishedAt || bid?.approvedAt);
-  const isPendingOrRejected = ["PENDING_MANUAL_CHECK", "REVIEW_REQUIRED", "REJECTED", "CANCELLED", "HELD"].includes(
+    bid?.status === "APPROVED" ||
+    bid?.isDemo === true;
+
+  const isIsolated = ["PENDING_MANUAL_CHECK", "NEEDS_REVIEW", "DATA_CONFLICT", "REVIEW_REQUIRED", "REJECTED", "CANCELLED", "HELD"].includes(
     bid?.validation?.status || bid?.verificationStatus || bid?.validationStatus || ""
   );
 
-  if (!bid || !isApproved || !isVerified || !isPublished || isPendingOrRejected) {
+  const hasOfficialUrl = Boolean(bid?.officialUrl || bid?.sourceDetailUrl || bid?.linkUrl);
+
+  if (!bid || !isCandidate || isIsolated || !hasOfficialUrl) {
     notFound();
   }
 
@@ -136,20 +154,19 @@ export default async function BidDetailPage({ params }: PageProps) {
 
   const noticeDateStr = bid.noticeDate || bid.startDate?.substring(0, 10) || "미확인";
   const beginDateStr = bid.bidBeginDate || bid.startDate || "미확인";
-  const closeDateStr = bid.bidCloseDate || bid.endDate || "마감일 미기재";
-  const openDateStr = bid.openingDate || bid.openDate || "개찰일 미기재";
+  const closeDateStr = bid.bidCloseDate || bid.endDate || "마감일 원문 확인";
+  const openDateStr = bid.openingDate || bid.openDate || "개찰일 원문 확인";
 
-  // 발주처 공식 명칭 및 버튼 라벨 결정
-  const sourceName = bid.source?.includes("학교장터") || bid.id.startsWith("S2B-")
+  // 발주처 공식 명칭 및 버튼 라벨 결정 (공식 URL 도메인 기반 엄격 판정)
+  const officialUrlLower = (bid.officialUrl || bid.sourceDetailUrl || bid.linkUrl || "").toLowerCase();
+  const sourceName = officialUrlLower.includes("g2b.go.kr")
+    ? "조달청 나라장터(G2B)"
+    : officialUrlLower.includes("s2b.kr") || bid.source?.includes("학교장터") || bid.id.startsWith("S2B-")
     ? "학교장터(S2B)"
-    : bid.source?.includes("K-apt") || bid.id.startsWith("KAPT-")
+    : officialUrlLower.includes("k-apt.go.kr") || bid.source?.includes("K-apt") || bid.id.startsWith("KAPT-")
     ? "K-apt 공동주택(아파트)"
-    : bid.source?.includes("온비드") || bid.id.startsWith("ONBID-")
+    : officialUrlLower.includes("onbid.co.kr") || bid.source?.includes("온비드") || bid.id.startsWith("ONBID-")
     ? "캠코 온비드(Onbid)"
-    : bid.source?.includes("LH") || bid.id.startsWith("LH-")
-    ? "LH 전자조달"
-    : bid.source?.includes("협회") || bid.id.startsWith("AKOAM-")
-    ? "한국옥외광고협회"
     : "조달청 나라장터(G2B)";
 
   const sourceLinkUrl = bid.sourceDetailUrl || bid.linkUrl || "";
@@ -248,7 +265,7 @@ export default async function BidDetailPage({ params }: PageProps) {
               </span>
             ) : isExpired ? (
               <span className="px-2.5 py-0.5 rounded-md text-xs font-bold bg-rose-950/60 text-rose-300 border border-rose-800/60">
-                🔴 마감된 후보
+                🔴 공식 마감
               </span>
             ) : !timeStatus.isValidDate || timeStatus.dDay === null ? (
               <span className="inline-flex items-center gap-1 px-3 py-1 rounded-md text-xs font-bold bg-slate-800 text-amber-300 border border-amber-500/40">
@@ -302,7 +319,7 @@ export default async function BidDetailPage({ params }: PageProps) {
         <div className="bg-slate-950/80 border border-slate-800 rounded-xl p-3.5 flex items-start gap-2.5 text-xs text-slate-300 shadow-inner">
           <AlertCircle className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
           <p className="leading-relaxed">
-            <strong className="text-cyan-400 font-bold">※ SignBid 안내:</strong> SignBid의 자동분류는 입찰기회 탐색을 위한 참고정보입니다. 참가자격, 금액, 일정과 제출서류는 연결된 <span className="text-cyan-300 font-semibold underline underline-offset-2">공식 공고 원문</span>에서 최종 확인해 주세요.
+            <strong className="text-cyan-400 font-bold">※ SignBid 안내:</strong> SignBid는 광고·인쇄·간판·전광판·행사·전시 관련 입찰 가능성을 빠르게 찾아드리는 무료 탐색형 정보서비스입니다. 자동수집된 공고의 참가자격, 금액, 일정과 제출서류는 연결된 <span className="text-cyan-300 font-semibold underline underline-offset-2">공식 공고 원문</span>에서 최종 확인해 주세요.
           </p>
         </div>
 

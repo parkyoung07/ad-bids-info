@@ -83,16 +83,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
     });
   });
 
-  // 3. 승인(APPROVED) 및 검증(isVerified) 완료된 정식 입찰 공고 상세 페이지 동적 추가 (Zero-Trust Gatekeeping)
-  const bids = ((bidsData as unknown as { id: string; startDate?: string; isVerified?: boolean; validationStatus?: string; verificationStatus?: string; validation?: { status?: string; isVerified?: boolean }; publishedAt?: string; approvedAt?: string }[]) || [])
+  // 3. 8대 최소 공개조건을 충족한 자동수집 후보 공고 상세 페이지 동적 추가
+  const bids = ((bidsData as unknown as { id: string; startDate?: string; title?: string; client?: string; officialUrl?: string; sourceDetailUrl?: string; linkUrl?: string; status?: string; validationStatus?: string; verificationStatus?: string; validation?: { status?: string } }[]) || [])
     .filter(b => {
-      const isApproved = (b.validation && b.validation.status === "APPROVED") || b.validationStatus === "APPROVED" || b.verificationStatus === "APPROVED";
-      const isVerified = (b.validation && b.validation.isVerified === true) || b.isVerified === true;
-      const isPublished = Boolean(b.publishedAt || b.approvedAt);
-      const isPendingOrRejected = ["PENDING_MANUAL_CHECK", "REVIEW_REQUIRED", "REJECTED", "CANCELLED", "HELD"].includes(
+      const isCandidate =
+        b.status === "AUTO_COLLECTED_CANDIDATE" ||
+        b.validationStatus === "AUTO_COLLECTED_CANDIDATE" ||
+        (b.validation && b.validation.status === "AUTO_COLLECTED_CANDIDATE") ||
+        (b.validation && b.validation.status === "APPROVED") ||
+        b.status === "APPROVED";
+      const isIsolated = ["PENDING_MANUAL_CHECK", "NEEDS_REVIEW", "DATA_CONFLICT", "REVIEW_REQUIRED", "REJECTED", "CANCELLED", "HELD"].includes(
         b.validation?.status || b.verificationStatus || b.validationStatus || ""
       );
-      return isApproved && isVerified && isPublished && !isPendingOrRejected;
+      const hasOfficialUrl = Boolean(b.officialUrl || b.sourceDetailUrl || b.linkUrl);
+      return isCandidate && !isIsolated && hasOfficialUrl;
     });
   bids.forEach((bid) => {
     routes.push({

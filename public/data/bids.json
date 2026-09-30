@@ -24,12 +24,12 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01720140&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "진행중",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": false,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-29T00:55:00.000Z",
     "tags": [
-      "학교장터(S2B)",
+      "나라장터 수집",
       "대학교·병원",
       "인쇄물납품",
       "경남",
@@ -61,15 +61,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "계약방법 확인 필요",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-29T00:55:00.000Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-29T00:55:00.000Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-01 10:08:02",
+      "relevanceBasis": "학교장터(S2B), 대학교·병원, 인쇄물납품"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01720140&bidPbancOrd=000"
   },
   {
     "id": "R26BK01718920-000",
@@ -96,12 +100,12 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01718920&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "진행중",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": false,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-29T00:55:00.000Z",
     "tags": [
-      "학교장터(S2B)",
+      "나라장터 수집",
       "교육기관",
       "인쇄·출판",
       "전남",
@@ -133,15 +137,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "소액수의",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-29T00:55:00.000Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-29T00:55:00.000Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-01 08:37:00",
+      "relevanceBasis": "학교장터(S2B), 교육기관, 인쇄·출판"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01718920&bidPbancOrd=000"
   },
   {
     "id": "R26BK01737767-000",
@@ -168,7 +176,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01737767&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "진행중",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": false,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-21T03:00:00.000Z",
@@ -204,15 +212,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "제한경쟁",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-21T03:00:00.000Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-21T03:00:00.000Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-20 11:12:35",
+      "relevanceBasis": "조달청 수집, 전국, 간판·조형물"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01737767&bidPbancOrd=000"
   },
   {
     "id": "R26BK01710037-000",
@@ -239,7 +251,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01710037&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "마감",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": true,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-11T00:22:10.722Z",
@@ -275,15 +287,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "제한경쟁",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-04T10:20:00.000Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-11T00:22:10.722Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-02 14:42:23",
+      "relevanceBasis": "조달청 수집, 전국, 간판·조형물"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01710037&bidPbancOrd=000"
   },
   {
     "id": "R26BK01711670-001",
@@ -310,7 +326,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01711670&bidPbancOrd=001",
     "isVerified": true,
     "isDemo": false,
-    "status": "진행중",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": false,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-11T00:22:10.723Z",
@@ -354,15 +370,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "제한경쟁",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-04T10:20:00.000Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-11T00:22:10.723Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-03 15:26:28",
+      "relevanceBasis": "조달청 수집, 전국, 간판·조형물"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01711670&bidPbancOrd=001"
   },
   {
     "id": "R26BK01712005-000",
@@ -389,7 +409,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01712005&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "마감",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": true,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-11T00:22:10.723Z",
@@ -425,15 +445,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "수의계약",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-04T10:20:00.000Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-11T00:22:10.723Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-03 13:37:56",
+      "relevanceBasis": "조달청 수집, 전국, 간판·조형물"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01712005&bidPbancOrd=000"
   },
   {
     "id": "R26BK01710609-000",
@@ -460,7 +484,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01710609&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "마감",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": true,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-11T00:22:10.723Z",
@@ -496,15 +520,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "수의계약",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-04T10:20:00.000Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-11T00:22:10.723Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-02 16:52:09",
+      "relevanceBasis": "조달청 수집, 충청북도 음성군 관내, 간판·조형물"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01710609&bidPbancOrd=000"
   },
   {
     "id": "R26BK01710868-000",
@@ -531,7 +559,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01710868&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "마감",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": true,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-11T00:22:10.723Z",
@@ -567,15 +595,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "수의계약",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-04T10:20:00.000Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-11T00:22:10.723Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-03 09:39:14",
+      "relevanceBasis": "조달청 수집, 전국, 초·중·고·대학교"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01710868&bidPbancOrd=000"
   },
   {
     "id": "R26BK01709472-000",
@@ -602,7 +634,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01709472&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "마감",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": true,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-11T00:22:10.722Z",
@@ -638,15 +670,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "수의계약",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-04T10:20:00.000Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-11T00:22:10.722Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-02 11:48:20",
+      "relevanceBasis": "조달청 수집, 경상남도 하동군 관내, 간판·조형물"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01709472&bidPbancOrd=000"
   },
   {
     "id": "R26BK01708010-000",
@@ -673,7 +709,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01708010&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "마감",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": true,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-11T00:22:10.722Z",
@@ -709,15 +745,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "수의계약",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-04T10:20:00.000Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-11T00:22:10.722Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-02 09:03:22",
+      "relevanceBasis": "조달청 수집, 전국, 간판·조형물"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01708010&bidPbancOrd=000"
   },
   {
     "id": "R26BK01712388-000",
@@ -744,7 +784,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01712388&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "마감",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": true,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-11T00:22:10.722Z",
@@ -780,15 +820,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "수의계약",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-04T10:20:00.000Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-11T00:22:10.722Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-03 16:43:18",
+      "relevanceBasis": "조달청 수집, 전국, 간판·조형물"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01712388&bidPbancOrd=000"
   },
   {
     "id": "R26BK01711571-000",
@@ -815,7 +859,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01711571&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "마감",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": true,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-11T00:22:10.723Z",
@@ -851,15 +895,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "수의계약",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-04T10:20:00.000Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-11T00:22:10.723Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-03 11:19:13",
+      "relevanceBasis": "조달청 수집, 전북특별자치도 정읍시 관내, 간판·조형물"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01711571&bidPbancOrd=000"
   },
   {
     "id": "R26BK01709285-000",
@@ -886,7 +934,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01709285&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "마감",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": true,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-11T00:22:10.722Z",
@@ -922,15 +970,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "수의계약",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-04T10:20:00.000Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-11T00:22:10.722Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-02 13:45:38",
+      "relevanceBasis": "조달청 수집, 전국, 간판·조형물"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01709285&bidPbancOrd=000"
   },
   {
     "id": "R26BK01704985-000",
@@ -957,7 +1009,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01704985&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "마감",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": true,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-11T00:22:10.723Z",
@@ -993,15 +1045,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "수의계약",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-04T10:20:00.000Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-11T00:22:10.723Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-01 17:43:11",
+      "relevanceBasis": "조달청 수집, 전북특별자치도 남원시 관내, 간판·조형물"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01704985&bidPbancOrd=000"
   },
   {
     "id": "R26BK01706337-000",
@@ -1028,7 +1084,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01706337&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "마감",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": true,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-11T00:22:10.723Z",
@@ -1064,15 +1120,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "수의계약",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-04T10:20:00.000Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-11T00:22:10.723Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-03 09:02:24",
+      "relevanceBasis": "조달청 수집, 전국, 간판·조형물"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01706337&bidPbancOrd=000"
   },
   {
     "id": "R26BK01707749-000",
@@ -1099,7 +1159,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01707749&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "마감",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": true,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-11T00:22:10.723Z",
@@ -1135,15 +1195,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "수의계약",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-04T10:20:00.000Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-11T00:22:10.723Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-02 13:31:09",
+      "relevanceBasis": "조달청 수집, 전국, 간판·조형물"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01707749&bidPbancOrd=000"
   },
   {
     "id": "R26BK01726732-000",
@@ -1170,7 +1234,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01726732&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "진행중",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": false,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-21T07:59:52.332Z",
@@ -1206,15 +1270,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "제한경쟁",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-21T07:59:52.332Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-21T07:59:52.332Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-14 09:24:32",
+      "relevanceBasis": "조달청 수집, 서울시, 인쇄·출판·홍보물"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01726732&bidPbancOrd=000"
   },
   {
     "id": "R26BK01726730-000",
@@ -1241,7 +1309,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01726730&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "진행중",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": false,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-21T07:59:52.342Z",
@@ -1277,15 +1345,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "계약방법 확인 필요",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-21T07:59:52.342Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-21T07:59:52.342Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-14 09:27:16",
+      "relevanceBasis": "조달청 수집, 광주시, 행사·축제·전시"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01726730&bidPbancOrd=000"
   },
   {
     "id": "R26BK01726939-000",
@@ -1312,7 +1384,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01726939&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "마감",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": true,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-21T07:59:52.342Z",
@@ -1348,15 +1420,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "수의계약",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-21T07:59:52.342Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-21T07:59:52.342Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-14 10:02:56",
+      "relevanceBasis": "조달청 수집, 전국, 행사·축제·전시"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01726939&bidPbancOrd=000"
   },
   {
     "id": "R26BK01726622-000",
@@ -1383,7 +1459,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01726622&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "진행중",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": false,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-21T07:59:52.342Z",
@@ -1419,15 +1495,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "계약방법 확인 필요",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-21T07:59:52.342Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-21T07:59:52.342Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-14 10:29:17",
+      "relevanceBasis": "조달청 수집, 전국, 디지털사이니지·전광판"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01726622&bidPbancOrd=000"
   },
   {
     "id": "R26BK01727076-000",
@@ -1454,7 +1534,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01727076&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "마감",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": true,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-21T07:59:52.342Z",
@@ -1490,15 +1570,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "수의계약",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-21T07:59:52.342Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-21T07:59:52.342Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-14 10:31:25",
+      "relevanceBasis": "조달청 수집, 경기도, 인쇄·출판·홍보물"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01727076&bidPbancOrd=000"
   },
   {
     "id": "R26BK01727176-000",
@@ -1525,7 +1609,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01727176&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "마감",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": true,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-21T07:59:52.342Z",
@@ -1561,15 +1645,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "제한경쟁",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-21T07:59:52.342Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-21T07:59:52.342Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-14 11:02:30",
+      "relevanceBasis": "조달청 수집, 전국, 행사·축제·전시"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01727176&bidPbancOrd=000"
   },
   {
     "id": "R26BK01726883-000",
@@ -1596,7 +1684,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01726883&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "마감",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": true,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-21T07:59:52.342Z",
@@ -1632,15 +1720,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "수의계약",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-21T07:59:52.342Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-21T07:59:52.342Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-14 11:45:55",
+      "relevanceBasis": "조달청 수집, 강원도, 행사·축제·전시"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01726883&bidPbancOrd=000"
   },
   {
     "id": "R26BK01726818-000",
@@ -1667,7 +1759,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01726818&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "진행중",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": false,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-21T07:59:52.342Z",
@@ -1703,15 +1795,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "제한경쟁",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-21T07:59:52.342Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-21T07:59:52.342Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-14 12:03:26",
+      "relevanceBasis": "조달청 수집, 부산시, 행사·축제·전시"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01726818&bidPbancOrd=000"
   },
   {
     "id": "R26BK01727466-000",
@@ -1738,7 +1834,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01727466&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "진행중",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": false,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-21T07:59:52.342Z",
@@ -1774,15 +1870,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "제한경쟁",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-21T07:59:52.342Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-21T07:59:52.342Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-14 12:39:34",
+      "relevanceBasis": "조달청 수집, 전국, 행사·축제·전시"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01727466&bidPbancOrd=000"
   },
   {
     "id": "R26BK01727736-000",
@@ -1809,7 +1909,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01727736&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "마감",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": true,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-21T07:59:52.342Z",
@@ -1845,15 +1945,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "수의계약",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-21T07:59:52.342Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-21T07:59:52.342Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-14 13:49:35",
+      "relevanceBasis": "조달청 수집, 광주시, 행사·축제·전시"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01727736&bidPbancOrd=000"
   },
   {
     "id": "R26BK01727286-000",
@@ -1880,7 +1984,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01727286&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "마감",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": true,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-21T07:59:53.565Z",
@@ -1916,15 +2020,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "제한경쟁",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-21T07:59:53.565Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-21T07:59:53.565Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-14 13:55:05",
+      "relevanceBasis": "조달청 수집, 전국, 행사·축제·전시"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01727286&bidPbancOrd=000"
   },
   {
     "id": "R26BK01727940-000",
@@ -1951,7 +2059,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01727940&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "마감",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": true,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-21T07:59:53.565Z",
@@ -1987,15 +2095,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "수의계약",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-21T07:59:53.565Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-21T07:59:53.565Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-14 14:28:07",
+      "relevanceBasis": "조달청 수집, 경기도, 행사·축제·전시"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01727940&bidPbancOrd=000"
   },
   {
     "id": "R26BK01724551-000",
@@ -2022,7 +2134,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01724551&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "진행중",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": false,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-21T07:59:53.565Z",
@@ -2058,15 +2170,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "계약방법 확인 필요",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-21T07:59:53.565Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-21T07:59:53.565Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-14 14:30:15",
+      "relevanceBasis": "조달청 수집, 전국, 행사·축제·전시"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01724551&bidPbancOrd=000"
   },
   {
     "id": "R26BK01728381-000",
@@ -2093,7 +2209,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01728381&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "마감",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": true,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-21T07:59:53.565Z",
@@ -2129,15 +2245,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "수의계약",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-21T07:59:53.565Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-21T07:59:53.565Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-14 15:57:33",
+      "relevanceBasis": "조달청 수집, 경기도, 행사·축제·전시"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01728381&bidPbancOrd=000"
   },
   {
     "id": "R26BK01728543-000",
@@ -2164,7 +2284,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01728543&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "마감",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": true,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-21T07:59:53.565Z",
@@ -2200,15 +2320,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "제한경쟁",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-21T07:59:53.565Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-21T07:59:53.565Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-14 16:24:09",
+      "relevanceBasis": "조달청 수집, 전국, 행사·축제·전시"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01728543&bidPbancOrd=000"
   },
   {
     "id": "R26BK01729699-000",
@@ -2235,7 +2359,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01729699&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "마감",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": true,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-21T07:59:57.069Z",
@@ -2271,15 +2395,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "수의계약",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-21T07:59:57.069Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-21T07:59:57.069Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-15 13:09:28",
+      "relevanceBasis": "조달청 수집, 강원도, 행사·축제·전시"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01729699&bidPbancOrd=000"
   },
   {
     "id": "R26BK01730265-000",
@@ -2306,7 +2434,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01730265&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "마감",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": true,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-21T07:59:57.069Z",
@@ -2342,15 +2470,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "제한경쟁",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-21T07:59:57.069Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-21T07:59:57.069Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-15 13:51:56",
+      "relevanceBasis": "조달청 수집, 전국, 인쇄·출판·홍보물"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01730265&bidPbancOrd=000"
   },
   {
     "id": "R26BK01727188-000",
@@ -2377,7 +2509,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01727188&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "마감",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": true,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-21T07:59:57.069Z",
@@ -2413,15 +2545,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "수의계약",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-21T07:59:57.069Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-21T07:59:57.069Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-15 15:01:34",
+      "relevanceBasis": "조달청 수집, 전국, 인쇄·출판·홍보물"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01727188&bidPbancOrd=000"
   },
   {
     "id": "R26BK01730675-000",
@@ -2448,7 +2584,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01730675&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "진행중",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": false,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-21T07:59:57.069Z",
@@ -2484,15 +2620,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "제한경쟁",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-21T07:59:57.069Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-21T07:59:57.069Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-15 15:11:29",
+      "relevanceBasis": "조달청 수집, 전국, 간판·조형물"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01730675&bidPbancOrd=000"
   },
   {
     "id": "R26BK01721254-000",
@@ -2519,7 +2659,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01721254&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "마감",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": true,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-21T07:59:58.402Z",
@@ -2555,15 +2695,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "수의계약",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-21T07:59:58.402Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-21T07:59:58.402Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-14 08:58:21",
+      "relevanceBasis": "조달청 수집, 광주시, 인쇄·출판·홍보물"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01721254&bidPbancOrd=000"
   },
   {
     "id": "R26BK01726976-000",
@@ -2590,7 +2734,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01726976&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "마감",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": true,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-21T07:59:58.402Z",
@@ -2626,15 +2770,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "계약방법 확인 필요",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-21T07:59:58.402Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-21T07:59:58.402Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-14 10:19:53",
+      "relevanceBasis": "조달청 수집, 전국, 인쇄·출판·홍보물"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01726976&bidPbancOrd=000"
   },
   {
     "id": "R26BK01724733-000",
@@ -2661,7 +2809,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01724733&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "마감",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": true,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-21T08:00:00.091Z",
@@ -2697,15 +2845,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "수의계약",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-21T08:00:00.091Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-21T08:00:00.091Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-14 13:36:09",
+      "relevanceBasis": "조달청 수집, 대구시, 행사·축제·전시"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01724733&bidPbancOrd=000"
   },
   {
     "id": "R26BK01726873-000",
@@ -2732,7 +2884,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01726873&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "마감",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": true,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-21T08:00:00.091Z",
@@ -2768,15 +2920,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "제한경쟁",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-21T08:00:00.091Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-21T08:00:00.091Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-14 14:07:27",
+      "relevanceBasis": "조달청 수집, 전북, 행사·축제·전시"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01726873&bidPbancOrd=000"
   },
   {
     "id": "R26BK01726861-000",
@@ -2803,7 +2959,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01726861&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "마감",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": true,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-21T08:00:10.575Z",
@@ -2839,15 +2995,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "수의계약",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-21T08:00:10.575Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-21T08:00:10.575Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-14 17:40:10",
+      "relevanceBasis": "조달청 수집, 전국, 인쇄·출판·홍보물"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01726861&bidPbancOrd=000"
   },
   {
     "id": "R26BK01729007-000",
@@ -2874,7 +3034,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01729007&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "마감",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": true,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-21T08:00:10.575Z",
@@ -2910,15 +3070,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "지명경쟁",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-21T08:00:10.575Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-21T08:00:10.575Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-14 19:14:02",
+      "relevanceBasis": "조달청 수집, 인천시, 행사·축제·전시"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01729007&bidPbancOrd=000"
   },
   {
     "id": "R26BK01725510-000",
@@ -2945,7 +3109,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01725510&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "마감",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": true,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-21T08:00:00.000Z",
@@ -2981,15 +3145,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "제한경쟁",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-21T08:00:00.000Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-21T08:00:00.000Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-15 11:30:00",
+      "relevanceBasis": "조달청 수집, 충남, 융합 패키지"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01725510&bidPbancOrd=000"
   },
   {
     "id": "R26BK01726880-000",
@@ -3016,7 +3184,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01726880&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "마감",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": true,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-21T08:00:00.000Z",
@@ -3052,15 +3220,19 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "계약방법 확인 필요",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-21T08:00:00.000Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-21T08:00:00.000Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-16 14:20:00",
+      "relevanceBasis": "조달청 수집, 경기도, 융합 패키지"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01726880&bidPbancOrd=000"
   },
   {
     "id": "R26BK01727995-000",
@@ -3087,7 +3259,7 @@
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01727995&bidPbancOrd=000",
     "isVerified": true,
     "isDemo": false,
-    "status": "마감",
+    "status": "AUTO_COLLECTED_CANDIDATE",
     "isClosed": true,
     "relevanceTier": "DIRECT",
     "lastVerifiedAt": "2026-09-21T08:00:00.000Z",
@@ -3123,14 +3295,18 @@
     "afterStatus": "PUBLISHED",
     "sourceApi": "g2b",
     "contractMethod": "제한경쟁",
-    "verificationStatus": "APPROVED",
-    "validationStatus": "APPROVED",
+    "verificationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "validationStatus": "AUTO_COLLECTED_CANDIDATE",
     "publishedAt": "2026-09-21T08:00:00.000Z",
     "validation": {
-      "status": "APPROVED",
-      "isVerified": true,
-      "verifiedAt": "2026-09-21T08:00:00.000Z",
-      "verifiedBy": "master_admin_alex"
-    }
+      "status": "AUTO_COLLECTED_CANDIDATE",
+      "isAutoCollected": true,
+      "candidateType": "AUTO_COLLECTED",
+      "collectedAt": "2026-09-17 10:15:00",
+      "relevanceBasis": "조달청 수집, 부산시, 융합 패키지"
+    },
+    "candidateType": "AUTO_COLLECTED",
+    "publicationStatus": "AUTO_COLLECTED_CANDIDATE",
+    "officialUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01727995&bidPbancOrd=000"
   }
 ]

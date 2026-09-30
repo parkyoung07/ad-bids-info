@@ -68,14 +68,18 @@ function buildSearchIndex() {
     try {
       const bids = JSON.parse(fs.readFileSync(bidsPath, "utf-8"));
       bids.forEach((bid) => {
-        // Zero-Trust Gatekeeping Filter
-        const isApproved = (bid.validation && bid.validation.status === "APPROVED") || bid.validationStatus === "APPROVED" || bid.verificationStatus === "APPROVED";
-        const isVerified = (bid.validation && bid.validation.isVerified === true) || bid.isVerified === true;
-        const isPublished = Boolean(bid.publishedAt || bid.approvedAt);
-        const isPendingOrRejected = ["PENDING_MANUAL_CHECK", "REVIEW_REQUIRED", "REJECTED", "CANCELLED", "HELD"].includes(
+        // Candidate Gatekeeping Filter
+        const isCandidate =
+          bid.status === "AUTO_COLLECTED_CANDIDATE" ||
+          bid.validationStatus === "AUTO_COLLECTED_CANDIDATE" ||
+          (bid.validation && bid.validation.status === "AUTO_COLLECTED_CANDIDATE") ||
+          (bid.validation && bid.validation.status === "APPROVED") ||
+          bid.status === "APPROVED";
+        const isIsolated = ["PENDING_MANUAL_CHECK", "NEEDS_REVIEW", "DATA_CONFLICT", "REVIEW_REQUIRED", "REJECTED", "CANCELLED", "HELD"].includes(
           bid.validation?.status || bid.verificationStatus || bid.validationStatus || ""
         );
-        if (!isApproved || !isVerified || !isPublished || isPendingOrRejected) {
+        const hasOfficialUrl = Boolean(bid.officialUrl || bid.sourceDetailUrl || bid.linkUrl);
+        if (!isCandidate || isIsolated || !hasOfficialUrl) {
           return;
         }
         searchIndex.push({
@@ -85,13 +89,13 @@ function buildSearchIndex() {
           client: bid.client || "",
           budget: bid.budget || 0,
           budgetText: bid.budgetText || "",
-          location: bid.location || "전국",
+          location: bid.location || "지역조건 원문 확인",
           category: bid.category || "기타",
           bidType: bid.bidType || "",
           endDate: bid.endDate || "",
           dDay: bid.dDay ?? 0,
-          description: `[발주처: ${bid.client}] [예산: ${bid.budgetText}] [마감: ${bid.endDate || ""}(D-${bid.dDay})] ${bid.aiSummary || ""}`,
-          content: `${bid.title} ${bid.client} ${bid.category} ${bid.location} ${bid.budgetText} ${bid.aiSummary || ""} ${bid.aiTips || ""}`,
+          description: `[발주처: ${bid.client}] [예산: ${bid.budgetText || "원문 확인"}] [마감: ${bid.endDate || "원문 확인"}] ${bid.aiSummary || ""}`,
+          content: `${bid.title} ${bid.client} ${bid.category} ${bid.location || ""} ${bid.budgetText || ""} ${bid.aiSummary || ""} ${bid.aiTips || ""}`,
           tags: bid.tags || [],
           url: `/bids/${bid.id}`,
         });

@@ -36,7 +36,7 @@ export default function HomePage() {
   const [sortBy, setSortBy] = useState<"dDay" | "budgetDesc" | "budgetAsc" | "newest">("dDay");
   const [isSubscribeModalOpen, setIsSubscribeModalOpen] = useState(false);
   const [bookmarkedIds, setBookmarkedIds] = useState<string[]>([]);
-  const [viewTab, setViewTab] = useState<"active" | "closed" | "demo" | "bookmarks">("active");
+  const [viewTab, setViewTab] = useState<"active" | "null_close" | "closed" | "bookmarks">("active");
 
   // 로컬스토리지 북마크 불러오기
   useEffect(() => {
@@ -70,19 +70,18 @@ export default function HomePage() {
 
   const allBids = useMemo(() => {
     const raw = (bidsData as unknown as BidItem[]) || [];
-    // 지침 1 & 2: 승인(APPROVED) 및 검증(isVerified) 완료된 정식 공고만 공개 통과 (Zero-Trust Gatekeeping)
+    // 8대 최소 공개조건을 충족한 자동수집 후보 공고 통과
     return raw.filter((b: any) => {
-      const isApproved =
-        (b.validation && b.validation.status === "APPROVED") ||
-        b.validationStatus === "APPROVED" ||
-        b.verificationStatus === "APPROVED" ||
-        b.status === "APPROVED";
-      const isVerified = (b.validation && b.validation.isVerified === true) || b.isVerified === true;
-      const isPublished = Boolean(b.publishedAt || b.approvedAt);
-      const isPendingOrRejected = ["PENDING_MANUAL_CHECK", "REVIEW_REQUIRED", "REJECTED", "CANCELLED", "HELD"].includes(
-        b.validation?.status || b.verificationStatus || b.validationStatus
+      const hasId = Boolean(b.id && (b.announcementNo || b.id.split("-")[0]));
+      const hasTitle = Boolean(b.title && b.title.trim() !== "");
+      const hasClient = Boolean(b.client && b.client.trim() !== "");
+      const hasOfficialUrl = Boolean(
+        b.officialUrl || b.sourceDetailUrl || b.linkUrl
+      ) && !["https://www.g2b.go.kr", "https://www.g2b.go.kr/", "https://www.s2b.kr"].includes(b.officialUrl || b.sourceDetailUrl || b.linkUrl);
+      const isNotConflictOrRejected = !["REJECTED", "CANCELLED", "DATA_CONFLICT"].includes(
+        b.validation?.status || b.verificationStatus || b.validationStatus || ""
       );
-      return isApproved && isVerified && isPublished && !isPendingOrRejected;
+      return hasId && hasTitle && hasClient && hasOfficialUrl && isNotConflictOrRejected;
     });
   }, []);
 
@@ -107,39 +106,36 @@ export default function HomePage() {
     });
   }, [allBids]);
 
-  // 1. 실시간 진행 공고 (마감 시각 미도래: realtimeIsExpired === false)
-  const activeVerifiedBids = useMemo(() => {
+  // 1. 새로 발견한 후보 (공식 마감일 확인됨 & 마감 시각 미도래)
+  const activeCandidateBids = useMemo(() => {
     return bidsWithTimeStatus.filter(
-      (b) => !b.isDemo && b.status !== "DEMO 예시" && !b.realtimeIsExpired
+      (b) => !b.isDemo && b.status !== "DEMO 예시" && b.realtimeDDay !== null && !b.realtimeIsExpired
     );
   }, [bidsWithTimeStatus]);
 
-  // 2. 마감된 공고 (마감 시각 경과 또는 마감 상태: realtimeIsExpired === true)
-  const closedVerifiedBids = useMemo(() => {
+  // 2. 마감일 확인 필요 (마감일이 null이거나 미기재된 공고: 임의 마감/진행 분류 금지)
+  const nullCloseBids = useMemo(() => {
     return bidsWithTimeStatus.filter(
-      (b) => !b.isDemo && b.status !== "DEMO 예시" && b.realtimeIsExpired
+      (b) => !b.isDemo && b.status !== "DEMO 예시" && (b.realtimeDDay === null || !b.bidCloseDate)
     );
   }, [bidsWithTimeStatus]);
 
-  // 3. DEMO 가상 예시 공고
-  const demoBids = useMemo(() => {
-    return bidsWithTimeStatus.filter((b) => b.isDemo || b.status === "DEMO 예시");
+  // 3. 공식 마감 (공식 마감일 확인됨 & 마감 시각 경과)
+  const closedCandidateBids = useMemo(() => {
+    return bidsWithTimeStatus.filter(
+      (b) => !b.isDemo && b.status !== "DEMO 예시" && b.realtimeDDay !== null && b.realtimeIsExpired
+    );
   }, [bidsWithTimeStatus]);
-
-  // 마감 임박 공고 수 (진행 공고 중 D-3 이내 실시간 계산)
-  const todayUrgentCount = useMemo(() => {
-    return activeVerifiedBids.filter((b) => b.realtimeIsUrgent).length;
-  }, [activeVerifiedBids]);
 
   // 현재 탭에 따른 기본 대상 리스트
   const currentTabBids = useMemo(() => {
-    if (viewTab === "closed") return closedVerifiedBids;
-    if (viewTab === "demo") return demoBids;
+    if (viewTab === "null_close") return nullCloseBids;
+    if (viewTab === "closed") return closedCandidateBids;
     if (viewTab === "bookmarks") {
       return bidsWithTimeStatus.filter((b) => bookmarkedIds.includes(b.id));
     }
-    return activeVerifiedBids;
-  }, [viewTab, activeVerifiedBids, closedVerifiedBids, demoBids, bidsWithTimeStatus, bookmarkedIds]);
+    return activeCandidateBids;
+  }, [viewTab, activeCandidateBids, nullCloseBids, closedCandidateBids, bidsWithTimeStatus, bookmarkedIds]);
 
   // 필터링 및 정렬
   const filteredBids = useMemo(() => {
@@ -176,61 +172,25 @@ export default function HomePage() {
         if (filters.budgetRange === "under100m" && bid.budget > 100000000) return false;
         if (filters.budgetRange === "over100m" && bid.budget < 100000000) return false;
 
-        // 6. 출처(발주 채널) 필터 (학교, 아파트, 온비드 등 실시간 매핑)
+        // 6. 출처(발주 채널) 필터 (공식 URL 도메인 기반 엄격 판정)
         if (filters.sourceOrigin && filters.sourceOrigin !== "all") {
-          const src = bid.source || "";
-          const client = bid.client || "";
-          const title = bid.title || "";
-          const cat = bid.category || "";
+          const url = (bid.officialUrl || bid.sourceDetailUrl || bid.linkUrl || "").toLowerCase();
+          const src = (bid.source || bid.sourceApi || "").toLowerCase();
 
-          if (filters.sourceOrigin === "g2b" && !src.includes("나라장터")) return false;
+          if (filters.sourceOrigin === "g2b") {
+            if (!url.includes("g2b.go.kr") && !src.includes("나라장터")) return false;
+          }
           if (filters.sourceOrigin === "s2b") {
-            const isSchool =
-              src.includes("학교장터") ||
-              src.includes("S2B") ||
-              client.includes("학교") ||
-              client.includes("교육") ||
-              client.includes("초등") ||
-              client.includes("중학") ||
-              client.includes("고등") ||
-              client.includes("대학") ||
-              cat.includes("학교") ||
-              title.includes("학교");
-            if (!isSchool) return false;
+            if (!url.includes("s2b.kr") && !src.includes("학교장터") && !src.includes("s2b")) return false;
           }
           if (filters.sourceOrigin === "kapt") {
-            const isApt =
-              src.includes("K-apt") ||
-              src.includes("공동주택") ||
-              src.includes("아파트") ||
-              client.includes("주택") ||
-              client.includes("아파트") ||
-              client.includes("LH") ||
-              client.includes("SH") ||
-              client.includes("도시공사") ||
-              cat.includes("아파트") ||
-              title.includes("아파트") ||
-              title.includes("승강기") ||
-              title.includes("엘리베이터");
-            if (!isApt) return false;
+            if (!url.includes("k-apt.go.kr") && !src.includes("k-apt") && !src.includes("kapt")) return false;
           }
           if (filters.sourceOrigin === "onbid") {
-            const isOnbid =
-              src.includes("온비드") ||
-              src.includes("OnBid") ||
-              cat.includes("매체권") ||
-              title.includes("매체권") ||
-              title.includes("사용수익허가") ||
-              title.includes("임대");
-            if (!isOnbid) return false;
+            if (!url.includes("onbid.co.kr") && !src.includes("온비드") && !src.includes("onbid")) return false;
           }
           if (filters.sourceOrigin === "assoc_lh") {
-            const isAssocLh =
-              src.includes("협회") ||
-              src.includes("LH") ||
-              client.includes("공사") ||
-              client.includes("재단") ||
-              client.includes("사업단");
+            const isAssocLh = src.includes("협회") || src.includes("lh");
             if (!isAssocLh) return false;
           }
         }
@@ -264,50 +224,44 @@ export default function HomePage() {
       });
   }, [currentTabBids, filters, searchQuery, sortBy]);
 
-  // 채널별 실시간 진행 공고 통계
+  // 채널별 실시간 후보 공고 통계
   const channelStats = useMemo(() => {
     return {
-      all: activeVerifiedBids.length,
-      g2b: activeVerifiedBids.filter(b => (b.source || "").includes("나라장터")).length,
-      s2b: activeVerifiedBids.filter(b => {
+      all: allBids.length,
+      g2b: allBids.filter(b => (b.source || "").includes("나라장터")).length,
+      s2b: allBids.filter(b => {
         const s = (b.source || "");
-        const c = (b.client || "");
-        const t = (b.title || "");
-        const cat = (b.category || "");
-        return s.includes("학교장터") || s.includes("S2B") || c.includes("학교") || c.includes("교육") || c.includes("초등") || c.includes("중학") || c.includes("고등") || c.includes("대학") || cat.includes("학교") || t.includes("학교");
+        const url = (b.officialUrl || b.sourceDetailUrl || b.linkUrl || "").toLowerCase();
+        return url.includes("s2b.kr") || s.includes("학교장터") || s.includes("S2B");
       }).length,
-      kapt: activeVerifiedBids.filter(b => {
+      kapt: allBids.filter(b => {
         const s = (b.source || "");
-        const c = (b.client || "");
-        const t = (b.title || "");
-        const cat = (b.category || "");
-        return s.includes("K-apt") || s.includes("공동주택") || s.includes("아파트") || c.includes("주택") || c.includes("아파트") || c.includes("LH") || c.includes("SH") || c.includes("도시공사") || cat.includes("아파트") || t.includes("아파트") || t.includes("승강기") || t.includes("엘리베이터");
+        const url = (b.officialUrl || b.sourceDetailUrl || b.linkUrl || "").toLowerCase();
+        return url.includes("k-apt.go.kr") || s.includes("K-apt");
       }).length,
-      onbid: activeVerifiedBids.filter(b => {
+      onbid: allBids.filter(b => {
         const s = (b.source || "");
-        const t = (b.title || "");
-        const cat = (b.category || "");
-        return s.includes("온비드") || s.includes("OnBid") || cat.includes("매체권") || t.includes("매체권") || t.includes("사용수익허가") || t.includes("임대");
+        const url = (b.officialUrl || b.sourceDetailUrl || b.linkUrl || "").toLowerCase();
+        return url.includes("onbid.co.kr") || s.includes("온비드") || s.includes("OnBid");
       }).length,
-      assoc_lh: activeVerifiedBids.filter(b => {
+      assoc_lh: allBids.filter(b => {
         const s = (b.source || "");
-        const c = (b.client || "");
-        return s.includes("협회") || s.includes("LH") || c.includes("공사") || c.includes("재단") || c.includes("사업단");
+        return s.includes("협회") || s.includes("LH");
       }).length,
     };
-  }, [activeVerifiedBids]);
+  }, [allBids]);
 
   // 4대 핵심 비주얼 미디어 분야별 실시간 공고 수 집계
   const coreCategoryCounts = useMemo(() => {
     return {
-      all: activeVerifiedBids.length,
-      fusion: activeVerifiedBids.filter(b => b.category.includes("융합")).length,
-      print: activeVerifiedBids.filter(b => b.category.includes("인쇄") || b.category.includes("출판") || b.category.includes("홍보물")).length,
-      event: activeVerifiedBids.filter(b => b.category.includes("행사") || b.category.includes("축제") || b.category.includes("전시")).length,
-      outdoor: activeVerifiedBids.filter(b => b.category.includes("간판") || b.category.includes("조형물") || b.category.includes("현수막") || b.category.includes("표지판") || b.category.includes("안내판")).length,
-      signage: activeVerifiedBids.filter(b => b.category.includes("전광판") || b.category.includes("사이니지")).length,
+      all: allBids.length,
+      fusion: allBids.filter(b => b.category.includes("융합")).length,
+      print: allBids.filter(b => b.category.includes("인쇄") || b.category.includes("출판") || b.category.includes("홍보물")).length,
+      event: allBids.filter(b => b.category.includes("행사") || b.category.includes("축제") || b.category.includes("전시")).length,
+      outdoor: allBids.filter(b => b.category.includes("간판") || b.category.includes("조형물") || b.category.includes("현수막") || b.category.includes("표지판") || b.category.includes("안내판")).length,
+      signage: allBids.filter(b => b.category.includes("전광판") || b.category.includes("사이니지")).length,
     };
-  }, [activeVerifiedBids]);
+  }, [allBids]);
 
   return (
     <div className="flex-1 flex flex-col">
@@ -317,7 +271,7 @@ export default function HomePage() {
           {/* 상단 신뢰 배지 */}
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-950 border border-cyan-500/30 text-cyan-300 text-[11px] sm:text-xs font-semibold shadow-sm">
             <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-            <span>몰랐으면 지나쳤을 숨은 알짜 입찰공고 발굴 AI</span>
+            <span>광고·인쇄 관련 자동수집 입찰 후보</span>
           </div>
 
           {/* 메인 헤드라인 (가볍고 직관적인 타이틀) */}
@@ -328,9 +282,9 @@ export default function HomePage() {
           </h1>
 
           {/* 공식 원문 확인 필수 안내문 */}
-          <div className="bg-slate-950/80 border border-slate-800 rounded-xl p-3 text-left max-w-2xl mx-auto shadow-inner">
+          <div className="bg-slate-950/80 border border-slate-800 rounded-xl p-3.5 text-left max-w-2xl mx-auto shadow-inner">
             <p className="text-[11px] sm:text-xs text-slate-300 leading-relaxed">
-              <strong className="text-cyan-400 font-bold">※ SignBid 안내:</strong> SignBid의 자동분류는 입찰기회 탐색을 위한 참고정보입니다. 참가자격, 금액, 일정과 제출서류는 연결된 <span className="text-cyan-300 font-semibold underline underline-offset-2">공식 공고 원문</span>에서 최종 확인해 주세요.
+              <strong className="text-cyan-400 font-bold">※ SignBid 안내:</strong> SignBid는 광고·인쇄·간판·전광판·행사·전시 관련 입찰 가능성을 빠르게 찾아드리는 무료 탐색형 정보서비스입니다. 자동수집된 공고의 참가자격, 금액, 일정과 제출서류는 연결된 <span className="text-cyan-300 font-semibold underline underline-offset-2">공식 공고 원문</span>에서 최종 확인해 주세요.
             </p>
           </div>
 
@@ -543,7 +497,7 @@ export default function HomePage() {
         {/* 공고 구분 탭 & 상단 컨트롤 바 (PC 상단 Sticky 고정 & 모바일 가로 스와이프 최적화) */}
         <div className="sticky top-14 sm:top-16 z-20 bg-slate-900/95 backdrop-blur-md border border-slate-800 rounded-2xl p-2.5 sm:p-3 shadow-xl">
           <div className="flex items-center justify-between gap-2">
-            {/* 공고 구분 탭 버튼 */}
+            {/* 공고 구분 4대 탭 버튼 */}
             <div className="flex flex-nowrap items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
               <button
                 onClick={() => setViewTab("active")}
@@ -554,7 +508,19 @@ export default function HomePage() {
                 }`}
               >
                 <Sparkles className="w-3.5 h-3.5 text-cyan-300" />
-                <span>새로 발견한 후보 ({activeVerifiedBids.length})</span>
+                <span>새로 발견한 후보 ({activeCandidateBids.length})</span>
+              </button>
+
+              <button
+                onClick={() => setViewTab("null_close")}
+                className={`shrink-0 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-1.5 min-h-[38px] whitespace-nowrap ${
+                  viewTab === "null_close"
+                    ? "bg-amber-600 text-white shadow-md shadow-amber-600/20"
+                    : "bg-slate-950 text-slate-400 hover:text-white border border-slate-800"
+                }`}
+              >
+                <Clock className="w-3.5 h-3.5 text-amber-300" />
+                <span>마감 상태 원문 확인 ({nullCloseBids.length})</span>
               </button>
 
               <button
@@ -566,7 +532,7 @@ export default function HomePage() {
                 }`}
               >
                 <Clock className="w-3.5 h-3.5 text-slate-400" />
-                <span>마감된 후보 ({closedVerifiedBids.length})</span>
+                <span>공식 마감 ({closedCandidateBids.length})</span>
               </button>
 
               <button
@@ -580,19 +546,6 @@ export default function HomePage() {
               >
                 <span>⭐ 관심공고 ({bookmarkedIds.length})</span>
               </button>
-
-              {demoBids.length > 0 && (
-                <button
-                  onClick={() => setViewTab("demo")}
-                  className={`shrink-0 px-2.5 py-1.5 rounded-xl text-xs font-medium transition-all cursor-pointer flex items-center gap-1 min-h-[38px] whitespace-nowrap ${
-                    viewTab === "demo"
-                      ? "bg-amber-600 text-white shadow-md"
-                      : "bg-slate-950 text-slate-500 hover:text-slate-300 border border-slate-800"
-                  }`}
-                >
-                  <span>DEMO ({demoBids.length})</span>
-                </button>
-              )}
             </div>
 
             {/* 우측 정렬 옵션 */}
@@ -611,19 +564,6 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* DEMO 탭 안내 배너 */}
-        {viewTab === "demo" && (
-          <div className="bg-amber-950/20 border border-amber-500/30 rounded-xl p-4 text-xs text-amber-200 flex items-start gap-3">
-            <AlertCircle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
-            <div className="space-y-1">
-              <strong className="text-amber-300 font-bold block">DEMO 예시 데이터 안내</strong>
-              <p className="leading-relaxed">
-                본 공고는 기능 설명을 위한 예시 데이터이며 실제 입찰에 사용할 수 없습니다.
-                표시된 자격·금액·일정·서류는 가상 예시이며, 실제 입찰 전 나라장터 원문을 별도로 확인해야 합니다.
-              </p>
-            </div>
-          </div>
-        )}
 
         {/* 검색 필터 컴포넌트 */}
         <BidFilter
