@@ -37,7 +37,7 @@ const NAV_SECTIONS: NavSection[] = [
     title: "공고 찾기",
     icon: <Search className="w-4 h-4 text-blue-400" />,
     items: [
-      { title: "입찰공고", href: "/", desc: "나라장터·공공기관 검증 실시간 공고" },
+      { title: "입찰공고", href: "/", desc: "나라장터·공공기관 자동수집 입찰 후보" },
       { title: "발주예고", href: "/prespec", desc: "사전규격 공개 및 발주 예정 사업" },
       { title: "입찰 캘린더", href: "/calendar", desc: "마감일정 및 주요 현장설명회 일정" },
     ],
@@ -124,8 +124,8 @@ export default function Header() {
                     SignBid AI
                   </span>
                   <span className="inline-flex items-center gap-0.5 text-[9px] font-bold px-1.5 py-0.5 rounded bg-blue-500/15 text-blue-300 border border-blue-400/30">
-                    <ShieldCheck className="w-2.5 h-2.5 text-cyan-400" />
-                    검증 데이터
+                    <Sparkles className="w-2.5 h-2.5 text-cyan-400" />
+                    자동수집 후보
                   </span>
                 </div>
                 <span className="text-[11px] text-slate-400 font-medium">

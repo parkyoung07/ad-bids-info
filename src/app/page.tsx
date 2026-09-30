@@ -8,12 +8,9 @@ import {
   Flame,
   FileText,
   Sparkles,
-  ShieldCheck,
   MessageCircle,
   AlertCircle,
-  CheckCircle2,
   ArrowRight,
-  Radio,
 } from "lucide-react";
 import bidsData from "../../public/data/bids.json";
 import SubscribeModal from "@/components/SubscribeModal";
@@ -37,23 +34,22 @@ export default function HomePage() {
   const [isSubscribeModalOpen, setIsSubscribeModalOpen] = useState(false);
   const [bookmarkedIds, setBookmarkedIds] = useState<string[]>([]);
   const [viewTab, setViewTab] = useState<"active" | "null_close" | "closed" | "bookmarks">("active");
+  const [mounted, setMounted] = useState(false);
 
-  // 로컬스토리지 북마크 불러오기
+  // 브라우저 마운트 시점 기록 및 로컬스토리지 북마크 불러오기
   useEffect(() => {
-    const timer = setTimeout(() => {
-      try {
-        const saved = localStorage.getItem("ad_bids_bookmarks");
-        if (saved) {
-          const parsed = JSON.parse(saved);
-          if (Array.isArray(parsed)) {
-            setBookmarkedIds(parsed);
-          }
+    setMounted(true);
+    try {
+      const saved = localStorage.getItem("ad_bids_bookmarks");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) {
+          setBookmarkedIds(parsed);
         }
-      } catch {
-        // fallback
       }
-    }, 0);
-    return () => clearTimeout(timer);
+    } catch {
+      // safe fallback
+    }
   }, []);
 
   const handleToggleBookmark = (id: string) => {
@@ -85,7 +81,7 @@ export default function HomePage() {
     });
   }, []);
 
-  // 전체 공고에 한국 표준시(KST) 실시간 마감 상태 및 D-Day 동적 부착 (화면 표시 시점 실시간 계산)
+  // 전체 공고에 한국 표준시(KST) 실시간 마감 상태 및 D-Day 동적 부착
   const bidsWithTimeStatus = useMemo(() => {
     return allBids.map((b) => {
       const timeStatus = computeBidTimeStatus(
@@ -141,11 +137,9 @@ export default function HomePage() {
   const filteredBids = useMemo(() => {
     return currentTabBids
       .filter((bid) => {
-        // 1. 업종 필터
+        // 1. 업종 필터 (4대 분야 1:1 정확 일치)
         if (filters.category !== "전체") {
-          const matchCat =
-            bid.category.includes(filters.category) || filters.category.includes(bid.category);
-          if (!matchCat) return false;
+          if (bid.category !== filters.category) return false;
         }
 
         // 2. 지역 필터
@@ -174,7 +168,7 @@ export default function HomePage() {
         if (filters.budgetRange === "under100m" && budgetVal > 100000000) return false;
         if (filters.budgetRange === "over100m" && budgetVal < 100000000) return false;
 
-        // 6. 출처(발주 채널) 필터 (공식 URL 도메인 기반 엄격 판정)
+        // 6. 출처(발주 채널) 필터
         if (filters.sourceOrigin && filters.sourceOrigin !== "all") {
           const url = (bid.officialUrl || bid.sourceDetailUrl || bid.linkUrl || "").toLowerCase();
           const src = (bid.source || bid.sourceApi || "").toLowerCase();
@@ -254,44 +248,43 @@ export default function HomePage() {
     };
   }, [allBids]);
 
-  // 4대 핵심 비주얼 미디어 분야별 실시간 공고 수 집계
+  // 4대 핵심 분야별 실시간 공고 수 집계 (정확한 1:1 일치)
   const coreCategoryCounts = useMemo(() => {
     return {
       all: allBids.length,
-      fusion: allBids.filter(b => b.category.includes("융합")).length,
-      print: allBids.filter(b => b.category.includes("인쇄") || b.category.includes("출판") || b.category.includes("홍보물")).length,
-      event: allBids.filter(b => b.category.includes("행사") || b.category.includes("축제") || b.category.includes("전시")).length,
-      outdoor: allBids.filter(b => b.category.includes("간판") || b.category.includes("조형물") || b.category.includes("현수막") || b.category.includes("표지판") || b.category.includes("안내판")).length,
-      signage: allBids.filter(b => b.category.includes("전광판") || b.category.includes("사이니지")).length,
+      manufacturing: allBids.filter(b => b.category === "제작·시공").length,
+      publishing: allBids.filter(b => b.category === "인쇄·출판").length,
+      equipment: allBids.filter(b => b.category === "출력·인쇄 장비").length,
+      materials: allBids.filter(b => b.category === "출력소재·잉크").length,
     };
   }, [allBids]);
 
   return (
     <div className="flex-1 flex flex-col">
-      {/* 히어로 섹션 (모바일 초슬림 & PC 황금 균형 최적화) */}
+      {/* 히어로 섹션 */}
       <section className="relative overflow-hidden bg-slate-900 border-b border-slate-800 py-5 sm:py-9 px-3 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center space-y-2.5 sm:space-y-3.5 relative z-10">
           {/* 상단 신뢰 배지 */}
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-950 border border-cyan-500/30 text-cyan-300 text-[11px] sm:text-xs font-semibold shadow-sm">
             <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-            <span>광고·인쇄 관련 자동수집 입찰 후보</span>
+            <span>광고·인쇄 관련 가능성이 있어 자동수집된 공고입니다.</span>
           </div>
 
-          {/* 메인 헤드라인 (가볍고 직관적인 타이틀) */}
+          {/* 메인 헤드라인 */}
           <h1 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-white tracking-tight leading-snug">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-300 to-indigo-400">
-              광고 · 인쇄 · 행사 관련 입찰 가능성
-            </span>을 빠르게 찾아드립니다.
+              광고 · 인쇄 관련 입찰 기회
+            </span>를 빠르게 찾아드립니다.
           </h1>
 
           {/* 공식 원문 확인 필수 안내문 */}
           <div className="bg-slate-950/80 border border-slate-800 rounded-xl p-3.5 text-left max-w-2xl mx-auto shadow-inner">
             <p className="text-[11px] sm:text-xs text-slate-300 leading-relaxed">
-              <strong className="text-cyan-400 font-bold">※ SignBid 안내:</strong> SignBid는 광고·인쇄·간판·전광판·행사·전시 관련 입찰 가능성을 빠르게 찾아드리는 무료 탐색형 정보서비스입니다. 자동수집된 공고의 참가자격, 금액, 일정과 제출서류는 연결된 <span className="text-cyan-300 font-semibold underline underline-offset-2">공식 공고 원문</span>에서 최종 확인해 주세요.
+              <strong className="text-cyan-400 font-bold">※ SignBid 안내:</strong> 광고·인쇄 관련 가능성이 있어 자동수집된 공고입니다. 참가자격·금액·일정·제출서류는 나라장터 공식 원문에서 최종 확인해 주세요.
             </p>
           </div>
 
-          {/* 통합 검색창 & 카톡 알림 원라인/컴팩트 구성 */}
+          {/* 통합 검색창 & 카톡 알림 구성 */}
           <div className="pt-1 max-w-xl mx-auto flex flex-col sm:flex-row items-center gap-2">
             <div className="relative flex-1 w-full flex items-center shadow-lg">
               <Search className="absolute left-3.5 w-4 h-4 text-slate-400" />
@@ -321,7 +314,7 @@ export default function HomePage() {
             </button>
           </div>
 
-          {/* 🎯 4대 핵심 분야 원클릭 퀵 필터 칩 (가로 스와이프 지원) */}
+          {/* 🎯 4대 핵심 분야 원클릭 퀵 필터 칩 */}
           <div className="pt-1 max-w-4xl mx-auto">
             <div className="flex items-center justify-start sm:justify-center gap-1.5 overflow-x-auto no-scrollbar py-1">
               {/* 전체 */}
@@ -339,78 +332,63 @@ export default function HomePage() {
                 </span>
               </button>
 
+              {/* 🏢 제작·시공 */}
+              <button
+                onClick={() => setFilters({ ...filters, category: "제작·시공" })}
+                className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap min-h-[36px] ${
+                  filters.category === "제작·시공"
+                    ? "bg-blue-600 text-white shadow-sm ring-1 ring-blue-400"
+                    : "bg-slate-950/80 hover:bg-slate-800 text-slate-300 border border-slate-800"
+                }`}
+              >
+                <span>🏢 제작·시공</span>
+                <span className="text-[10px] font-extrabold px-1.5 py-0.5 rounded bg-slate-900/90 text-blue-300">
+                  {coreCategoryCounts.manufacturing}
+                </span>
+              </button>
+
               {/* 🖨️ 인쇄·출판 */}
               <button
-                onClick={() => setFilters({ ...filters, category: "인쇄·출판·홍보물" })}
+                onClick={() => setFilters({ ...filters, category: "인쇄·출판" })}
                 className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap min-h-[36px] ${
-                  filters.category === "인쇄·출판·홍보물"
+                  filters.category === "인쇄·출판"
                     ? "bg-emerald-600 text-white shadow-sm ring-1 ring-emerald-400"
                     : "bg-slate-950/80 hover:bg-slate-800 text-slate-300 border border-slate-800"
                 }`}
               >
                 <span>🖨️ 인쇄·출판</span>
                 <span className="text-[10px] font-extrabold px-1.5 py-0.5 rounded bg-slate-900/90 text-emerald-300">
-                  {coreCategoryCounts.print}
+                  {coreCategoryCounts.publishing}
                 </span>
               </button>
 
-              {/* 🎪 행사·전시 */}
+              {/* ⚙️ 출력·인쇄 장비 */}
               <button
-                onClick={() => setFilters({ ...filters, category: "행사·축제·전시" })}
+                onClick={() => setFilters({ ...filters, category: "출력·인쇄 장비" })}
                 className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap min-h-[36px] ${
-                  filters.category === "행사·축제·전시"
-                    ? "bg-fuchsia-600 text-white shadow-sm ring-1 ring-fuchsia-400"
+                  filters.category === "출력·인쇄 장비"
+                    ? "bg-indigo-600 text-white shadow-sm ring-1 ring-indigo-400"
                     : "bg-slate-950/80 hover:bg-slate-800 text-slate-300 border border-slate-800"
                 }`}
               >
-                <span>🎪 행사·전시</span>
-                <span className="text-[10px] font-extrabold px-1.5 py-0.5 rounded bg-slate-900/90 text-fuchsia-300">
-                  {coreCategoryCounts.event}
+                <span>⚙️ 출력·인쇄 장비</span>
+                <span className="text-[10px] font-extrabold px-1.5 py-0.5 rounded bg-slate-900/90 text-indigo-300">
+                  {coreCategoryCounts.equipment}
                 </span>
               </button>
 
-              {/* 🏢 간판·조형물 */}
+              {/* 🧪 출력소재·잉크 */}
               <button
-                onClick={() => setFilters({ ...filters, category: "간판·조형물" })}
+                onClick={() => setFilters({ ...filters, category: "출력소재·잉크" })}
                 className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap min-h-[36px] ${
-                  filters.category === "간판·조형물"
-                    ? "bg-blue-600 text-white shadow-sm ring-1 ring-blue-400"
+                  filters.category === "출력소재·잉크"
+                    ? "bg-amber-600 text-white shadow-sm ring-1 ring-amber-400"
                     : "bg-slate-950/80 hover:bg-slate-800 text-slate-300 border border-slate-800"
                 }`}
               >
-                <span>🏢 간판·조형</span>
-                <span className="text-[10px] font-extrabold px-1.5 py-0.5 rounded bg-slate-900/90 text-blue-300">
-                  {coreCategoryCounts.outdoor}
-                </span>
-              </button>
-
-              {/* 💡 디지털사이니지 */}
-              <button
-                onClick={() => setFilters({ ...filters, category: "디지털사이니지·전광판" })}
-                className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap min-h-[36px] ${
-                  filters.category === "디지털사이니지·전광판"
-                    ? "bg-cyan-600 text-white shadow-sm ring-1 ring-cyan-400"
-                    : "bg-slate-950/80 hover:bg-slate-800 text-slate-300 border border-slate-800"
-                }`}
-              >
-                <span>💡 전광판</span>
-                <span className="text-[10px] font-extrabold px-1.5 py-0.5 rounded bg-slate-900/90 text-cyan-300">
-                  {coreCategoryCounts.signage}
-                </span>
-              </button>
-
-              {/* ⚡ 융합 패키지 */}
-              <button
-                onClick={() => setFilters({ ...filters, category: "융합 패키지" })}
-                className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap min-h-[36px] ${
-                  filters.category === "융합 패키지"
-                    ? "bg-purple-600 text-white shadow-sm ring-1 ring-purple-400"
-                    : "bg-slate-950/80 hover:bg-slate-800 text-slate-300 border border-slate-800"
-                }`}
-              >
-                <span>⚡ 융합</span>
-                <span className="text-[10px] font-extrabold px-1.5 py-0.5 rounded bg-slate-900/90 text-purple-300">
-                  {coreCategoryCounts.fusion}
+                <span>🧪 출력소재·잉크</span>
+                <span className="text-[10px] font-extrabold px-1.5 py-0.5 rounded bg-slate-900/90 text-amber-300">
+                  {coreCategoryCounts.materials}
                 </span>
               </button>
             </div>
@@ -497,7 +475,7 @@ export default function HomePage() {
 
       {/* 메인 컨텐츠 영역 */}
       <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 space-y-4 sm:space-y-5">
-        {/* 공고 구분 탭 & 상단 컨트롤 바 (PC 상단 Sticky 고정 & 모바일 가로 스와이프 최적화) */}
+        {/* 공고 구분 탭 & 상단 컨트롤 바 */}
         <div className="sticky top-14 sm:top-16 z-20 bg-slate-900/95 backdrop-blur-md border border-slate-800 rounded-2xl p-2.5 sm:p-3 shadow-xl">
           <div className="flex items-center justify-between gap-2">
             {/* 공고 구분 4대 탭 버튼 */}
@@ -523,7 +501,7 @@ export default function HomePage() {
                 }`}
               >
                 <Clock className="w-3.5 h-3.5 text-amber-300" />
-                <span>마감 상태 원문 확인 ({nullCloseBids.length})</span>
+                <span>공식 원문 확인 필요 ({nullCloseBids.length})</span>
               </button>
 
               <button
@@ -567,7 +545,6 @@ export default function HomePage() {
           </div>
         </div>
 
-
         {/* 검색 필터 컴포넌트 */}
         <BidFilter
           filters={filters}
@@ -584,7 +561,7 @@ export default function HomePage() {
             <span className="text-slate-700 hidden sm:inline">|</span>
             <div className="inline-flex items-center gap-1.5 text-[11px] text-emerald-400 font-medium bg-emerald-950/40 px-2 py-0.5 rounded-md border border-emerald-500/20">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-              <span>한국표준시(KST) 기준 실시간 마감시간 재계산 중</span>
+              <span>한국표준시(KST) 기준 실시간 마감시간 계산</span>
             </div>
           </div>
           <span className="text-slate-500 text-[11px]">
@@ -599,10 +576,10 @@ export default function HomePage() {
               <Search className="w-6 h-6" />
             </div>
             <h3 className="text-base font-bold text-slate-200 mb-1">
-              현재 안전 대조를 통과한 공개 입찰 후보를 준비 중입니다
+              해당 조건의 입찰 후보 공고가 없습니다
             </h3>
             <p className="text-xs text-slate-400 mb-4">
-              공식 조달청 API 원문과의 데이터 정밀 대조 및 결함 격리가 진행 중이며, 원문과 100% 일치 검증된 공고만 안전하게 제공됩니다.
+              광고·인쇄 관련 가능성이 있어 자동수집된 공고입니다. 참가자격·금액·일정·제출서류는 나라장터 공식 원문에서 최종 확인해 주세요.
             </p>
             <button
               onClick={() => {
@@ -636,3 +613,4 @@ export default function HomePage() {
     </div>
   );
 }
+
