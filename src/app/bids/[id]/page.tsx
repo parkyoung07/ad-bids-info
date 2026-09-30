@@ -65,24 +65,24 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   const bidUrl = `https://signbidai.com/bids/${bid.id}`;
-  const keywordsList = [
+  const keywordsList: string[] = [
     bid.title,
     bid.client,
     bid.category,
-    bid.location,
+    bid.location || "전국",
     bid.id,
     "나라장터",
     "조달청입찰",
     "공공입찰",
     "옥외광고입찰",
     "SignBid AI",
-    `#${bid.category.replace(/[^a-zA-Z0-9가-힣]/g, '')}`,
-    `#${bid.location}`,
-    `#${bid.client}`,
-  ];
+    `#${(bid.category || "").replace(/[^a-zA-Z0-9가-힣]/g, '')}`,
+    `#${bid.location || "전국"}`,
+    `#${bid.client || ""}`,
+  ].filter(Boolean) as string[];
 
   return {
-    title: `[${bid.location}] ${bid.title} (${bid.client}) | SignBid AI 입찰 분석`,
+    title: `[${bid.location || "전국"}] ${bid.title} (${bid.client}) | SignBid AI 입찰 분석`,
     description: `[${bid.client} 발주] ${bid.title} (추정예산: ${bid.budgetText || '금액 미기재'}, 마감일: ${bid.endDate || '공고참조'}). 참가자격 및 AI 심층 분석 요약 제공.`,
     keywords: keywordsList,
     authors: [{ name: "SignBid AI 입찰분석팀" }],
@@ -428,8 +428,8 @@ export default async function BidDetailPage({ params }: PageProps) {
         </div>
 
         <BidSimulator
-          location={bid.location}
-          category={bid.category}
+          location={bid.location || "전국"}
+          category={bid.category || "기타"}
           bidTitle={bid.title}
         />
       </section>
@@ -701,7 +701,7 @@ export default async function BidDetailPage({ params }: PageProps) {
         <RateAnalyticsChart
           clientName={bid.client}
           category={bid.category}
-          budget={bid.budget}
+          budget={bid.budget || 0}
         />
       </section>
 
@@ -717,8 +717,16 @@ export default async function BidDetailPage({ params }: PageProps) {
 
         <BidDetailActions
           bid={{
-            ...bid,
+            id: bid.id,
+            title: bid.title,
+            client: bid.client,
+            budget: bid.budget || 0,
+            budgetText: bid.budgetText || "금액 미기재",
+            category: bid.category || "기타",
+            location: bid.location || "전국",
             linkUrl: bid.sourceDetailUrl || bid.linkUrl || "",
+            tags: bid.tags,
+            checkList: undefined,
           }}
         />
       </div>

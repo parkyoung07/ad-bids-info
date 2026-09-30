@@ -150,8 +150,9 @@ export default function HomePage() {
 
         // 2. 지역 필터
         if (filters.location !== "전국") {
+          const loc = bid.location || "";
           const matchLoc =
-            bid.location.includes(filters.location) ||
+            loc.includes(filters.location) ||
             bid.client.includes(filters.location) ||
             bid.title.includes(filters.location);
           if (!matchLoc) return false;
@@ -168,9 +169,10 @@ export default function HomePage() {
         }
 
         // 5. 예산 필터
-        if (filters.budgetRange === "under50m" && bid.budget > 50000000) return false;
-        if (filters.budgetRange === "under100m" && bid.budget > 100000000) return false;
-        if (filters.budgetRange === "over100m" && bid.budget < 100000000) return false;
+        const budgetVal = bid.budget || 0;
+        if (filters.budgetRange === "under50m" && budgetVal > 50000000) return false;
+        if (filters.budgetRange === "under100m" && budgetVal > 100000000) return false;
+        if (filters.budgetRange === "over100m" && budgetVal < 100000000) return false;
 
         // 6. 출처(발주 채널) 필터 (공식 URL 도메인 기반 엄격 판정)
         if (filters.sourceOrigin && filters.sourceOrigin !== "all") {
@@ -198,11 +200,12 @@ export default function HomePage() {
         // 7. 검색어 필터
         const q = searchQuery.trim().toLowerCase();
         if (q !== "") {
+          const loc = bid.location || "";
           const matchSearch =
             bid.title.toLowerCase().includes(q) ||
             bid.client.toLowerCase().includes(q) ||
             bid.category.toLowerCase().includes(q) ||
-            bid.location.toLowerCase().includes(q) ||
+            loc.toLowerCase().includes(q) ||
             bid.id.toLowerCase().includes(q) ||
             (bid.aiSummary && bid.aiSummary.toLowerCase().includes(q));
           if (!matchSearch) return false;
