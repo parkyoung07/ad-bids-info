@@ -18,6 +18,8 @@ async function generateHmacSha256(dataStr, secretKey) {
   );
   const signature = await crypto.subtle.sign('HMAC', key, enc.encode(dataStr));
   return Array.from(new Uint8Array(signature)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
 /**
  * 공고 검수 목록 조회 (GET /api/admin/verify)
  */
