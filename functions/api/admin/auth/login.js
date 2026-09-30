@@ -91,7 +91,6 @@ export async function onRequestPost(context) {
     loginAttempts.delete(clientIp);
 
     // 세션 생성 (Session Fixation 방어: 신규 토큰 생성)
-    const now = Date.now();
     const expiresAt = now + (2 * 60 * 60 * 1000); // 2시간 TTL
     const csrfToken = crypto.randomUUID();
     const sessionId = crypto.randomUUID();
