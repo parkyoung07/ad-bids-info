@@ -255,7 +255,7 @@ export default function AdminVerifyClient() {
                 value={username}
                 onChange={e => setUsername(e.target.value)}
                 className="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-indigo-500 transition"
-                placeholder="admin"
+                placeholder="아이디를 입력하세요"
                 required
               />
             </div>
@@ -266,7 +266,7 @@ export default function AdminVerifyClient() {
                 value={password}
                 onChange={e => setPassword(e.target.value)}
                 className="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-indigo-500 transition"
-                placeholder="••••••••••••"
+                placeholder="비밀번호를 입력하세요"
                 required
               />
             </div>

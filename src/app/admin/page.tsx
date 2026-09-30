@@ -51,11 +51,20 @@ interface Subscriber {
 
 export default function AdminDashboardPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [currentUserRole, setCurrentUserRole] = useState<"admin" | "reviewer">("admin");
+  const [usernameInput, setUsernameInput] = useState("admin");
   const [passwordInput, setPasswordInput] = useState("");
   const [authError, setAuthError] = useState("");
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [activeTab, setActiveTab] = useState<"chat" | "subscribers" | "channels">("channels");
   const [isSyncing, setIsSyncing] = useState(false);
   const [syncResult, setSyncResult] = useState<string | null>(null);
+
+  // 개인정보 마스킹 헬퍼 (검수자 보호)
+  const maskPhone = (phone: string) => {
+    if (!phone) return "";
+    return phone.replace(/(\d{3})-?(\d{2,4})-?(\d{4})/, "$1-****-$3");
+  };
 
   // 채팅 상태
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -81,13 +90,33 @@ export default function AdminDashboardPage() {
     });
   };
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (passwordInput === "admin1234") {
-      setIsAuthenticated(true);
-      setAuthError("");
-    } else {
-      setAuthError("비밀번호가 일치하지 않습니다. 다시 확인해 주세요.");
+    setAuthError("");
+    setIsLoggingIn(true);
+
+    try {
+      const res = await fetch("/api/admin/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: usernameInput.trim(),
+          password: passwordInput.trim()
+        })
+      });
+
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setIsAuthenticated(true);
+        setCurrentUserRole(data.admin?.role === "VERIFIER" ? "reviewer" : "admin");
+        setPasswordInput("");
+      } else {
+        setAuthError(data.message || "아이디 또는 비밀번호가 일치하지 않습니다.");
+      }
+    } catch (err) {
+      setAuthError("로그인 통신 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+    } finally {
+      setIsLoggingIn(false);
     }
   };
 
@@ -203,7 +232,25 @@ export default function AdminDashboardPage() {
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
               <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                관리자 비밀번호
+                아이디 (Username)
+              </label>
+              <input
+                type="text"
+                value={usernameInput}
+                onChange={(e) => {
+                  setUsernameInput(e.target.value);
+                  setAuthError("");
+                }}
+                placeholder="아이디를 입력하세요"
+                autoFocus
+                required
+                className="w-full bg-slate-950 border border-slate-700 focus:border-indigo-500 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 transition-all"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                비밀번호 (Password)
               </label>
               <input
                 type="password"
@@ -212,8 +259,8 @@ export default function AdminDashboardPage() {
                   setPasswordInput(e.target.value);
                   setAuthError("");
                 }}
-                placeholder="비밀번호를 입력하세요 (기본: admin1234)"
-                autoFocus
+                placeholder="비밀번호를 입력하세요"
+                required
                 className="w-full bg-slate-950 border border-slate-700 focus:border-indigo-500 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 transition-all"
               />
               {authError && (
@@ -225,10 +272,15 @@ export default function AdminDashboardPage() {
 
             <button
               type="submit"
-              className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm py-2.5 rounded-xl transition-all shadow-md shadow-indigo-600/25 active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer"
+              disabled={isLoggingIn}
+              className="w-full bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white font-bold text-sm py-2.5 rounded-xl transition-all shadow-md shadow-indigo-600/25 active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer"
             >
-              <ShieldCheck className="w-4 h-4" />
-              <span>로그인하여 관리 시작</span>
+              {isLoggingIn ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <ShieldCheck className="w-4 h-4" />
+              )}
+              <span>{isLoggingIn ? "인증 중..." : "보안 세션 로그인"}</span>
             </button>
           </form>
 
@@ -253,18 +305,27 @@ export default function AdminDashboardPage() {
       <header className="sticky top-0 z-30 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 shadow-md">
         <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-md">
+            <div className={`w-9 h-9 rounded-xl flex items-center justify-center text-white shadow-md ${
+              currentUserRole === "reviewer" ? "bg-amber-600" : "bg-indigo-600"
+            }`}>
               <ShieldCheck className="w-5 h-5" />
             </div>
             <div>
               <div className="flex items-center gap-2">
                 <h1 className="text-sm sm:text-base font-bold text-white">
-                  옥외광고 알리미 관리자 콘솔
+                  {currentUserRole === "reviewer" ? "공공입찰 검수자 콘솔" : "옥외광고 알리미 관리자 콘솔"}
                 </h1>
-                <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  실시간 가동 중
-                </span>
+                {currentUserRole === "reviewer" ? (
+                  <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30">
+                    <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+                    검수자 전용 모드
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    실시간 가동 중
+                  </span>
+                )}
               </div>
               <p className="text-[11px] text-slate-400">
                 상담 문의 {messages.length}건 · 알림 구독자 {subscribers.length}명
@@ -485,7 +546,7 @@ export default function AdminDashboardPage() {
                     <tr key={sub.id} className="hover:bg-slate-800/40 transition-colors">
                       <td className="p-3 font-bold text-white flex items-center gap-1.5">
                         <Phone className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                        <span>{sub.phone}</span>
+                        <span>{currentUserRole === "reviewer" ? maskPhone(sub.phone) : sub.phone}</span>
                       </td>
                       <td className="p-3 text-slate-300">
                         {sub.companyName || <span className="text-slate-600">-</span>}
@@ -508,37 +569,43 @@ export default function AdminDashboardPage() {
                         {sub.subscribedAt ? new Date(sub.subscribedAt).toLocaleDateString("ko-KR") : "-"}
                       </td>
                       <td className="p-3 text-right">
-                        <div className="flex items-center justify-end gap-1.5">
-                          <button
-                            onClick={() => {
-                              setReplyModalTarget(sub);
-                              setIsReplyModalOpen(true);
-                            }}
-                            className="px-2.5 py-1.5 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-400/30 rounded-lg text-[11px] font-bold transition-all cursor-pointer inline-flex items-center gap-1 shadow-sm"
-                          >
-                            <MessageCircle className="w-3.5 h-3.5 fill-amber-400" />
-                            <span>카톡 답장</span>
-                          </button>
+                        {currentUserRole === "reviewer" ? (
+                          <span className="text-[11px] text-slate-500 font-medium px-2 py-1 bg-slate-800/60 rounded border border-slate-700/50">
+                            🔒 개인정보 보호 (읽기 전용)
+                          </span>
+                        ) : (
+                          <div className="flex items-center justify-end gap-1.5">
+                            <button
+                              onClick={() => {
+                                setReplyModalTarget(sub);
+                                setIsReplyModalOpen(true);
+                              }}
+                              className="px-2.5 py-1.5 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-400/30 rounded-lg text-[11px] font-bold transition-all cursor-pointer inline-flex items-center gap-1 shadow-sm"
+                            >
+                              <MessageCircle className="w-3.5 h-3.5 fill-amber-400" />
+                              <span>카톡 답장</span>
+                            </button>
 
-                          <button
-                            onClick={() => {
-                              setReplyModalTarget(sub);
-                              setIsReplyModalOpen(true);
-                            }}
-                            className="px-2.5 py-1.5 bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-300 border border-indigo-400/30 rounded-lg text-[11px] font-bold transition-all cursor-pointer inline-flex items-center gap-1 shadow-sm"
-                          >
-                            <Mail className="w-3.5 h-3.5" />
-                            <span>메일 답장</span>
-                          </button>
+                            <button
+                              onClick={() => {
+                                setReplyModalTarget(sub);
+                                setIsReplyModalOpen(true);
+                              }}
+                              className="px-2.5 py-1.5 bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-300 border border-indigo-400/30 rounded-lg text-[11px] font-bold transition-all cursor-pointer inline-flex items-center gap-1 shadow-sm"
+                            >
+                              <Mail className="w-3.5 h-3.5" />
+                              <span>메일 답장</span>
+                            </button>
 
-                          <button
-                            onClick={() => handleTestSendKakao(sub.phone)}
-                            className="px-2 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 rounded-lg text-[10px] font-medium transition-all cursor-pointer"
-                            title="기본 테스트 알림톡 발송"
-                          >
-                            <Send className="w-3 h-3" />
-                          </button>
-                        </div>
+                            <button
+                              onClick={() => handleTestSendKakao(sub.phone)}
+                              className="px-2 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 rounded-lg text-[10px] font-medium transition-all cursor-pointer"
+                              title="기본 테스트 알림톡 발송"
+                            >
+                              <Send className="w-3 h-3" />
+                            </button>
+                          </div>
+                        )}
                       </td>
                     </tr>
                   ))}
