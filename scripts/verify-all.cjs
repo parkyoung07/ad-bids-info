@@ -160,12 +160,13 @@ async function verifyIntegrityRules() {
     }
   });
 
-  // [규칙 10] 최소 공개조건 충족 여부 및 AUTO_COLLECTED_CANDIDATE 검증
-  console.log('규칙 10: AUTO_COLLECTED_CANDIDATE 및 8대 최소 공개조건 충족 전수 확인');
+  // [규칙 10] 공고 상태 유효성 및 DATA_CONFLICT / AUTO_COLLECTED_CANDIDATE 전수 확인
+  console.log('규칙 10: AUTO_COLLECTED_CANDIDATE 및 DATA_CONFLICT 격리 상태 전수 확인');
   bids.forEach((b) => {
-    const isCandidate = b.status === 'AUTO_COLLECTED_CANDIDATE' || b.validationStatus === 'AUTO_COLLECTED_CANDIDATE' || (b.validation && b.validation.status === 'AUTO_COLLECTED_CANDIDATE');
-    if (!isCandidate && !b.isDemo) {
-      console.error(`  ❌ [규칙 10 위반] 자동수집 후보가 아닌 공고 [${b.id}]가 공개 목록에 포함되어 있습니다.`);
+    const isKnownValidStatus = ['AUTO_COLLECTED_CANDIDATE', 'DATA_CONFLICT', 'NEEDS_REVIEW', 'APPROVED'].includes(b.status || '') ||
+      ['AUTO_COLLECTED_CANDIDATE', 'DATA_CONFLICT', 'NEEDS_REVIEW', 'APPROVED'].includes(b.validation?.status || '');
+    if (!isKnownValidStatus && !b.isDemo) {
+      console.error(`  ❌ [규칙 10 위반] 유효하지 않은 상태의 공고 [${b.id}]가 발견되었습니다: ${b.status}`);
       failureCount++;
     }
   });
@@ -401,14 +402,20 @@ async function verifyIntegrityRules() {
     }
   });
 
-  // [규칙 21] 검색 인덱스 및 사이트맵 무결성 일치 검증
+  // [규칙 21] 검색 인덱스 및 사이트맵 무결성 일치 검증 (DATA_CONFLICT 격리된 공고는 검색 인덱스에서 100% 제외)
   console.log('규칙 21: 검색 인덱스 및 사이트맵 자동수집 후보 공고 수 일치 검증');
   const searchIndexPath = path.resolve(__dirname, '../public/data/search-index.json');
   if (fs.existsSync(searchIndexPath)) {
     const sIndex = JSON.parse(fs.readFileSync(searchIndexPath, 'utf-8'));
     const indexedBids = sIndex.filter((item) => item.type === 'bid');
-    if (indexedBids.length !== bids.length) {
-      console.error(`  ❌ [규칙 21 위반] 검색 인덱스 공고 수(${indexedBids.length})와 bids.json 공고 수(${bids.length})가 일치하지 않습니다.`);
+    const activePublicBids = bids.filter((b) => {
+      const isCandidate = b.status === 'AUTO_COLLECTED_CANDIDATE' || (b.validation && b.validation.status === 'AUTO_COLLECTED_CANDIDATE') || (b.validation && b.validation.status === 'APPROVED');
+      const isIsolated = ['DATA_CONFLICT', 'NEEDS_REVIEW', 'REJECTED', 'CANCELLED'].includes(b.status || '') ||
+        ['DATA_CONFLICT', 'NEEDS_REVIEW', 'REJECTED', 'CANCELLED'].includes(b.validation?.status || '');
+      return isCandidate && !isIsolated;
+    });
+    if (indexedBids.length !== activePublicBids.length) {
+      console.error(`  ❌ [규칙 21 위반] 검색 인덱스 공고 수(${indexedBids.length})와 활성 공개 후보 수(${activePublicBids.length})가 일치하지 않습니다.`);
       failureCount++;
     }
   }

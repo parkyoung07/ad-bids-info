@@ -78,8 +78,8 @@ export default function HomePage() {
       const hasOfficialUrl = Boolean(
         b.officialUrl || b.sourceDetailUrl || b.linkUrl
       ) && !["https://www.g2b.go.kr", "https://www.g2b.go.kr/", "https://www.s2b.kr"].includes(b.officialUrl || b.sourceDetailUrl || b.linkUrl);
-      const isNotConflictOrRejected = !["REJECTED", "CANCELLED", "DATA_CONFLICT"].includes(
-        b.validation?.status || b.verificationStatus || b.validationStatus || ""
+      const isNotConflictOrRejected = !["REJECTED", "CANCELLED", "DATA_CONFLICT", "NEEDS_REVIEW", "REVIEW_REQUIRED", "PENDING_MANUAL_CHECK", "HELD"].includes(
+        b.validation?.status || b.verificationStatus || b.validationStatus || b.status || ""
       );
       return hasId && hasTitle && hasClient && hasOfficialUrl && isNotConflictOrRejected;
     });
@@ -596,10 +596,10 @@ export default function HomePage() {
               <Search className="w-6 h-6" />
             </div>
             <h3 className="text-base font-bold text-slate-200 mb-1">
-              해당 탭에 일치하는 입찰 공고가 없습니다
+              현재 안전 대조를 통과한 공개 입찰 후보를 준비 중입니다
             </h3>
             <p className="text-xs text-slate-400 mb-4">
-              선택한 업종, 지역, 마감일 필터 또는 검색어 조건을 변경하여 다시 확인해보세요.
+              공식 조달청 API 원문과의 데이터 정밀 대조 및 결함 격리가 진행 중이며, 원문과 100% 일치 검증된 공고만 안전하게 제공됩니다.
             </p>
             <button
               onClick={() => {

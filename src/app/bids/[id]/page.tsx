@@ -28,7 +28,7 @@ import type { Metadata } from "next";
 
 export async function generateStaticParams() {
   const bids = (bidsData as unknown as BidItem[]) || [];
-  return bids
+  const valid = bids
     .filter((bid) => {
       const isCandidate =
         bid.status === "AUTO_COLLECTED_CANDIDATE" ||
@@ -38,7 +38,7 @@ export async function generateStaticParams() {
         bid.status === "APPROVED" ||
         bid.isDemo === true;
       const isIsolated = ["PENDING_MANUAL_CHECK", "NEEDS_REVIEW", "DATA_CONFLICT", "REVIEW_REQUIRED", "REJECTED", "CANCELLED", "HELD"].includes(
-        bid.validation?.status || bid.verificationStatus || bid.validationStatus || ""
+        bid.validation?.status || bid.verificationStatus || bid.validationStatus || bid.status || ""
       );
       const hasOfficialUrl = Boolean(bid.officialUrl || bid.sourceDetailUrl || bid.linkUrl);
       return isCandidate && !isIsolated && hasOfficialUrl;
@@ -46,6 +46,11 @@ export async function generateStaticParams() {
     .map((bid) => ({
       id: bid.id,
     }));
+
+  if (valid.length === 0) {
+    return [{ id: "unverified-candidate" }];
+  }
+  return valid;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {

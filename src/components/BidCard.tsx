@@ -141,6 +141,14 @@ export default function BidCard({
 
   // 상태 배지 렌더링 (새로운 표시 규칙 적용: 사람이 승인한 공고가 아니므로 VERIFIED/APPROVED 배지 절대 미표시)
   const renderStatusBadge = () => {
+    if (bid.status === "DATA_CONFLICT" || bid.validation?.status === "DATA_CONFLICT") {
+      return (
+        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-rose-950/80 text-rose-300 border border-rose-800/80">
+          <AlertCircle className="w-3 h-3 text-rose-400" />
+          데이터 불일치 격리 (비공개)
+        </span>
+      );
+    }
     if (isDemo) {
       return (
         <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-400/30">
@@ -152,7 +160,7 @@ export default function BidCard({
     if (isExpired) {
       return (
         <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-bold bg-rose-950/60 text-rose-300 border border-rose-800/60">
-          🔴 공식 마감
+          🔴 공식 마감 (원문 미대조)
         </span>
       );
     }
@@ -168,7 +176,7 @@ export default function BidCard({
       return (
         <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-black bg-rose-600 text-white shadow-sm shadow-rose-600/30 animate-pulse">
           <Flame className="w-3 h-3 fill-white" />
-          오늘 마감 (D-Day)
+          오늘 마감 · 원문 미대조 (D-Day)
         </span>
       );
     }
@@ -176,14 +184,14 @@ export default function BidCard({
       return (
         <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-black bg-rose-500 text-white shadow-sm shadow-rose-500/30 animate-pulse">
           <Flame className="w-3 h-3 fill-white" />
-          마감 {timeStatus.dDayText}
+          마감 {timeStatus.dDayText} · 원문 미대조
         </span>
       );
     }
     return (
       <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-bold bg-cyan-950/80 text-cyan-300 border border-cyan-700/50">
         <Sparkles className="w-3 h-3 text-cyan-400" />
-        자동수집 후보 ({timeStatus.dDayText})
+        자동수집 후보 · 원문 미대조 ({timeStatus.dDayText})
       </span>
     );
   };
@@ -334,17 +342,22 @@ export default function BidCard({
           </div>
         )}
 
-        {/* 발견 키워드 태그 목록 */}
-        {bid.tags && bid.tags.length > 0 && (
-          <div className="flex flex-wrap items-center gap-1 mb-2.5">
-            <span className="text-[10px] text-slate-500">관련 키워드:</span>
-            {bid.tags.slice(0, 3).map((tag, idx) => (
-              <span key={idx} className="text-[10px] px-1.5 py-0.2 bg-slate-800/80 text-cyan-300 rounded border border-slate-700/60 font-mono">
-                #{tag}
-              </span>
-            ))}
-          </div>
-        )}
+        {/* 발견 키워드 태그 목록 (G2B 공고의 S2B 키워드 혼입 원천 배제) */}
+        {(() => {
+          const isG2B = (bid.officialUrl || bid.sourceDetailUrl || bid.linkUrl || "").toLowerCase().includes("g2b.go.kr");
+          const safeTags = (bid.tags || []).filter(t => !isG2B || (!t.includes("S2B") && !t.includes("학교장터")));
+          if (safeTags.length === 0) return null;
+          return (
+            <div className="flex flex-wrap items-center gap-1 mb-2.5">
+              <span className="text-[10px] text-slate-500">관련 키워드:</span>
+              {safeTags.slice(0, 3).map((tag, idx) => (
+                <span key={idx} className="text-[10px] px-1.5 py-0.2 bg-slate-800/80 text-cyan-300 rounded border border-slate-700/60 font-mono">
+                  #{tag}
+                </span>
+              ))}
+            </div>
+          );
+        })()}
 
         {/* 핵심 제원: 발주기관, 마감일시, 배정예산(null 시 숨김) */}
         <div className={`grid grid-cols-1 ${hasBudget ? "sm:grid-cols-3" : "sm:grid-cols-2"} gap-2 py-2 border-t border-slate-800/80 text-xs text-slate-400`}>
