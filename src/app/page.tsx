@@ -33,7 +33,7 @@ export default function HomePage() {
   const [sortBy, setSortBy] = useState<"dDay" | "budgetDesc" | "budgetAsc" | "newest">("dDay");
   const [isSubscribeModalOpen, setIsSubscribeModalOpen] = useState(false);
   const [bookmarkedIds, setBookmarkedIds] = useState<string[]>([]);
-  const [viewTab, setViewTab] = useState<"active" | "null_close" | "closed" | "bookmarks">("active");
+  const [viewTab, setViewTab] = useState<"active" | "closed" | "bookmarks">("active");
   const [mounted, setMounted] = useState(false);
 
   // 브라우저 마운트 시점 기록 및 로컬스토리지 북마크 불러오기
@@ -102,36 +102,28 @@ export default function HomePage() {
     });
   }, [allBids]);
 
-  // 1. 새로 발견한 후보 (공식 마감일 확인됨 & 마감 시각 미도래)
+  // 1. 진행 중 자동수집 후보 (공식 마감 시각 미도래)
   const activeCandidateBids = useMemo(() => {
     return bidsWithTimeStatus.filter(
-      (b) => !b.isDemo && b.status !== "DEMO 예시" && b.realtimeDDay !== null && !b.realtimeIsExpired
+      (b) => !b.isDemo && b.status !== "DEMO 예시" && !b.realtimeIsExpired
     );
   }, [bidsWithTimeStatus]);
 
-  // 2. 마감일 확인 필요 (마감일이 null이거나 미기재된 공고: 임의 마감/진행 분류 금지)
-  const nullCloseBids = useMemo(() => {
-    return bidsWithTimeStatus.filter(
-      (b) => !b.isDemo && b.status !== "DEMO 예시" && (b.realtimeDDay === null || !b.bidCloseDate)
-    );
-  }, [bidsWithTimeStatus]);
-
-  // 3. 공식 마감 (공식 마감일 확인됨 & 마감 시각 경과)
+  // 2. 공식 마감 (공식 마감 시각 경과)
   const closedCandidateBids = useMemo(() => {
     return bidsWithTimeStatus.filter(
-      (b) => !b.isDemo && b.status !== "DEMO 예시" && b.realtimeDDay !== null && b.realtimeIsExpired
+      (b) => !b.isDemo && b.status !== "DEMO 예시" && b.realtimeIsExpired
     );
   }, [bidsWithTimeStatus]);
 
   // 현재 탭에 따른 기본 대상 리스트
   const currentTabBids = useMemo(() => {
-    if (viewTab === "null_close") return nullCloseBids;
     if (viewTab === "closed") return closedCandidateBids;
     if (viewTab === "bookmarks") {
       return bidsWithTimeStatus.filter((b) => bookmarkedIds.includes(b.id));
     }
     return activeCandidateBids;
-  }, [viewTab, activeCandidateBids, nullCloseBids, closedCandidateBids, bidsWithTimeStatus, bookmarkedIds]);
+  }, [viewTab, activeCandidateBids, closedCandidateBids, bidsWithTimeStatus, bookmarkedIds]);
 
   // 필터링 및 정렬
   const filteredBids = useMemo(() => {
@@ -260,26 +252,26 @@ export default function HomePage() {
   }, [allBids]);
 
   return (
-    <div className="flex-1 flex flex-col">
-      {/* 히어로 섹션 */}
+    <div className="flex-1 flex flex-col overflow-x-hidden max-w-full">
+      {/* 히어로 섹션 (모바일 390px 완벽 대응) */}
       <section className="relative overflow-hidden bg-slate-900 border-b border-slate-800 py-5 sm:py-9 px-3 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center space-y-2.5 sm:space-y-3.5 relative z-10">
           {/* 상단 신뢰 배지 */}
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-950 border border-cyan-500/30 text-cyan-300 text-[11px] sm:text-xs font-semibold shadow-sm">
-            <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-            <span>광고·인쇄 관련 가능성이 있어 자동수집된 공고입니다.</span>
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-950 border border-cyan-500/30 text-cyan-300 text-[11px] sm:text-xs font-semibold shadow-sm max-w-full">
+            <Sparkles className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+            <span className="truncate">광고·인쇄 관련 가능성이 있어 자동수집된 공고입니다.</span>
           </div>
 
           {/* 메인 헤드라인 */}
-          <h1 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-white tracking-tight leading-snug">
+          <h1 className="text-lg sm:text-2xl lg:text-3xl font-extrabold text-white tracking-tight leading-snug break-keep">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-300 to-indigo-400">
               광고 · 인쇄 관련 입찰 기회
             </span>를 빠르게 찾아드립니다.
           </h1>
 
           {/* 공식 원문 확인 필수 안내문 */}
-          <div className="bg-slate-950/80 border border-slate-800 rounded-xl p-3.5 text-left max-w-2xl mx-auto shadow-inner">
-            <p className="text-[11px] sm:text-xs text-slate-300 leading-relaxed">
+          <div className="bg-slate-950/80 border border-slate-800 rounded-xl p-3 sm:p-3.5 text-left max-w-2xl mx-auto shadow-inner">
+            <p className="text-[11px] sm:text-xs text-slate-300 leading-relaxed break-keep">
               <strong className="text-cyan-400 font-bold">※ SignBid 안내:</strong> 광고·인쇄 관련 가능성이 있어 자동수집된 공고입니다. 참가자격·금액·일정·제출서류는 나라장터 공식 원문에서 최종 확인해 주세요.
             </p>
           </div>
@@ -314,13 +306,13 @@ export default function HomePage() {
             </button>
           </div>
 
-          {/* 🎯 4대 핵심 분야 원클릭 퀵 필터 칩 */}
-          <div className="pt-1 max-w-4xl mx-auto">
-            <div className="flex items-center justify-start sm:justify-center gap-1.5 overflow-x-auto no-scrollbar py-1">
+          {/* 🎯 4대 핵심 분야 퀵 필터 칩 (모바일 390px 2줄 자동 래핑 대응) */}
+          <div className="pt-1 max-w-4xl mx-auto w-full">
+            <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 py-1">
               {/* 전체 */}
               <button
                 onClick={() => setFilters({ ...filters, category: "전체" })}
-                className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap min-h-[36px] ${
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap min-h-[38px] touch-manipulation ${
                   filters.category === "전체"
                     ? "bg-blue-600 text-white shadow-sm ring-1 ring-blue-400"
                     : "bg-slate-950/80 hover:bg-slate-800 text-slate-300 border border-slate-800"
@@ -335,7 +327,7 @@ export default function HomePage() {
               {/* 🏢 제작·시공 */}
               <button
                 onClick={() => setFilters({ ...filters, category: "제작·시공" })}
-                className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap min-h-[36px] ${
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap min-h-[38px] touch-manipulation ${
                   filters.category === "제작·시공"
                     ? "bg-blue-600 text-white shadow-sm ring-1 ring-blue-400"
                     : "bg-slate-950/80 hover:bg-slate-800 text-slate-300 border border-slate-800"
@@ -350,7 +342,7 @@ export default function HomePage() {
               {/* 🖨️ 인쇄·출판 */}
               <button
                 onClick={() => setFilters({ ...filters, category: "인쇄·출판" })}
-                className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap min-h-[36px] ${
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap min-h-[38px] touch-manipulation ${
                   filters.category === "인쇄·출판"
                     ? "bg-emerald-600 text-white shadow-sm ring-1 ring-emerald-400"
                     : "bg-slate-950/80 hover:bg-slate-800 text-slate-300 border border-slate-800"
@@ -365,7 +357,7 @@ export default function HomePage() {
               {/* ⚙️ 출력·인쇄 장비 */}
               <button
                 onClick={() => setFilters({ ...filters, category: "출력·인쇄 장비" })}
-                className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap min-h-[36px] ${
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap min-h-[38px] touch-manipulation ${
                   filters.category === "출력·인쇄 장비"
                     ? "bg-indigo-600 text-white shadow-sm ring-1 ring-indigo-400"
                     : "bg-slate-950/80 hover:bg-slate-800 text-slate-300 border border-slate-800"
@@ -380,7 +372,7 @@ export default function HomePage() {
               {/* 🧪 출력소재·잉크 */}
               <button
                 onClick={() => setFilters({ ...filters, category: "출력소재·잉크" })}
-                className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap min-h-[36px] ${
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap min-h-[38px] touch-manipulation ${
                   filters.category === "출력소재·잉크"
                     ? "bg-amber-600 text-white shadow-sm ring-1 ring-amber-400"
                     : "bg-slate-950/80 hover:bg-slate-800 text-slate-300 border border-slate-800"
@@ -474,39 +466,27 @@ export default function HomePage() {
       </section>
 
       {/* 메인 컨텐츠 영역 */}
-      <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 space-y-4 sm:space-y-5">
-        {/* 공고 구분 탭 & 상단 컨트롤 바 */}
+      <main className="flex-1 max-w-7xl mx-auto w-full px-3 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-4 sm:space-y-5">
+        {/* 공고 구분 3대 탭 버튼 & 상단 컨트롤 바 */}
         <div className="sticky top-14 sm:top-16 z-20 bg-slate-900/95 backdrop-blur-md border border-slate-800 rounded-2xl p-2.5 sm:p-3 shadow-xl">
           <div className="flex items-center justify-between gap-2">
-            {/* 공고 구분 4대 탭 버튼 */}
+            {/* 공고 구분 3대 탭 버튼 (회장님 지시: 공식 원문 확인 필요 0건 탭 삭제) */}
             <div className="flex flex-nowrap items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
               <button
                 onClick={() => setViewTab("active")}
-                className={`shrink-0 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-1.5 min-h-[38px] whitespace-nowrap ${
+                className={`shrink-0 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-1.5 min-h-[38px] whitespace-nowrap touch-manipulation ${
                   viewTab === "active"
                     ? "bg-blue-600 text-white shadow-md shadow-blue-600/20"
                     : "bg-slate-950 text-slate-400 hover:text-white border border-slate-800"
                 }`}
               >
                 <Sparkles className="w-3.5 h-3.5 text-cyan-300" />
-                <span>새로 발견한 후보 ({activeCandidateBids.length})</span>
-              </button>
-
-              <button
-                onClick={() => setViewTab("null_close")}
-                className={`shrink-0 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-1.5 min-h-[38px] whitespace-nowrap ${
-                  viewTab === "null_close"
-                    ? "bg-amber-600 text-white shadow-md shadow-amber-600/20"
-                    : "bg-slate-950 text-slate-400 hover:text-white border border-slate-800"
-                }`}
-              >
-                <Clock className="w-3.5 h-3.5 text-amber-300" />
-                <span>공식 원문 확인 필요 ({nullCloseBids.length})</span>
+                <span>진행 중 자동수집 후보 ({activeCandidateBids.length})</span>
               </button>
 
               <button
                 onClick={() => setViewTab("closed")}
-                className={`shrink-0 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-1.5 min-h-[38px] whitespace-nowrap ${
+                className={`shrink-0 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-1.5 min-h-[38px] whitespace-nowrap touch-manipulation ${
                   viewTab === "closed"
                     ? "bg-slate-800 text-rose-300 border border-rose-600/50"
                     : "bg-slate-950 text-slate-400 hover:text-white border border-slate-800"
@@ -519,7 +499,7 @@ export default function HomePage() {
               <button
                 id="bookmarks"
                 onClick={() => setViewTab("bookmarks")}
-                className={`shrink-0 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-1.5 min-h-[38px] whitespace-nowrap ${
+                className={`shrink-0 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-1.5 min-h-[38px] whitespace-nowrap touch-manipulation ${
                   viewTab === "bookmarks"
                     ? "bg-slate-800 text-amber-300 border border-amber-500/40"
                     : "bg-slate-950 text-slate-400 hover:text-white border border-slate-800"
@@ -571,14 +551,14 @@ export default function HomePage() {
 
         {/* 공고 카드 그리드 */}
         {filteredBids.length === 0 ? (
-          <div className="bg-slate-900/60 rounded-2xl border border-slate-800 p-12 text-center my-6 shadow-sm">
+          <div className="bg-slate-900/60 rounded-2xl border border-slate-800 p-8 sm:p-12 text-center my-4 sm:my-6 shadow-sm">
             <div className="w-12 h-12 bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-3 text-slate-400">
               <Search className="w-6 h-6" />
             </div>
             <h3 className="text-base font-bold text-slate-200 mb-1">
               해당 조건의 입찰 후보 공고가 없습니다
             </h3>
-            <p className="text-xs text-slate-400 mb-4">
+            <p className="text-xs text-slate-400 mb-4 max-w-md mx-auto leading-relaxed">
               광고·인쇄 관련 가능성이 있어 자동수집된 공고입니다. 참가자격·금액·일정·제출서류는 나라장터 공식 원문에서 최종 확인해 주세요.
             </p>
             <button
@@ -586,13 +566,13 @@ export default function HomePage() {
                 setFilters(INITIAL_FILTERS);
                 setSearchQuery("");
               }}
-              className="inline-flex items-center gap-1 px-4 py-2 bg-blue-600/20 text-blue-300 hover:bg-blue-600/30 rounded-xl text-xs font-semibold border border-blue-500/30 transition-colors"
+              className="inline-flex items-center gap-1 px-4 py-2 bg-blue-600/20 text-blue-300 hover:bg-blue-600/30 rounded-xl text-xs font-semibold border border-blue-500/30 transition-colors cursor-pointer"
             >
               전체 조건 초기화
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4">
             {filteredBids.map((bid) => (
               <BidCard
                 key={bid.id}
@@ -613,4 +593,5 @@ export default function HomePage() {
     </div>
   );
 }
+
 
