@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - staging
   schedule:
     # 매일 3회 자동 업데이트 (한국 시간 기준):
     # - 오전 07:15 KST (UTC 22:15)
@@ -52,10 +53,10 @@ jobs:
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add src/content/posts/ public/data/ || true
           git commit -m "chore: auto-generate daily blog post, news and update bids data [skip ci]" || echo "No changes to commit"
-          git push origin main || echo "Git push skipped"
+          git push origin ${{ github.ref_name }} || echo "Git push skipped"
 
       - name: Deploy to Cloudflare Pages (Direct Wrangler Upload)
-        run: npx wrangler pages deploy out --project-name=ad-bids-info --branch=main --commit-dirty=true
+        run: npx wrangler pages deploy out --project-name=ad-bids-info --branch=${{ github.ref_name }} --commit-dirty=true
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
