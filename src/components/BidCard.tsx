@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   Building2,
@@ -21,16 +21,25 @@ import { computeBidTimeStatus } from "@/utils/dateUtils";
 export interface BidItem {
   id: string;
   announcementNo?: string;
+  bidNtceNo?: string;
+  bidNtceOrd?: string;
+  bidNtceNm?: string;
   title: string;
   officialTitle?: string;
   category: string;
   client: string;
-  budget: number;
-  budgetText: string;
-  location: string;
+  officialClient?: string;
+  budget: number | null;
+  budgetText?: string;
+  asignBdgtAmt?: string | null;
+  presmptPrce?: string | null;
+  cntrctCnclsMthdNm?: string | null;
+  location?: string;
   noticeDate?: string;
+  bidNtceDt?: string | null;
   bidBeginDate?: string;
   bidCloseDate?: string;
+  bidClseDt?: string | null;
   openingDate?: string;
   startDate: string;
   endDate: string;
@@ -103,6 +112,11 @@ export default function BidCard({
 }: BidCardProps) {
   const [saved, setSaved] = useState(isBookmarked);
   const [isReported, setIsReported] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleBookmarkClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -125,7 +139,7 @@ export default function BidCard({
     } catch {}
   };
 
-  // 한국 표준시(Asia/Seoul) 기준 실시간 마감 상태 및 D-Day 동적 계산 (화면 표시 시점 재계산)
+  // 한국 표준시(Asia/Seoul) 기준 실시간 마감 상태 및 D-Day 동적 계산
   const timeStatus = React.useMemo(() => {
     return computeBidTimeStatus(
       bid.bidCloseDate,
@@ -136,10 +150,10 @@ export default function BidCard({
   }, [bid.bidCloseDate, bid.endDate, bid.isClosed, bid.status]);
 
   const isDemo = bid.isDemo || bid.status === "DEMO 예시";
-  const isExpired = timeStatus.isExpired;
-  const isUrgent = timeStatus.isUrgent;
+  const isExpired = mounted ? timeStatus.isExpired : false;
+  const isUrgent = mounted ? timeStatus.isUrgent : false;
 
-  // 상태 배지 렌더링 (새로운 표시 규칙 적용: 사람이 승인한 공고가 아니므로 VERIFIED/APPROVED 배지 절대 미표시)
+  // 상태 배지 렌더링 (서버 렌더링과 클라이언트 초기 일치 및 마운트 후 실시간 반영)
   const renderStatusBadge = () => {
     if (bid.status === "DATA_CONFLICT" || bid.validation?.status === "DATA_CONFLICT") {
       return (
@@ -157,10 +171,18 @@ export default function BidCard({
         </span>
       );
     }
-    if (isExpired) {
+    if (!mounted) {
+      return (
+        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-bold bg-cyan-950/80 text-cyan-300 border border-cyan-700/50">
+          <Sparkles className="w-3 h-3 text-cyan-400" />
+          자동수집 후보
+        </span>
+      );
+    }
+    if (timeStatus.isExpired) {
       return (
         <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-bold bg-rose-950/60 text-rose-300 border border-rose-800/60">
-          🔴 공식 마감 (원문 미대조)
+          🔴 공식 마감
         </span>
       );
     }
@@ -168,7 +190,7 @@ export default function BidCard({
       return (
         <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-bold bg-slate-800 text-amber-300 border border-amber-500/40">
           <Clock className="w-3 h-3 text-amber-400" />
-          마감일 원문 확인
+          공식 원문 확인 필요
         </span>
       );
     }
@@ -176,27 +198,27 @@ export default function BidCard({
       return (
         <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-black bg-rose-600 text-white shadow-sm shadow-rose-600/30 animate-pulse">
           <Flame className="w-3 h-3 fill-white" />
-          오늘 마감 · 원문 미대조 (D-Day)
+          오늘 마감 (D-Day)
         </span>
       );
     }
-    if (isUrgent) {
+    if (timeStatus.isUrgent) {
       return (
         <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-black bg-rose-500 text-white shadow-sm shadow-rose-500/30 animate-pulse">
           <Flame className="w-3 h-3 fill-white" />
-          마감 {timeStatus.dDayText} · 원문 미대조
+          마감 {timeStatus.dDayText}
         </span>
       );
     }
     return (
       <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-bold bg-cyan-950/80 text-cyan-300 border border-cyan-700/50">
         <Sparkles className="w-3 h-3 text-cyan-400" />
-        자동수집 후보 · 원문 미대조 ({timeStatus.dDayText})
+        자동수집 후보 ({timeStatus.dDayText})
       </span>
     );
   };
 
-  // 발주 채널별 고유 색상 및 아이콘 배지 렌더링 (도메인 기반 엄격 판정: G2B 링크는 항상 조달청 나라장터)
+  // 발주 채널별 고유 색상 및 아이콘 배지 렌더링
   const renderSourceBadge = () => {
     const url = (bid.officialUrl || bid.sourceDetailUrl || bid.linkUrl || "").toLowerCase();
     const src = bid.source || bid.sourceApi || "";
@@ -236,41 +258,27 @@ export default function BidCard({
     );
   };
 
-  // 업종별 차별화 배지 렌더링
+  // 4대 분야별 배지 렌더링
   const renderCategoryBadge = () => {
-    const cat = bid.category || "간판·조형물";
-    if (cat.includes("융합")) {
+    const cat = bid.category || "제작·시공";
+    if (cat === "출력·인쇄 장비") {
       return (
-        <span className="inline-flex items-center gap-1 text-[11px] font-black text-purple-200 bg-gradient-to-r from-purple-900/70 to-pink-900/70 px-2.5 py-0.5 rounded border border-purple-400/60 shadow-sm shadow-purple-500/20">
-          ⚡ 융합 패키지
+        <span className="inline-flex items-center gap-1 text-[11px] font-bold text-indigo-300 bg-indigo-950/70 px-2 py-0.5 rounded border border-indigo-500/40">
+          ⚙️ {cat}
         </span>
       );
     }
-    if (cat.includes("인쇄") || cat.includes("출판") || cat.includes("홍보물")) {
+    if (cat === "출력소재·잉크") {
+      return (
+        <span className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-300 bg-amber-950/70 px-2 py-0.5 rounded border border-amber-500/40">
+          🧪 {cat}
+        </span>
+      );
+    }
+    if (cat === "인쇄·출판") {
       return (
         <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-300 bg-emerald-950/70 px-2 py-0.5 rounded border border-emerald-500/40">
           🖨️ {cat}
-        </span>
-      );
-    }
-    if (cat.includes("행사") || cat.includes("축제") || cat.includes("전시")) {
-      return (
-        <span className="inline-flex items-center gap-1 text-[11px] font-bold text-fuchsia-300 bg-fuchsia-950/70 px-2 py-0.5 rounded border border-fuchsia-500/40">
-          🎪 {cat}
-        </span>
-      );
-    }
-    if (cat.includes("전광판") || cat.includes("사이니지")) {
-      return (
-        <span className="inline-flex items-center gap-1 text-[11px] font-bold text-cyan-300 bg-cyan-950/70 px-2 py-0.5 rounded border border-cyan-500/40">
-          💡 {cat}
-        </span>
-      );
-    }
-    if (cat.includes("현수막") || cat.includes("배너")) {
-      return (
-        <span className="inline-flex items-center gap-1 text-[11px] font-bold text-teal-300 bg-teal-950/70 px-2 py-0.5 rounded border border-teal-500/40">
-          🚩 {cat}
         </span>
       );
     }
@@ -322,36 +330,24 @@ export default function BidCard({
         </div>
 
         {/* 공고 제목 (원문 그대로 보존) */}
-        <Link
-          href={`/bids/${bid.id}`}
+        <a
+          href={officialDirectUrl || `/bids/${bid.id}`}
+          target={officialDirectUrl ? "_blank" : undefined}
+          rel={officialDirectUrl ? "noopener noreferrer" : undefined}
           className="block text-sm sm:text-base font-bold text-white group-hover:text-cyan-300 transition-colors leading-snug line-clamp-2 mb-2.5"
         >
           {bid.title}
-        </Link>
+        </a>
 
-        {/* 관련 가능성 참고 박스 (AI 판정이 아닌 탐색 참고정보) */}
-        {bid.aiSummary && (
-          <div className="mb-3 bg-slate-950/60 border border-slate-800 rounded-lg p-2.5 text-xs text-slate-300 flex items-start gap-2">
-            <Bot className="w-3.5 h-3.5 text-cyan-400 shrink-0 mt-0.5" />
-            <div className="flex-1">
-              <span className="text-[10px] text-cyan-400 font-semibold block mb-0.5">※ 관련 가능성 참고</span>
-              <p className="line-clamp-2 leading-relaxed text-slate-300 text-[11px] sm:text-xs">
-                {bid.aiSummary}
-              </p>
-            </div>
-          </div>
-        )}
-
-        {/* 발견 키워드 태그 목록 (G2B 공고의 S2B 키워드 혼입 원천 배제) */}
+        {/* 발견 키워드 태그 목록 (공식 공고명에서 발견된 키워드만 노출) */}
         {(() => {
-          const isG2B = (bid.officialUrl || bid.sourceDetailUrl || bid.linkUrl || "").toLowerCase().includes("g2b.go.kr");
-          const safeTags = (bid.tags || []).filter(t => !isG2B || (!t.includes("S2B") && !t.includes("학교장터")));
+          const safeTags = (bid.tags || []).filter(Boolean);
           if (safeTags.length === 0) return null;
           return (
             <div className="flex flex-wrap items-center gap-1 mb-2.5">
-              <span className="text-[10px] text-slate-500">관련 키워드:</span>
+              <span className="text-[10px] text-slate-500">발견 키워드:</span>
               {safeTags.slice(0, 3).map((tag, idx) => (
-                <span key={idx} className="text-[10px] px-1.5 py-0.2 bg-slate-800/80 text-cyan-300 rounded border border-slate-700/60 font-mono">
+                <span key={idx} className="text-[10px] px-1.5 py-0.5 bg-cyan-950/80 text-cyan-300 rounded border border-cyan-700/60 font-mono font-semibold">
                   #{tag}
                 </span>
               ))}
@@ -359,12 +355,12 @@ export default function BidCard({
           );
         })()}
 
-        {/* 핵심 제원: 발주기관, 마감일시, 배정예산(null 시 숨김) */}
-        <div className={`grid grid-cols-1 ${hasBudget ? "sm:grid-cols-3" : "sm:grid-cols-2"} gap-2 py-2 border-t border-slate-800/80 text-xs text-slate-400`}>
+        {/* 핵심 제원: 공식 발주기관, 투찰마감일시, 공식 금액 */}
+        <div className={`grid grid-cols-1 sm:grid-cols-3 gap-2 py-2 border-t border-slate-800/80 text-xs text-slate-400`}>
           <div className="flex items-center gap-1.5 truncate">
             <Building2 className="w-3.5 h-3.5 text-slate-500 shrink-0" />
             <span className="truncate">
-              발주: <strong className="text-slate-200 font-semibold">{bid.client}</strong>
+              기관: <strong className="text-slate-200 font-semibold">{bid.client}</strong>
             </span>
           </div>
 
@@ -372,73 +368,51 @@ export default function BidCard({
             <Calendar className="w-3.5 h-3.5 text-slate-500 shrink-0" />
             <span>
               마감: <strong className={`${isExpired ? "text-slate-400" : "text-rose-400"} font-semibold`}>
-                {bid.endDate ? bid.endDate.substring(0, 16) : "마감일 원문 확인"}
+                {bid.bidCloseDate || bid.endDate ? (bid.bidCloseDate || bid.endDate).substring(0, 16) : "원문 확인 필요"}
               </strong>
             </span>
           </div>
 
-          {hasBudget && (
-            <div className="flex items-center sm:justify-end gap-1 font-bold text-cyan-300">
-              <span className="text-slate-400 text-xs font-normal">예산:</span>
-              <span>{bid.budgetText}</span>
-            </div>
-          )}
+          <div className="flex items-center sm:justify-end gap-1 font-bold text-cyan-300">
+            <span className="text-slate-400 text-xs font-normal">금액:</span>
+            <span>
+              {bid.asignBdgtAmt
+                ? `${Number(bid.asignBdgtAmt).toLocaleString()}원 (배정)`
+                : (bid.presmptPrce
+                  ? `${Number(bid.presmptPrce).toLocaleString()}원 (추정)`
+                  : "원문 확인 필요")}
+            </span>
+          </div>
         </div>
       </div>
 
-      {/* 하단 액션 버튼 바 */}
-      <div className="pt-3 mt-2 flex items-center justify-between gap-2 border-t border-slate-800/50">
-        <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
-          <span className="text-[10px] text-slate-500 font-mono">
-            {bid.announcementNo || bid.id}
-          </span>
-          {noticeDateText && (
-            <span className="text-[10px] text-slate-500">
-              수집: {noticeDateText}
-            </span>
-          )}
-          <button
-            type="button"
-            onClick={handleReportClick}
-            className={`text-[10px] inline-flex items-center gap-0.5 transition-colors cursor-pointer ${
-              isReported ? "text-emerald-400 font-bold" : "text-slate-500 hover:text-rose-400"
-            }`}
-            title="이 공고가 옥외광고·인쇄·행사전시와 무관한 경우 신고해주세요"
-          >
-            <Flag className="w-2.5 h-2.5" />
-            <span>{isReported ? "신고접수" : "오분류 신고"}</span>
-          </button>
+      {/* 하단 식별자 및 공식 원문 직통 버튼 바 */}
+      <div className="pt-3 mt-2 flex flex-wrap items-center justify-between gap-2 border-t border-slate-800/50">
+        <div className="flex flex-wrap items-center gap-2 text-[10.5px] text-slate-500 font-mono">
+          <span>{bid.announcementNo || bid.id}</span>
+          {noticeDateText && <span>등록: {noticeDateText}</span>}
         </div>
 
         <div className="flex items-center gap-1.5">
-          {/* 공식 상세 원문 직통 버튼 */}
+          {/* 나라장터 공식 원문 보기 버튼 */}
           {officialDirectUrl ? (
             <a
               href={officialDirectUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1.5 rounded-md bg-cyan-950 hover:bg-cyan-900 text-cyan-300 hover:text-cyan-100 border border-cyan-700/60 transition-colors shadow-sm"
-              title="해당 발주기관 공식 원문 공고 페이지로 직접 이동"
+              className="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white transition-all shadow-sm shadow-cyan-600/20"
+              title="나라장터 공식 원문 페이지로 직접 이동"
             >
-              <span>공식 원문 바로가기</span>
-              <ExternalLink className="w-3 h-3 text-cyan-400" />
+              <span>나라장터 공식 원문 보기</span>
+              <ExternalLink className="w-3.5 h-3.5 text-white" />
             </a>
           ) : null}
-
-          {/* 간이 요약 상세 링크 */}
-          <Link
-            href={`/bids/${bid.id}`}
-            className="inline-flex items-center gap-1 text-[11px] font-bold px-3 py-1.5 rounded-md bg-blue-600 hover:bg-blue-500 text-white shadow-sm shadow-blue-600/20 transition-all"
-          >
-            <span>상세 보기</span>
-            <ChevronRight className="w-3 h-3" />
-          </Link>
         </div>
       </div>
 
-      {/* 각 공고 카드 하단 안내문 (사용자 지침 필수 문구) */}
-      <div className="mt-2.5 pt-2 border-t border-slate-800/40 text-[10.5px] text-slate-400/90 leading-tight">
-        ※ 관련 키워드로 자동수집된 입찰 후보입니다. 실제 참여 전 공식 공고 원문을 확인하세요.
+      {/* 회장님 지시 카드 안내문 (100% 원문 일치) */}
+      <div className="mt-2.5 pt-2 border-t border-slate-800/40 text-[10.5px] text-slate-400 leading-tight">
+        광고·인쇄 관련 가능성이 있어 자동수집된 공고입니다. 참가자격·금액·일정·제출서류는 나라장터 공식 원문에서 최종 확인해 주세요.
       </div>
     </div>
   );

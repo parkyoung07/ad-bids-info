@@ -1,0 +1,276 @@
+{
+  "executedAtKST": "2026-09-30T14:45:58.904+09:00",
+  "endpoints": [
+    "getBidPblancListInfoServc",
+    "getBidPblancListInfoThng",
+    "getBidPblancListInfoCnstwk"
+  ],
+  "totalApiCount": 6261,
+  "keywordPassedCount": 38,
+  "deadlinePassedCount": 21,
+  "finalStagingCount": 5,
+  "displayedBids": [
+    {
+      "id": "R26BK01750803-000",
+      "bidNtceNo": "R26BK01750803",
+      "bidNtceOrd": "000",
+      "title": "구미시 노후관광안내판 정비사업",
+      "client": "경상북도 구미시",
+      "bidNtceDt": "2026-09-30 13:39:05",
+      "bidClseDt": "2026-10-07 10:00:00",
+      "asignBdgtAmt": null,
+      "presmptPrce": "32950909",
+      "cntrctCnclsMthdNm": "수의계약",
+      "bidNtceDtlUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01750803&bidPbancOrd=000",
+      "matchedKeyword": "안내판",
+      "raw": {
+        "bidNtceNo": "R26BK01750803",
+        "bidNtceOrd": "000",
+        "bidNtceNm": "구미시 노후관광안내판 정비사업",
+        "ntceInsttNm": "경상북도 구미시",
+        "dminsttNm": "경상북도 구미시",
+        "bidNtceDt": "2026-09-30 13:39:05",
+        "bidClseDt": "2026-10-07 10:00:00",
+        "asignBdgtAmt": null,
+        "presmptPrce": "32950909",
+        "cntrctCnclsMthdNm": "수의계약",
+        "bidNtceDtlUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01750803&bidPbancOrd=000",
+        "ntceKindNm": "등록공고"
+      }
+    },
+    {
+      "id": "R26BK01750559-000",
+      "bidNtceNo": "R26BK01750559",
+      "bidNtceOrd": "000",
+      "title": "DATA INSIGHT 보고서 2종 인쇄",
+      "client": "한국과학기술정보연구원",
+      "bidNtceDt": "2026-09-30 11:26:22",
+      "bidClseDt": "2026-10-01 12:00:00",
+      "asignBdgtAmt": "7523000",
+      "presmptPrce": "6839091",
+      "cntrctCnclsMthdNm": "수의계약",
+      "bidNtceDtlUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01750559&bidPbancOrd=000",
+      "matchedKeyword": "인쇄",
+      "raw": {
+        "bidNtceNo": "R26BK01750559",
+        "bidNtceOrd": "000",
+        "bidNtceNm": "DATA INSIGHT 보고서 2종 인쇄",
+        "ntceInsttNm": "한국과학기술정보연구원",
+        "dminsttNm": "한국과학기술정보연구원",
+        "bidNtceDt": "2026-09-30 11:26:22",
+        "bidClseDt": "2026-10-01 12:00:00",
+        "asignBdgtAmt": "7523000",
+        "presmptPrce": "6839091",
+        "cntrctCnclsMthdNm": "수의계약",
+        "bidNtceDtlUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01750559&bidPbancOrd=000",
+        "ntceKindNm": "등록공고"
+      }
+    },
+    {
+      "id": "R26BK01743676-000",
+      "bidNtceNo": "R26BK01743676",
+      "bidNtceOrd": "000",
+      "title": "미사경정공원 경정장 전광판 영상 스케일러 구매 및 설치",
+      "client": "서울올림픽기념국민체육진흥공단 경륜경정총괄본부",
+      "bidNtceDt": "2026-09-30 11:13:31",
+      "bidClseDt": "2026-10-08 10:00:00",
+      "asignBdgtAmt": "132000000",
+      "presmptPrce": "120000000",
+      "cntrctCnclsMthdNm": "제한경쟁",
+      "bidNtceDtlUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01743676&bidPbancOrd=000",
+      "matchedKeyword": "전광판",
+      "raw": {
+        "bidNtceNo": "R26BK01743676",
+        "bidNtceOrd": "000",
+        "bidNtceNm": "미사경정공원 경정장 전광판 영상 스케일러 구매 및 설치",
+        "ntceInsttNm": "서울올림픽기념국민체육진흥공단 경륜경정총괄본부",
+        "dminsttNm": "서울올림픽기념국민체육진흥공단 경륜경정총괄본부",
+        "bidNtceDt": "2026-09-30 11:13:31",
+        "bidClseDt": "2026-10-08 10:00:00",
+        "asignBdgtAmt": "132000000",
+        "presmptPrce": "120000000",
+        "cntrctCnclsMthdNm": "제한경쟁",
+        "bidNtceDtlUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01743676&bidPbancOrd=000",
+        "ntceKindNm": "등록공고"
+      }
+    },
+    {
+      "id": "R26BK01750219-000",
+      "bidNtceNo": "R26BK01750219",
+      "bidNtceOrd": "000",
+      "title": "자유시장LED전광판제작설치",
+      "client": "충청북도 충주시",
+      "bidNtceDt": "2026-09-30 10:53:47",
+      "bidClseDt": "2026-10-07 10:00:00",
+      "asignBdgtAmt": "98172000",
+      "presmptPrce": "89247273",
+      "cntrctCnclsMthdNm": "수의계약",
+      "bidNtceDtlUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01750219&bidPbancOrd=000",
+      "matchedKeyword": "전광판",
+      "raw": {
+        "bidNtceNo": "R26BK01750219",
+        "bidNtceOrd": "000",
+        "bidNtceNm": "자유시장LED전광판제작설치",
+        "ntceInsttNm": "충청북도 충주시",
+        "dminsttNm": "충청북도 충주시",
+        "bidNtceDt": "2026-09-30 10:53:47",
+        "bidClseDt": "2026-10-07 10:00:00",
+        "asignBdgtAmt": "98172000",
+        "presmptPrce": "89247273",
+        "cntrctCnclsMthdNm": "수의계약",
+        "bidNtceDtlUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01750219&bidPbancOrd=000",
+        "ntceKindNm": "등록공고"
+      }
+    },
+    {
+      "id": "R26BK01750143-000",
+      "bidNtceNo": "R26BK01750143",
+      "bidNtceOrd": "000",
+      "title": "현수막게시대제작설치",
+      "client": "충청북도 충주시",
+      "bidNtceDt": "2026-09-30 10:52:38",
+      "bidClseDt": "2026-10-07 10:00:00",
+      "asignBdgtAmt": "67340000",
+      "presmptPrce": "61218182",
+      "cntrctCnclsMthdNm": "수의계약",
+      "bidNtceDtlUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01750143&bidPbancOrd=000",
+      "matchedKeyword": "현수막",
+      "raw": {
+        "bidNtceNo": "R26BK01750143",
+        "bidNtceOrd": "000",
+        "bidNtceNm": "현수막게시대제작설치",
+        "ntceInsttNm": "충청북도 충주시",
+        "dminsttNm": "충청북도 충주시",
+        "bidNtceDt": "2026-09-30 10:52:38",
+        "bidClseDt": "2026-10-07 10:00:00",
+        "asignBdgtAmt": "67340000",
+        "presmptPrce": "61218182",
+        "cntrctCnclsMthdNm": "수의계약",
+        "bidNtceDtlUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01750143&bidPbancOrd=000",
+        "ntceKindNm": "등록공고"
+      }
+    }
+  ],
+  "rejectedBids": [
+    {
+      "no": "R26BK01744852",
+      "ord": "000",
+      "title": "2026 마곡위시빌리지 경관 조형물 조성 용역",
+      "reason": "마감일(bidClseDt) null"
+    },
+    {
+      "no": "R26BK01746553",
+      "ord": "000",
+      "title": "정동·북창동 간판개선사업 간판디자인 및 제작·설치",
+      "reason": "마감일(bidClseDt) null"
+    },
+    {
+      "no": "R26BK01748718",
+      "ord": "000",
+      "title": "2027년도 『대학교육』誌 인쇄",
+      "reason": "마감일(bidClseDt) null"
+    },
+    {
+      "no": "R26BK01748464",
+      "ord": "000",
+      "title": "2026 보은대추축제 경관 조형물 임차 용역",
+      "reason": "마감일 경과 (2026-09-30 12:00:00 <= 2026-09-30T14:45:58)"
+    },
+    {
+      "no": "R26BK01743053",
+      "ord": "000",
+      "title": "재해문자전광판 설치 사업",
+      "reason": "등록일 7일 경과 (2026-09-23 10:05:42)"
+    },
+    {
+      "no": "R26BK01743077",
+      "ord": "000",
+      "title": "2026년 탄소중립 설비투자지원사업 풀로터리인쇄기 구매의건",
+      "reason": "마감일 경과 (2026-09-28 12:00:00 <= 2026-09-30T14:45:58)"
+    },
+    {
+      "no": "R26BK01741404",
+      "ord": "002",
+      "title": "디지털 컬러 잉크젯 인쇄기 구입",
+      "reason": "등록일 7일 경과 (2026-09-23 10:49:33)"
+    },
+    {
+      "no": "R26BK01741975",
+      "ord": "000",
+      "title": "충주댐 물빛길 경관 특화사업 조형물 제조구매설치",
+      "reason": "등록일 7일 경과 (2026-09-23 11:27:32)"
+    },
+    {
+      "no": "R26BK01743191",
+      "ord": "000",
+      "title": "서울대학교병원 [인쇄비] 2027년도 달력(3단달력) 외 4 건",
+      "reason": "마감일(bidClseDt) null"
+    },
+    {
+      "no": "R26BK01744510",
+      "ord": "000",
+      "title": "2027학년도 보급 ‘경상북도의 생활’, ‘독도’ 교재 인쇄 및 배부(긴급)",
+      "reason": "마감일 경과 (2026-09-29 14:00:00 <= 2026-09-30T14:45:58)"
+    },
+    {
+      "no": "R26BK01739336",
+      "ord": "000",
+      "title": "낙산공원 안내판 구매 설치",
+      "reason": "마감일 경과 (2026-09-29 15:00:00 <= 2026-09-30T14:45:58)"
+    },
+    {
+      "no": "R26BK01745430",
+      "ord": "000",
+      "title": "2026년 김포시 진로교육박람회 홍보물 구입",
+      "reason": "마감일 경과 (2026-09-30 14:00:00 <= 2026-09-30T14:45:58)"
+    },
+    {
+      "no": "R26BK01746590",
+      "ord": "000",
+      "title": "함안 가야리 유적 조사성과 홍보용 안내판",
+      "reason": "마감일 경과 (2026-09-29 12:00:00 <= 2026-09-30T14:45:58)"
+    },
+    {
+      "no": "R26BK01745430",
+      "ord": "001",
+      "title": "2026년 김포시 진로교육박람회 홍보물 구입",
+      "reason": "취소공고"
+    },
+    {
+      "no": "R26BK01746836",
+      "ord": "000",
+      "title": "2026년 김포시 진로교육박람회 홍보물 구입",
+      "reason": "마감일 경과 (2026-09-30 14:00:00 <= 2026-09-30T14:45:58)"
+    },
+    {
+      "no": "R26BK01739336",
+      "ord": "001",
+      "title": "낙산공원 안내판 구매 설치",
+      "reason": "마감일 경과 (2026-09-30 15:00:00 <= 2026-09-30T14:45:58)"
+    },
+    {
+      "no": "R26BK01744513",
+      "ord": "000",
+      "title": "[인쇄,193번]2024 희귀질환자 통계 연보 제작 및 인쇄 계약 요청",
+      "reason": "마감일 경과 (2026-09-29 11:00:00 <= 2026-09-30T14:45:58)"
+    },
+    {
+      "no": "R26BK01749218",
+      "ord": "000",
+      "title": "서울대학교병원 [인쇄물] 라벨(공통)채혈자환자 외 70 건",
+      "reason": "마감일(bidClseDt) null"
+    },
+    {
+      "no": "R26BK01749898",
+      "ord": "000",
+      "title": "양구 종합체육공원 조성사업 관급자재(안내판) 구매",
+      "reason": "마감일 경과 (2026-09-30 13:00:00 <= 2026-09-30T14:45:58)"
+    },
+    {
+      "no": "R26BK01739239",
+      "ord": "000",
+      "title": "2026년 도로안내판 시정구호 정비사업",
+      "reason": "마감일 경과 (2026-09-29 10:00:00 <= 2026-09-30T14:45:58)"
+    }
+  ]
+}
