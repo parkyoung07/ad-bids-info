@@ -429,12 +429,62 @@ async function verifyIntegrityRules() {
     }
   });
 
+  // [규칙 23] 공개 bids.json 내 DATA_CONFLICT 및 API_UNCONFIRMED 잔존 0건 검증 (회장님 엄명)
+  console.log('규칙 23: 공개 bids.json 내 DATA_CONFLICT 및 API_UNCONFIRMED 잔존 0건 검증');
+  bids.forEach((bid) => {
+    if (bid.status === 'DATA_CONFLICT' || bid.validation?.status === 'DATA_CONFLICT') {
+      console.error(`  ❌ [규칙 23 위반] DATA_CONFLICT 공고 [${bid.id}]가 공개 bids.json에 포함되어 있습니다. (공개 bids.json은 0건이어야 함)`);
+      failureCount++;
+    }
+    if (bid.status === 'API_UNCONFIRMED' || bid.validation?.status === 'API_UNCONFIRMED') {
+      console.error(`  ❌ [규칙 23 위반] API_UNCONFIRMED 공고 [${bid.id}]가 공개 bids.json에 포함되어 있습니다.`);
+      failureCount++;
+    }
+  });
+
+  // [규칙 24] 공식 제목 및 기관 원본 일치성 검증 (불일치 시 즉시 빌드 실패)
+  console.log('규칙 24: 공식 제목 및 기관 원본 일치성 검증 (불일치 시 빌드 실패)');
+  bids.forEach((bid) => {
+    if (bid.officialTitle && bid.title && bid.officialTitle !== bid.title) {
+      console.error(`  ❌ [규칙 24 위반] 공고 [${bid.id}]의 SignBid 제목(${bid.title})이 공식 원본 제목(${bid.officialTitle})과 다릅니다.`);
+      failureCount++;
+    }
+    if (bid.officialClient && bid.client && bid.officialClient !== bid.client) {
+      console.error(`  ❌ [규칙 24 위반] 공고 [${bid.id}]의 SignBid 기관(${bid.client})이 공식 원본 기관(${bid.officialClient})과 다릅니다.`);
+      failureCount++;
+    }
+  });
+
+  // [규칙 25] 공식 상세 URL 유효성 및 공고번호·차수 일치 검증
+  console.log('규칙 25: 공식 상세 URL 유효성 및 공고번호·차수 일치 검증');
+  bids.forEach((bid) => {
+    const detailUrl = bid.officialUrl || bid.sourceDetailUrl || bid.linkUrl || '';
+    if (!detailUrl || !detailUrl.startsWith('https://')) {
+      console.error(`  ❌ [규칙 25 위반] 공고 [${bid.id}]에 유효한 HTTPS 공식 상세 URL이 없습니다: ${detailUrl}`);
+      failureCount++;
+    }
+    const bidNo = (bid.announcementNo || bid.id || '').split('-')[0];
+    const bidOrd = (bid.announcementNo || bid.id || '').split('-')[1] || '00';
+    if (!detailUrl.includes(bidNo)) {
+      console.error(`  ❌ [규칙 25 위반] 공고 [${bid.id}] 공식 상세 URL에 공고번호(${bidNo})가 누락되었습니다.`);
+      failureCount++;
+    }
+  });
+
+  // [규칙 26] 비공개 감사 데이터(bids-truth-audit.json)의 공개 폴더 노출 0건 검증
+  console.log('규칙 26: 비공개 감사 데이터(bids-truth-audit.json)의 공개 폴더 누출 0건 검증');
+  const publicAuditPath = path.resolve(__dirname, '../public/data/bids-truth-audit.json');
+  if (fs.existsSync(publicAuditPath)) {
+    console.error(`  ❌ [규칙 26 위반] 비공개 감사 파일이 public 폴더에 노출되어 있습니다: ${publicAuditPath}`);
+    failureCount++;
+  }
+
   console.log('================================================================================');
   if (failureCount > 0) {
     console.error(`❌ [검증 실패] 총 ${failureCount}건의 무결성 규칙 위반이 검출되어 빌드를 즉시 중단합니다.\n`);
     process.exit(1);
   } else {
-    console.log('✅ [검증 통과] 전체 22대 데이터 무결성 규칙 통과 (위반 0건)\n');
+    console.log('✅ [검증 통과] 전체 26대 데이터 무결성 규칙 통과 (위반 0건)\n');
   }
 }
 
