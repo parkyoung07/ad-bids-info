@@ -298,21 +298,25 @@ export default function AdminVerifyClient() {
       {/* 상단 네비게이션 헤더 */}
       <header className="border-b border-slate-800 bg-slate-900/60 backdrop-blur sticky top-0 z-40 px-6 py-3.5 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="px-2.5 py-1 rounded bg-red-500/20 text-red-400 border border-red-500/30 text-xs font-bold tracking-wider">
-            PRIVATE ADMIN
+          <div className={`px-2.5 py-1 rounded text-xs font-bold tracking-wider border ${
+            adminUser?.role === 'VERIFIER'
+              ? 'bg-amber-500/20 text-amber-300 border-amber-500/30'
+              : 'bg-red-500/20 text-red-400 border-red-500/30'
+          }`}>
+            {adminUser?.role === 'VERIFIER' ? 'VERIFIER MODE' : 'SUPER ADMIN'}
           </div>
           <span className="font-bold text-lg text-white">나라장터 공식 원문 1:1 대조 검수 스튜디오</span>
         </div>
 
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2 text-xs bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700/60">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span className="text-slate-300">관리자: <strong className="text-white">{adminUser?.username}</strong> ({adminUser?.role})</span>
+            <span className={`w-2 h-2 rounded-full animate-pulse ${adminUser?.role === 'VERIFIER' ? 'bg-amber-400' : 'bg-emerald-400'}`}></span>
+            <span className="text-slate-300">사용자: <strong className="text-white">{adminUser?.username}</strong> ({adminUser?.role === 'VERIFIER' ? '검수자 (VERIFIER)' : '최고관리자 (SUPER_ADMIN)'})</span>
           </div>
 
           <button
             onClick={handleLogout}
-            className="text-xs text-slate-400 hover:text-white px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 transition"
+            className="text-xs text-slate-400 hover:text-white px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 transition cursor-pointer"
           >
             로그아웃
           </button>

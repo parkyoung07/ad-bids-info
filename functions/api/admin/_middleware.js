@@ -87,7 +87,18 @@ export async function onRequest(context) {
     csrfToken: session.csrf_token || session.csrfToken
   };
 
-  // 4. 상태 변경 요청(POST, PUT, DELETE)에 대한 CSRF 토큰 검증
+  // 4. 역할 기반 권한(RBAC) 검사: VERIFIER(검수자)는 읽기 전용(GET)만 허용
+  if (userRole === 'VERIFIER' && ['POST', 'PUT', 'DELETE', 'PATCH'].includes(request.method.toUpperCase())) {
+    return new Response(JSON.stringify({
+      error: 'FORBIDDEN_READ_ONLY',
+      message: '검수자(VERIFIER) 계정은 읽기 전용입니다. 데이터 수정, 승인 또는 삭제 권한이 없습니다.'
+    }), {
+      status: 403,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
+  // 5. 상태 변경 요청(POST, PUT, DELETE)에 대한 CSRF 토큰 검증
   if (['POST', 'PUT', 'DELETE', 'PATCH'].includes(request.method.toUpperCase())) {
     const clientCsrfToken = request.headers.get('X-CSRF-Token');
     const validCsrfToken = context.data.adminUser.csrfToken;
