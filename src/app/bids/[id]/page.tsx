@@ -106,7 +106,8 @@ export default async function BidDetailPage({ params }: PageProps) {
   const bids = (bidsData as unknown as BidItem[]) || [];
   const bid = bids.find((item) => item.id === id);
 
-  if (!bid) {
+  // 지침 1 & 2: 승인되지 않은 공고는 공개 상세 페이지에서 404 notFound 반환
+  if (!bid || !bid.isVerified || !(bid.isVerified && Boolean((bid as any).publishedAt || (bid as any).approvedAt))) {
     notFound();
   }
 

@@ -69,7 +69,18 @@ export default function HomePage() {
   };
 
   const allBids = useMemo(() => {
-    return (bidsData as unknown as BidItem[]) || [];
+    const raw = (bidsData as unknown as BidItem[]) || [];
+    // 지침 1 & 2: 승인(APPROVED) 및 검증(isVerified) 완료된 정식 공고만 공개 통과
+    return raw.filter((b: any) => {
+      const isApproved =
+        b.validationStatus === "APPROVED" ||
+        b.verificationStatus === "APPROVED" ||
+        b.status === "APPROVED" ||
+        b.isVerified === true;
+      const isVerified = b.isVerified === true;
+      const isPublished = Boolean(b.publishedAt || b.approvedAt);
+      return isApproved && isVerified && isPublished;
+    });
   }, []);
 
   // 전체 공고에 한국 표준시(KST) 실시간 마감 상태 및 D-Day 동적 부착 (화면 표시 시점 실시간 계산)

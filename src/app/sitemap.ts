@@ -83,8 +83,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     });
   });
 
-  // 3. 입찰 공고 상세 페이지 동적 추가
-  const bids = (bidsData as unknown as { id: string; startDate?: string }[]) || [];
+  // 3. 승인(APPROVED) 및 검증(isVerified) 완료된 정식 입찰 공고 상세 페이지 동적 추가
+  const bids = ((bidsData as unknown as { id: string; startDate?: string; isVerified?: boolean; publishedAt?: string; approvedAt?: string }[]) || [])
+    .filter(b => b.isVerified === true && Boolean(b.publishedAt || b.approvedAt));
   bids.forEach((bid) => {
     routes.push({
       url: `${baseUrl}/bids/${bid.id}`,

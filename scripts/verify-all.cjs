@@ -335,12 +335,39 @@ async function verifyIntegrityRules() {
     }
   }
 
+  // [규칙 20] 공개 공고 승인(APPROVED) 및 발행(publishedAt) 게이트키핑 100% 일치 검증
+  console.log('규칙 20: 공개 공고의 APPROVED 및 isVerified, publishedAt 게이트키핑 무결성 검증');
+  bids.forEach((bid) => {
+    if (!bid.isVerified || (bid.verificationStatus !== 'APPROVED' && bid.validationStatus !== 'APPROVED' && bid.status !== 'APPROVED')) {
+      console.error(`  ❌ [규칙 20 위반] 승인되지 않은 공고 [${bid.id}] ${bid.title} 가 공개 목록에 포함되어 있습니다.`);
+      failureCount++;
+    }
+    if (!bid.publishedAt && !bid.approvedAt) {
+      console.error(`  ❌ [규칙 20 위반] 발행 승인 일시(publishedAt)가 없는 공고 [${bid.id}] 가 공개 목록에 포함되어 있습니다.`);
+      failureCount++;
+    }
+  });
+
+  // [규칙 21] 출처 도메인 분류 정확성 및 K-apt 불완전 공고 배제 검증
+  console.log('규칙 21: 출처 도메인(G2B/S2B/OnBid) 분류 일치 및 K-apt 불완전 공고 0건 검증');
+  bids.forEach((bid) => {
+    const link = (bid.linkUrl || bid.sourceDetailUrl || '').toLowerCase();
+    if (bid.id && bid.id.startsWith('KAPT-')) {
+      console.error(`  ❌ [규칙 21 위반] K-apt 불완전 공고 [${bid.id}] 가 공개 데이터에 잔존하고 있습니다.`);
+      failureCount++;
+    }
+    if (link.includes('g2b.go.kr') && bid.source && bid.source.includes('S2B')) {
+      console.error(`  ❌ [규칙 21 위반] G2B 링크 [${bid.id}] 가 S2B로 오분류되었습니다.`);
+      failureCount++;
+    }
+  });
+
   console.log('================================================================================');
   if (failureCount > 0) {
     console.error(`❌ [검증 실패] 총 ${failureCount}건의 무결성 규칙 위반이 검출되어 빌드를 즉시 중단합니다.\n`);
     process.exit(1);
   } else {
-    console.log('✅ [검증 통과] 전체 19대 데이터 무결성 규칙 100% 통과 (위반 0건)\n');
+    console.log('✅ [검증 통과] 전체 21대 데이터 무결성 규칙 100% 통과 (위반 0건)\n');
   }
 }
 
