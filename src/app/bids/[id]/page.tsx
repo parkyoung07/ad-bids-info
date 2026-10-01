@@ -32,12 +32,15 @@ export async function generateStaticParams() {
     .filter((bid) => {
       const isCandidate =
         bid.status === "AUTO_COLLECTED_CANDIDATE" ||
+        bid.status === "진행중" ||
+        bid.status === "마감" ||
         bid.validationStatus === "AUTO_COLLECTED_CANDIDATE" ||
         (bid.validation && bid.validation.status === "AUTO_COLLECTED_CANDIDATE") ||
+        (bid.validation && bid.validation.status === "REVIEW_REQUIRED") ||
         (bid.validation && bid.validation.status === "APPROVED") ||
         bid.status === "APPROVED" ||
         bid.isDemo === true;
-      const isIsolated = ["PENDING_MANUAL_CHECK", "NEEDS_REVIEW", "DATA_CONFLICT", "REVIEW_REQUIRED", "REJECTED", "CANCELLED", "HELD"].includes(
+      const isIsolated = ["PENDING_MANUAL_CHECK", "NEEDS_REVIEW", "DATA_CONFLICT", "REJECTED", "CANCELLED", "HELD"].includes(
         bid.validation?.status || bid.verificationStatus || bid.validationStatus || bid.status || ""
       );
       const hasOfficialUrl = Boolean(bid.officialUrl || bid.sourceDetailUrl || bid.linkUrl);
@@ -129,13 +132,16 @@ export default async function BidDetailPage({ params }: PageProps) {
   // 지침 1 & 2: 8대 최소 공개조건을 충족한 자동수집 후보 공고 및 승인 공고만 공개 상세 페이지에서 허용 (미충족 격리 공고는 404)
   const isCandidate =
     bid?.status === "AUTO_COLLECTED_CANDIDATE" ||
+    bid?.status === "진행중" ||
+    bid?.status === "마감" ||
     bid?.validationStatus === "AUTO_COLLECTED_CANDIDATE" ||
     (bid?.validation && bid.validation.status === "AUTO_COLLECTED_CANDIDATE") ||
+    (bid?.validation && bid.validation.status === "REVIEW_REQUIRED") ||
     (bid?.validation && bid.validation.status === "APPROVED") ||
     bid?.status === "APPROVED" ||
     bid?.isDemo === true;
 
-  const isIsolated = ["PENDING_MANUAL_CHECK", "NEEDS_REVIEW", "DATA_CONFLICT", "REVIEW_REQUIRED", "REJECTED", "CANCELLED", "HELD"].includes(
+  const isIsolated = ["PENDING_MANUAL_CHECK", "NEEDS_REVIEW", "DATA_CONFLICT", "REJECTED", "CANCELLED", "HELD"].includes(
     bid?.validation?.status || bid?.verificationStatus || bid?.validationStatus || ""
   );
 

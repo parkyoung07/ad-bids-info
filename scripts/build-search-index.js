@@ -40,6 +40,11 @@ function buildSearchIndex() {
         const fileContent = fs.readFileSync(filePath, "utf-8");
         const { data, content } = matter(fileContent);
 
+        // draft: true인 초안 글은 검색 색인에서 제외
+        if (data.draft === true) {
+          return;
+        }
+
         const slug = file.replace(/\.md$/, "");
         const plainContent = stripMarkdown(content);
         const snippet = plainContent.slice(0, 600);
@@ -73,9 +78,10 @@ function buildSearchIndex() {
           bid.status === "AUTO_COLLECTED_CANDIDATE" ||
           bid.validationStatus === "AUTO_COLLECTED_CANDIDATE" ||
           (bid.validation && bid.validation.status === "AUTO_COLLECTED_CANDIDATE") ||
+          (bid.validation && bid.validation.status === "REVIEW_REQUIRED") ||
           (bid.validation && bid.validation.status === "APPROVED") ||
           bid.status === "APPROVED";
-        const isIsolated = ["PENDING_MANUAL_CHECK", "NEEDS_REVIEW", "DATA_CONFLICT", "REVIEW_REQUIRED", "REJECTED", "CANCELLED", "HELD"].includes(
+        const isIsolated = ["PENDING_MANUAL_CHECK", "NEEDS_REVIEW", "DATA_CONFLICT", "REJECTED", "CANCELLED", "HELD"].includes(
           bid.validation?.status || bid.verificationStatus || bid.validationStatus || ""
         );
         const hasOfficialUrl = Boolean(bid.officialUrl || bid.sourceDetailUrl || bid.linkUrl);
