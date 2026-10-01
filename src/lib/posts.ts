@@ -47,6 +47,11 @@ export function getAllPosts(): PostMeta[] {
 
       const { data } = matter(fileContents);
 
+      // draft: true인 초안 글은 블로그 공개 목록에서 완전 제외
+      if (data.draft === true) {
+        return null;
+      }
+
       return {
         slug,
         title: data.title || "제목 없음",
@@ -64,7 +69,8 @@ export function getAllPosts(): PostMeta[] {
         source: data.source || "행정안전부 및 조달청 나라장터 공공데이터",
         sourceUrl: data.sourceUrl || "https://www.g2b.go.kr",
       } as PostMeta;
-    });
+    })
+    .filter((item): item is PostMeta => item !== null);
 
   // 날짜 내림차순 정렬 (최신순)
   return allPostsData.sort((a, b) => (a.date < b.date ? 1 : -1));
@@ -107,10 +113,35 @@ export function getPostBySlug(slug: string): PostItem | null {
 }
 
 /**
- * generateStaticParams를 위한 slug 목록 반환
- * (output: export 시 최소 1개의 slug가 필요하므로 파일이 없을 때는 fallback 반환)
+ * generateStaticParams를 위한 공개 slug 목록 반환 (draft: true는 제외)
  */
 export function getAllPostSlugs(): { slug: string }[] {
+  ensurePostsDirectory();
+
+  const fileNames = fs.readdirSync(postsDirectory);
+  const slugs = fileNames
+    .filter((fileName) => {
+      if (!fileName.endsWith(".md")) return false;
+      const fullPath = path.join(postsDirectory, fileName);
+      const fileContents = fs.readFileSync(fullPath, "utf8");
+      const { data } = matter(fileContents);
+      return data.draft !== true;
+    })
+    .map((fileName) => ({
+      slug: fileName.replace(/\.md$/, ""),
+    }));
+
+  if (slugs.length === 0) {
+    return [{ slug: "_placeholder" }];
+  }
+
+  return slugs;
+}
+
+/**
+ * generateStaticParams를 위한 전체(초안 포함) 미리보기 slug 목록 반환
+ */
+export function getAllPreviewPostSlugs(): { slug: string }[] {
   ensurePostsDirectory();
 
   const fileNames = fs.readdirSync(postsDirectory);
