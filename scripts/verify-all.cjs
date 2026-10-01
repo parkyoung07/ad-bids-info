@@ -160,14 +160,40 @@ async function verifyIntegrityRules() {
     }
   });
 
-  // [규칙 10] 공고 상태 유효성 및 DATA_CONFLICT / AUTO_COLLECTED_CANDIDATE 전수 확인
+  // [규칙 10] 공고 상태 유효성 및 상태 모순(isVerified: true 방지) 전수 확인 (회장님 엄명)
   console.log('규칙 10: AUTO_COLLECTED_CANDIDATE 및 DATA_CONFLICT 격리 상태 전수 확인');
   bids.forEach((b) => {
-    const isKnownValidStatus = ['AUTO_COLLECTED_CANDIDATE', 'DATA_CONFLICT', 'NEEDS_REVIEW', 'APPROVED'].includes(b.status || '') ||
-      ['AUTO_COLLECTED_CANDIDATE', 'DATA_CONFLICT', 'NEEDS_REVIEW', 'APPROVED'].includes(b.validation?.status || '');
+    const isKnownValidStatus = ['AUTO_COLLECTED_CANDIDATE', 'DATA_CONFLICT', 'NEEDS_REVIEW', 'APPROVED', 'REVIEW_REQUIRED'].includes(b.status || '') ||
+      ['AUTO_COLLECTED_CANDIDATE', 'DATA_CONFLICT', 'NEEDS_REVIEW', 'APPROVED', 'REVIEW_REQUIRED'].includes(b.validation?.status || '') ||
+      ['AUTO_COLLECTED_CANDIDATE', 'DATA_CONFLICT', 'NEEDS_REVIEW', 'APPROVED', 'REVIEW_REQUIRED'].includes(b.validationStatus || '');
     if (!isKnownValidStatus && !b.isDemo) {
       console.error(`  ❌ [규칙 10 위반] 유효하지 않은 상태의 공고 [${b.id}]가 발견되었습니다: ${b.status}`);
       failureCount++;
+    }
+
+    // 상태 모순 전수 검출 (회장님 지시: 자동수집 후보 / REVIEW_REQUIRED / 미검증 공고의 isVerified: true 원천 차단)
+    const isCandidate = b.validationStatus === 'AUTO_COLLECTED_CANDIDATE' || b.status === 'AUTO_COLLECTED_CANDIDATE';
+    const isReviewRequired = b.validation?.status === 'REVIEW_REQUIRED' || b.status === 'REVIEW_REQUIRED';
+    const hasNoVerifiedAt = !b.validation?.verifiedAt;
+    const hasNoVerifier = !b.validation?.verifier;
+
+    if (b.isVerified === true || b.validation?.isVerified === true) {
+      if (isCandidate) {
+        console.error(`  ❌ [규칙 10 모순 위반] 자동수집 후보 [${b.id}]에 isVerified: true 가 설정되었습니다. (AUTO_COLLECTED_CANDIDATE + isVerified: true 금지)`);
+        failureCount++;
+      }
+      if (isReviewRequired) {
+        console.error(`  ❌ [규칙 10 모순 위반] 검토대기 공고 [${b.id}]에 isVerified: true 가 설정되었습니다. (REVIEW_REQUIRED + isVerified: true 금지)`);
+        failureCount++;
+      }
+      if (hasNoVerifiedAt) {
+        console.error(`  ❌ [규칙 10 모순 위반] 공고 [${b.id}]에 verifiedAt 이 null 인데 isVerified: true 가 설정되었습니다.`);
+        failureCount++;
+      }
+      if (hasNoVerifier) {
+        console.error(`  ❌ [규칙 10 모순 위반] 공고 [${b.id}]에 verifier 가 null 인데 isVerified: true 가 설정되었습니다.`);
+        failureCount++;
+      }
     }
   });
 
@@ -409,7 +435,7 @@ async function verifyIntegrityRules() {
     const sIndex = JSON.parse(fs.readFileSync(searchIndexPath, 'utf-8'));
     const indexedBids = sIndex.filter((item) => item.type === 'bid');
     const activePublicBids = bids.filter((b) => {
-      const isCandidate = b.status === 'AUTO_COLLECTED_CANDIDATE' || (b.validation && b.validation.status === 'AUTO_COLLECTED_CANDIDATE') || (b.validation && b.validation.status === 'APPROVED');
+      const isCandidate = b.status === 'AUTO_COLLECTED_CANDIDATE' || b.validationStatus === 'AUTO_COLLECTED_CANDIDATE' || (b.validation && b.validation.status === 'AUTO_COLLECTED_CANDIDATE') || (b.validation && b.validation.status === 'REVIEW_REQUIRED') || (b.validation && b.validation.status === 'APPROVED');
       const isIsolated = ['DATA_CONFLICT', 'NEEDS_REVIEW', 'REJECTED', 'CANCELLED'].includes(b.status || '') ||
         ['DATA_CONFLICT', 'NEEDS_REVIEW', 'REJECTED', 'CANCELLED'].includes(b.validation?.status || '');
       return isCandidate && !isIsolated;
