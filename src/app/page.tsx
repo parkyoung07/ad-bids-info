@@ -74,7 +74,7 @@ export default function HomePage() {
       const hasOfficialUrl = Boolean(
         b.officialUrl || b.sourceDetailUrl || b.linkUrl
       ) && !["https://www.g2b.go.kr", "https://www.g2b.go.kr/", "https://www.s2b.kr"].includes(b.officialUrl || b.sourceDetailUrl || b.linkUrl);
-      const isNotConflictOrRejected = !["REJECTED", "CANCELLED", "DATA_CONFLICT", "NEEDS_REVIEW", "REVIEW_REQUIRED", "PENDING_MANUAL_CHECK", "HELD"].includes(
+      const isNotConflictOrRejected = !["REJECTED", "CANCELLED", "DATA_CONFLICT", "NEEDS_REVIEW", "PENDING_MANUAL_CHECK", "HELD"].includes(
         b.validation?.status || b.verificationStatus || b.validationStatus || b.status || ""
       );
       return hasId && hasTitle && hasClient && hasOfficialUrl && isNotConflictOrRejected;

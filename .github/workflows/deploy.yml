@@ -1,25 +1,20 @@
-name: Deploy to Cloudflare Pages
+name: Deploy to Cloudflare Pages (Manual Dispatch & Staging Only)
 
 on:
-  push:
-    branches:
-      - main
-      - staging
-  schedule:
-    # 매일 3회 자동 업데이트 (한국 시간 기준):
-    # - 오전 07:15 KST (UTC 22:15)
-    # - 낮 12:15 KST (UTC 03:15)
-    # - 오후 06:15 KST (UTC 09:15)
-    # ※ 정각(0분)은 전 세계 트래픽 몰림으로 GitHub 스케줄이 누락/지연되므로 15분으로 분산
-    - cron: '15 22,3,9 * * *'
   workflow_dispatch:
+    inputs:
+      approval_token:
+        description: '회장님 명시적 승인 토큰'
+        required: true
+      target_environment:
+        description: '배포 환경 (staging 또는 production)'
+        required: true
+        default: 'staging'
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    name: Generate Posts, Build and Deploy
-    permissions:
-      contents: write
+    name: Build and Deploy
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -33,52 +28,30 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: Generate Daily AI Blog Post
-        run: node scripts/generate-post.js
-        env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+      - name: Verify Chairman Approval for Production
+        if: ${{ github.event.inputs.target_environment == 'production' }}
+        run: |
+          if [ -z "${{ github.event.inputs.approval_token }}" ]; then
+            echo "❌ [배포 차단] 회장님 승인 토큰 없이 운영 배포를 진행할 수 없습니다."
+            exit 1
+          fi
 
-      - name: Build Static Site with Latest Bids Data
+      - name: Build Static Site
         run: npm run build
         env:
           PUBLIC_DATA_API_KEY: ${{ secrets.PUBLIC_DATA_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
-          NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
 
-      - name: Commit and Push New Posts & Updated Bids Data
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add src/content/posts/ public/data/ || true
-          git commit -m "chore: auto-generate daily blog post, news and update bids data [skip ci]" || echo "No changes to commit"
-          git push origin ${{ github.ref_name }} || echo "Git push skipped"
-
-      - name: Deploy to Cloudflare Pages (Direct Wrangler Upload)
-        run: npx wrangler pages deploy out --project-name=ad-bids-info --branch=${{ github.ref_name }} --commit-dirty=true
+      - name: Deploy to Cloudflare Pages (Staging)
+        if: ${{ github.event.inputs.target_environment == 'staging' }}
+        run: npx wrangler pages deploy out --project-name=ad-bids-info --branch=staging
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
-      - name: Purge Cloudflare CDN Cache
-        run: |
-          ZONE_ID=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones?name=signbidai.com" \
-            -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
-            -H "Content-Type: application/json" | jq -r '.result[0].id // empty')
-          if [ -n "$ZONE_ID" ] && [ "$ZONE_ID" != "null" ]; then
-            echo "Purging Cloudflare cache for Zone: $ZONE_ID"
-            curl -s -X POST "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/purge_cache" \
-              -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
-              -H "Content-Type: application/json" \
-              --data '{"purge_everything":true}'
-          else
-            echo "Zone lookup skipped or not found"
-          fi
-        continue-on-error: true
-
-      - name: Wait for DNS & CDN Invalidation
-        run: sleep 5
-
-      - name: Verify Live Server Status and Content Integrity
-        run: node scripts/verify-all.cjs --live
+      - name: Deploy to Cloudflare Pages (Production)
+        if: ${{ github.event.inputs.target_environment == 'production' }}
+        run: npx wrangler pages deploy out --project-name=ad-bids-info --branch=main
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

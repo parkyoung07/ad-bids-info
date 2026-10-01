@@ -496,12 +496,9 @@ export default async function BlogPostDetailPage({ params }: PageProps) {
 
           {/* 기사 및 정책 리포트 안내 배너 */}
           <div className="p-4 rounded-xl bg-blue-500/10 border border-blue-500/20 text-[11px] sm:text-xs text-blue-300/90 leading-relaxed">
-            <p className="font-semibold mb-0.5">※ 기사 및 리포트 안내</p>
+            <p className="font-semibold mb-0.5">※ SignBid 안내</p>
             <p>
-              본 기사는 각 정부 부처, 공공기관 및 전문 언론사의 공식 보도자료와 공개
-              데이터를 바탕으로 작성된 분석 리포트입니다. 법령 개정 및 세부 정책
-              일정은 행정기관의 사정에 따라 변동될 수 있으므로, 관련 업무 추진 시
-              소관 부처의 공식 고시 및 원문 자료를 최종 확인하시기 바랍니다.
+              본 글은 조달청 나라장터 OpenAPI에서 자동수집된 입찰 후보를 바탕으로 작성한 참고자료입니다. 공고 상태·참가자격·금액·마감일·제출서류는 나라장터 공식 원문에서 최종 확인해야 합니다.
             </p>
           </div>
         </section>

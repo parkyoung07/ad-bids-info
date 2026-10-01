@@ -388,8 +388,8 @@ export default function BidCard({
 
       {/* 하단 식별자 및 공식 원문 직통 버튼 바 */}
       <div className="pt-3 mt-2 flex flex-wrap items-center justify-between gap-2 border-t border-slate-800/50">
-        <div className="flex flex-wrap items-center gap-2 text-[10.5px] text-slate-500 font-mono">
-          <span>{bid.announcementNo || bid.id}</span>
+        <div className="flex flex-wrap items-center gap-2 text-[10.5px] text-slate-400 font-mono">
+          <span className="font-bold text-slate-300">{bid.id}</span>
           {noticeDateText && <span>등록: {noticeDateText}</span>}
         </div>
 

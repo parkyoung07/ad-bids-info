@@ -88,11 +88,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     .filter(b => {
       const isCandidate =
         b.status === "AUTO_COLLECTED_CANDIDATE" ||
+        b.status === "진행중" ||
+        b.status === "마감" ||
         b.validationStatus === "AUTO_COLLECTED_CANDIDATE" ||
         (b.validation && b.validation.status === "AUTO_COLLECTED_CANDIDATE") ||
+        (b.validation && b.validation.status === "REVIEW_REQUIRED") ||
         (b.validation && b.validation.status === "APPROVED") ||
         b.status === "APPROVED";
-      const isIsolated = ["PENDING_MANUAL_CHECK", "NEEDS_REVIEW", "DATA_CONFLICT", "REVIEW_REQUIRED", "REJECTED", "CANCELLED", "HELD"].includes(
+      const isIsolated = ["PENDING_MANUAL_CHECK", "NEEDS_REVIEW", "DATA_CONFLICT", "REJECTED", "CANCELLED", "HELD"].includes(
         b.validation?.status || b.verificationStatus || b.validationStatus || ""
       );
       const hasOfficialUrl = Boolean(b.officialUrl || b.sourceDetailUrl || b.linkUrl);
