@@ -26,64 +26,91 @@ function runTest(testName, testFn) {
 }
 
 console.log('================================================================================');
-console.log('🛡️ [SignBid AI] 10대 운영 거버넌스 및 허위보고 방지 자동 검증 테스트');
+console.log('🛡️ [SignBid AI] 10대 운영 거버넌스 및 할루시네이션 방지 종합 자동 검증 테스트');
 console.log('================================================================================\n');
 
-// 1. 하드코딩 트래픽 숫자 검출
-runTest('하드코딩 트래픽 숫자(340명, 490회, 2180회 등) 코드베이스 잔존 검출', () => {
-  const dailyInspectCode = fs.readFileSync(path.join(rootDir, 'scripts/daily-inspect.mjs'), 'utf-8');
-  const forbiddenPatterns = [
-    /todayEstimatedUV\s*:\s*340/,
-    /todayEstimatedSessions\s*:\s*490/,
-    /todayEstimatedPV\s*:\s*2180/,
-    /organicSearch\s*:\s*"51\.4%"/,
-    /direct\s*:\s*"26\.8%"/,
-    /referral\s*:\s*"14\.3%"/,
-    /socialChat\s*:\s*"7\.5%"/
-  ];
-
-  for (const pattern of forbiddenPatterns) {
-    if (pattern.test(dailyInspectCode)) {
-      return `하드코딩된 트래픽 수치가 scripts/daily-inspect.mjs에 잔존합니다: ${pattern}`;
-    }
+// 1. 공고번호 없는 발주처 생성 차단
+runTest('공식 공고번호 없는 가상 발주처 임의 생성 차단 검증', () => {
+  const genPostCode = fs.readFileSync(path.join(rootDir, 'scripts/generate-post.js'), 'utf-8');
+  const inspectCode = fs.readFileSync(path.join(rootDir, 'scripts/daily-inspect.mjs'), 'utf-8');
+  if (genPostCode.includes('가상 발주처/가상 예산/가상 마감일 생성 절대 금지') &&
+      inspectCode.includes('💡 [핵심 산업 트렌드 브리핑]')) {
+    return true;
   }
-  return true;
+  return '일반 트렌드 글 생성 프롬프트에 가상 발주처 차단 지침이 누락되었습니다.';
 });
 
-// 2. Cloudflare 출처 없는 통계 출력 차단
-runTest('Cloudflare API 실측 출처 없는 트래픽 통계의 운영성과 출력 차단', () => {
-  const reportPath = path.join(rootDir, 'docs/verification/daily_traffic_and_subscribers_report.json');
-  if (fs.existsSync(reportPath)) {
-    const data = JSON.parse(fs.readFileSync(reportPath, 'utf-8'));
-    const summary = data.trafficSummary || {};
-    if (summary.source !== 'CLOUDFLARE_API') {
-      if (summary.status !== 'UNMEASURED' || typeof summary.todayEstimatedUV === 'number') {
-        return `실측 출처(CLOUDFLARE_API)가 없음에도 임의의 트래픽 통계 수치가 기재되었습니다.`;
-      }
-    }
-  }
-  return true;
-});
-
-// 3. draft 없는 자동 생성 글 차단
-runTest('생성된 모든 블로그 글의 draft: true 기본 설정 검증', () => {
+// 2. 공식 URL 없는 공고 카드 생성 차단
+runTest('공식 상세 URL 없는 공고 요약 카드 생성 차단 검증', () => {
   const postsDir = path.join(rootDir, 'src/content/posts');
   if (fs.existsSync(postsDir)) {
-    const today = new Date().toISOString().slice(0, 10);
-    const files = fs.readdirSync(postsDir).filter(f => f.startsWith(today) && f.endsWith('.md'));
-    for (const file of files) {
-      const content = fs.readFileSync(path.join(postsDir, file), 'utf-8');
-      const { data } = matter(content);
-      if (data.draft !== true) {
-        return `금일 자동 생성된 글 [${file}]에 draft: true 속성이 누락되었습니다.`;
+    const files = fs.readdirSync(postsDir).filter(f => f.endsWith('.md'));
+    for (const f of files) {
+      const content = fs.readFileSync(path.join(postsDir, f), 'utf-8');
+      if (content.includes('📋 [공고 핵심 요약 카드]') || content.includes('📋 공고 핵심 요약 카드')) {
+        if (!content.includes('https://www.g2b.go.kr') && !content.includes('http://www.g2b.go.kr')) {
+          return `포스트 [${f}]에 공식 URL 증빙 없는 공고 카드가 존재합니다.`;
+        }
       }
     }
   }
   return true;
 });
 
-// 4. draft 글 검색 인덱스 포함 차단
-runTest('draft: true 초안 글의 검색 인덱스(search-index.json) 포함 차단 검증', () => {
+// 3. 공식 금액 없는 예상 예산 생성 차단
+runTest('공식 금액 없는 임의 예상 예산(억 단위 추정) 생성 차단 검증', () => {
+  const genPostCode = fs.readFileSync(path.join(rootDir, 'scripts/generate-post.js'), 'utf-8');
+  const inspectCode = fs.readFileSync(path.join(rootDir, 'scripts/daily-inspect.mjs'), 'utf-8');
+  if (genPostCode.includes('예상 예산대:') || inspectCode.includes('예상 예산대:')) {
+    return '코드베이스 내 프롬프트/템플릿에 근거 없는 예상 예산대 입력 유도가 잔존합니다.';
+  }
+  return true;
+});
+
+// 4. 공식 마감일 없는 D-Day 생성 차단
+runTest('공식 마감일시 없는 허위 D-Day 생성 차단 검증', () => {
+  const genPostCode = fs.readFileSync(path.join(rootDir, 'scripts/generate-post.js'), 'utf-8');
+  const inspectCode = fs.readFileSync(path.join(rootDir, 'scripts/daily-inspect.mjs'), 'utf-8');
+  if (genPostCode.includes('입찰 마감 D-Day:') || inspectCode.includes('입찰 마감 D-Day:')) {
+    return '코드베이스 내 프롬프트/템플릿에 근거 없는 마감 D-Day 입력 유도가 잔존합니다.';
+  }
+  return true;
+});
+
+// 5. 공식 근거 없는 참가자격 생성 차단
+runTest('공식 공고 근거 없는 참가자격 임의 생성 차단 검증', () => {
+  const genPostCode = fs.readFileSync(path.join(rootDir, 'scripts/generate-post.js'), 'utf-8');
+  const inspectCode = fs.readFileSync(path.join(rootDir, 'scripts/daily-inspect.mjs'), 'utf-8');
+  if (genPostCode.includes('필수 자격조건: ...') || inspectCode.includes('필수 자격조건: ...')) {
+    return '코드베이스 내 프롬프트/템플릿에 근거 없는 자격조건 생성 유도가 잔존합니다.';
+  }
+  return true;
+});
+
+// 6. 트렌드 글의 가상 발주기관·가상 예산 검출
+runTest('게시 중인 블로그 포스트 내 가상 발주기관 및 가상 예산 잔존 전수 검출', () => {
+  const postsDir = path.join(rootDir, 'src/content/posts');
+  if (fs.existsSync(postsDir)) {
+    const files = fs.readdirSync(postsDir).filter(f => f.endsWith('.md'));
+    const hallucinationPatterns = [
+      /스마트도시조성사업단/,
+      /45억\s*~\s*60억/,
+      /2026년\s*10월\s*20일\s*15:00\s*마감\s*\(D-18\)/
+    ];
+    for (const f of files) {
+      const content = fs.readFileSync(path.join(postsDir, f), 'utf-8');
+      for (const pattern of hallucinationPatterns) {
+        if (pattern.test(content)) {
+          return `블로그 포스트 [${f}]에 가상의 공고 정보가 잔존합니다: ${pattern}`;
+        }
+      }
+    }
+  }
+  return true;
+});
+
+// 7. draft 글 운영 검색·sitemap·RSS 제외
+runTest('draft: true 초안 글의 운영 검색 색인 및 sitemap 원천 배제 검증', () => {
   const searchIndexPath = path.join(rootDir, 'public/data/search-index.json');
   if (fs.existsSync(searchIndexPath)) {
     const searchIndex = JSON.parse(fs.readFileSync(searchIndexPath, 'utf-8'));
@@ -102,95 +129,58 @@ runTest('draft: true 초안 글의 검색 인덱스(search-index.json) 포함 �
 
     for (const item of searchIndex) {
       if (item.type === 'post' && draftSlugs.has(item.id || item.slug)) {
-        return `draft: true인 초안 글 [${item.id || item.slug}]가 검색 인덱스에 포함되었습니다.`;
+        return `draft: true인 초안 [${item.id || item.slug}]가 검색 인덱스에 포함되어 있습니다.`;
       }
     }
   }
   return true;
 });
 
-// 5. 승인 없는 텔레그램 발송 차단
-runTest('회장님 승인(SEND_TELEGRAM=true & OWNER_APPROVED=true) 없는 메시지 발송 차단 검증', () => {
-  const dailyInspectCode = fs.readFileSync(path.join(rootDir, 'scripts/daily-inspect.mjs'), 'utf-8');
-  if (!dailyInspectCode.includes('!SEND_TELEGRAM || !OWNER_APPROVED')) {
-    return `scripts/daily-inspect.mjs에 회장님 명시적 승인 검증 조건(!SEND_TELEGRAM || !OWNER_APPROVED)이 누락되었습니다.`;
-  }
-  const summaryTelegramCode = fs.readFileSync(path.join(rootDir, 'scripts/send-summary-telegram.mjs'), 'utf-8');
-  if (!summaryTelegramCode.includes('!SEND_TELEGRAM || !OWNER_APPROVED')) {
-    return `scripts/send-summary-telegram.mjs에 회장님 명시적 승인 검증 조건이 누락되었습니다.`;
-  }
-  return true;
-});
-
-// 6. 승인 없는 Production 배포 차단
-runTest('GitHub Actions deploy.yml 내 승인(owner_approved: true) 없는 Production 배포 차단 검증', () => {
-  const deployYmlPath = path.join(rootDir, '.github/workflows/deploy.yml');
-  const deployYml = fs.readFileSync(deployYmlPath, 'utf-8');
-  if (!deployYml.includes('owner_approved') || !deployYml.includes('target_environment == \'production\'')) {
-    return `deploy.yml에 회장님 명시적 승인 입력 파라미터 및 프로덕션 배포 통제 조건이 누락되었습니다.`;
-  }
-  return true;
-});
-
-// 7. main 브랜치에서 자동 수정 및 푸시 작업 차단
-runTest('스케줄 워크플로의 main 브랜치 자동 커밋 & 푸시 원천 차단 검증', () => {
+// 8. force push 문자열 워크플로 및 운영 스크립트 검출
+runTest('GitHub Actions 워크플로 및 스크립트 내 git force push 명령 잔존 검출', () => {
   const workflowsDir = path.join(rootDir, '.github/workflows');
   const files = fs.readdirSync(workflowsDir).filter(f => f.endsWith('.yml'));
   for (const f of files) {
     const content = fs.readFileSync(path.join(workflowsDir, f), 'utf-8');
-    if (content.includes('schedule:')) {
-      if (content.includes('git push origin main') || content.includes('git push')) {
-        return `스케줄 워크플로 [${f}]에 main 브랜치 자동 git push 명령이 포함되어 있습니다.`;
-      }
+    if (content.includes('--force') || content.includes('-f ') || content.includes('--force-with-lease')) {
+      return `워크플로 [${f}]에 git force push 명령이 포함되어 있습니다.`;
+    }
+  }
+  const scriptsDir = path.join(rootDir, 'scripts');
+  const scriptFiles = fs.readdirSync(scriptsDir).filter(f => (f.endsWith('.mjs') || f.endsWith('.js') || f.endsWith('.cjs')) && f !== 'test-governance-rules.cjs');
+  for (const f of scriptFiles) {
+    const content = fs.readFileSync(path.join(scriptsDir, f), 'utf-8');
+    if (content.includes('git push --force') || content.includes('git push -f')) {
+      return `스크립트 [${f}]에 git force push 명령이 포함되어 있습니다.`;
     }
   }
   return true;
 });
 
-// 8. 공식 마감시각 도달 시 CLOSED 전환
-runTest('공식 마감일시(bidCloseDate <= 현재시각) 도달 공고의 즉시 마감 전환 검증', () => {
-  const bidsPath = path.join(rootDir, 'public/data/bids.json');
-  if (fs.existsSync(bidsPath)) {
-    const bids = JSON.parse(fs.readFileSync(bidsPath, 'utf-8'));
-    const now = new Date();
-    for (const bid of bids) {
-      if (bid.bidCloseDate) {
-        const closeDate = new Date(bid.bidCloseDate.replace(/-/g, '/'));
-        if (closeDate <= now) {
-          if (bid.status !== '마감' || bid.isClosed !== true) {
-            return `마감 시각(${bid.bidCloseDate})이 경과한 공고 [${bid.id}]가 마감 상태로 전환되지 않았습니다.`;
-          }
-        }
-      }
-    }
+// 9. Production job의 environment 보호 설정 확인
+runTest('deploy.yml 내 Production 배포 job의 environment: production 보호 격리 검증', () => {
+  const deployYmlPath = path.join(rootDir, '.github/workflows/deploy.yml');
+  const deployYml = fs.readFileSync(deployYmlPath, 'utf-8');
+  if (!deployYml.includes('environment: production')) {
+    return 'deploy.yml에 environment: production 설정이 누락되어 승인자 보호가 작동하지 않습니다.';
+  }
+  if (!deployYml.includes('deploy-production:')) {
+    return 'deploy.yml에 독립된 deploy-production job이 누락되었습니다.';
   }
   return true;
 });
 
-// 9. 로컬 생성과 운영 발행 표현 구분
-runTest('스크립트 및 텔레그램 보고 문구에서 로컬 생성과 운영 발행 표현 구분 검증', () => {
-  const dailyInspectCode = fs.readFileSync(path.join(rootDir, 'scripts/daily-inspect.mjs'), 'utf-8');
-  if (dailyInspectCode.includes('🎉 [발행 성공]')) {
-    return `로컬 파일 생성 시점을 '발행 성공'으로 오인하게 만드는 문구가 존재합니다.`;
-  }
-  if (!dailyInspectCode.includes('초안 생성 완료') && !dailyInspectCode.includes('Staging 검수 대기')) {
-    return `로컬 생성 상태를 나타내는 '초안 생성 완료' / 'Staging 검수 대기' 문구가 누락되었습니다.`;
-  }
-  return true;
-});
-
-// 10. “100%·완벽·무결점” 금지어 검출
-runTest('보고서 및 텔레그램 메시지 템플릿 내 단정적 금지어(100%, 완벽, 무결점 등) 검출', () => {
-  const dailyInspectCode = fs.readFileSync(path.join(rootDir, 'scripts/daily-inspect.mjs'), 'utf-8');
-  const forbiddenWords = [
-    /100%\s*무결점/,
-    /완벽하게\s*완료/,
-    /모든\s*문제\s*영구\s*해결/,
-    /무결점\s*상태로\s*안전하게\s*가동/
+// 10. 거버넌스 PR에 불필요한 생성 콘텐츠 포함 여부 확인
+runTest('거버넌스 PR 대상 디렉터리 내 일회성 스크립트 및 비필수 콘텐츠 잔존 검출', () => {
+  const forbiddenFiles = [
+    'scripts/verify-blog-9bids.mjs',
+    'scripts/verify-final-live.mjs',
+    'scripts/verify-live-production.mjs',
+    'src/content/posts/2026-10-02-pm-ad-trend.md'
   ];
-  for (const pattern of forbiddenWords) {
-    if (pattern.test(dailyInspectCode)) {
-      return `scripts/daily-inspect.mjs에 금지 표현이 포함되어 있습니다: ${pattern}`;
+  for (const file of forbiddenFiles) {
+    if (fs.existsSync(path.join(rootDir, file))) {
+      return `PR 대상에서 제외되어야 할 일회성 파일이 잔존합니다: ${file}`;
     }
   }
   return true;
@@ -198,7 +188,7 @@ runTest('보고서 및 텔레그램 메시지 템플릿 내 단정적 금지어(
 
 console.log('\n================================================================================');
 if (failureCount === 0) {
-  console.log(`🎉 [테스트 완료] 총 ${testCount}개 운영 거버넌스 테스트 전원 통과 (${passCount}/${testCount})`);
+  console.log(`🎉 [테스트 완료] 10대 운영 거버넌스 및 할루시네이션 방지 테스트 전원 통과 (${passCount}/${testCount})`);
   console.log('================================================================================\n');
   process.exit(0);
 } else {

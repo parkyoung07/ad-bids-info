@@ -26,4 +26,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
    - `SEND_TELEGRAM=true`와 `OWNER_APPROVED=true` 두 조건이 모두 충족될 때만 텔레그램/카카오톡을 발송하며, 미충족 시 "승인 전송 보류"로 로컬 기록만 남긴다.
 8. **금지 표현 절대 사용 금지:**
    - "100%", "완벽", "무결점", "전수 완료", "정상 가동" 등 단정적·과장된 표현을 일체 사용하지 않는다.
+9. **Git Force Push 및 이력 재작성 절대 금지:**
+   - `git push --force` 및 `git push --force-with-lease`를 회장님의 사전 명시적 승인 없이 실행하는 것을 엄격히 금지하며, `main`과 `staging`의 커밋 이력을 보존한다.
+
 
