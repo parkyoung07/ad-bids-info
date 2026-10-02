@@ -699,8 +699,8 @@ async function verifyLiveServer(baseUrl) {
     liveFailures++;
   }
 
-  // 6. 공식 원문 링크 형식 검증 (G2B HTTPS 직통 링크)
-  process.stdout.write('6. 실서버 공고 공식 원문 링크 형식 검증: ');
+  // 6. G2B HTTPS URL 형식 검사 (단순 URL prefix 형식 검사)
+  process.stdout.write('6. 실서버 공고 G2B HTTPS URL 형식 검사: ');
   let linkInvalidCount = 0;
   if (Array.isArray(bidsData)) {
     for (const bid of bidsData) {
@@ -711,7 +711,7 @@ async function verifyLiveServer(baseUrl) {
     }
   }
   if (linkInvalidCount === 0 && bidsData.length > 0) {
-    console.log(`✅ [PASS] (공고 ${bidsData.length}건 공식 G2B HTTPS 링크 검증 통과)`);
+    console.log(`✅ [PASS] (공고 ${bidsData.length}건 G2B HTTPS URL 형식 검사 통과)`);
   } else {
     console.log(`❌ [FAIL] (비정상 링크 공고 ${linkInvalidCount}건 검출)`);
     liveFailures++;

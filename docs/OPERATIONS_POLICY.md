@@ -59,6 +59,7 @@ SignBid는 입찰 적격성을 자의적으로 판정하는 서비스가 아니�
 
 2. **운영 배포(`main`) 잠금 원칙:**
    - 회장님의 명시적 승인(`APPROVED`) 없이 `main` 브랜치 병합 또는 운영 배포(`deploy:production`)를 시도하면 빌드/배포 스크립트가 즉시 에러를 발생시키고 실행을 중단한다.
+   - GitHub Actions Production 환경은 `environment: production`으로 YAML 연결이 완료되어 있으며, 실제 계정 승인자 보호는 회장님의 GitHub 저장소 수동 설정(Required reviewers)이 완료되어야 활성화된다. (현재 상태: **YAML 연결 완료 · 실제 승인자 보호 설정 미완료**)
 
 3. **외부 알림 통제:**
    - 텔레그램, 카카오톡 알림 발송은 운영 배포와 별개의 독립 승인 대상이다.
