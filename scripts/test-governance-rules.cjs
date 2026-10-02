@@ -157,8 +157,8 @@ runTest('GitHub Actions 워크플로 및 스크립트 내 git force push 명령 
   return true;
 });
 
-// 9. Production job의 environment 보호 설정 확인
-runTest('deploy.yml 내 Production 배포 job의 environment: production 보호 격리 검증', () => {
+// 9. Production job의 environment 보호 및 main 브랜치 조건 강제 확인
+runTest('deploy.yml 내 Production 배포 job의 environment: production 및 main 브랜치 조건 격리 검증', () => {
   const deployYmlPath = path.join(rootDir, '.github/workflows/deploy.yml');
   const deployYml = fs.readFileSync(deployYmlPath, 'utf-8');
   if (!deployYml.includes('environment: production')) {
@@ -166,6 +166,12 @@ runTest('deploy.yml 내 Production 배포 job의 environment: production 보호 
   }
   if (!deployYml.includes('deploy-production:')) {
     return 'deploy.yml에 독립된 deploy-production job이 누락되었습니다.';
+  }
+  if (!deployYml.includes("github.ref_name == 'main'")) {
+    return "deploy.yml 내 deploy-production if 조건에 github.ref_name == 'main'이 누락되어 다른 브랜치에서 Production 배포가 오동작할 위험이 있습니다.";
+  }
+  if (!deployYml.includes('verify-all.cjs --live')) {
+    return 'deploy.yml 내 배포 후 실서버 라이브 검증 명령(verify-all.cjs --live)이 누락되었습니다.';
   }
   return true;
 });

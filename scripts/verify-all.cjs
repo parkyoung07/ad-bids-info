@@ -514,7 +514,169 @@ async function verifyIntegrityRules() {
   }
 }
 
-verifyIntegrityRules().catch((err) => {
+// -----------------------------------------------------------------------------
+// 실서버 종합 검증 모드 (--live --base-url=https://...)
+// -----------------------------------------------------------------------------
+async function fetchHttp(url) {
+  return new Promise((resolve) => {
+    const req = https.get(url, (res) => {
+      let data = '';
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => resolve({ status: res.statusCode, headers: res.headers, body: data }));
+    });
+    req.on('error', (err) => resolve({ status: 500, headers: {}, body: '', error: err.message }));
+    req.setTimeout(10000, () => {
+      req.destroy();
+      resolve({ status: 408, headers: {}, body: '', error: 'Timeout' });
+    });
+  });
+}
+
+async function verifyLiveServer(baseUrl) {
+  console.log('================================================================================');
+  console.log(`🌐 [SignBid AI] 배포 실서버 종합 무결성 검증 (${baseUrl})`);
+  console.log('================================================================================');
+
+  let liveFailures = 0;
+  const cleanBase = baseUrl.replace(/\/+$/, '');
+
+  // 1. 운영/Staging 메인 주소 HTTP 200 검증
+  process.stdout.write('1. 메인 주소 HTTP 200 검증: ');
+  const mainRes = await fetchHttp(`${cleanBase}/`);
+  if (mainRes.status === 200) {
+    console.log(`✅ [PASS] (HTTP 200)`);
+  } else {
+    console.log(`❌ [FAIL] (HTTP ${mainRes.status})`);
+    liveFailures++;
+  }
+
+  // 2. bids.json 응답 및 공고 건수 검증
+  process.stdout.write('2. bids.json 응답 및 공고 건수 검증: ');
+  const bidsRes = await fetchHttp(`${cleanBase}/data/bids.json?_v=${Date.now()}`);
+  let bidsData = [];
+  try {
+    bidsData = JSON.parse(bidsRes.body);
+    if (Array.isArray(bidsData) && bidsData.length > 0) {
+      console.log(`✅ [PASS] (공고 ${bidsData.length}건 정상 응답)`);
+    } else {
+      console.log(`❌ [FAIL] (공고 데이터 비정상 또는 0건)`);
+      liveFailures++;
+    }
+  } catch (e) {
+    console.log(`❌ [FAIL] (JSON 파싱 실패, HTTP ${bidsRes.status})`);
+    liveFailures++;
+  }
+
+  // 3. 허위 블로그 두 URL 404 검증
+  const fakeSlug = '2026-10-02-pm-ad-trend';
+  process.stdout.write('3. 허위 블로그 공개 URL 404 검증 (/blog/...): ');
+  const blogRes = await fetchHttp(`${cleanBase}/blog/${fakeSlug}?_v=${Date.now()}`);
+  if (blogRes.status === 404) {
+    console.log(`✅ [PASS] (HTTP 404 정상 차단)`);
+  } else {
+    console.log(`❌ [FAIL] (HTTP ${blogRes.status} 노출 위험)`);
+    liveFailures++;
+  }
+
+  process.stdout.write('4. 허위 블로그 초안 URL 404 검증 (/preview/blog/...): ');
+  const previewRes = await fetchHttp(`${cleanBase}/preview/blog/${fakeSlug}/?_v=${Date.now()}`);
+  if (previewRes.status === 404) {
+    console.log(`✅ [PASS] (HTTP 404 정상 차단)`);
+  } else {
+    console.log(`❌ [FAIL] (HTTP ${previewRes.status} 노출 위험)`);
+    liveFailures++;
+  }
+
+  // 5. 금지 문자열 0건 검증
+  process.stdout.write('5. 실서버 내 5대 허위 문자열 전수 검증: ');
+  const forbiddenPhrases = [
+    '스마트도시조성사업단',
+    '45억 원',
+    '60억 원',
+    '2026년 10월 20일',
+    'D-18'
+  ];
+  let foundForbidden = [];
+  const checkUrls = [
+    `${cleanBase}/`,
+    `${cleanBase}/blog`,
+    `${cleanBase}/news`,
+    `${cleanBase}/data/bids.json?_v=${Date.now()}`,
+    `${cleanBase}/data/search-index.json?_v=${Date.now()}`,
+    `${cleanBase}/sitemap.xml?_v=${Date.now()}`
+  ];
+
+  for (const url of checkUrls) {
+    const res = await fetchHttp(url);
+    for (const phrase of forbiddenPhrases) {
+      if (res.body.includes(phrase)) {
+        foundForbidden.push({ phrase, url });
+      }
+    }
+  }
+
+  if (foundForbidden.length === 0) {
+    console.log(`✅ [PASS] (5대 금지 문자열 0건 검출)`);
+  } else {
+    console.log(`❌ [FAIL] (${foundForbidden.length}건 검출: ${JSON.stringify(foundForbidden)})`);
+    liveFailures++;
+  }
+
+  // 6. sitemap 및 search-index에서 허위 slug 0건 검증
+  process.stdout.write('6. sitemap.xml 및 search-index.json 허위 slug 0건 검증: ');
+  const sitemapRes = await fetchHttp(`${cleanBase}/sitemap.xml?_v=${Date.now()}`);
+  const searchIndexRes = await fetchHttp(`${cleanBase}/data/search-index.json?_v=${Date.now()}`);
+  const inSitemap = sitemapRes.body.includes(fakeSlug);
+  const inSearchIndex = searchIndexRes.body.includes(fakeSlug);
+
+  if (!inSitemap && !inSearchIndex) {
+    console.log(`✅ [PASS] (sitemap 및 search-index 내 허위 slug 0건)`);
+  } else {
+    console.log(`❌ [FAIL] (sitemap: ${inSitemap}, searchIndex: ${inSearchIndex})`);
+    liveFailures++;
+  }
+
+  // 7. 공식 원문 링크 형식 검증 (G2B HTTPS 직통 링크)
+  process.stdout.write('7. 실서버 공고 공식 원문 링크 형식 검증: ');
+  let linkInvalidCount = 0;
+  if (Array.isArray(bidsData)) {
+    for (const bid of bidsData) {
+      const url = bid.sourceDetailUrl || bid.linkUrl || bid.officialUrl;
+      if (!url || !url.startsWith('https://www.g2b.go.kr/')) {
+        linkInvalidCount++;
+      }
+    }
+  }
+  if (linkInvalidCount === 0 && bidsData.length > 0) {
+    console.log(`✅ [PASS] (공고 ${bidsData.length}건 공식 G2B HTTPS 링크 검증 통과)`);
+  } else {
+    console.log(`❌ [FAIL] (비정상 링크 공고 ${linkInvalidCount}건 검출)`);
+    liveFailures++;
+  }
+
+  console.log('================================================================================');
+  if (liveFailures > 0) {
+    console.error(`❌ [실서버 검증 실패] 총 ${liveFailures}개 항목 실패로 워크플로를 즉시 중단합니다.\n`);
+    process.exit(1);
+  } else {
+    console.log(`🎉 [실서버 검증 완료] 모든 실서버 무결성 검증 항목 통과 (실패 0건)\n`);
+  }
+}
+
+async function main() {
+  const args = process.argv.slice(2);
+  const isLive = args.includes('--live');
+  const baseUrlArg = args.find(a => a.startsWith('--base-url='));
+
+  if (isLive) {
+    const baseUrl = baseUrlArg ? baseUrlArg.split('=')[1] : 'https://staging.ad-bids-info.pages.dev';
+    await verifyLiveServer(baseUrl);
+  } else {
+    await verifyIntegrityRules();
+  }
+}
+
+main().catch((err) => {
   console.error('검증 실행 중 에러:', err);
   process.exit(1);
 });

@@ -55,11 +55,11 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
       - name: Verify Staging Server Status
-        run: node scripts/verify-all.cjs
+        run: node scripts/verify-all.cjs --live --base-url=https://staging.ad-bids-info.pages.dev
 
   deploy-production:
     name: Build and Deploy to Production
-    if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.target_environment == 'production' && github.event.inputs.owner_approved == 'true' }}
+    if: ${{ github.event_name == 'workflow_dispatch' && github.ref_name == 'main' && github.event.inputs.target_environment == 'production' && github.event.inputs.owner_approved == 'true' }}
     runs-on: ubuntu-latest
     environment: production
     permissions:
@@ -114,6 +114,7 @@ jobs:
         continue-on-error: true
 
       - name: Verify Production Server Status
-        run: node scripts/verify-all.cjs
+        run: node scripts/verify-all.cjs --live --base-url=https://signbidai.com
+
 
 
