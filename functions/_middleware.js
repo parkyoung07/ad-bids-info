@@ -1,9 +1,10 @@
 /**
  * Cloudflare Pages Edge Middleware
  * 
- * 1. 과거 폐기/삭제된 구형 불일치 공고에 대해 302 리다이렉트 없이 직접 HTTP 410 Gone 반환
- * 2. 검증된 공식 실공고 및 DEMO 공고는 정상 200 OK 서빙
- * 3. /404 직접 접근 시 HTTP 404 Not Found 반환
+ * 1. 허위/삭제된 블로그 초안 및 글에 대해 Edge에서 직접 HTTP 404 Not Found 반환 (캐시 무효화)
+ * 2. 과거 폐기/삭제된 구형 불일치 공고에 대해 302 리다이렉트 없이 직접 HTTP 410 Gone 반환
+ * 3. 검증된 공식 실공고 및 DEMO 공고는 정상 200 OK 서빙
+ * 4. /404 직접 접근 시 HTTP 404 Not Found 반환
  */
 
 const REVOKED_410_BIDS = new Set([
@@ -17,6 +18,11 @@ const REVOKED_410_BIDS = new Set([
   'DEMO-G2B-004',
   'DEMO-G2B-005',
   'DEMO-G2B-006'
+]);
+
+// 허위 및 영구 삭제된 블로그 글 slug 목록 (Cloudflare Edge에서 직접 404 반환)
+const REVOKED_POST_SLUGS = new Set([
+  '2026-10-02-pm-ad-trend'
 ]);
 
 const GONE_HTML = `<!DOCTYPE html>
@@ -57,7 +63,7 @@ const NOT_FOUND_HTML = `<!DOCTYPE html>
     body { background-color: #020617; color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
     .card { background-color: #0f172a; border: 1px solid #1e293b; border-radius: 24px; padding: 36px; max-width: 480px; text-align: center; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
     .icon { width: 48px; height: 48px; margin: 0 auto 16px auto; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); border-radius: 16px; display: flex; align-items: center; justify-content: center; color: #ef4444; font-size: 24px; }
-    .badge { display: inline-block; font-family: monospace; font-size: 11px; font-weight: bold; color: #ef4444; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.25); padding: 4px 12px; border-radius: 9999px; margin-bottom: 12px; }
+    .badge { display: inline-block; font-family: monospace; font-size: 11px; font-weight: bold; color: #ef4444; background: rgba(239,68,68,0.25); padding: 4px 12px; border-radius: 9999px; margin-bottom: 12px; }
     h1 { font-size: 20px; font-weight: 800; margin: 0 0 12px 0; color: #ffffff; }
     p { font-size: 13px; color: #94a3b8; line-height: 1.6; margin: 0 0 24px 0; }
     .btn { display: inline-block; background: #2563eb; color: #ffffff; font-size: 13px; font-weight: 700; text-decoration: none; padding: 12px 24px; border-radius: 12px; transition: background 0.2s; }
@@ -79,7 +85,25 @@ export async function onRequest(context) {
   const url = new URL(context.request.url);
   const pathname = url.pathname;
 
-  // 1. /bids/* 경로 검증
+  // 1. 허위/삭제된 블로그 글 및 미리보기 차단 (Edge 레벨 404 강제 반환)
+  if (pathname.startsWith('/preview/blog/') || pathname.startsWith('/blog/')) {
+    const cleanedSlug = pathname.replace(/^\/(preview\/)?blog\/?/, '').replace(/\/+$/, '');
+    if (REVOKED_POST_SLUGS.has(cleanedSlug)) {
+      return new Response(NOT_FOUND_HTML, {
+        status: 404,
+        statusText: 'Not Found',
+        headers: {
+          'Content-Type': 'text/html; charset=utf-8',
+          'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0',
+          'Pragma': 'no-cache',
+          'Expires': '0',
+          'X-Robots-Tag': 'noindex, nofollow',
+        },
+      });
+    }
+  }
+
+  // 2. /bids/* 경로 검증
   if (pathname.startsWith('/bids/')) {
     const segments = pathname.replace(/^\/bids\/?/, '').split('/');
     const bidId = segments[0];
@@ -108,7 +132,7 @@ export async function onRequest(context) {
     return context.next();
   }
 
-  // 2. /404 경로 직접 요청 시 404 Not Found 반환
+  // 3. /404 경로 직접 요청 시 404 Not Found 반환
   if (pathname === '/404' || pathname === '/404/' || pathname === '/404.html') {
     return new Response(NOT_FOUND_HTML, {
       status: 404,
@@ -121,6 +145,6 @@ export async function onRequest(context) {
     });
   }
 
-  // 3. 정상 통과
+  // 4. 정상 통과
   return context.next();
 }
