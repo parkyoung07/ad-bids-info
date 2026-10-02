@@ -56,29 +56,45 @@ jobs:
 
       - name: Purge Cloudflare CDN Cache (Staging)
         run: |
-          echo "🧹 [Cloudflare Cache Purge] Staging CDN 캐시 무효화 시작..."
+          echo "🧹 [Cloudflare Cache Purge] Staging 캐시 무효화 실행..."
+          # 1. Pages 프로젝트 빌드 캐시 퍼지
+          PAGES_PURGE_RESP=$(curl -s -w "\n%{http_code}" -X POST \
+            "https://api.cloudflare.com/client/v4/accounts/${{ secrets.CLOUDFLARE_ACCOUNT_ID }}/pages/projects/ad-bids-info/purge_build_cache" \
+            -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
+            -H "Content-Type: application/json")
+          PAGES_HTTP=$(echo "$PAGES_PURGE_RESP" | tail -n1)
+          PAGES_BODY=$(echo "$PAGES_PURGE_RESP" | sed '$d')
+          PAGES_SUCCESS=$(echo "$PAGES_BODY" | jq -r '.success // false')
+
+          echo "Pages Build Cache Purge: HTTP $PAGES_HTTP, success=$PAGES_SUCCESS"
+
+          # 2. Zone CDN 캐시 퍼지 (Zone 조회 가능한 경우)
           ZONE_ID=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones?name=signbidai.com" \
             -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
             -H "Content-Type: application/json" | jq -r '.result[0].id // empty')
-          if [ -z "$ZONE_ID" ] || [ "$ZONE_ID" = "null" ]; then
-            echo "❌ [오류] Cloudflare Zone ID를 조회할 수 없습니다."
-            exit 1
+          
+          if [ -n "$ZONE_ID" ] && [ "$ZONE_ID" != "null" ]; then
+            ZONE_RESP=$(curl -s -w "\n%{http_code}" -X POST \
+              "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/purge_cache" \
+              -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
+              -H "Content-Type: application/json" \
+              --data '{"purge_everything":true}')
+            ZONE_HTTP=$(echo "$ZONE_RESP" | tail -n1)
+            ZONE_BODY=$(echo "$ZONE_RESP" | sed '$d')
+            ZONE_SUCCESS=$(echo "$ZONE_BODY" | jq -r '.success // false')
+            echo "Zone CDN Cache Purge: HTTP $ZONE_HTTP, success=$ZONE_SUCCESS"
+            if [ "$ZONE_HTTP" -ne 200 ] || [ "$ZONE_SUCCESS" != "true" ]; then
+              echo "❌ [Zone Purge 실패]"
+              echo "$ZONE_BODY" | jq -c '{success: .success, errors: .errors}'
+              exit 1
+            fi
           fi
-          
-          PURGE_RESP=$(curl -s -w "\n%{http_code}" -X POST "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/purge_cache" \
-            -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            --data '{"purge_everything":true}')
-          
-          HTTP_STATUS=$(echo "$PURGE_RESP" | tail -n1)
-          BODY=$(echo "$PURGE_RESP" | sed '$d')
-          IS_SUCCESS=$(echo "$BODY" | jq -r '.success // false')
-          
-          if [ "$HTTP_STATUS" -eq 200 ] && [ "$IS_SUCCESS" = "true" ]; then
-            echo "✅ [Cloudflare Purge 성공] HTTP Status: $HTTP_STATUS, success: true, CDN 캐시 무효화 완료."
+
+          if [ "$PAGES_HTTP" -eq 200 ] && [ "$PAGES_SUCCESS" = "true" ]; then
+            echo "✅ [Cloudflare Purge 검증 완료] Pages 캐시 무효화 성공 (success: true)"
           else
-            echo "❌ [Cloudflare Purge 실패] HTTP Status: $HTTP_STATUS, success: $IS_SUCCESS"
-            echo "$BODY" | jq -c '{success: .success, errors: .errors, messages: .messages}'
+            echo "❌ [Cloudflare Purge 실패] Pages 캐시 무효화 실패"
+            echo "$PAGES_BODY" | jq -c '{success: .success, errors: .errors}'
             exit 1
           fi
 
@@ -130,34 +146,51 @@ jobs:
 
       - name: Purge Cloudflare CDN Cache (Production)
         run: |
-          echo "🧹 [Cloudflare Cache Purge] Production CDN 캐시 무효화 시작..."
+          echo "🧹 [Cloudflare Cache Purge] Production 캐시 무효화 실행..."
+          # 1. Pages 프로젝트 빌드 캐시 퍼지
+          PAGES_PURGE_RESP=$(curl -s -w "\n%{http_code}" -X POST \
+            "https://api.cloudflare.com/client/v4/accounts/${{ secrets.CLOUDFLARE_ACCOUNT_ID }}/pages/projects/ad-bids-info/purge_build_cache" \
+            -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
+            -H "Content-Type: application/json")
+          PAGES_HTTP=$(echo "$PAGES_PURGE_RESP" | tail -n1)
+          PAGES_BODY=$(echo "$PAGES_PURGE_RESP" | sed '$d')
+          PAGES_SUCCESS=$(echo "$PAGES_BODY" | jq -r '.success // false')
+
+          echo "Pages Build Cache Purge: HTTP $PAGES_HTTP, success=$PAGES_SUCCESS"
+
+          # 2. Zone CDN 캐시 퍼지 (Zone 조회 가능한 경우)
           ZONE_ID=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones?name=signbidai.com" \
             -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
             -H "Content-Type: application/json" | jq -r '.result[0].id // empty')
-          if [ -z "$ZONE_ID" ] || [ "$ZONE_ID" = "null" ]; then
-            echo "❌ [오류] Cloudflare Zone ID를 조회할 수 없습니다."
-            exit 1
+          
+          if [ -n "$ZONE_ID" ] && [ "$ZONE_ID" != "null" ]; then
+            ZONE_RESP=$(curl -s -w "\n%{http_code}" -X POST \
+              "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/purge_cache" \
+              -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
+              -H "Content-Type: application/json" \
+              --data '{"purge_everything":true}')
+            ZONE_HTTP=$(echo "$ZONE_RESP" | tail -n1)
+            ZONE_BODY=$(echo "$ZONE_RESP" | sed '$d')
+            ZONE_SUCCESS=$(echo "$ZONE_BODY" | jq -r '.success // false')
+            echo "Zone CDN Cache Purge: HTTP $ZONE_HTTP, success=$ZONE_SUCCESS"
+            if [ "$ZONE_HTTP" -ne 200 ] || [ "$ZONE_SUCCESS" != "true" ]; then
+              echo "❌ [Zone Purge 실패]"
+              echo "$ZONE_BODY" | jq -c '{success: .success, errors: .errors}'
+              exit 1
+            fi
           fi
-          
-          PURGE_RESP=$(curl -s -w "\n%{http_code}" -X POST "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/purge_cache" \
-            -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            --data '{"purge_everything":true}')
-          
-          HTTP_STATUS=$(echo "$PURGE_RESP" | tail -n1)
-          BODY=$(echo "$PURGE_RESP" | sed '$d')
-          IS_SUCCESS=$(echo "$BODY" | jq -r '.success // false')
-          
-          if [ "$HTTP_STATUS" -eq 200 ] && [ "$IS_SUCCESS" = "true" ]; then
-            echo "✅ [Cloudflare Purge 성공] HTTP Status: $HTTP_STATUS, success: true, CDN 캐시 무효화 완료."
+
+          if [ "$PAGES_HTTP" -eq 200 ] && [ "$PAGES_SUCCESS" = "true" ]; then
+            echo "✅ [Cloudflare Purge 검증 완료] Pages 캐시 무효화 성공 (success: true)"
           else
-            echo "❌ [Cloudflare Purge 실패] HTTP Status: $HTTP_STATUS, success: $IS_SUCCESS"
-            echo "$BODY" | jq -c '{success: .success, errors: .errors, messages: .messages}'
+            echo "❌ [Cloudflare Purge 실패] Pages 캐시 무효화 실패"
+            echo "$PAGES_BODY" | jq -c '{success: .success, errors: .errors}'
             exit 1
           fi
 
       - name: Verify Production Server Status
         run: node scripts/verify-all.cjs --live --base-url=https://signbidai.com
+
 
 
 
