@@ -145,8 +145,8 @@
     "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01745837&bidPbancOrd=000",
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01745837&bidPbancOrd=000",
     "ntceKindNm": "등록공고",
-    "status": "AUTO_COLLECTED_CANDIDATE",
-    "isClosed": false,
+    "status": "마감",
+    "isClosed": true,
     "source": "조달청 나라장터(G2B)",
     "sourceApi": "조달청 나라장터 OpenAPI",
     "category": "인쇄·출판",
@@ -176,7 +176,8 @@
       "ntceKindNm": "등록공고"
     },
     "validationStatus": "AUTO_COLLECTED_CANDIDATE",
-    "isVerified": false
+    "isVerified": false,
+    "dDay": -1
   },
   {
     "id": "R26BK01746984-000",
@@ -204,8 +205,8 @@
     "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01746984&bidPbancOrd=000",
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01746984&bidPbancOrd=000",
     "ntceKindNm": "등록공고",
-    "status": "AUTO_COLLECTED_CANDIDATE",
-    "isClosed": false,
+    "status": "마감",
+    "isClosed": true,
     "source": "조달청 나라장터(G2B)",
     "sourceApi": "조달청 나라장터 OpenAPI",
     "category": "인쇄·출판",
@@ -235,7 +236,8 @@
       "ntceKindNm": "등록공고"
     },
     "validationStatus": "AUTO_COLLECTED_CANDIDATE",
-    "isVerified": false
+    "isVerified": false,
+    "dDay": -1
   },
   {
     "id": "R26BK01746780-000",
@@ -263,8 +265,8 @@
     "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01746780&bidPbancOrd=000",
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01746780&bidPbancOrd=000",
     "ntceKindNm": "등록공고",
-    "status": "AUTO_COLLECTED_CANDIDATE",
-    "isClosed": false,
+    "status": "마감",
+    "isClosed": true,
     "source": "조달청 나라장터(G2B)",
     "sourceApi": "조달청 나라장터 OpenAPI",
     "category": "제작·시공",
@@ -294,7 +296,8 @@
       "ntceKindNm": "등록공고"
     },
     "validationStatus": "AUTO_COLLECTED_CANDIDATE",
-    "isVerified": false
+    "isVerified": false,
+    "dDay": -1
   },
   {
     "id": "R26BK01745302-000",
@@ -1151,10 +1154,10 @@
     "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01750751&bidPbancOrd=000",
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01750751&bidPbancOrd=000",
     "ntceKindNm": "등록공고",
-    "status": "진행중",
-    "isClosed": false,
+    "status": "마감",
+    "isClosed": true,
     "urgencyBadge": "자동수집 후보",
-    "dDay": 1,
+    "dDay": -1,
     "source": "조달청 나라장터(G2B)",
     "sourceApi": "조달청 나라장터 OpenAPI",
     "category": "제작·시공",
@@ -1304,10 +1307,10 @@
     "linkUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01745608&bidPbancOrd=000",
     "sourceDetailUrl": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01745608&bidPbancOrd=000",
     "ntceKindNm": "등록공고",
-    "status": "진행중",
-    "isClosed": false,
+    "status": "마감",
+    "isClosed": true,
     "urgencyBadge": "자동수집 후보",
-    "dDay": 1,
+    "dDay": -1,
     "source": "조달청 나라장터(G2B)",
     "sourceApi": "조달청 나라장터 OpenAPI",
     "category": "인쇄·출판",

@@ -1,6 +1,12 @@
 /*
   Cache-Control: public, max-age=0, must-revalidate
 
+/preview/*
+  Cache-Control: no-cache, no-store, must-revalidate
+
+/blog/*
+  Cache-Control: public, max-age=0, must-revalidate
+
 /bids/*
   Cache-Control: public, max-age=0, must-revalidate
 
@@ -9,3 +15,4 @@
 
 /_next/static/*
   Cache-Control: public, max-age=31536000, immutable
+

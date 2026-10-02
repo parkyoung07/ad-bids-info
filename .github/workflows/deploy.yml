@@ -3,23 +3,30 @@ name: Deploy to Cloudflare Pages
 on:
   push:
     branches:
-      - main
       - staging
-  schedule:
-    # 매일 3회 자동 업데이트 (한국 시간 기준):
-    # - 오전 07:15 KST (UTC 22:15)
-    # - 낮 12:15 KST (UTC 03:15)
-    # - 오후 06:15 KST (UTC 09:15)
-    # ※ 정각(0분)은 전 세계 트래픽 몰림으로 GitHub 스케줄이 누락/지연되므로 15분으로 분산
-    - cron: '15 22,3,9 * * *'
   workflow_dispatch:
+    inputs:
+      target_environment:
+        description: '배포 환경 선택 (staging / production)'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+      owner_approved:
+        description: '회장님 명시적 승인 여부 (production 배포 시 true 필수)'
+        required: true
+        default: false
+        type: boolean
 
 jobs:
-  deploy:
+  deploy-staging:
+    name: Build and Deploy to Staging
+    if: ${{ github.ref_name == 'staging' || (github.event_name == 'workflow_dispatch' && github.event.inputs.target_environment == 'staging') }}
     runs-on: ubuntu-latest
-    name: Generate Posts, Build and Deploy
     permissions:
-      contents: write
+      contents: read
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -33,13 +40,7 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: Generate Daily AI Blog Post
-        run: node scripts/generate-post.js
-        env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
-
-      - name: Build Static Site with Latest Bids Data
+      - name: Build Static Site
         run: npm run build
         env:
           PUBLIC_DATA_API_KEY: ${{ secrets.PUBLIC_DATA_API_KEY }}
@@ -47,38 +48,150 @@ jobs:
           NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
           NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
 
-      - name: Commit and Push New Posts & Updated Bids Data
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add src/content/posts/ public/data/ || true
-          git commit -m "chore: auto-generate daily blog post, news and update bids data [skip ci]" || echo "No changes to commit"
-          git push origin ${{ github.ref_name }} || echo "Git push skipped"
-
-      - name: Deploy to Cloudflare Pages (Direct Wrangler Upload)
-        run: npx wrangler pages deploy out --project-name=ad-bids-info --branch=${{ github.ref_name }} --commit-dirty=true
+      - name: Deploy to Cloudflare Pages (Staging)
+        run: npx wrangler pages deploy out --project-name=ad-bids-info --branch=staging --commit-dirty=true
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
-      - name: Purge Cloudflare CDN Cache
+      - name: Purge Cloudflare CDN Cache (Staging)
         run: |
+          echo "🧹 [Cloudflare Cache Purge] Staging 캐시 무효화 실행..."
+          # 1. Pages 프로젝트 빌드 캐시 퍼지
+          PAGES_PURGE_RESP=$(curl -s -w "\n%{http_code}" -X POST \
+            "https://api.cloudflare.com/client/v4/accounts/${{ secrets.CLOUDFLARE_ACCOUNT_ID }}/pages/projects/ad-bids-info/purge_build_cache" \
+            -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
+            -H "Content-Type: application/json")
+          PAGES_HTTP=$(echo "$PAGES_PURGE_RESP" | tail -n1)
+          PAGES_BODY=$(echo "$PAGES_PURGE_RESP" | sed '$d')
+          PAGES_SUCCESS=$(echo "$PAGES_BODY" | jq -r '.success // false')
+
+          echo "Pages Build Cache Purge: HTTP $PAGES_HTTP, success=$PAGES_SUCCESS"
+
+          # 2. Zone CDN 캐시 퍼지 (Zone 조회 가능한 경우)
           ZONE_ID=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones?name=signbidai.com" \
             -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
             -H "Content-Type: application/json" | jq -r '.result[0].id // empty')
+          
           if [ -n "$ZONE_ID" ] && [ "$ZONE_ID" != "null" ]; then
-            echo "Purging Cloudflare cache for Zone: $ZONE_ID"
-            curl -s -X POST "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/purge_cache" \
+            ZONE_RESP=$(curl -s -w "\n%{http_code}" -X POST \
+              "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/purge_cache" \
               -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
               -H "Content-Type: application/json" \
-              --data '{"purge_everything":true}'
-          else
-            echo "Zone lookup skipped or not found"
+              --data '{"purge_everything":true}')
+            ZONE_HTTP=$(echo "$ZONE_RESP" | tail -n1)
+            ZONE_BODY=$(echo "$ZONE_RESP" | sed '$d')
+            ZONE_SUCCESS=$(echo "$ZONE_BODY" | jq -r '.success // false')
+            echo "Zone CDN Cache Purge: HTTP $ZONE_HTTP, success=$ZONE_SUCCESS"
+            if [ "$ZONE_HTTP" -ne 200 ] || [ "$ZONE_SUCCESS" != "true" ]; then
+              echo "❌ [Zone Purge 실패]"
+              echo "$ZONE_BODY" | jq -c '{success: .success, errors: .errors}'
+              exit 1
+            fi
           fi
-        continue-on-error: true
 
-      - name: Wait for DNS & CDN Invalidation
-        run: sleep 5
+          if [ "$PAGES_HTTP" -eq 200 ] && [ "$PAGES_SUCCESS" = "true" ]; then
+            echo "✅ [Cloudflare Purge 검증 완료] Pages 캐시 무효화 성공 (success: true)"
+          else
+            echo "❌ [Cloudflare Purge 실패] Pages 캐시 무효화 실패"
+            echo "$PAGES_BODY" | jq -c '{success: .success, errors: .errors}'
+            exit 1
+          fi
 
-      - name: Verify Live Server Status and Content Integrity
-        run: node scripts/verify-all.cjs --live
+      - name: Verify Staging Server Status
+        run: node scripts/verify-all.cjs --live --base-url=https://staging.ad-bids-info.pages.dev
+
+
+  deploy-production:
+    name: Build and Deploy to Production
+    if: ${{ github.event_name == 'workflow_dispatch' && github.ref_name == 'main' && github.event.inputs.target_environment == 'production' && github.event.inputs.owner_approved == 'true' }}
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Production 승인자 검증
+        run: |
+          echo "🛡️ Production 배포 환경 진입 (회장님 필수 승인 보호 구역)"
+          if [ "${{ github.event.inputs.owner_approved }}" != "true" ]; then
+            echo "❌ [오류] 회장님의 명시적 승인(owner_approved: true) 없이 Production 배포는 불가합니다."
+            exit 1
+          fi
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build Static Site
+        run: npm run build
+        env:
+          PUBLIC_DATA_API_KEY: ${{ secrets.PUBLIC_DATA_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
+          NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
+
+      - name: Deploy to Cloudflare Pages (Production)
+        run: npx wrangler pages deploy out --project-name=ad-bids-info --branch=main --commit-dirty=true
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: Purge Cloudflare CDN Cache (Production)
+        run: |
+          echo "🧹 [Cloudflare Cache Purge] Production 캐시 무효화 실행..."
+          # 1. Pages 프로젝트 빌드 캐시 퍼지
+          PAGES_PURGE_RESP=$(curl -s -w "\n%{http_code}" -X POST \
+            "https://api.cloudflare.com/client/v4/accounts/${{ secrets.CLOUDFLARE_ACCOUNT_ID }}/pages/projects/ad-bids-info/purge_build_cache" \
+            -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
+            -H "Content-Type: application/json")
+          PAGES_HTTP=$(echo "$PAGES_PURGE_RESP" | tail -n1)
+          PAGES_BODY=$(echo "$PAGES_PURGE_RESP" | sed '$d')
+          PAGES_SUCCESS=$(echo "$PAGES_BODY" | jq -r '.success // false')
+
+          echo "Pages Build Cache Purge: HTTP $PAGES_HTTP, success=$PAGES_SUCCESS"
+
+          # 2. Zone CDN 캐시 퍼지 (Zone 조회 가능한 경우)
+          ZONE_ID=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones?name=signbidai.com" \
+            -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
+            -H "Content-Type: application/json" | jq -r '.result[0].id // empty')
+          
+          if [ -n "$ZONE_ID" ] && [ "$ZONE_ID" != "null" ]; then
+            ZONE_RESP=$(curl -s -w "\n%{http_code}" -X POST \
+              "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/purge_cache" \
+              -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
+              -H "Content-Type: application/json" \
+              --data '{"purge_everything":true}')
+            ZONE_HTTP=$(echo "$ZONE_RESP" | tail -n1)
+            ZONE_BODY=$(echo "$ZONE_RESP" | sed '$d')
+            ZONE_SUCCESS=$(echo "$ZONE_BODY" | jq -r '.success // false')
+            echo "Zone CDN Cache Purge: HTTP $ZONE_HTTP, success=$ZONE_SUCCESS"
+            if [ "$ZONE_HTTP" -ne 200 ] || [ "$ZONE_SUCCESS" != "true" ]; then
+              echo "❌ [Zone Purge 실패]"
+              echo "$ZONE_BODY" | jq -c '{success: .success, errors: .errors}'
+              exit 1
+            fi
+          fi
+
+          if [ "$PAGES_HTTP" -eq 200 ] && [ "$PAGES_SUCCESS" = "true" ]; then
+            echo "✅ [Cloudflare Purge 검증 완료] Pages 캐시 무효화 성공 (success: true)"
+          else
+            echo "❌ [Cloudflare Purge 실패] Pages 캐시 무효화 실패"
+            echo "$PAGES_BODY" | jq -c '{success: .success, errors: .errors}'
+            exit 1
+          fi
+
+      - name: Verify Production Server Status
+        run: node scripts/verify-all.cjs --live --base-url=https://signbidai.com
+
+
+
+
+

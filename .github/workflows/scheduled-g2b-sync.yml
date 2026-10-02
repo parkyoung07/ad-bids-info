@@ -10,6 +10,8 @@ jobs:
   sync-g2b-bids:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    permissions:
+      contents: read
 
     steps:
       - name: 📥 코드 저장소 체크아웃
@@ -35,14 +37,7 @@ jobs:
         run: |
           node scripts/audit-secrets.mjs
 
-      - name: 🔒 비공개 검토대기 데이터셋 커밋 (공개 bids.json 자동 반영 금지)
+      - name: 🛡️ 데이터 무결성 검증
         run: |
-          git config --local user.email "bot@signbidai.com"
-          git config --local user.name "SignBid Auto Sync Bot"
-          if [ -n "$(git status --porcelain public/data/bids-verified-raw.json)" ]; then
-            git add public/data/bids-verified-raw.json
-            git commit -m "chore(sync): updated raw G2B bids for administrator review [skip ci]"
-            git push origin main
-          else
-            echo "ℹ️ 변경된 신규 공고 데이터가 없습니다."
-          fi
+          node scripts/verify-all.cjs
+

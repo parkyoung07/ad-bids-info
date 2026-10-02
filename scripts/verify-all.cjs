@@ -514,7 +514,232 @@ async function verifyIntegrityRules() {
   }
 }
 
-verifyIntegrityRules().catch((err) => {
+// -----------------------------------------------------------------------------
+// 실서버 종합 검증 모드 (--live --base-url=https://...)
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// 실서버 종합 검증 모드 (--live --base-url=https://...)
+// -----------------------------------------------------------------------------
+async function fetchHttp(url, method = 'GET') {
+  return new Promise((resolve) => {
+    const parsedUrl = new URL(url);
+    const options = {
+      method,
+      hostname: parsedUrl.hostname,
+      port: parsedUrl.port || 443,
+      path: parsedUrl.pathname + parsedUrl.search,
+      headers: {
+        'User-Agent': 'SignBid-Live-Verification-Agent/2.0',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+      }
+    };
+
+    const req = https.request(options, (res) => {
+      let data = '';
+      if (method !== 'HEAD') {
+        res.on('data', chunk => data += chunk);
+      } else {
+        res.resume();
+      }
+      res.on('end', () => resolve({
+        status: res.statusCode,
+        headers: res.headers,
+        body: data,
+        cfCacheStatus: res.headers['cf-cache-status'] || 'NONE',
+        age: res.headers['age'] || '0'
+      }));
+    });
+    req.on('error', (err) => resolve({ status: 500, headers: {}, body: '', cfCacheStatus: 'ERROR', age: '0', error: err.message }));
+    req.setTimeout(10000, () => {
+      req.destroy();
+      resolve({ status: 408, headers: {}, body: '', cfCacheStatus: 'TIMEOUT', age: '0', error: 'Timeout' });
+    });
+    req.end();
+  });
+}
+
+async function verifyLiveServer(baseUrl) {
+  console.log('================================================================================');
+  console.log(`🌐 [SignBid AI] 배포 실서버 종합 무결성 검증 (${baseUrl})`);
+  console.log('================================================================================');
+
+  let liveFailures = 0;
+  const cleanBase = baseUrl.replace(/\/+$/, '');
+
+  // 1. 운영/Staging 메인 주소 HTTP 200 검증
+  process.stdout.write('1. 메인 주소 HTTP 200 검증: ');
+  const mainRes = await fetchHttp(`${cleanBase}/`);
+  if (mainRes.status === 200) {
+    console.log(`✅ [PASS] (HTTP 200, cf-cache: ${mainRes.cfCacheStatus}, age: ${mainRes.age})`);
+  } else {
+    console.log(`❌ [FAIL] (HTTP ${mainRes.status})`);
+    liveFailures++;
+  }
+
+  // 2. bids.json 응답 및 공고 건수 검증
+  process.stdout.write('2. bids.json 응답 및 공고 건수 검증: ');
+  const bidsRes = await fetchHttp(`${cleanBase}/data/bids.json?_v=${Date.now()}`);
+  let bidsData = [];
+  try {
+    bidsData = JSON.parse(bidsRes.body);
+    if (Array.isArray(bidsData) && bidsData.length > 0) {
+      console.log(`✅ [PASS] (공고 ${bidsData.length}건 정상 응답)`);
+    } else {
+      console.log(`❌ [FAIL] (공고 데이터 비정상 또는 0건)`);
+      liveFailures++;
+    }
+  } catch (e) {
+    console.log(`❌ [FAIL] (JSON 파싱 실패, HTTP ${bidsRes.status})`);
+    liveFailures++;
+  }
+
+  // 3. 허위 블로그 4대 canonical 및 query URL에 대한 GET/HEAD 검증
+  console.log('\n--- [허위 블로그 4대 경로 GET & HEAD 전수 404/410 검증] ---');
+  const fakeUrls = [
+    { name: '미리보기 정식 슬래시 URL', path: '/preview/blog/2026-10-02-pm-ad-trend/' },
+    { name: '미리보기 정식 무슬래시 URL', path: '/preview/blog/2026-10-02-pm-ad-trend' },
+    { name: '공개 블로그 정식 슬래시 URL', path: '/blog/2026-10-02-pm-ad-trend/' },
+    { name: '공개 블로그 정식 무슬래시 URL', path: '/blog/2026-10-02-pm-ad-trend' },
+  ];
+
+  const forbiddenPhrases = [
+    '스마트도시조성사업단',
+    '45억 원',
+    '60억 원',
+    '2026년 10월 20일',
+    'D-18',
+    '공고 핵심 요약 카드'
+  ];
+
+  for (const item of fakeUrls) {
+    // A. 쿼리 없는 Canonical GET
+    const canonicalUrl = `${cleanBase}${item.path}`;
+    const getRes = await fetchHttp(canonicalUrl, 'GET');
+    const getOk = (getRes.status === 404 || getRes.status === 410);
+    
+    // 본문 금지어 검사
+    let forbiddenFound = [];
+    for (const phrase of forbiddenPhrases) {
+      if (getRes.body.includes(phrase)) {
+        forbiddenFound.push(phrase);
+      }
+    }
+
+    if (getOk && forbiddenFound.length === 0) {
+      console.log(`  ✅ [GET  404/410 PASS] ${item.name}: Status=${getRes.status}, cf-cache=${getRes.cfCacheStatus}, age=${getRes.age}`);
+    } else {
+      console.log(`  ❌ [GET  FAIL] ${item.name}: Status=${getRes.status}, cf-cache=${getRes.cfCacheStatus}, age=${getRes.age}, 금지어 검출=${forbiddenFound.join(', ') || '없음'}`);
+      liveFailures++;
+    }
+
+    // B. 쿼리 없는 Canonical HEAD
+    const headRes = await fetchHttp(canonicalUrl, 'HEAD');
+    const headOk = (headRes.status === 404 || headRes.status === 410);
+    if (headOk) {
+      console.log(`  ✅ [HEAD 404/410 PASS] ${item.name}: Status=${headRes.status}, cf-cache=${headRes.cfCacheStatus}, age=${headRes.age}`);
+    } else {
+      console.log(`  ❌ [HEAD FAIL] ${item.name}: Status=${headRes.status}, cf-cache=${headRes.cfCacheStatus}, age=${headRes.age}`);
+      liveFailures++;
+    }
+
+    // C. 캐시 무효화 쿼리 URL GET
+    const queryUrl = `${cleanBase}${item.path}${item.path.includes('?') ? '&' : '?'}nocache=${Date.now()}`;
+    const queryRes = await fetchHttp(queryUrl, 'GET');
+    const queryOk = (queryRes.status === 404 || queryRes.status === 410);
+    if (queryOk) {
+      console.log(`  ✅ [QUERY NO-CACHE PASS] ${item.name}: Status=${queryRes.status}`);
+    } else {
+      console.log(`  ❌ [QUERY NO-CACHE FAIL] ${item.name}: Status=${queryRes.status}`);
+      liveFailures++;
+    }
+  }
+
+  // 4. 실서버 내 6대 금지 문자열 전수 검사
+  console.log('\n--- [실서버 공개 페이지 내 6대 금지어 전수 검증] ---');
+  let foundForbidden = [];
+  const checkPages = [
+    `${cleanBase}/`,
+    `${cleanBase}/blog`,
+    `${cleanBase}/news`,
+    `${cleanBase}/data/bids.json?_v=${Date.now()}`,
+    `${cleanBase}/data/search-index.json?_v=${Date.now()}`,
+    `${cleanBase}/sitemap.xml?_v=${Date.now()}`
+  ];
+
+  for (const url of checkPages) {
+    const res = await fetchHttp(url);
+    for (const phrase of forbiddenPhrases) {
+      // search-index.json에서 과거 포스트의 일반 문자열 외에 오늘 격리된 허위 블로그 정보 검출
+      if (res.body.includes(phrase)) {
+        foundForbidden.push({ phrase, url });
+      }
+    }
+  }
+
+  const criticalForbidden = foundForbidden.filter(f => f.phrase !== '공고 핵심 요약 카드' || !f.url.includes('search-index.json'));
+  if (criticalForbidden.length === 0) {
+    console.log(`✅ [PASS] 실서버 핵심 6대 허위 정보 0건 검출 (안전)`);
+  } else {
+    console.log(`❌ [FAIL] 실서버 허위 정보 검출: ${JSON.stringify(criticalForbidden)}`);
+    liveFailures++;
+  }
+
+  // 5. sitemap 및 search-index에서 허위 slug 0건 검증
+  process.stdout.write('\n5. sitemap.xml 및 search-index.json 허위 slug 0건 검증: ');
+  const fakeSlug = '2026-10-02-pm-ad-trend';
+  const sitemapRes = await fetchHttp(`${cleanBase}/sitemap.xml?_v=${Date.now()}`);
+  const searchIndexRes = await fetchHttp(`${cleanBase}/data/search-index.json?_v=${Date.now()}`);
+  const inSitemap = sitemapRes.body.includes(fakeSlug);
+  const inSearchIndex = searchIndexRes.body.includes(fakeSlug);
+
+  if (!inSitemap && !inSearchIndex) {
+    console.log(`✅ [PASS] (sitemap 및 search-index 내 허위 slug 0건)`);
+  } else {
+    console.log(`❌ [FAIL] (sitemap: ${inSitemap}, searchIndex: ${inSearchIndex})`);
+    liveFailures++;
+  }
+
+  // 6. G2B HTTPS URL 형식 검사 (단순 URL prefix 형식 검사)
+  process.stdout.write('6. 실서버 공고 G2B HTTPS URL 형식 검사: ');
+  let linkInvalidCount = 0;
+  if (Array.isArray(bidsData)) {
+    for (const bid of bidsData) {
+      const url = bid.sourceDetailUrl || bid.linkUrl || bid.officialUrl;
+      if (!url || !url.startsWith('https://www.g2b.go.kr/')) {
+        linkInvalidCount++;
+      }
+    }
+  }
+  if (linkInvalidCount === 0 && bidsData.length > 0) {
+    console.log(`✅ [PASS] (공고 ${bidsData.length}건 G2B HTTPS URL 형식 검사 통과)`);
+  } else {
+    console.log(`❌ [FAIL] (비정상 링크 공고 ${linkInvalidCount}건 검출)`);
+    liveFailures++;
+  }
+
+  console.log('\n================================================================================');
+  if (liveFailures > 0) {
+    console.error(`❌ [실서버 검증 실패] 총 ${liveFailures}개 항목 실패로 워크플로를 즉시 중단합니다.\n`);
+    process.exit(1);
+  } else {
+    console.log(`🎉 [실서버 검증 완료] 모든 실서버 무결성 검증 항목 통과 (실패 0건)\n`);
+  }
+}
+
+async function main() {
+  const args = process.argv.slice(2);
+  const isLive = args.includes('--live');
+  const baseUrlArg = args.find(a => a.startsWith('--base-url='));
+
+  if (isLive) {
+    const baseUrl = baseUrlArg ? baseUrlArg.split('=')[1] : 'https://staging.ad-bids-info.pages.dev';
+    await verifyLiveServer(baseUrl);
+  } else {
+    await verifyIntegrityRules();
+  }
+}
+
+main().catch((err) => {
   console.error('검증 실행 중 에러:', err);
   process.exit(1);
 });
