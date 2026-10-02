@@ -538,6 +538,8 @@ async function fetchHttp(url, method = 'GET') {
       let data = '';
       if (method !== 'HEAD') {
         res.on('data', chunk => data += chunk);
+      } else {
+        res.resume();
       }
       res.on('end', () => resolve({
         status: res.statusCode,
