@@ -415,6 +415,7 @@ function getFallbackPost(coverData) {
   return `---
 title: "${selected.title}"
 date: "${todayStr}"
+draft: true
 summary: "${selected.summary}"
 category: "${selected.category}"
 tags: ${JSON.stringify(selected.tags)}
@@ -486,6 +487,7 @@ ${slotFocus}
 ---
 title: (롱테일 키워드 결합형 매력적인 제목)
 date: "${todayStr}"
+draft: true
 summary: (업계 종사자를 위한 핵심 요약 1~2줄)
 category: "${currentSlot === 'am' ? '법규·정책 & 간판개선' : '글로벌 트렌드 & 3D 미디어'}"
 tags: ["옥외광고입찰", "나라장터공고", "LED간판제작", "디지털사이니지", "공공디자인"]
@@ -512,7 +514,10 @@ sourceUrl: "${currentSlot === 'am' ? 'https://www.mois.go.kr' : 'https://worldoo
         }
         generatedText = generatedText.trim();
 
-        // Frontmatter에 정확한 이미지 정보 및 크레딧 주입 보장
+        // Frontmatter에 draft: true 및 이미지 크레딧 주입 보장
+        if (!generatedText.includes('draft:')) {
+          generatedText = generatedText.replace(/---\n/, '---\ndraft: true\n');
+        }
         if (!generatedText.includes('coverImageCredit:')) {
           generatedText = generatedText.replace(
             /coverImage:\s*"?[^"\n]+"?/,

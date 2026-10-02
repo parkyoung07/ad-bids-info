@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { execSync } from 'child_process';
 import matter from 'gray-matter';
 import { GoogleGenAI } from '@google/genai';
 
@@ -34,12 +35,14 @@ function loadEnv() {
   }
 }
 
-loadEnv();
-
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const PEXELS_API_KEY = process.env.PEXELS_API_KEY;
-const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8668232978:AAEze57DaWUK9XzO3uPtROnK0MqINnvzVAc';
-const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID || '8782275087';
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
+const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
+const SEND_TELEGRAM = process.env.SEND_TELEGRAM === 'true';
+const SEND_KAKAO = process.env.SEND_KAKAO === 'true';
+const AUTO_PUBLISH = process.env.AUTO_PUBLISH === 'true';
+const OWNER_APPROVED = process.env.OWNER_APPROVED === 'true';
 
 // 2. KST 시간 계산
 function getKSTDate() {
@@ -183,6 +186,7 @@ ${slotFocus}
 ---
 title: (롱테일 키워드 결합형 매력적인 제목)
 date: "${today}"
+draft: true
 summary: (업계 종사자를 위한 핵심 요약 1~2줄)
 category: "${currentSlot === 'am' ? '법규·정책 & 간판개선' : '글로벌 트렌드 & 3D 미디어'}"
 tags: ["옥외광고입찰", "나라장터공고", "LED간판제작", "디지털사이니지", "공공디자인"]
@@ -258,6 +262,7 @@ sourceUrl: "${currentSlot === 'am' ? 'https://www.mois.go.kr' : 'https://worldoo
       generatedText = `---
 title: "2026 하반기 지자체 아름다운 간판거리 조성사업 공공입찰 가이드 및 직접생산확인 실무 체크리스트"
 date: "${today}"
+draft: true
 summary: "행정안전부 간판개선사업 지원 지침과 전국 17개 시·도 지자체 간판거리 수주 비결! 옥외광고사업 직접생산확인과 배리어프리 공공디자인 심의 통과 전략을 분석합니다."
 category: "법규·정책 & 간판개선"
 tags: ["옥외광고입찰", "간판개선사업", "나라장터공고", "직접생산확인", "배리어프리", "공공디자인"]
@@ -325,6 +330,7 @@ sourceUrl: "https://www.mois.go.kr"
       generatedText = `---
 title: "2026 글로벌 DOOH 및 3D 아나몰픽 미디어아트 옥외광고 트렌드와 공공 전광판 입찰 수주 전략"
 date: "${today}"
+draft: true
 summary: "세계옥외광고협회(WOO)와 월간 팝사인 2026년 리포트 분석! 프로그래매틱 DOOH(pDOOH)와 생성형 AI 결합 3D 미디어아트의 공공입찰 제안서 핵심 차별화 포인트를 정리합니다."
 category: "글로벌 트렌드 & 3D 미디어"
 tags: ["DOOH", "3D아나몰픽", "디지털사이니지", "pDOOH", "월간팝사인", "옥외광고입찰", "미디어아트"]
@@ -391,7 +397,10 @@ sourceUrl: "https://worldooh.org"
     }
   }
 
-  // Frontmatter 이미지 정보 크레딧 주입 보장
+  // Frontmatter 이미지 정보 및 draft: true 주입 보장
+  if (!generatedText.includes('draft:')) {
+    generatedText = generatedText.replace(/---\n/, '---\ndraft: true\n');
+  }
   if (!generatedText.includes('coverImageCredit:')) {
     generatedText = generatedText.replace(
       /coverImage:\s*"?[^"\n]+"?/,
@@ -406,7 +415,7 @@ sourceUrl: "https://worldooh.org"
 
   const filePath = path.join(postsDir, targetPostFileName);
   fs.writeFileSync(filePath, generatedText, 'utf-8');
-  console.log(`🎉 [발행 성공] 새 글이 안전하게 저장되었습니다: src/content/posts/${targetPostFileName}\n`);
+  console.log(`📝 [초안 생성 완료] 새 글 초안(draft: true)이 안전하게 저장되었습니다: src/content/posts/${targetPostFileName} (Staging 검수 대기)\n`);
 }
 
 // 5. 검색 색인 빌드
@@ -446,6 +455,11 @@ updatedPostFiles.forEach((file) => {
     const { data, content } = matter(fileContent);
     const slug = file.replace(/\.md$/, '');
     const plainContent = stripMarkdown(content);
+    
+    // draft: true인 초안 글은 검색 색인 및 운영 목록에서 원천 배제
+    if (data.draft === true) {
+      return;
+    }
     
     if (file === targetPostFileName || file.startsWith(today)) {
       todayPostData = {
@@ -534,13 +548,14 @@ subscribers.forEach(sub => {
 
 console.log('--------------------------------------------------------------------------------');
 console.log(`📱 [카카오톡 맞춤 알림 신청 현황 (누적: ${totalSubscribers}개사 등록)]`);
-console.log(`   - 아침 8시 신규 공고 수신 신청: ${morningCount}건 (100%)`);
-console.log(`   - 마감 D-1 리마인더 수신 신청: ${deadlineCount}건 (100%)`);
+console.log(`   - 아침 8시 신규 공고 수신 신청: ${morningCount}건`);
+console.log(`   - 마감 D-1 리마인더 수신 신청: ${deadlineCount}건`);
 console.log(`   - 지역별 신청 분포: ${Object.entries(regionDist).map(([k, v]) => `${k}(${v}건)`).join(', ') || '데이터 없음'}`);
 console.log(`   - 최다 희망 업종: ${Object.entries(catDist).map(([k, v]) => `${k}(${v}건)`).join(', ') || '데이터 없음'}`);
+console.log(`📊 [트래픽 현황: Cloudflare 실측 미연동 · 방문자 통계 확인 불가]`);
 console.log('--------------------------------------------------------------------------------');
 
-// 방문자 일일 지표 통계 요약
+// 방문자 일일 지표 통계 요약 (Cloudflare 실측 연동 전까지 확인 불가 명시)
 const dailyTrafficLog = {
   inspectDate: today,
   inspectTimeKST: `${String(kstHour).padStart(2, '0')}:00`,
@@ -556,15 +571,16 @@ const dailyTrafficLog = {
     }))
   },
   trafficSummary: {
-    todayEstimatedUV: 340,
-    todayEstimatedSessions: 490,
-    todayEstimatedPV: 2180,
-    topInflowChannels: {
-      organicSearch: "51.4%",
-      direct: "26.8%",
-      referral: "14.3%",
-      socialChat: "7.5%"
-    }
+    status: "UNMEASURED",
+    message: "Cloudflare 실측 미연동 · 방문자 통계 확인 불가",
+    source: null,
+    measuredAt: null,
+    periodStart: null,
+    periodEnd: null,
+    todayEstimatedUV: null,
+    todayEstimatedSessions: null,
+    todayEstimatedPV: null,
+    topInflowChannels: null
   }
 };
 
@@ -579,106 +595,61 @@ fs.writeFileSync(
 );
 console.log(`✅ [방문자 및 카카오톡 신청 현황 보고서 저장 완료] docs/verification/daily_traffic_and_subscribers_report.json\n`);
 
-// 7. 18대 데이터 무결성 검증
-console.log(`🛡️ [18대 데이터 무결성 전수 검증 시작]...`);
-const rawJsonPath = path.join(rootDir, 'data/bids-verified-raw.json');
-const currentBids = fs.existsSync(bidsPath) ? JSON.parse(fs.readFileSync(bidsPath, 'utf-8')) : [];
-const now = new Date();
-let failureCount = 0;
-
-// 규칙 1: 마감일 경과 공고 진행중 상태
-currentBids.forEach((bid) => {
-  if (bid.bidCloseDate) {
-    const closeDate = new Date(bid.bidCloseDate.replace(/-/g, '/'));
-    if (closeDate <= now && (bid.status === '진행중' || bid.isClosed === false)) {
-      console.error(`  ❌ [규칙 1 위반] 공고 [${bid.id}] 마감일(${bid.bidCloseDate})이 경과했으나 진행중 상태입니다.`);
-      failureCount++;
-    }
-  }
-});
-
-// 규칙 10: DIRECT 승인 공고
-currentBids.forEach((bid) => {
-  if (!bid.isVerified || bid.relevanceTier !== 'DIRECT') {
-    console.error(`  ❌ [규칙 10 위반] 미승인 또는 DIRECT가 아닌 공고 [${bid.id}]가 공개되었습니다.`);
-    failureCount++;
-  }
-});
-
-// 규칙 17: 뉴스 링크 무결성
-const newsJsonPath = path.join(rootDir, 'public/data/news.json');
-if (fs.existsSync(newsJsonPath)) {
-  const newsData = JSON.parse(fs.readFileSync(newsJsonPath, 'utf-8'));
-  const articles = newsData.articles || [];
-  articles.forEach((art) => {
-    if (!art.link || (!art.link.startsWith('http://') && !art.link.startsWith('https://'))) {
-      console.error(`  ❌ [규칙 17 위반] 뉴스 링크 오류: ${art.link}`);
-      failureCount++;
-    }
-    if (art.link.includes('search.naver.com') || art.link.includes('search.daum.net') || art.link.includes('google.com/search?')) {
-      console.error(`  ❌ [규칙 17 위반] 포털 검색창 우회 링크 검출: ${art.link}`);
-      failureCount++;
-    }
-  });
-}
-
-// 규칙 18: 블로그 링크
-updatedPostFiles.forEach((file) => {
-  const content = fs.readFileSync(path.join(postsDir, file), 'utf-8');
-  if (content.includes('https://popsign.co.kr') || content.includes('https://www.popsign.co.kr')) {
-    console.error(`  ❌ [규칙 18 위반] 팝사인 SSL 오류 링크 검출 in ${file}`);
-    failureCount++;
-  }
-});
-
-if (failureCount === 0) {
-  console.log(`✅ [18대 무결성 검증 100% 통과] 위반 항목 0건 확인 완료!\n`);
-} else {
-  console.error(`❌ [무결성 검증 실패] 총 ${failureCount}건의 위반 사항이 검출되었습니다.\n`);
+// 7. 26대 데이터 무결성 검증 (verify-all.cjs 표준 엔진 직통 연동)
+console.log(`🛡️ [데이터 무결성 전수 검증 시작]...`);
+try {
+  execSync('node scripts/verify-all.cjs', { cwd: rootDir, stdio: 'inherit' });
+  console.log(`✅ [데이터 무결성 검증 100% 통과] 위반 항목 0건 확인 완료!\n`);
+} catch (err) {
+  console.error(`❌ [무결성 검증 실패] 무결성 검증 스위트에서 위반 사항이 검출되었습니다.\n`);
   process.exit(1);
 }
 
-// 8. 텔레그램 동시 발송 (회장님 전용 알림 비서)
+// 8. 텔레그램 발송 통제 (회장님 명시적 승인 시에만 발송)
 async function sendTelegramReport() {
+  if (!SEND_TELEGRAM || !OWNER_APPROVED) {
+    console.log('🔒 [승인 전송 보류] 회장님의 명시적 승인(SEND_TELEGRAM=true & OWNER_APPROVED=true) 대기 중으로 텔레그램 발송을 보류합니다.');
+    return;
+  }
+
   if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
     console.log('⚠️ [텔레그램 발송 건너뜀] 텔레그램 봇 토큰 또는 Chat ID가 설정되지 않았습니다.');
     return;
   }
 
-  console.log(`📡 [텔레그램 동시 보고 발송 중] 회장님 전용 채널 (Chat ID: ${TELEGRAM_CHAT_ID})...`);
+  console.log(`📡 [텔레그램 승인 보고 발송 중] 회장님 전용 채널 (Chat ID: ${TELEGRAM_CHAT_ID})...`);
 
-  const postTitle = todayPostData?.title || `${today} 옥외광고 입찰 및 시장 동향 리포트`;
+  const postTitle = todayPostData?.title || `${today} 옥외광고 입찰 및 시장 동향 리포트 (초안)`;
   const postCategory = todayPostData?.category || '옥외광고 정책 및 시장 트렌드';
-  const postSummary = todayPostData?.summary || '금일 신규 분석 리포트가 정상 발행되었습니다.';
+  const postSummary = todayPostData?.summary || '금일 신규 분석 리포트 초안이 작성되었습니다.';
   const postTags = (todayPostData?.tags || []).map(t => `#${t}`).join(' ');
   const postSlug = todayPostData?.slug || targetPostFileName.replace(/\.md$/, '');
 
-  const telegramHtml = `📊 <b>[SignBid AI] 일일 원스톱 통합 점검 & 리포트 브리핑</b>
+  const telegramHtml = `📊 <b>[SignBid AI] 일일 통합 점검 브리핑 (Staging 검수 대기)</b>
 
-충성! 회장님, 금일(<b>${today} ${String(kstHour).padStart(2, '0')}:00</b>) 시스템 점검 및 콘텐츠 발행 완료 보고입니다.
+회장님, 금일(<b>${today} ${String(kstHour).padStart(2, '0')}:00</b>) 시스템 점검 및 초안 생성 완료 보고입니다.
 
 ━━━━━━━━━━━━━━━━━━
-📝 <b>금일 신규 리포트 발행 [${currentSlot.toUpperCase()}]</b>
+📝 <b>금일 신규 리포트 초안 [${currentSlot.toUpperCase()}]</b>
 • <b>제목:</b> ${postTitle}
 • <b>분야:</b> ${postCategory}
 • <b>태그:</b> ${postTags}
 • <b>핵심 요약:</b>
 <i>${postSummary}</i>
-• <b>리포트 직통 링크:</b>
-https://ad-bids-info.pages.dev/blog/${postSlug}
+• <b>Staging 미리보기 링크:</b>
+https://ad-bids-info.pages.dev/preview/blog/${postSlug}
 ━━━━━━━━━━━━━━━━━━
 
-🛡️ <b>데이터 무결성 & 시스템 현황</b>
-• <b>18대 무결성 검증:</b> ✅ 100% 무결점 통과 (위반 0건)
+🛡️ <b>데이터 상태 & 시스템 현황</b>
+• <b>데이터 무결성 검증:</b> 자동 테스트 통과, 독립 검수 필요
 • <b>공고 DB 동기화:</b> 진행중 ${activeBidsCount}건 / 마감 ${closedBidsCount}건
-• <b>통합 검색 색인:</b> 총 ${searchIndex.length}건 색인 완료
+• <b>통합 검색 색인:</b> 총 ${searchIndex.length}건 색인 완료 (초안 제외)
 
 📈 <b>트래픽 & 맞춤 알림 현황</b>
-• <b>누적 신청 업체:</b> ${totalSubscribers}개사 (아침 8시 & D-1 알림 100%)
-• <b>일일 추정 방문자:</b> 약 ${dailyTrafficLog.trafficSummary.todayEstimatedUV}명 / PV ${dailyTrafficLog.trafficSummary.todayEstimatedPV}회
-• <b>주요 유입:</b> 검색엔진 51.4%, 직접방문 26.8%
+• <b>누적 신청 업체:</b> ${totalSubscribers}개사
+• <b>트래픽 통계:</b> Cloudflare 실측 미연동 · 확인 불가
 
-💡 <i>전체 시스템이 무결점 상태로 안전하게 가동 중입니다.</i>`;
+💡 <i>확인한 범위에서는 정상 작동 중이며 회장님의 승인 대기 중입니다.</i>`;
 
   try {
     const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
@@ -694,7 +665,7 @@ https://ad-bids-info.pages.dev/blog/${postSlug}
 
     const data = await res.json();
     if (data.ok) {
-      console.log(`✅ [텔레그램 발송 성공] 메시지 ID: ${data.result.message_id} / 회장님 폰으로 즉시 전송 완료!`);
+      console.log(`✅ [텔레그램 발송 성공] 메시지 ID: ${data.result.message_id} / 승인된 보고 전송 완료!`);
     } else {
       console.warn(`⚠️ [텔레그램 응답 경고] ${data.description}`);
     }
@@ -706,5 +677,5 @@ https://ad-bids-info.pages.dev/blog/${postSlug}
 await sendTelegramReport();
 
 console.log('================================================================================');
-console.log('🎉 [SignBid AI] 일일 원스톱 통합 점검, 자동 발행 & 텔레그램 보고가 성공적으로 완결되었습니다!');
+console.log('🏁 [SignBid AI] 일일 통합 점검 및 초안 생성이 완료되었습니다 (승인 대기).');
 console.log('================================================================================');
