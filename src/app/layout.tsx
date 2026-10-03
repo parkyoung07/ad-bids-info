@@ -142,6 +142,21 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <head>
+        {/* Google tag (gtag.js) */}
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-KYPY6H7KX4"
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-KYPY6H7KX4');
+            `,
+          }}
+        />
         <meta name="naver-site-verification" content="4e7798c498081ad3ab5efca7e530eb7a340c2b3b" />
         <meta name="google-site-verification" content="google51f0949a73c1e8e5" />
         <script
